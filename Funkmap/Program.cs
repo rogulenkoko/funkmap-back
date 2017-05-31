@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Owin.Hosting;
 
 namespace Funkmap
 {
@@ -10,6 +7,13 @@ namespace Funkmap
     {
         static void Main(string[] args)
         {
+            string baseAddress = "http://localhost:9000/";
+            
+            using (WebApp.Start<Startup>(baseAddress))
+            {
+                Console.WriteLine($"Сервер запущен по адерсу {baseAddress}");
+                Console.ReadLine();
+            }
         }
     }
 }
