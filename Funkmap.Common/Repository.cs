@@ -32,6 +32,11 @@ namespace Funkmap.Common
             Context.Set<T>().AddOrUpdate(entity);
         }
 
+        public void Save()
+        {
+            Context.SaveChanges();
+        }
+
         public T Get(int id)
         {
             return Context.Set<T>().Find(id);
