@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Funkmap.Common.Abstract.Data
 {
-    public interface IEntity
+    public abstract class Entity
     {
-        long Id { get; set; }
+        public long Id { get; set; }
     }
 }

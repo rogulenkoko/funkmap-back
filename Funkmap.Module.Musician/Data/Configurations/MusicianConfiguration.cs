@@ -19,6 +19,8 @@ namespace Funkmap.Module.Musician.Data.Configurations
 
             Property(x => x.Login).HasColumnName("Login").IsRequired();
             Property(x => x.Name).HasColumnName("Name").IsRequired();
+            Property(x => x.Latitude).HasColumnName("Latitude").IsRequired();
+            Property(x => x.Longitude).HasColumnName("Longitude").IsRequired();
 
             Property(x => x.BirthDate).HasColumnName("BirthDate").IsOptional();
             Property(x => x.Description).HasColumnName("Description").IsOptional();

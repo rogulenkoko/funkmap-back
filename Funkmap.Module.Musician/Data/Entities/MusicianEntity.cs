@@ -7,11 +7,13 @@ using Funkmap.Common.Abstract.Data;
 
 namespace Funkmap.Module.Musician.Data
 {
-    public class MusicianEntity : IEntity
+    public class MusicianEntity : Entity
     {
-        public long Id { get; set; }
-
         public string Login { get; set; }
+
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
 
         public string Name { get; set; }
         public string Description { get; set; }

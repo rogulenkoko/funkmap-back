@@ -11,7 +11,7 @@ namespace Funkmap.Module.Musician.Data
 {
     public class MusicianRepository : Repository<MusicianEntity>, IMusicianRepository
     {
-        public MusicianRepository(DbContext context) : base(context)
+        public MusicianRepository(MusicianContext context) : base(context)
         {
         }
     }

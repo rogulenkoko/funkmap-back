@@ -15,8 +15,8 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new TestDbContextInitializer());
         }
 
-        public class TestDbContextInitializer : CreateDatabaseIfNotExists<FakeMusicianDbContext>
-            //DropCreateDatabaseAlways<TestDbContext>
+        public class TestDbContextInitializer : //CreateDatabaseIfNotExists<FakeMusicianDbContext>
+            DropCreateDatabaseAlways<FakeMusicianDbContext>
         {
             protected override void Seed(FakeMusicianDbContext context)
             {
@@ -29,13 +29,40 @@ namespace Funkmap.Tests.Data
                     BirthDate = DateTime.Now,
                     Expirience = 3,
                     Description = "Описание",
-                    Name = "Кирилл Рогуленко"
-                    
+                    Name = "Кирилл Рогуленко",
+                    Latitude = 50,
+                    Longitude = 30
+                };
+
+                var m2 = new MusicianEntity()
+                {
+                    Sex = Sex.Female,
+                    Login = "madlib",
+                    BirthDate = DateTime.Now,
+                    Expirience = 1,
+                    Description = "Большое описание музыканта, тудым сюдым. Как дела братва?",
+                    Name = "Madlib",
+                    Latitude = 51,
+                    Longitude = 30
+                };
+
+                var m3 = new MusicianEntity()
+                {
+                    Sex = Sex.Male,
+                    Login = "razrab",
+                    BirthDate = DateTime.Now,
+                    Expirience = 0,
+                    Description = "Razrab описание!!!",
+                    Name = "Razrab Razrab",
+                    Latitude = 51,
+                    Longitude = 31
                 };
 
                 musicianRepository.Add(m1);
+                musicianRepository.Add(m2);
+                musicianRepository.Add(m3);
 
-                musicianRepository.Save();
+                musicianRepository.SaveAsync().Wait();
             }
         }
     }

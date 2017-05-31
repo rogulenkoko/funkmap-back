@@ -8,11 +8,11 @@ namespace Funkmap.Common.Abstract.Data
 {
     public interface IRepository<T> where T: class 
     {
-        T Get(int id);
-        IEnumerable<T> GetAll();
+        Task<T> GetAsync(int id);
+        Task<IEnumerable<T>> GetAllAsync();
         void Add(T entity);
         void Delete(T entity);
         void Edit(T entity);
-        void Save();
+        Task SaveAsync();
     }
 }

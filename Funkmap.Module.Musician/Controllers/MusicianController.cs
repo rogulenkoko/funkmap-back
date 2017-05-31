@@ -1,39 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Module.Musician.Abstract;
 
 namespace Funkmap.Module.Musician.Controllers
 {
     [RoutePrefix("api/musician")]
     public class MusicianController: ApiController
     {
-        public IEnumerable<string> Get()
+        private readonly IMusicianRepository _musicianRepository;
+
+        public MusicianController(IMusicianRepository musicianRepository)
         {
-            return new string[] { "value1", "value2" };
+            _musicianRepository = musicianRepository;
         }
 
-        // GET api/values/5 
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/values 
-        public void Post([FromBody]string value)
+        [HttpPost]
+        [Route("all")]
+        public async Task<IHttpActionResult> GetMusicians()
         {
-        }
+            var allMusicians = await _musicianRepository.GetAllAsync();
+            return Content(HttpStatusCode.OK, allMusicians);
 
-        // PUT api/values/5 
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5 
-        public void Delete(int id)
-        {
         }
     }
 }

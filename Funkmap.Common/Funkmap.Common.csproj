@@ -89,7 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\Data\IEntity.cs" />
+    <Compile Include="Abstract\Data\Entity.cs" />
     <Compile Include="Abstract\Data\IRepository.cs" />
     <Compile Include="Abstract\IModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

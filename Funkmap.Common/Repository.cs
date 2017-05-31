@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using Funkmap.Common.Abstract.Data;
 
 namespace Funkmap.Common
@@ -32,19 +33,19 @@ namespace Funkmap.Common
             Context.Set<T>().AddOrUpdate(entity);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
         }
 
-        public T Get(int id)
+        public async Task<T> GetAsync(int id)
         {
-            return Context.Set<T>().Find(id);
+            return await Context.Set<T>().FindAsync(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return Context.Set<T>().ToList();
+            return await Context.Set<T>().ToListAsync();
         }
     }
 }

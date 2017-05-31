@@ -16,7 +16,7 @@ namespace Funkmap.Tests
 
             var repository = new MusicianRepository(context);
 
-            var musicians = repository.GetAll().ToList();
+            var musicians = repository.GetAllAsync().Result.ToList();
         }
     }
 }
