@@ -13,9 +13,6 @@ namespace Funkmap
     {
         public void LoadAllModules(ContainerBuilder builder)
         {
-
-            
-
             var modules = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => x.FullName.Contains("Funkmap.Module"))
                 .SelectMany(s => s.GetTypes())
