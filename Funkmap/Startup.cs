@@ -35,14 +35,10 @@ namespace Funkmap
             RegisterModules(containerBuilder);
 
             var container = containerBuilder.Build();
-
-            var configuration = new HttpConfiguration
-            {
-                DependencyResolver = new AutofacWebApiDependencyResolver(container)
-            };
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             appBuilder.UseAutofacMiddleware(container);
-            appBuilder.UseAutofacWebApi(configuration);
+            appBuilder.UseAutofacWebApi(config);
 
 
             appBuilder.UseWebApi(config);
@@ -51,6 +47,7 @@ namespace Funkmap
         private void LoadAssemblies()
         {
             Assembly.Load("Funkmap.Module.Musician");
+            Assembly.Load("Funkmap.Module.Search");
 
         }
 

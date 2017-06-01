@@ -3,8 +3,10 @@ using System.Reflection;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Abstract.Search;
 using Funkmap.Module.Musician.Abstract;
 using Funkmap.Module.Musician.Data;
+using Funkmap.Module.Musician.Services;
 
 namespace Funkmap.Module.Musician
 {
@@ -12,9 +14,9 @@ namespace Funkmap.Module.Musician
     {
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<MusicianContext>().InstancePerLifetimeScope();
-
+            builder.RegisterType<MusicianRepository>().As<IMusicianRepository>();
+            builder.RegisterType<MusicianContext>();
+            builder.RegisterType<MusicianSearchService>().As<ISearchService>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль музыкантов");
         }

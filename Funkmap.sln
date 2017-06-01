@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Module.Musician", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Tests", "Funkmap.Tests\Funkmap.Tests.csproj", "{164CD98E-9837-4A5F-B388-9823CD58EC3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Module.Search", "Funkmap.Module.Search\Funkmap.Module.Search.csproj", "{C42E795E-07F1-4719-9D35-65ECA3E77E6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{164CD98E-9837-4A5F-B388-9823CD58EC3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{164CD98E-9837-4A5F-B388-9823CD58EC3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{164CD98E-9837-4A5F-B388-9823CD58EC3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

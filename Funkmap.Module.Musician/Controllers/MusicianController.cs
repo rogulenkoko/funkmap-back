@@ -19,8 +19,7 @@ namespace Funkmap.Module.Musician.Controllers
             _musicianRepository = musicianRepository;
         }
 
-
-        [HttpPost]
+        [HttpGet]
         [Route("all")]
         public async Task<IHttpActionResult> GetMusicians()
         {
