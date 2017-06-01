@@ -12,7 +12,7 @@ namespace Funkmap.Module.Search.Controllers
     [RoutePrefix("api/search")]
     public class SearchController : ApiController
     {
-        private IEnumerable<ISearchService> _searchServices;
+        private readonly IEnumerable<ISearchService> _searchServices;
         public SearchController(IEnumerable<ISearchService> searchServices)
         {
             _searchServices = searchServices;

@@ -8,7 +8,7 @@ namespace Funkmap.Common.Abstract.Data
 {
     public interface IRepository<T> where T: class 
     {
-        Task<T> GetAsync(int id);
+        Task<T> GetAsync(long id);
         Task<IEnumerable<T>> GetAllAsync();
         void Add(T entity);
         void Delete(T entity);

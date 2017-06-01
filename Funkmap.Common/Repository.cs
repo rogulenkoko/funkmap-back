@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Funkmap.Common.Abstract.Data;
 
@@ -38,7 +39,7 @@ namespace Funkmap.Common
             await Context.SaveChangesAsync();
         }
 
-        public async Task<T> GetAsync(int id)
+        public async Task<T> GetAsync(long id)
         {
             return await Context.Set<T>().FindAsync(id);
         }
