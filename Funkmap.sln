@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Tests", "Funkmap.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Module.Search", "Funkmap.Module.Search\Funkmap.Module.Search.csproj", "{C42E795E-07F1-4719-9D35-65ECA3E77E6E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{9D676585-20A0-4096-BA00-CF4C076935B4}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureService", "AzureService\AzureService.ccproj", "{D3F0BC04-9950-46FD-8A24-48DAE01EE4AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunkmapWorkerRole", "FunkmapWorkerRole\FunkmapWorkerRole.csproj", "{7D079E99-3AF2-44FF-9D99-30A8DD73A077}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +45,20 @@ Global
 		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C42E795E-07F1-4719-9D35-65ECA3E77E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F0BC04-9950-46FD-8A24-48DAE01EE4AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F0BC04-9950-46FD-8A24-48DAE01EE4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F0BC04-9950-46FD-8A24-48DAE01EE4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F0BC04-9950-46FD-8A24-48DAE01EE4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D079E99-3AF2-44FF-9D99-30A8DD73A077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D079E99-3AF2-44FF-9D99-30A8DD73A077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D079E99-3AF2-44FF-9D99-30A8DD73A077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D079E99-3AF2-44FF-9D99-30A8DD73A077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D3F0BC04-9950-46FD-8A24-48DAE01EE4AD} = {9D676585-20A0-4096-BA00-CF4C076935B4}
+		{7D079E99-3AF2-44FF-9D99-30A8DD73A077} = {9D676585-20A0-4096-BA00-CF4C076935B4}
 	EndGlobalSection
 EndGlobal
