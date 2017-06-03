@@ -9,7 +9,7 @@ namespace Funkmap.Module.Musician.Mappers
     {
         public static MusicianModel ToMusicianModel(this MusicianEntity source)
         {
-            if(source == null) return null;
+            if (source == null) return null;
             return new MusicianModel()
             {
                 Login = source.Login,
@@ -20,10 +20,10 @@ namespace Funkmap.Module.Musician.Mappers
                 Name = source.Name,
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
-                Age = (int)Math.Round((DateTime.Now - source.BirthDate).TotalDays/365),
+                Age = (int)Math.Round((DateTime.Now - source.BirthDate).TotalDays / 365),
                 Styles = Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(allStyles => (source.Styles & allStyles) != 0).ToArray()
 
-        };
+            };
         }
     }
 }
