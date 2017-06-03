@@ -12,7 +12,7 @@ namespace Funkmap.Auth.Data
 {
     public class AuthRepository : Repository<UserEntity>, IAuthRepository
     {
-        public AuthRepository(DbContext context) : base(context)
+        public AuthRepository(AuthContext context) : base(context)
         {
         }
 

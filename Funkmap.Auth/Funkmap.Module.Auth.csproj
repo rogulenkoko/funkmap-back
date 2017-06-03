@@ -94,10 +94,17 @@
   <ItemGroup>
     <Compile Include="AuthModule.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="JwtService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
+      <Project>{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}</Project>
+      <Name>Funkmap.Auth.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Data\Funkmap.Common.Data.csproj">
+      <Project>{5a7801ea-883b-479a-a9f4-d2db730eaea1}</Project>
+      <Name>Funkmap.Common.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
