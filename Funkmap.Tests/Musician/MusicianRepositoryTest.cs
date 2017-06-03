@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Entities;
 using Funkmap.Musician.Data.Parameters;
@@ -32,6 +34,23 @@ namespace Funkmap.Tests.Musician
             Assert.AreEqual(result.Count, 0);
 
 
+        }
+
+        [TestMethod]
+        public void StylesToArray()
+        {
+            var stylesEnum = Styles.Funk | Styles.HipHop;
+            var stylesResult = Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(allStyles => (stylesEnum & allStyles) != 0).ToList();
+            stylesResult.Sort();
+            var styles = new List<Styles>() { Styles.Funk, Styles.HipHop };
+            styles.Sort();
+
+            Assert.AreEqual(stylesResult.Count, styles.Count);
+
+            for (int i = 0; i < styles.Count; i++)
+            {
+                Assert.AreEqual(stylesResult[i], styles[i]);
+            }
         }
     }
 }
