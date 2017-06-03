@@ -16,14 +16,14 @@ namespace Funkmap.Tests.Auth
         public void LoginTest()
         {
             var repository = new AuthRepository(new FakeAuthDbContext());
-            var result = repository.Login("rogulenkoko", "1");
-            Assert.IsTrue(result);
+            var result = repository.Login("rogulenkoko", "1").Result;
+            Assert.IsNotNull(result);
 
-            result = repository.Login("rogulenkoko", "2");
-            Assert.IsFalse(result);
+            result = repository.Login("rogulenkoko", "2").Result;
+            Assert.IsNull(result);
 
-            result = repository.Login("test", "2");
-            Assert.IsFalse(result);
+            result = repository.Login("test", "2").Result;
+            Assert.IsNull(result);
 
             
         }

@@ -1,6 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Data.Abstract;
+using Funkmap.Common.Auth;
+using Microsoft.Owin;
 
 namespace Funkmap.Module.Auth.Controllers
 {
@@ -18,7 +23,7 @@ namespace Funkmap.Module.Auth.Controllers
         public async Task<IHttpActionResult> Login(Credantials creds)
         {
             var isExist = _authRepository.Login(creds.Login, creds.Password);
-            if (isExist)
+            if (isExist != null)
             {
 
             }

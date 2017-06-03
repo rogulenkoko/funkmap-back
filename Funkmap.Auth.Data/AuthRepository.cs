@@ -16,9 +16,9 @@ namespace Funkmap.Auth.Data
         {
         }
 
-        public bool Login(string login, string password)
+        public async Task<UserEntity> Login(string login, string password)
         {
-            var isExist = Context.Set<UserEntity>().Any(x => x.Login == login && x.Password == password);
+            var isExist = await Context.Set<UserEntity>().SingleOrDefaultAsync(x => x.Login == login && x.Password == password);
             return isExist;
         }
     }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Auth;
 using Funkmap.Module.Musician.Mappers;
 using Funkmap.Musician.Data.Abstract;
 
@@ -31,7 +32,7 @@ namespace Funkmap.Module.Musician.Controllers
         }
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("getmusician/{id}")]
         public async Task<IHttpActionResult> GetMusician(long id)
         {
             var musicianEntity = await _musicianRepository.GetAsync(id);
@@ -39,7 +40,5 @@ namespace Funkmap.Module.Musician.Controllers
             return Content(HttpStatusCode.OK, musican);
 
         }
-
-
     }
 }

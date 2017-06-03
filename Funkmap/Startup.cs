@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Funkmap.Module.Auth;
+using Microsoft.Owin;
 using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 namespace Funkmap
@@ -16,14 +19,8 @@ namespace Funkmap
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            // Configure Web API for self-host. 
             HttpConfiguration config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
+            
             appBuilder.UseCors(CorsOptions.AllowAll);
 
             var containerBuilder = new ContainerBuilder();
@@ -37,7 +34,18 @@ namespace Funkmap
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);
 
+            OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
+            {
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/api/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                Provider = new FunkmapAuthProvider()
+            };
+            
+            appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
+            appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+            config.MapHttpAttributeRoutes();
             appBuilder.UseWebApi(config);
         }
 
