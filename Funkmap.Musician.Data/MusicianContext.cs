@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Module.Musician.Abstract;
-using Funkmap.Module.Musician.Data.Configurations;
+﻿using System.Data.Entity;
+using Funkmap.Musician.Data.Abstract;
+using Funkmap.Musician.Data.Configurations;
+using Funkmap.Musician.Data.Entities;
 
-namespace Funkmap.Module.Musician.Data
+namespace Funkmap.Musician.Data
 {
     public class MusicianContext : DbContext, IMusicianContext
     {

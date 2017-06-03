@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Module.Musician.Abstract;
+using Funkmap.Musician.Data.Abstract;
 
 namespace Funkmap.Module.Musician.Controllers
 {

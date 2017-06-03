@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Common.Abstract.Data;
+using Funkmap.Common.Data.Abstract;
 
-namespace Funkmap.Module.Musician.Data
+namespace Funkmap.Musician.Data.Entities
 {
     public class MusicianEntity : Entity
     {
@@ -20,6 +16,7 @@ namespace Funkmap.Module.Musician.Data
         public Sex Sex { get; set; }
         public DateTime BirthDate { get; set; }
         public int Expirience { get; set; }
+        public Styles Styles { get; set; }
 
 
     }
@@ -28,5 +25,13 @@ namespace Funkmap.Module.Musician.Data
     {
         Male = 1,
         Female = 2
+    }
+    
+    [Flags]
+    public enum Styles
+    {
+        HipHop = 0x01,
+        Rock = 0x02,
+        Funk = 0x04
     }
 }

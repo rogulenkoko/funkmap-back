@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Funkmap.Common.Abstract.Data;
+using Funkmap.Common.Data.Abstract;
 
-namespace Funkmap.Common
+namespace Funkmap.Common.Data
 {
     public class Repository<T> : IRepository<T> where T : class
     {

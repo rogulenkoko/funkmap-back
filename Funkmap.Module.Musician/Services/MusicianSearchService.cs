@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Abstract.Search;
-using Funkmap.Module.Musician.Abstract;
 using Funkmap.Module.Musician.Mappers;
+using Funkmap.Musician.Data.Abstract;
 
 namespace Funkmap.Module.Musician.Services
 {

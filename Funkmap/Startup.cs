@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using Funkmap.Module.Musician.Abstract;
-using Funkmap.Module.Musician.Controllers;
-using Funkmap.Module.Musician.Data;
 using Microsoft.Owin.Cors;
 using Owin;
 

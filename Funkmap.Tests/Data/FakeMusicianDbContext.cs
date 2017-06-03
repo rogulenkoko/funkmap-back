@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Module.Musician.Data;
+using Funkmap.Musician.Data;
+using Funkmap.Musician.Data.Entities;
 
 namespace Funkmap.Tests.Data
 {
@@ -31,7 +28,8 @@ namespace Funkmap.Tests.Data
                     Description = "Описание",
                     Name = "Кирилл Рогуленко",
                     Latitude = 50,
-                    Longitude = 30
+                    Longitude = 30,
+                    Styles = Styles.Funk | Styles.HipHop
                 };
 
                 var m2 = new MusicianEntity()
@@ -43,7 +41,8 @@ namespace Funkmap.Tests.Data
                     Description = "Большое описание музыканта, тудым сюдым. Как дела братва?",
                     Name = "Madlib",
                     Latitude = 51,
-                    Longitude = 30
+                    Longitude = 30,
+                    Styles = Styles.Funk | Styles.Rock
                 };
 
                 var m3 = new MusicianEntity()
@@ -55,7 +54,8 @@ namespace Funkmap.Tests.Data
                     Description = "Razrab описание!!!",
                     Name = "Razrab Razrab",
                     Latitude = 51,
-                    Longitude = 31
+                    Longitude = 31,
+                    Styles = Styles.HipHop
                 };
 
                 musicianRepository.Add(m1);

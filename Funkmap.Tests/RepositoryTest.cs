@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Funkmap.Module.Musician.Data;
+﻿using System.Linq;
+using Funkmap.Musician.Data;
 using Funkmap.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
