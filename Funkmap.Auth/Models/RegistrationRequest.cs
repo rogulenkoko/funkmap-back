@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Funkmap.Module.Auth.Models
 {
-    public class LoginReponse
+    public class RegistrationRequest
     {
-        public bool IsExist { get; set; }
-        public string Token { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
     }
 }

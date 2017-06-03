@@ -7,5 +7,7 @@ namespace Funkmap.Auth.Data.Abstract
     public interface IAuthRepository : IRepository<UserEntity>
     {
         Task<UserEntity> Login(string login, string password);
+
+        Task<bool> CheckIfExist(string login);
     }
 }

@@ -103,6 +103,8 @@
     <Compile Include="AuthModule.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="FunkmapAuthProvider.cs" />
+    <Compile Include="Models\RegistrationRequest.cs" />
+    <Compile Include="Models\RegistrationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
