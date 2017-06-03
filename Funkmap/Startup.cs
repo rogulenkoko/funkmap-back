@@ -40,6 +40,7 @@ namespace Funkmap
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new FunkmapAuthProvider()
+                
             };
             
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);

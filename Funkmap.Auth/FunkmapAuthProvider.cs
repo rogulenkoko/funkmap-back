@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
 namespace Funkmap.Module.Auth
@@ -19,8 +20,6 @@ namespace Funkmap.Module.Auth
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             var repository = new AuthRepository(new AuthContext());
             UserEntity user = await repository.Login(context.UserName, context.Password);
 
@@ -33,8 +32,25 @@ namespace Funkmap.Module.Auth
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
 
-            context.Validated(identity);
 
+            var props = new AuthenticationProperties(new Dictionary<string, string>
+            {
+                { nameof(user.Login), user.Login}
+            });
+
+            var ticket = new AuthenticationTicket(identity, props);
+            context.Validated(ticket);
+
+        }
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            {
+                context.AdditionalResponseParameters.Add(property.Key, property.Value);
+            }
+
+            return Task.FromResult<object>(null);
         }
     }
 }

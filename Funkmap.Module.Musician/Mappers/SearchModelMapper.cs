@@ -1,4 +1,5 @@
-﻿using Funkmap.Common.Abstract.Search;
+﻿using Funkmap.Common;
+using Funkmap.Common.Abstract.Search;
 using Funkmap.Module.Musician.Models;
 using Funkmap.Musician.Data.Entities;
 
@@ -15,7 +16,7 @@ namespace Funkmap.Module.Musician.Mappers
                 Latitude = musician.Latitude,
                 Longitude = musician.Longitude,
                 Id = musician.Id,
-                ModelType = ModelType.Musician
+                ModelType = EntityType.Musician
             };
         }
     }

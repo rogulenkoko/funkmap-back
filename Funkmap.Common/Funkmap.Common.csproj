@@ -85,6 +85,7 @@
     <Compile Include="Abstract\Search\SearchModel.cs" />
     <Compile Include="Abstract\Search\ISearchService.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
+    <Compile Include="EntityType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
