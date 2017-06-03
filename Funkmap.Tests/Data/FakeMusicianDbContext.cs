@@ -12,8 +12,7 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new TestDbContextInitializer());
         }
 
-        public class TestDbContextInitializer : //CreateDatabaseIfNotExists<FakeMusicianDbContext>
-            DropCreateDatabaseAlways<FakeMusicianDbContext>
+        public class TestDbContextInitializer : CreateDatabaseIfNotExists<FakeMusicianDbContext>
         {
             protected override void Seed(FakeMusicianDbContext context)
             {

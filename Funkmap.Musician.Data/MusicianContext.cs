@@ -8,7 +8,7 @@ namespace Funkmap.Musician.Data
     public class MusicianContext : DbContext, IMusicianContext
     {
 
-        public MusicianContext() : base("MusicianConnection") { }
+        public MusicianContext() : base("FunkmapConnection") { }
 
         public MusicianContext(string nameOrConnectionString) : base(nameOrConnectionString) { }
         public DbSet<MusicianEntity> Musicians { get; set; }
