@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Net.Mime;
+using System.Reflection;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Entities;
 
@@ -12,7 +17,8 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new TestDbContextInitializer());
         }
 
-        public class TestDbContextInitializer : DropCreateDatabaseIfModelChanges<FakeMusicianDbContext>
+        public class TestDbContextInitializer : DropCreateDatabaseAlways<FakeMusicianDbContext>
+            //DropCreateDatabaseIfModelChanges<FakeMusicianDbContext>
         {
             protected override void Seed(FakeMusicianDbContext context)
             {
@@ -31,6 +37,15 @@ namespace Funkmap.Tests.Data
                     Styles = Styles.Funk | Styles.HipHop,
                     Instrument = InstrumentType.Brass
                 };
+
+                
+                using (var stream = new MemoryStream())
+                {
+                    var path = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\Images\\avatar.jpg");
+                    Image.FromFile(path).Save(stream,ImageFormat.Jpeg);
+                    var avatarBytes = stream.ToArray();
+                    m1.AvatarImage = avatarBytes;
+                }
 
                 var m2 = new MusicianEntity()
                 {

@@ -23,6 +23,7 @@ namespace Funkmap.Module.Musician.Models
         public int Expirience { get; set; }
         public Styles[] Styles { get; set; }
 
+        public byte[] AvatarImage { get; set; }
 
     }
 }

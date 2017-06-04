@@ -19,6 +19,8 @@ namespace Funkmap.Musician.Data.Entities
         public Styles Styles { get; set; }
         public InstrumentType Instrument { get; set; }
 
+        public byte[] AvatarImage { get; set; }
+
 
     }
 

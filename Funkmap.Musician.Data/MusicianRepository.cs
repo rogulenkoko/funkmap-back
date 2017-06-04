@@ -48,7 +48,6 @@ namespace Funkmap.Musician.Data
                 {
                     styleFilter = styleFilter | parameter.Styles.ElementAt(i);
                 }
-
             }
             var musicianEntities = await Context.Set<MusicianEntity>().Where(x => x.Styles.HasFlag(styleFilter)).ToListAsync();
             return musicianEntities;
