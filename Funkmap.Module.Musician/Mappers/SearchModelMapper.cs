@@ -16,7 +16,8 @@ namespace Funkmap.Module.Musician.Mappers
                 Latitude = musician.Latitude,
                 Longitude = musician.Longitude,
                 Id = musician.Id,
-                ModelType = EntityType.Musician
+                ModelType = EntityType.Musician,
+                Instrument = musician.Instrument
             };
         }
     }

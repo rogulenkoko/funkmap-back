@@ -16,7 +16,7 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new AuthTestDbContextInitializer());
         }
 
-        public class AuthTestDbContextInitializer : CreateDatabaseIfNotExists<FakeAuthDbContext>
+        public class AuthTestDbContextInitializer : DropCreateDatabaseIfModelChanges<FakeAuthDbContext>
         {
             protected override void Seed(FakeAuthDbContext context)
             {

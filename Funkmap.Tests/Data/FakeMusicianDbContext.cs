@@ -12,7 +12,7 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new TestDbContextInitializer());
         }
 
-        public class TestDbContextInitializer : CreateDatabaseIfNotExists<FakeMusicianDbContext>
+        public class TestDbContextInitializer : DropCreateDatabaseIfModelChanges<FakeMusicianDbContext>
         {
             protected override void Seed(FakeMusicianDbContext context)
             {
@@ -28,7 +28,8 @@ namespace Funkmap.Tests.Data
                     Name = "Кирилл Рогуленко",
                     Latitude = 50,
                     Longitude = 30,
-                    Styles = Styles.Funk | Styles.HipHop
+                    Styles = Styles.Funk | Styles.HipHop,
+                    Instrument = InstrumentType.Brass
                 };
 
                 var m2 = new MusicianEntity()
@@ -41,7 +42,8 @@ namespace Funkmap.Tests.Data
                     Name = "Madlib",
                     Latitude = 51,
                     Longitude = 30,
-                    Styles = Styles.Funk | Styles.Rock
+                    Styles = Styles.Funk | Styles.Rock,
+                    Instrument = InstrumentType.Drums
                 };
 
                 var m3 = new MusicianEntity()
@@ -54,7 +56,8 @@ namespace Funkmap.Tests.Data
                     Name = "Razrab Razrab",
                     Latitude = 51,
                     Longitude = 31,
-                    Styles = Styles.HipHop
+                    Styles = Styles.HipHop,
+                    Instrument = InstrumentType.Keyboard
                 };
 
                 musicianRepository.Add(m1);

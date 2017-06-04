@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Funkmap.Common;
 using Funkmap.Common.Data;
 using Funkmap.Musician.Data.Abstract;
@@ -14,7 +16,30 @@ namespace Funkmap.Musician.Data
         {
         }
 
-        public ICollection<MusicianEntity> GetFiltered(MusicianParameter parameter)
+        public async Task<ICollection<MusicianEntity>> GetMusicianPreviews()
+        {
+            var musicianPreviewsObj = await Context.Set<MusicianEntity>().Select(x => new 
+            {
+                Latitude = x.Latitude,
+                Login = x.Login,
+                Longitude = x.Longitude,
+                Id = x.Id,
+                Instrument = x.Instrument
+            }).ToListAsync();
+
+            var musicianPreviews = musicianPreviewsObj.Select(x => new MusicianEntity()
+            {
+                Latitude = x.Latitude,
+                Login = x.Login,
+                Longitude = x.Longitude,
+                Id = x.Id,
+                Instrument = x.Instrument
+            }).ToList();
+
+            return musicianPreviews;
+        }
+
+        public async Task<ICollection<MusicianEntity>> GetFiltered(MusicianParameter parameter)
         {
             Styles styleFilter = parameter.Styles.FirstOrDefault();
             if (parameter.Styles.Count > 1)
@@ -25,7 +50,7 @@ namespace Funkmap.Musician.Data
                 }
 
             }
-            var musicianEntities = Context.Set<MusicianEntity>().Where(x => x.Styles.HasFlag(styleFilter)).ToList();//(x.Styles & styleFilter) != 0
+            var musicianEntities = await Context.Set<MusicianEntity>().Where(x => x.Styles.HasFlag(styleFilter)).ToListAsync();
             return musicianEntities;
         }
     }

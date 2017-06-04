@@ -32,7 +32,7 @@ namespace Funkmap.Module.Musician.Controllers
         }
 
         [HttpGet]
-        [Route("getmusician/{id}")]
+        [Route("get/{id}")]
         public async Task<IHttpActionResult> GetMusician(long id)
         {
             var musicianEntity = await _musicianRepository.GetAsync(id);

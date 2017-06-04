@@ -17,6 +17,7 @@ namespace Funkmap.Musician.Data.Entities
         public DateTime BirthDate { get; set; }
         public int Expirience { get; set; }
         public Styles Styles { get; set; }
+        public InstrumentType Instrument { get; set; }
 
 
     }
@@ -33,5 +34,15 @@ namespace Funkmap.Musician.Data.Entities
         HipHop = 0x01,
         Rock = 0x02,
         Funk = 0x04
+    }
+    
+    public enum InstrumentType
+    {
+        Bass = 1,
+        Drums = 2,
+        Vocal = 3,
+        Brass = 4,
+        Guitar = 5,
+        Keyboard = 6
     }
 }

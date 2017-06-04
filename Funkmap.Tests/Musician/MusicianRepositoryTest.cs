@@ -22,15 +22,15 @@ namespace Funkmap.Tests.Musician
                 Styles = new List<Styles>(){Styles.Funk }
             };
 
-            var result = musicianRepository.GetFiltered(parameter);
+            var result = musicianRepository.GetFiltered(parameter).Result;
             Assert.AreEqual(result.Count, 2);
 
             parameter.Styles.Add(Styles.Rock);
-            result = musicianRepository.GetFiltered(parameter);
+            result = musicianRepository.GetFiltered(parameter).Result;
             Assert.AreEqual(result.Count, 1);
 
             parameter.Styles.Add(Styles.HipHop);
-            result = musicianRepository.GetFiltered(parameter);
+            result = musicianRepository.GetFiltered(parameter).Result;
             Assert.AreEqual(result.Count, 0);
 
 

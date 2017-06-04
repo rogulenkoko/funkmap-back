@@ -14,5 +14,6 @@ namespace Funkmap.Common.Abstract.Search
 
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
     }
 }
