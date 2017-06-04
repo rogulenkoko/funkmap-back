@@ -22,7 +22,10 @@ namespace Funkmap.Module.Musician.Mappers
                 BirthDate = source.BirthDate,
                 Age = (int)Math.Round((DateTime.Now - source.BirthDate).TotalDays / 365),
                 Styles = Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(allStyles => (source.Styles & allStyles) != 0).ToArray(),
-                AvatarImage = source.AvatarImage
+                AvatarImage = source.AvatarImage,
+                YouTubeLink = source.YouTubeLink,
+                VkLink = source.VkLink,
+                FacebookLink = source.FacebookLink
 
             };
         }

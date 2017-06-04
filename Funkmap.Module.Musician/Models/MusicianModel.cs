@@ -25,5 +25,9 @@ namespace Funkmap.Module.Musician.Models
 
         public byte[] AvatarImage { get; set; }
 
+        public string VkLink { get; set; }
+        public string YouTubeLink { get; set; }
+        public string FacebookLink { get; set; }
+
     }
 }

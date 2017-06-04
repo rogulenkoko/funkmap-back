@@ -35,7 +35,9 @@ namespace Funkmap.Tests.Data
                     Latitude = 50,
                     Longitude = 30,
                     Styles = Styles.Funk | Styles.HipHop,
-                    Instrument = InstrumentType.Brass
+                    Instrument = InstrumentType.Brass,
+                    VkLink = "https://vk.com/id30724049",
+                    YouTubeLink = "https://www.youtube.com/user/Urgantshow"
                 };
 
                 
@@ -58,7 +60,8 @@ namespace Funkmap.Tests.Data
                     Latitude = 51,
                     Longitude = 30,
                     Styles = Styles.Funk | Styles.Rock,
-                    Instrument = InstrumentType.Drums
+                    Instrument = InstrumentType.Drums,
+                    FacebookLink = "https://ru-ru.facebook.com/"
                 };
 
                 var m3 = new MusicianEntity()
