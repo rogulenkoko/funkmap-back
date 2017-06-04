@@ -60,6 +60,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Auth\AuthRepositoryTest.cs" />
+    <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="Data\FakeMusicianDbContext.cs" />
     <Compile Include="Data\FakeAuthDbContext.cs" />
     <Compile Include="Musician\MusicianRepositoryTest.cs" />

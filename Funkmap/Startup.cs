@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Funkmap.Common.Notification;
+using Funkmap.Common.Notification.Abstract;
 using Funkmap.Module.Auth;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
@@ -63,6 +65,8 @@ namespace Funkmap
         {
             var loader = new ModulesLoader();
             loader.LoadAllModules(builder);
+
+            builder.RegisterType<EmailNotificationService>().As<INotificationService>();
         }
     }
 
