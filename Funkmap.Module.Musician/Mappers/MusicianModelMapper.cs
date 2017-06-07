@@ -25,8 +25,38 @@ namespace Funkmap.Module.Musician.Mappers
                 AvatarImage = source.AvatarImage,
                 YouTubeLink = source.YouTubeLink,
                 VkLink = source.VkLink,
-                FacebookLink = source.FacebookLink
+                FacebookLink = source.FacebookLink,
+                Instrument = source.Instrument
+            };
+        }
 
+        public static MusicianEntity ToMusicianEntity(this MusicianModel source)
+        {
+            if (source == null) return null;
+            Styles styleFilter = source.Styles.FirstOrDefault();
+            if (source.Styles.Length > 1)
+            {
+                for (int i = 1; i < source.Styles.Length; i++)
+                {
+                    styleFilter = styleFilter | source.Styles.ElementAt(i);
+                }
+            }
+            return new MusicianEntity()
+            {
+                Login = source.Login,
+                Description = source.Description,
+                Expirience = source.Expirience,
+                Latitude = source.Latitude,
+                Longitude = source.Longitude,
+                Name = source.Name,
+                Sex = source.Sex,
+                BirthDate = source.BirthDate,
+                Styles = styleFilter,
+                AvatarImage = source.AvatarImage,
+                YouTubeLink = source.YouTubeLink,
+                VkLink = source.VkLink,
+                FacebookLink = source.FacebookLink,
+                Instrument = source.Instrument
             };
         }
     }

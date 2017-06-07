@@ -84,6 +84,7 @@
     <Compile Include="Controllers\MusicianController.cs" />
     <Compile Include="Mappers\MusicianModelMapper.cs" />
     <Compile Include="Mappers\SearchModelMapper.cs" />
+    <Compile Include="Models\MusicianCreationResponse.cs" />
     <Compile Include="Models\MusicianModel.cs" />
     <Compile Include="Models\MusicianSearchModel.cs" />
     <Compile Include="MusicianModule.cs" />

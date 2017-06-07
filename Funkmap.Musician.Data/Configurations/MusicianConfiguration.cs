@@ -17,12 +17,12 @@ namespace Funkmap.Musician.Data.Configurations
             Property(x => x.Name).HasColumnName("Name").IsRequired();
             Property(x => x.Latitude).HasColumnName("Latitude").IsRequired();
             Property(x => x.Longitude).HasColumnName("Longitude").IsRequired();
+            Property(x => x.Instrument).HasColumnName("Instrument").IsRequired();
 
             Property(x => x.BirthDate).HasColumnName("BirthDate").IsOptional();
             Property(x => x.Description).HasColumnName("Description").IsOptional();
             Property(x => x.Sex).HasColumnName("Sex").IsOptional();
             Property(x => x.Expirience).HasColumnName("Expirience").IsOptional();
-            Property(x => x.Instrument).HasColumnName("Instrument").IsOptional();
             Property(x => x.Styles).HasColumnName("Styles").IsOptional();
             Property(x => x.AvatarImage).HasColumnName("AvatarImage").IsOptional();
         }
