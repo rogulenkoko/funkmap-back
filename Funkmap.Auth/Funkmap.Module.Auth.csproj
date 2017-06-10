@@ -104,6 +104,7 @@
     <Compile Include="Confirmation\ConfirmationNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="FunkmapAuthProvider.cs" />
+    <Compile Include="FunkmapRefreshTokenProvider.cs" />
     <Compile Include="Models\ConfirmationRequest.cs" />
     <Compile Include="Models\RegistrationRequest.cs" />
     <Compile Include="Models\RegistrationResponse.cs" />

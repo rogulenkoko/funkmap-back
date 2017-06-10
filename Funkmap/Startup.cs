@@ -41,7 +41,8 @@ namespace Funkmap
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new FunkmapAuthProvider()
+                Provider = new FunkmapAuthProvider(),
+                RefreshTokenProvider = new FunkmapRefreshTokenProvider()
                 
             };
             

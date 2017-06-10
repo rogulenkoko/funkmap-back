@@ -17,6 +17,7 @@ namespace Funkmap.Module.Musician.Services
         }
 
         public async Task<ICollection<SearchModel>> SearchAllAsync()
+
         {
             var musicians = await _musicianRepository.GetMusicianPreviews();
             var searchResults = musicians.Select(x => x.ToSearchModel()).ToList();

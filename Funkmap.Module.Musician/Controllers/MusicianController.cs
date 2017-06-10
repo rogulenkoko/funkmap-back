@@ -42,6 +42,7 @@ namespace Funkmap.Module.Musician.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
         [Route("save")]
         public async Task<IHttpActionResult> SaveMusician(MusicianModel model)

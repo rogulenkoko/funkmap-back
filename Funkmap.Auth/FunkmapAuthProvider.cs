@@ -21,8 +21,8 @@ namespace Funkmap.Module.Auth
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var repository = new AuthRepository(new AuthContext());
+            
             UserEntity user = await repository.Login(context.UserName, context.Password);
-
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
@@ -31,7 +31,6 @@ namespace Funkmap.Module.Auth
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
             {
