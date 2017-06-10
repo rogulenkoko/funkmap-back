@@ -12,10 +12,12 @@ namespace Funkmap.Musician.Data
 
         public MusicianContext(string nameOrConnectionString) : base(nameOrConnectionString) { }
         public DbSet<MusicianEntity> Musicians { get; set; }
+        public DbSet<BandEntity> Bands { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new MusicianConfiguration());
+            modelBuilder.Configurations.Add(new BandConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

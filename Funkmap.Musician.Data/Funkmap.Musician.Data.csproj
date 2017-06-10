@@ -49,12 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IBandRepository.cs" />
     <Compile Include="Abstract\IMusicianContext.cs" />
     <Compile Include="Abstract\IMusicianRepository.cs" />
+    <Compile Include="Configurations\BandConfiguration.cs" />
     <Compile Include="Configurations\MusicianConfiguration.cs" />
+    <Compile Include="Entities\BandEntity.cs" />
     <Compile Include="Entities\MusicianEntity.cs" />
     <Compile Include="MusicianContext.cs" />
-    <Compile Include="MusicianRepository.cs" />
+    <Compile Include="Repositories\BandRepository.cs" />
+    <Compile Include="Repositories\MusicianRepository.cs" />
     <Compile Include="Parameters\MusicianParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

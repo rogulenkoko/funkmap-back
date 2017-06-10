@@ -2,13 +2,12 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Common.Data;
 using Funkmap.Musician.Data.Abstract;
 using Funkmap.Musician.Data.Entities;
 using Funkmap.Musician.Data.Parameters;
 
-namespace Funkmap.Musician.Data
+namespace Funkmap.Musician.Data.Repositories
 {
     public class MusicianRepository : Repository<MusicianEntity>, IMusicianRepository
     {

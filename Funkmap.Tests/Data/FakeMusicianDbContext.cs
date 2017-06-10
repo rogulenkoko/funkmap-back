@@ -5,8 +5,10 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Mime;
 using System.Reflection;
+using Funkmap.Common.Data.Tools;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Entities;
+using Funkmap.Musician.Data.Repositories;
 
 namespace Funkmap.Tests.Data
 {
@@ -18,9 +20,16 @@ namespace Funkmap.Tests.Data
         }
 
         public class TestDbContextInitializer : DropCreateDatabaseAlways<FakeMusicianDbContext>
-            //DropCreateDatabaseIfModelChanges<FakeMusicianDbContext>
+        //DropCreateDatabaseIfModelChanges<FakeMusicianDbContext>
         {
             protected override void Seed(FakeMusicianDbContext context)
+            {
+                SeedMusicians(context);
+                SeedBands(context);
+                context.SaveChanges();
+            }
+
+            private void SeedMusicians(FakeMusicianDbContext context)
             {
                 var musicianRepository = new MusicianRepository(context);
 
@@ -37,14 +46,15 @@ namespace Funkmap.Tests.Data
                     Styles = Styles.Funk | Styles.HipHop,
                     Instrument = InstrumentType.Brass,
                     VkLink = "https://vk.com/id30724049",
-                    YouTubeLink = "https://www.youtube.com/user/Urgantshow"
+                    YouTubeLink = "https://www.youtube.com/user/Urgantshow",
+                    BandId = 1
                 };
 
-                
+
                 using (var stream = new MemoryStream())
                 {
                     var path = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\Images\\avatar.jpg");
-                    Image.FromFile(path).Save(stream,ImageFormat.Jpeg);
+                    Image.FromFile(path).Save(stream, ImageFormat.Jpeg);
                     var avatarBytes = stream.ToArray();
                     m1.AvatarImage = avatarBytes;
                 }
@@ -61,7 +71,8 @@ namespace Funkmap.Tests.Data
                     Longitude = 30,
                     Styles = Styles.Funk | Styles.Rock,
                     Instrument = InstrumentType.Drums,
-                    FacebookLink = "https://ru-ru.facebook.com/"
+                    FacebookLink = "https://ru-ru.facebook.com/",
+                    BandId = 1
                 };
 
                 var m3 = new MusicianEntity()
@@ -75,14 +86,41 @@ namespace Funkmap.Tests.Data
                     Latitude = 51,
                     Longitude = 31,
                     Styles = Styles.HipHop,
-                    Instrument = InstrumentType.Keyboard
+                    Instrument = InstrumentType.Keyboard,
+                    BandId = 2
                 };
 
                 musicianRepository.Add(m1);
                 musicianRepository.Add(m2);
                 musicianRepository.Add(m3);
+            }
 
-                musicianRepository.SaveAsync().Wait();
+            private void SeedBands(FakeMusicianDbContext context)
+            {
+                var bandRepository = new BandRepository(context);
+                var b1 = new BandEntity()
+                {
+                    Login = "test",
+                    DesiredInstruments = InstrumentType.Bass | InstrumentType.Guitar,
+                    Name = "The Beatles",
+                    ShowPrice = 123412,
+                    VideoLinks = new PersistableStringCollection() { "firstVideo", "secondVideo" },
+                    Longitude = 52,
+                    Latitude = 29
+                };
+
+                var b2 = new BandEntity()
+                {
+                    Login = "rogulenkoko",
+                    Name = "Red Hot Chili Peppers",
+                    ShowPrice = 123412,
+                    VideoLinks = new PersistableStringCollection() { "firstVideo", "secondVideo" },
+                    Longitude = 52,
+                    Latitude = 28
+                };
+
+                bandRepository.Add(b1);
+                bandRepository.Add(b2);
             }
         }
     }

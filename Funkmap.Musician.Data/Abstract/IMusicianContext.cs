@@ -6,5 +6,6 @@ namespace Funkmap.Musician.Data.Abstract
     public interface IMusicianContext
     {
         DbSet<MusicianEntity> Musicians { get; set; }
+        DbSet<BandEntity> Bands { get; set; }
     }
 }

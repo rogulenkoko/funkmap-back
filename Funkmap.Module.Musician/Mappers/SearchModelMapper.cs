@@ -20,5 +20,18 @@ namespace Funkmap.Module.Musician.Mappers
                 Instrument = musician.Instrument
             };
         }
+
+        public static SearchModel ToSearchModel(this BandEntity band)
+        {
+            if (band == null) return null;
+            return new BandSearchModel()
+            {
+                Id = band.Id,
+                Longitude = band.Longitude,
+                Latitude = band.Latitude,
+                Name = band.Name,
+                ModelType = EntityType.Band
+            };
+        }
     }
 }

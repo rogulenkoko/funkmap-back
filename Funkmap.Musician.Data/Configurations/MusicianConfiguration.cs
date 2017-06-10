@@ -25,6 +25,8 @@ namespace Funkmap.Musician.Data.Configurations
             Property(x => x.Expirience).HasColumnName("Expirience").IsOptional();
             Property(x => x.Styles).HasColumnName("Styles").IsOptional();
             Property(x => x.AvatarImage).HasColumnName("AvatarImage").IsOptional();
+
+            Property(x => x.BandId).HasColumnName("BandId").IsOptional();
         }
     }
 }

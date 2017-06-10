@@ -53,6 +53,8 @@
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="Abstract\PersistableCollection.cs" />
+    <Compile Include="Tools\PersistableStringCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

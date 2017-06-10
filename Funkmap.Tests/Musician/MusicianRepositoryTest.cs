@@ -4,6 +4,7 @@ using System.Linq;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Entities;
 using Funkmap.Musician.Data.Parameters;
+using Funkmap.Musician.Data.Repositories;
 using Funkmap.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -25,6 +25,9 @@ namespace Funkmap.Musician.Data.Entities
         public string YouTubeLink { get; set; }
         public string FacebookLink { get; set; }
 
+        public long? BandId { get; set; }
+        public virtual BandEntity Band { get; set; }
+
 
     }
 
@@ -42,13 +45,14 @@ namespace Funkmap.Musician.Data.Entities
         Funk = 0x04
     }
     
+    [Flags]
     public enum InstrumentType
     {
         Bass = 1,
         Drums = 2,
-        Vocal = 3,
-        Brass = 4,
-        Guitar = 5,
-        Keyboard = 6
+        Vocal = 4,
+        Brass = 8,
+        Guitar = 16,
+        Keyboard = 32
     }
 }

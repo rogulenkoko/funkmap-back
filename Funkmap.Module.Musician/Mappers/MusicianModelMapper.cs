@@ -59,5 +59,15 @@ namespace Funkmap.Module.Musician.Mappers
                 Instrument = source.Instrument
             };
         }
+
+        public static MusicianPreview ToMusicianPreview(this MusicianEntity source)
+        {
+            if (source == null) return null;
+            return new MusicianPreview()
+            {
+                Name = source.Name,
+                Id = source.Id
+            };
+        }
     }
 }

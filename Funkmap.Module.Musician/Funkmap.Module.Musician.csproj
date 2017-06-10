@@ -82,13 +82,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MusicianController.cs" />
+    <Compile Include="Controllers\BandController.cs" />
+    <Compile Include="Mappers\BandModelMapper.cs" />
     <Compile Include="Mappers\MusicianModelMapper.cs" />
     <Compile Include="Mappers\SearchModelMapper.cs" />
+    <Compile Include="Models\BandModel.cs" />
+    <Compile Include="Models\BandSearchModel.cs" />
     <Compile Include="Models\MusicianCreationResponse.cs" />
     <Compile Include="Models\MusicianModel.cs" />
+    <Compile Include="Models\MusicianPreview.cs" />
     <Compile Include="Models\MusicianSearchModel.cs" />
     <Compile Include="MusicianModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BandSearchService.cs" />
     <Compile Include="Services\MusicianSearchService.cs" />
   </ItemGroup>
   <ItemGroup>
