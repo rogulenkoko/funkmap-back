@@ -68,6 +68,7 @@
     <Compile Include="Musician\MusicianRepositoryTest.cs" />
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\SearchTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
@@ -89,6 +90,10 @@
     <ProjectReference Include="..\Funkmap.Module.Musician\Funkmap.Module.Musician.csproj">
       <Project>{6be3d851-4ef4-411a-869a-cfea300eefb6}</Project>
       <Name>Funkmap.Module.Musician</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Module.Search\Funkmap.Module.Search.csproj">
+      <Project>{c42e795e-07f1-4719-9d35-65eca3e77e6e}</Project>
+      <Name>Funkmap.Module.Search</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Musician.Data\Funkmap.Musician.Data.csproj">
       <Project>{b28b672a-239f-4879-8ec1-35ad8b680cb9}</Project>

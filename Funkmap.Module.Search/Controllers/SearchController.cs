@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Abstract.Search;
+using Funkmap.Module.Search.Extensions;
 using Funkmap.Module.Search.Models;
 
 namespace Funkmap.Module.Search.Controllers
@@ -41,7 +42,7 @@ namespace Funkmap.Module.Search.Controllers
 
             Task.WaitAll(searchTasks);
 
-            var result = searchTasks.Select(x => x.Result).SelectMany(x => x);
+            var result = searchTasks.Select(x => x.Result).SelectMany(x => x).ToList().SortByLocationToPoint(request.Longitude, request.Latitude);
 
             return Content(HttpStatusCode.OK, result);
 
