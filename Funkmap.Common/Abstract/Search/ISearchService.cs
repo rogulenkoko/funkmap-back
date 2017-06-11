@@ -8,6 +8,6 @@ namespace Funkmap.Common.Abstract.Search
     {
         Task<ICollection<SearchModel>> SearchAllAsync();
 
-        Task<ICollection<SearchModel>> SearchNearest(SearchRequest request);
+        Task<ICollection<SearchModel>> SearchNearest(NearestRequest request);
     }
 }

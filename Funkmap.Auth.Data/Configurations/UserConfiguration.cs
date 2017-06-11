@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity.ModelConfiguration;
 using Funkmap.Auth.Data.Entities;
 
 namespace Funkmap.Auth.Data.Configurations
@@ -19,8 +13,9 @@ namespace Funkmap.Auth.Data.Configurations
             Property(x => x.Login).IsRequired();
 
             Property(x => x.Password).HasColumnName("Password").IsRequired();
+            Property(x => x.Email).HasColumnName("Email").IsRequired();
 
-            Property(x => x.Email).HasColumnName("Email").IsOptional();
+            Property(x => x.Avatar).HasColumnName("Avatar").IsOptional();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Funkmap.Module.Musician.Services
             return searchResults;
         }
 
-        public async Task<ICollection<SearchModel>> SearchNearest(SearchRequest request)
+        public async Task<ICollection<SearchModel>> SearchNearest(NearestRequest request)
         {
             var searchParametr = new LocationParameter()
             {

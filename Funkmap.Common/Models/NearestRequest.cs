@@ -1,7 +1,7 @@
 ﻿
 namespace Funkmap.Module.Search.Models
 {
-    public class SearchRequest
+    public class NearestRequest
     {
         public double RadiusDeg { get; set; }
 

@@ -34,9 +34,9 @@ namespace Funkmap.Module.Search.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("nearest")]
-        public async Task<IHttpActionResult> GetNearest(SearchRequest request)
+        public async Task<IHttpActionResult> GetNearest(NearestRequest request)
         {
             var searchTasks = _searchServices.Select(x => x.SearchNearest(request)).ToArray();
 

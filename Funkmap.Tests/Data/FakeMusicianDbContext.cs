@@ -49,13 +49,7 @@ namespace Funkmap.Tests.Data
                 };
 
 
-                using (var stream = new MemoryStream())
-                {
-                    var path = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\Images\\avatar.jpg");
-                    Image.FromFile(path).Save(stream, ImageFormat.Jpeg);
-                    var avatarBytes = stream.ToArray();
-                    m1.AvatarImage = avatarBytes;
-                }
+                m1.AvatarImage = ImageProvider.GetAvatar();
 
                 var m2 = new MusicianEntity()
                 {

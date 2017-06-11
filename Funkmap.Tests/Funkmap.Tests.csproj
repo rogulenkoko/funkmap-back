@@ -64,6 +64,7 @@
     <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="Data\FakeMusicianDbContext.cs" />
     <Compile Include="Data\FakeAuthDbContext.cs" />
+    <Compile Include="Data\ImageProvider.cs" />
     <Compile Include="Musician\BandRepositoryTest.cs" />
     <Compile Include="Musician\MusicianRepositoryTest.cs" />
     <Compile Include="RepositoryTest.cs" />
