@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using Funkmap.Module.Musician.Extensions;
 using Funkmap.Module.Musician.Models;
 using Funkmap.Musician.Data.Entities;
 
@@ -18,10 +18,7 @@ namespace Funkmap.Module.Musician.Mappers
                 Name = source.Name,
                 ShowPrice = source.ShowPrice,
                 VideoLinks = source.VideoLinks.ToList(),
-                DesiredInstruments = Enum.GetValues(typeof(InstrumentType))
-                    .Cast<InstrumentType>()
-                    .Where(allInstruments => (source.DesiredInstruments & allInstruments) != 0)
-                    .ToArray(),
+                DesiredInstruments = source.DesiredInstruments.ToArray(),
                 Musicians = source.Musicians.Select(x=>x.ToMusicianPreview()).ToList()
             };
         }

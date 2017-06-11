@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Funkmap.Common.Data.Tools
+namespace Funkmap.Common.Data.Abstract
 {
     [ComplexType]
     public abstract class PersistableCollection<T> : ICollection<T>

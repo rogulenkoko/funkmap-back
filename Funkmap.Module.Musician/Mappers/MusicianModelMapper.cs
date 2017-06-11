@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Funkmap.Module.Musician.Extensions;
 using Funkmap.Module.Musician.Models;
 using Funkmap.Musician.Data.Entities;
 
@@ -21,7 +22,7 @@ namespace Funkmap.Module.Musician.Mappers
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
                 Age = (int)Math.Round((DateTime.Now - source.BirthDate).TotalDays / 365),
-                Styles = Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(allStyles => (source.Styles & allStyles) != 0).ToArray(),
+                Styles = source.Styles.ToArray(),
                 Avatar = source.AvatarImage,
                 YouTubeLink = source.YouTubeLink,
                 VkLink = source.VkLink,

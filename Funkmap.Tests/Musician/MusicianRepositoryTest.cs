@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Funkmap.Common.Data.Parameters;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Entities;
 using Funkmap.Musician.Data.Parameters;
@@ -13,25 +14,51 @@ namespace Funkmap.Tests.Musician
     [TestClass]
     public class MusicianRepositoryTest
     {
+        private MusicianRepository _musicianRepository;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _musicianRepository = new MusicianRepository(new FakeMusicianDbContext());
+        }
+
+        [TestMethod]
+        public void FindNearest()
+        {
+
+            var result = _musicianRepository.GetNearestMusicianPreviews(null).Result;
+            Assert.AreEqual(result.Count, 3);
+
+            var parameters = new LocationParameter()
+            {
+                Longitude = 30,
+                Latitude = 50,
+                RadiusDeg = 0.5
+            };
+
+            result = _musicianRepository.GetNearestMusicianPreviews(parameters).Result;
+            Assert.AreEqual(result.Count, 1);
+
+        }
+
         [TestMethod]
         public void GetStyleFilteredMusicianTest()
         {
-            var musicianRepository = new MusicianRepository(new FakeMusicianDbContext());
 
             var parameter = new MusicianParameter()
             {
-                Styles = new List<Styles>(){Styles.Funk }
+                Styles = new List<Styles>() { Styles.Funk }
             };
 
-            var result = musicianRepository.GetFiltered(parameter).Result;
+            var result = _musicianRepository.GetFiltered(parameter).Result;
             Assert.AreEqual(result.Count, 2);
 
             parameter.Styles.Add(Styles.Rock);
-            result = musicianRepository.GetFiltered(parameter).Result;
+            result = _musicianRepository.GetFiltered(parameter).Result;
             Assert.AreEqual(result.Count, 1);
 
             parameter.Styles.Add(Styles.HipHop);
-            result = musicianRepository.GetFiltered(parameter).Result;
+            result = _musicianRepository.GetFiltered(parameter).Result;
             Assert.AreEqual(result.Count, 0);
 
 

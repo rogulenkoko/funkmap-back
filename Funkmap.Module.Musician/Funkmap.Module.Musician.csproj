@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Controllers\MusicianController.cs" />
     <Compile Include="Controllers\BandController.cs" />
+    <Compile Include="Extensions\FlagExtension.cs" />
     <Compile Include="Mappers\BandModelMapper.cs" />
     <Compile Include="Mappers\MusicianModelMapper.cs" />
     <Compile Include="Mappers\SearchModelMapper.cs" />

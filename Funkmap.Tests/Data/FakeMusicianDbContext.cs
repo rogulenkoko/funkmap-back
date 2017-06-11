@@ -3,8 +3,6 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net.Mime;
-using System.Reflection;
 using Funkmap.Common.Data.Tools;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Entities;
@@ -119,8 +117,18 @@ namespace Funkmap.Tests.Data
                     Latitude = 28
                 };
 
+                var b3 = new BandEntity()
+                {
+                    Login = "rogulenkoko",
+                    Name = "Coldplay",
+                    ShowPrice = 123,
+                    Longitude = 50,
+                    Latitude = 31
+                };
+
                 bandRepository.Add(b1);
                 bandRepository.Add(b2);
+                bandRepository.Add(b3);
             }
         }
     }

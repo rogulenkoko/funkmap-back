@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Abstract.Search;
+using Funkmap.Module.Search.Models;
 
 namespace Funkmap.Module.Search.Controllers
 {
@@ -20,9 +21,23 @@ namespace Funkmap.Module.Search.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IHttpActionResult> GetMusicians()
+        public async Task<IHttpActionResult> GetAll()
         {
             var searchTasks = _searchServices.Select(x=>x.SearchAllAsync()).ToArray();
+
+            Task.WaitAll(searchTasks);
+
+            var result = searchTasks.Select(x => x.Result).SelectMany(x => x);
+
+            return Content(HttpStatusCode.OK, result);
+
+        }
+
+        [HttpGet]
+        [Route("nearest")]
+        public async Task<IHttpActionResult> GetNearest(SearchRequest request)
+        {
+            var searchTasks = _searchServices.Select(x => x.SearchNearest(request)).ToArray();
 
             Task.WaitAll(searchTasks);
 
