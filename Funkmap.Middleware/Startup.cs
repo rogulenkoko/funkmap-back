@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Funkmap.Common.Filters;
 using Funkmap.Common.Notification;
 using Funkmap.Common.Notification.Abstract;
 using Funkmap.Module.Auth;
@@ -32,6 +33,8 @@ namespace Funkmap.Middleware
 
             var container = containerBuilder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
+            config.Filters.Add(new ValidateRequestModelAttribute());
 
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Common.Filters;
 using Funkmap.Common.Notification.Abstract;
 using Funkmap.Module.Auth.Confirmation;
 using Funkmap.Module.Auth.Models;
@@ -14,6 +15,7 @@ using Funkmap.Module.Auth.Models;
 namespace Funkmap.Module.Auth.Controllers
 {
     [RoutePrefix("api/auth")]
+    [ValidateRequestModel]
     public class AuthController : ApiController
     {
         private readonly IAuthRepository _authRepository;

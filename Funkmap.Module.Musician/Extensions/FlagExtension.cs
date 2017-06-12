@@ -11,12 +11,12 @@ namespace Funkmap.Module.Musician.Extensions
     {
         public static InstrumentType[] ToArray(this InstrumentType flags)
         {
-            return Enum.GetValues(typeof(InstrumentType)).Cast<InstrumentType>().Where(allStyles => (flags & allStyles) != 0).ToArray();
+            return Enum.GetValues(typeof(InstrumentType)).Cast<InstrumentType>().Where(allStyles => (flags & allStyles) != 0).Where(x=>x != InstrumentType.None).ToArray();
         }
 
         public static Styles[] ToArray(this Styles flags)
         {
-            return Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(allStyles => (flags & allStyles) != 0).ToArray();
+            return Enum.GetValues(typeof(Styles)).Cast<Styles>().Where(allStyles => (flags & allStyles) != 0).Where(x => x != Styles.None).ToArray();
         }
     }
 }

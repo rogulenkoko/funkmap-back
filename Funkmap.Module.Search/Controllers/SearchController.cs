@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Abstract.Search;
+using Funkmap.Common.Filters;
 using Funkmap.Module.Search.Extensions;
 using Funkmap.Module.Search.Models;
 
 namespace Funkmap.Module.Search.Controllers
 {
     [RoutePrefix("api/search")]
+    [ValidateRequestModel]
     public class SearchController : ApiController
     {
         private readonly IEnumerable<ISearchService> _searchServices;
