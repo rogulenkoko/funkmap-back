@@ -81,7 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IModule.cs" />
+    <Compile Include="Abstract\IFunkmapModule.cs" />
     <Compile Include="Abstract\Search\SearchModel.cs" />
     <Compile Include="Abstract\Search\ISearchService.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />

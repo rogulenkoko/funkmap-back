@@ -9,7 +9,7 @@ using Funkmap.Common.Abstract;
 namespace Funkmap.Module.Auth
 {
 
-    public class AuthModule : IModule
+    public class AuthFunkmapModule : IFunkmapModule
     {
         public void Register(ContainerBuilder builder)
         {

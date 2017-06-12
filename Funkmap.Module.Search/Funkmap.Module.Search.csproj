@@ -82,7 +82,7 @@
   <ItemGroup>
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Extensions\LocationExtension.cs" />
-    <Compile Include="SearchModule.cs" />
+    <Compile Include="SearchFunkmapModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

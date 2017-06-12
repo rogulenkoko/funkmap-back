@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap", "Funkmap\Funkmap.csproj", "{89FC7FD9-0F9B-4E52-B3FF-D0CF27CC7F72}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common", "Funkmap.Common\Funkmap.Common.csproj", "{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Module.Musician", "Funkmap.Module.Musician\Funkmap.Module.Musician.csproj", "{6BE3D851-4EF4-411A-869A-CFEA300EEFB6}"
@@ -33,16 +31,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap.Web\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Console", "Funkmap.Console\Funkmap.Console.csproj", "{61AFCC5A-0521-4ED3-A21B-6313F1A05945}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Middleware", "Funkmap.Middleware\Funkmap.Middleware.csproj", "{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{89FC7FD9-0F9B-4E52-B3FF-D0CF27CC7F72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89FC7FD9-0F9B-4E52-B3FF-D0CF27CC7F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89FC7FD9-0F9B-4E52-B3FF-D0CF27CC7F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89FC7FD9-0F9B-4E52-B3FF-D0CF27CC7F72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,6 +79,10 @@ Global
 		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

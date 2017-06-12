@@ -97,7 +97,7 @@
     <Compile Include="Models\MusicianModel.cs" />
     <Compile Include="Models\MusicianPreview.cs" />
     <Compile Include="Models\MusicianSearchModel.cs" />
-    <Compile Include="MusicianModule.cs" />
+    <Compile Include="MusicianFunkmapModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BandSearchService.cs" />
     <Compile Include="Services\MusicianSearchService.cs" />

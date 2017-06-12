@@ -100,10 +100,6 @@
       <Project>{b28b672a-239f-4879-8ec1-35ad8b680cb9}</Project>
       <Name>Funkmap.Musician.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap\Funkmap.csproj">
-      <Project>{89fc7fd9-0f9b-4e52-b3ff-d0cf27cc7f72}</Project>
-      <Name>Funkmap</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

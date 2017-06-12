@@ -11,7 +11,7 @@ using Funkmap.Musician.Data.Repositories;
 
 namespace Funkmap.Module.Musician
 {
-    public class MusicianModule : IModule
+    public class MusicianFunkmapModule : IFunkmapModule
     {
         public void Register(ContainerBuilder builder)
         {

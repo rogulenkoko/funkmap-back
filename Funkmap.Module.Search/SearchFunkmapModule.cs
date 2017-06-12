@@ -10,7 +10,7 @@ using Funkmap.Common.Abstract;
 
 namespace Funkmap.Module.Search
 {
-    public class SearchModule : IModule
+    public class SearchFunkmapModule : IFunkmapModule
     {
         public void Register(ContainerBuilder builder)
         {

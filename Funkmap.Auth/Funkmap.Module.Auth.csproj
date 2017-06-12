@@ -100,7 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthModule.cs" />
+    <Compile Include="AuthFunkmapModule.cs" />
     <Compile Include="Confirmation\ConfirmationNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="FunkmapAuthProvider.cs" />

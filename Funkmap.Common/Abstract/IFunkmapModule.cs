@@ -2,7 +2,7 @@
 
 namespace Funkmap.Common.Abstract
 {
-    public interface IModule
+    public interface IFunkmapModule
     {
         void Register(ContainerBuilder builder);
     }

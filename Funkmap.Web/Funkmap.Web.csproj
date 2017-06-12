@@ -194,6 +194,10 @@
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Middleware\Funkmap.Middleware.csproj">
+      <Project>{2d178c9d-e17a-4735-b29c-0ae9dea0b195}</Project>
+      <Name>Funkmap.Middleware</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Module.Musician\Funkmap.Module.Musician.csproj">
       <Project>{6be3d851-4ef4-411a-869a-cfea300eefb6}</Project>
       <Name>Funkmap.Module.Musician</Name>
@@ -205,10 +209,6 @@
     <ProjectReference Include="..\Funkmap.Musician.Data\Funkmap.Musician.Data.csproj">
       <Project>{b28b672a-239f-4879-8ec1-35ad8b680cb9}</Project>
       <Name>Funkmap.Musician.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap\Funkmap.csproj">
-      <Project>{89fc7fd9-0f9b-4e52-b3ff-d0cf27cc7f72}</Project>
-      <Name>Funkmap</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
