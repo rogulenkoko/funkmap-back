@@ -12,7 +12,7 @@ using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
-namespace Funkmap
+namespace Funkmap.Middleware
 {
     public class Startup
     {
@@ -20,8 +20,9 @@ namespace Funkmap
         {
             HttpConfiguration config = new HttpConfiguration();
 
+
             appBuilder.UseCors(CorsOptions.AllowAll);
-            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
 
             var containerBuilder = new ContainerBuilder();
 
@@ -40,18 +41,15 @@ namespace Funkmap
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new FunkmapAuthProvider(),
-                RefreshTokenProvider = new FunkmapRefreshTokenProvider()
+                RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
+                
                 
             };
             
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
             appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-            config.MapHttpAttributeRoutes();
-
             
-           
-
+            config.MapHttpAttributeRoutes();
             appBuilder.UseWebApi(config);
         }
 
