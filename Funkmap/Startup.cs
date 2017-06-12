@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Notification;
@@ -18,8 +19,9 @@ namespace Funkmap
         public void Configuration(IAppBuilder appBuilder)
         {
             HttpConfiguration config = new HttpConfiguration();
-            config.EnableCors();
+
             appBuilder.UseCors(CorsOptions.AllowAll);
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             var containerBuilder = new ContainerBuilder();
 
@@ -46,6 +48,10 @@ namespace Funkmap
             appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
             config.MapHttpAttributeRoutes();
+
+            
+           
+
             appBuilder.UseWebApi(config);
         }
 
@@ -54,7 +60,6 @@ namespace Funkmap
             Assembly.Load("Funkmap.Module.Musician");
             Assembly.Load("Funkmap.Module.Search");
             Assembly.Load("Funkmap.Module.Auth");
-
         }
 
 

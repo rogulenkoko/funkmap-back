@@ -24,11 +24,17 @@ namespace Funkmap.Module.Search.Controllers
         [Route("all")]
         public async Task<IHttpActionResult> GetAll()
         {
-            var searchTasks = _searchServices.Select(x=>x.SearchAllAsync()).ToArray();
+            //var searchTasks = _searchServices.Select(x=>x.SearchAllAsync()).ToArray();
+            //Task.WaitAll(searchTasks);
+            //var result = searchTasks.Select(x => x.Result).SelectMany(x => x);
+            var result = new List<SearchModel>();
+            foreach (var searchService in _searchServices)
+            {
+                result.AddRange(await searchService.SearchAllAsync());
+            }
+            
 
-            Task.WaitAll(searchTasks);
-
-            var result = searchTasks.Select(x => x.Result).SelectMany(x => x);
+           
 
             return Content(HttpStatusCode.OK, result);
 
