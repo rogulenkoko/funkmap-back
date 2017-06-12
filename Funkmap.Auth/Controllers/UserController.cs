@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Data.Abstract;
+using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Module.Auth.Models;
 
 namespace Funkmap.Module.Auth.Controllers
 {
     [RoutePrefix("api/user")]
+    [ValidateRequestModel]
     public class UserController : ApiController
     {
         private readonly IAuthRepository _authRepository;
