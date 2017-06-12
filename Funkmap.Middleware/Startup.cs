@@ -23,6 +23,7 @@ namespace Funkmap.Middleware
 
             appBuilder.UseCors(CorsOptions.AllowAll);
 
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             var containerBuilder = new ContainerBuilder();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,32 @@ namespace Funkmap.Auth.Data
         {
             var isExist = await Context.Set<UserEntity>().AnyAsync(x => x.Login == login);
             return isExist;
+        }
+
+        public async Task<byte[]> GetAvatarAsync(string login)
+        {
+            var user = await Context.Set<UserEntity>().FirstOrDefaultAsync(x => x.Login == login);
+            return user?.Avatar;
+        }
+
+        public async Task<bool> SaveAvatarAsync(string login, byte[] image)
+        {
+            var user = await Context.Set<UserEntity>().FirstOrDefaultAsync(x => x.Login == login);
+            if (user == null)
+            {
+                return false;
+            }
+            user.Avatar = image;
+            try
+            {
+                Context.Set<UserEntity>().AddOrUpdate(user);
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

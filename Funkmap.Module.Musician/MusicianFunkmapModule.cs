@@ -16,7 +16,7 @@ namespace Funkmap.Module.Musician
         public void Register(ContainerBuilder builder)
         {
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>();
-            builder.RegisterType<MusicianContext>().InstancePerRequest();
+            builder.RegisterType<MusicianContext>();
             builder.RegisterType<MusicianSearchService>().As<ISearchService>();
 
             builder.RegisterType<BandRepository>().As<IBandRepository>();

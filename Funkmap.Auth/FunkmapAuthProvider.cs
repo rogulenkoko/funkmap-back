@@ -30,14 +30,12 @@ namespace Funkmap.Module.Auth
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
 
             var propertiesDictionary = new Dictionary<string,string>();
+
             propertiesDictionary[nameof(user.Login)] = user.Login;
-            if (user.Avatar != null)
-            {
-                propertiesDictionary[nameof(user.Avatar)] = Convert.ToBase64String(user.Avatar);
-            }
 
             var props = new AuthenticationProperties(propertiesDictionary);
 
