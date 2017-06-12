@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Owin.Hosting;
+﻿using Microsoft.Owin.Hosting;
 
-namespace Funkmap
+namespace Funkmap.Console
 {
     class Program
     {
@@ -12,8 +11,8 @@ namespace Funkmap
 
             using (WebApp.Start<Startup>(baseAddress))
             {
-                Console.WriteLine($"Сервер запущен по адерсу {baseAddress}");
-                Console.ReadLine();
+                System.Console.WriteLine($"Сервер запущен по адерсу {baseAddress}");
+                System.Console.ReadLine();
             }
         }
     }
