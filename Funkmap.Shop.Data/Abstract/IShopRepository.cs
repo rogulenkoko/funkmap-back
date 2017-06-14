@@ -13,5 +13,6 @@ namespace Funkmap.Shop.Data.Abstract
     {
         Task<ICollection<ShopEntity>> GetShopsPreviews();
         Task<ICollection<ShopEntity>> GetNearestShopsPreviews(LocationParameter currentLocation);
+        Task<ICollection<ShopEntity>> GetShopsPreviewsSearchByName(string name);
     }
 }

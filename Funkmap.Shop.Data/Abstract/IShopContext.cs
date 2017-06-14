@@ -8,7 +8,7 @@ using Funkmap.Shop.Data.Entities;
 
 namespace Funkmap.Shop.Data.Abstract
 {
-    interface IShopContext
+    public interface IShopContext
     {
         DbSet<ShopEntity> Shops { get; set; }
     }
