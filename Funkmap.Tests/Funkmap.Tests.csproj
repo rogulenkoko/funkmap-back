@@ -64,12 +64,14 @@
     <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="Data\FakeMusicianDbContext.cs" />
     <Compile Include="Data\FakeAuthDbContext.cs" />
+    <Compile Include="Data\FakeShopDbContext.cs" />
     <Compile Include="Data\ImageProvider.cs" />
     <Compile Include="Musician\BandRepositoryTest.cs" />
     <Compile Include="Musician\MusicianRepositoryTest.cs" />
     <Compile Include="RepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\SearchTest.cs" />
+    <Compile Include="Shop\ShopRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
@@ -99,6 +101,10 @@
     <ProjectReference Include="..\Funkmap.Musician.Data\Funkmap.Musician.Data.csproj">
       <Project>{b28b672a-239f-4879-8ec1-35ad8b680cb9}</Project>
       <Name>Funkmap.Musician.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Shop.Data\Funkmap.Shop.Data.csproj">
+      <Project>{DE5DAEF2-CDD0-4BE0-9FC1-430E0247582C}</Project>
+      <Name>Funkmap.Shop.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

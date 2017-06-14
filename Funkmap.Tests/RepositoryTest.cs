@@ -2,6 +2,7 @@
 using Funkmap.Auth.Data;
 using Funkmap.Musician.Data;
 using Funkmap.Musician.Data.Repositories;
+using Funkmap.Shop.Data.Repositories;
 using Funkmap.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -24,7 +25,12 @@ namespace Funkmap.Tests
             var authRepository = new AuthRepository(authContext);
             var users = authRepository.GetAllAsync().Result.ToList();
 
-            
+            var shopContext = new FakeShopDbContext();
+            var shopRepository = new ShopRepository(shopContext);
+            var shops = shopRepository.GetAllAsync().Result.ToList();
+
+
+
         }
     }
 }

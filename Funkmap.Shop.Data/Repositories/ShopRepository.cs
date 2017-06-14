@@ -13,7 +13,7 @@ namespace Funkmap.Shop.Data.Repositories
 {
     public class ShopRepository : Repository<ShopEntity>, IShopRepository
     {
-        public ShopRepository(DbContext context) : base(context)
+        public ShopRepository(ShopContext context) : base(context)
         {
         }
 
@@ -54,7 +54,7 @@ namespace Funkmap.Shop.Data.Repositories
         }
         private async Task<ICollection<ShopEntity>> SelectPreviews(IQueryable<ShopEntity> query)
         {
-            var bands = await query.Select(x => new
+            var shops = await query.Select(x => new
             {
                 Latitude = x.Latitude,
                 StoreName = x.StoreName,
@@ -62,7 +62,7 @@ namespace Funkmap.Shop.Data.Repositories
                 Id = x.Id
             }).ToListAsync();
 
-            return bands.Select(x => new ShopEntity()
+            return shops.Select(x => new ShopEntity()
             {
                 Latitude = x.Latitude,
                 StoreName = x.StoreName,
@@ -75,7 +75,7 @@ namespace Funkmap.Shop.Data.Repositories
         public async Task<ICollection<ShopEntity>> GetShopsPreviewsSearchByName(string name)
         {
             var query = Context.Set<ShopEntity>().Select(x => x);
-            if (!String.IsNullOrWhiteSpace(name))
+            if (!String.IsNullOrEmpty(name))
             {
                 query = query.Where(x => x.StoreName.Equals(name));
             }
