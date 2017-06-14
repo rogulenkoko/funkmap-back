@@ -12,6 +12,6 @@ namespace Funkmap.Shop.Data.Entities
         public String StoreName { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public String URL { get; set; }
+        public String URLShop { get; set; }
     }
 }

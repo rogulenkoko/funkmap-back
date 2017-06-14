@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1AB652F9-0AF7-490C-B939-F4968607AF09}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Funkmap.Shop.Date</RootNamespace>
-    <AssemblyName>Funkmap.Shop.Date</AssemblyName>
+    <ProjectGuid>{DE5DAEF2-CDD0-4BE0-9FC1-430E0247582C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Funkmap.Shop.Data</RootNamespace>
+    <AssemblyName>Funkmap.Shop.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,9 +31,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Scaffolding.EntityFramework.12.0, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,18 +48,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IShopRepository.cs" />
+    <Compile Include="Configurations\ShopConfiguration.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\Funkmap.Common.Data\Funkmap.Common.Data.csproj">
+    <ProjectReference Include="..\Funkmap.Common.Data\Funkmap.Common.Data.csproj">
       <Project>{5a7801ea-883b-479a-a9f4-d2db730eaea1}</Project>
       <Name>Funkmap.Common.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

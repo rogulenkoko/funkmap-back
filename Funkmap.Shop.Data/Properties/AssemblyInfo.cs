@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Funkmap.Shop.Date")]
+[assembly: AssemblyTitle("Funkmap.Shop.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Funkmap.Shop.Date")]
+[assembly: AssemblyProduct("Funkmap.Shop.Data")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("1ab652f9-0af7-490c-b939-f4968607af09")]
+[assembly: Guid("de5daef2-cdd0-4be0-9fc1-430e0247582c")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
