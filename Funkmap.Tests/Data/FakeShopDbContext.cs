@@ -17,7 +17,7 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new ShopTestDbContextInitializer());
         }
 
-        public class ShopTestDbContextInitializer : DropCreateDatabaseAlways<FakeShopDbContext>
+        public class ShopTestDbContextInitializer : DropCreateDatabaseIfModelChanges<FakeShopDbContext>
         {
             protected override void Seed(FakeShopDbContext context)
             {
@@ -50,7 +50,7 @@ namespace Funkmap.Tests.Data
                     StoreName = "искать",
                     Longitude = 31,
                     Latitude = 54,
-                    URLShop = "https://porn.com"
+                    URLShop = "https://сайт.com"
                 };
                 var s4 = new ShopEntity()
                 {

@@ -24,7 +24,7 @@ namespace Funkmap.Module.Shop
             builder.RegisterType<ShopSearchService>().As<ISearchService>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            Console.WriteLine("Магазинчики загрузились, епта!!");
+            Console.WriteLine("Загружен модуль магазинов");
         }
     }
 }
