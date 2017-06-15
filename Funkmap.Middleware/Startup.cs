@@ -60,6 +60,7 @@ namespace Funkmap
             Assembly.Load("Funkmap.Module.Musician");
             Assembly.Load("Funkmap.Module.Search");
             Assembly.Load("Funkmap.Module.Auth");
+            Assembly.Load("Funkmap.Module.Shop");
         }
 
 

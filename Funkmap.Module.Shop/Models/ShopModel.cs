@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Abstract;
 
-namespace Funkmap.Shop.Data.Entities
+namespace Funkmap.Module.Shop.Models
 {
-    public class ShopEntity : Entity
+    public class ShopModel
     {
         public string StoreName { get; set; }
         public double Latitude { get; set; }
