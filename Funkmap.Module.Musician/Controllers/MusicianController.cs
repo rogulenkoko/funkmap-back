@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Filters;
 using Funkmap.Module.Musician.Mappers;
 using Funkmap.Module.Musician.Models;
 using Funkmap.Musician.Data.Abstract;
@@ -9,6 +10,7 @@ using Funkmap.Musician.Data.Abstract;
 namespace Funkmap.Module.Musician.Controllers
 {
     [RoutePrefix("api/musician")]
+    [ValidateRequestModel]
     public class MusicianController: ApiController
     {
         private readonly IMusicianRepository _musicianRepository;
@@ -38,7 +40,7 @@ namespace Funkmap.Module.Musician.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [Route("save")]
         public async Task<IHttpActionResult> SaveMusician(MusicianModel model)

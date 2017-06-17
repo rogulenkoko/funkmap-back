@@ -34,14 +34,19 @@ namespace Funkmap.Module.Musician.Mappers
         public static MusicianEntity ToMusicianEntity(this MusicianModel source)
         {
             if (source == null) return null;
-            Styles styleFilter = source.Styles.FirstOrDefault();
-            if (source.Styles.Length > 1)
+            Styles styleFilter = Styles.None;
+            if (source.Styles != null)
             {
-                for (int i = 1; i < source.Styles.Length; i++)
+                styleFilter = source.Styles.FirstOrDefault();
+                if (source.Styles.Length > 1)
                 {
-                    styleFilter = styleFilter | source.Styles.ElementAt(i);
+                    for (int i = 1; i < source.Styles.Length; i++)
+                    {
+                        styleFilter = styleFilter | source.Styles.ElementAt(i);
+                    }
                 }
             }
+            
             return new MusicianEntity()
             {
                 Login = source.Login,

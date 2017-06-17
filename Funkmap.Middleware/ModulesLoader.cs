@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Autofac;
-using Autofac.Core;
 using Funkmap.Common.Abstract;
 
-namespace Funkmap
+namespace Funkmap.Middleware
 {
     public class ModulesLoader
     {

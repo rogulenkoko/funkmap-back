@@ -9,5 +9,8 @@ namespace Funkmap.Auth.Data.Abstract
         Task<UserEntity> Login(string login, string password);
 
         Task<bool> CheckIfExist(string login);
+
+        Task<byte[]> GetAvatarAsync(string login);
+        Task<bool> SaveAvatarAsync(string login, byte[] image);
     }
 }

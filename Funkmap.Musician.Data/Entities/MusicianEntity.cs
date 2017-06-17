@@ -40,14 +40,16 @@ namespace Funkmap.Musician.Data.Entities
     [Flags]
     public enum Styles
     {
-        HipHop = 0x01,
-        Rock = 0x02,
-        Funk = 0x04
+        None = 0,
+        HipHop = 1,
+        Rock = 2,
+        Funk = 4
     }
     
     [Flags]
     public enum InstrumentType
     {
+        None = 0,
         Bass = 1,
         Drums = 2,
         Vocal = 4,

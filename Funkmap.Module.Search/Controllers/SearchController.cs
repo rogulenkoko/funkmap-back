@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Abstract.Search;
+using Funkmap.Common.Filters;
 using Funkmap.Module.Search.Extensions;
 using Funkmap.Module.Search.Models;
 
 namespace Funkmap.Module.Search.Controllers
 {
     [RoutePrefix("api/search")]
+    [ValidateRequestModel]
     public class SearchController : ApiController
     {
         private readonly IEnumerable<ISearchService> _searchServices;
@@ -24,9 +26,11 @@ namespace Funkmap.Module.Search.Controllers
         [Route("all")]
         public async Task<IHttpActionResult> GetAll()
         {
+            //для того момента, когда будут разные базы под каждый модуль
             //var searchTasks = _searchServices.Select(x=>x.SearchAllAsync()).ToArray();
             //Task.WaitAll(searchTasks);
             //var result = searchTasks.Select(x => x.Result).SelectMany(x => x);
+
             var result = new List<SearchModel>();
             foreach (var searchService in _searchServices)
             {
@@ -44,11 +48,15 @@ namespace Funkmap.Module.Search.Controllers
         [Route("nearest")]
         public async Task<IHttpActionResult> GetNearest(NearestRequest request)
         {
-            var searchTasks = _searchServices.Select(x => x.SearchNearest(request)).ToArray();
+            //var searchTasks = _searchServices.Select(x => x.SearchNearest(request)).ToArray();
+            //Task.WaitAll(searchTasks);
+            //var result = searchTasks.Select(x => x.Result).SelectMany(x => x).ToList().SortByLocationToPoint(request.Longitude, request.Latitude);
 
-            Task.WaitAll(searchTasks);
-
-            var result = searchTasks.Select(x => x.Result).SelectMany(x => x).ToList().SortByLocationToPoint(request.Longitude, request.Latitude);
+            var result = new List<SearchModel>();
+            foreach (var searchService in _searchServices)
+            {
+                result.AddRange(await searchService.SearchNearest(request));
+            }
 
             return Content(HttpStatusCode.OK, result);
 

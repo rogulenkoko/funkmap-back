@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Hosting;
+﻿using Funkmap.Middleware;
+using Microsoft.Owin.Hosting;
 
 namespace Funkmap.Console
 {

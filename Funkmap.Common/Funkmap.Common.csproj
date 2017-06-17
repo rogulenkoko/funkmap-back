@@ -86,6 +86,8 @@
     <Compile Include="Abstract\Search\ISearchService.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
     <Compile Include="EntityType.cs" />
+    <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
+    <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Models\NearestRequest.cs" />
     <Compile Include="Notification\Abstract\INotificationService.cs" />
     <Compile Include="Notification\EmailNotificationService.cs" />
