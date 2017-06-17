@@ -17,7 +17,8 @@ namespace Funkmap.Tests.Data
             Database.SetInitializer(new ShopTestDbContextInitializer());
         }
 
-        public class ShopTestDbContextInitializer : DropCreateDatabaseAlways<FakeShopDbContext>
+        public class ShopTestDbContextInitializer : DropCreateDatabaseIfModelChanges<FakeShopDbContext>
+// DropCreateDatabaseAlways<FakeShopDbContext>
         {
             protected override void Seed(FakeShopDbContext context)
             {
