@@ -11,11 +11,11 @@ using Funkmap.Shop.Data.Abstract;
 namespace Funkmap.Module.Shop.Controllers
 {
     [RoutePrefix("api/shop")]
-    public class ShopControllers : ApiController
+    public class ShopController : ApiController
     {
         private readonly IShopRepository _shopRepository;
 
-        public ShopControllers(IShopRepository shopRepository)
+        public ShopController(IShopRepository shopRepository)
         {
             _shopRepository = shopRepository;
         }
@@ -36,14 +36,16 @@ namespace Funkmap.Module.Shop.Controllers
             var shop = shopEntity.ToModel();
             return Content(HttpStatusCode.OK, shop);
         }
-        /*
+
+        
         [HttpGet]
         [Route("getbyname/{name}")]
         public async Task<IHttpActionResult> GetShopsByName(string name)
         {
             var shops = await _shopRepository.GetShopsPreviewsSearchByName(name);
+            
             return Content(HttpStatusCode.OK, shops);
 
-        }*/
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace Funkmap.Tests.Data
                     StoreName = "искать",
                     Longitude = 31,
                     Latitude = 54,
-                    URLShop = "https://porn.com"
+                    URLShop = "https://сайт.com"
                 };
                 var s4 = new ShopEntity()
                 {

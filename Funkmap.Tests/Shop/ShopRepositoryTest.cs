@@ -45,7 +45,7 @@ namespace Funkmap.Tests.Shop
             Assert.IsNotNull(results);
             Assert.AreEqual(results.Count, 1);
 
-            results = shopRepositry.GetShopsPreviewsSearchByName("адин").Result;
+            results = shopRepositry.GetShopsPreviewsSearchByName("оодин").Result;
             Assert.IsNotNull(results);
             Assert.AreEqual(results.Count, 0);
         }

@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ShopControllers.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Mappers\SearchModelMapper.cs" />
     <Compile Include="Mappers\ShopModelMapper.cs" />
     <Compile Include="Models\ShopModel.cs" />

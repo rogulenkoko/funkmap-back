@@ -59,7 +59,9 @@ namespace Funkmap.Shop.Data.Repositories
                 Latitude = x.Latitude,
                 StoreName = x.StoreName,
                 Longitude = x.Longitude,
-                Id = x.Id
+                Id = x.Id,
+                URLShop = x.URLShop
+               
             }).ToListAsync();
 
             return shops.Select(x => new ShopEntity()
@@ -68,6 +70,7 @@ namespace Funkmap.Shop.Data.Repositories
                 StoreName = x.StoreName,
                 Longitude = x.Longitude,
                 Id = x.Id,
+                URLShop = x.URLShop
             }).ToList();
         }
     
