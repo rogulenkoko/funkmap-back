@@ -82,13 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IFunkmapModule.cs" />
-    <Compile Include="Abstract\Search\SearchModel.cs" />
-    <Compile Include="Abstract\Search\ISearchService.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
     <Compile Include="EntityType.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Models\BaseResponse.cs" />
-    <Compile Include="Models\NearestRequest.cs" />
+    <Compile Include="Models\LocationRequest.cs" />
     <Compile Include="Notification\Abstract\INotificationService.cs" />
     <Compile Include="Notification\EmailNotificationService.cs" />
     <Compile Include="Notification\Notification.cs" />

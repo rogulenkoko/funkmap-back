@@ -10,7 +10,7 @@ namespace Funkmap.Middleware
         public void LoadAllModules(ContainerBuilder builder)
         {
             var modules = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.FullName.Contains("Funkmap.Module"))
+                .Where(x => x.FullName.Contains("Funkmap"))
                 .SelectMany(s => s.GetTypes())
                 .Where(x => x.GetInterfaces().Contains(typeof(IFunkmapModule)))
                 .Distinct()

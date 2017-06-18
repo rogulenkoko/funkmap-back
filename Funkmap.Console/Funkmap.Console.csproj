@@ -143,26 +143,6 @@
       <Project>{2d178c9d-e17a-4735-b29c-0ae9dea0b195}</Project>
       <Name>Funkmap.Middleware</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Module.Musician\Funkmap.Module.Musician.csproj">
-      <Project>{6be3d851-4ef4-411a-869a-cfea300eefb6}</Project>
-      <Name>Funkmap.Module.Musician</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Module.Search\Funkmap.Module.Search.csproj">
-      <Project>{c42e795e-07f1-4719-9d35-65eca3e77e6e}</Project>
-      <Name>Funkmap.Module.Search</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Module.Shop\Funkmap.Module.Shop.csproj">
-      <Project>{151f672d-2be2-4f74-9aef-d09c516a55eb}</Project>
-      <Name>Funkmap.Module.Shop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Musician.Data\Funkmap.Musician.Data.csproj">
-      <Project>{b28b672a-239f-4879-8ec1-35ad8b680cb9}</Project>
-      <Name>Funkmap.Musician.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Shop.Data\Funkmap.Shop.Data.csproj">
-      <Project>{de5daef2-cdd0-4be0-9fc1-430e0247582c}</Project>
-      <Name>Funkmap.Shop.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
