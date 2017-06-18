@@ -102,7 +102,7 @@
     <Compile Include="Parameters\LocationParameter.cs" />
     <Compile Include="Repositories\Abstract\IBandRepository.cs" />
     <Compile Include="Repositories\Abstract\IBaseRepository.cs" />
-    <Compile Include="Entities\Abstract\BaseEntity.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\BandEntity.cs" />
     <Compile Include="Entities\MusicianEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

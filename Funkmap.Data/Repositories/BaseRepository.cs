@@ -20,7 +20,7 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<BaseEntity>> GetAllAsyns()
         {
-            var projection = Builders<BaseEntity>.Projection.Include(x => x.Login).Include(x=>x.EntityType).Include(x=>x.Location);
+            var projection = Builders<BaseEntity>.Projection.Include(x => x.Login).Include(x=>x.EntityType).Include(x=>x.Location).Include(x=>x.Instrument);
             return await _collection.Find(x => true).Project<BaseEntity>(projection).ToListAsync();
         }
 

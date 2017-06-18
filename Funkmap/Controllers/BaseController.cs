@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Mappers;
 
 namespace Funkmap.Controllers
 {
@@ -22,7 +24,8 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetAll()
         {
             var result = await _repository.GetAllAsyns();
-            return Content(HttpStatusCode.OK, result);
+            var markers = result.Select(x => x.ToMarkerModel()).ToList();
+            return Content(HttpStatusCode.OK, markers);
 
         }
 
@@ -37,7 +40,8 @@ namespace Funkmap.Controllers
                 RadiusDeg = request.RadiusDeg
             };
             var result = await _repository.GetNearestAsync(parameters);
-            return Content(HttpStatusCode.OK, result);
+            var markers = result.Select(x => x.ToMarkerModel()).ToList();
+            return Content(HttpStatusCode.OK, markers);
 
         }
     }

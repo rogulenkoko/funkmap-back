@@ -16,8 +16,8 @@ namespace Funkmap.Mappers
                 Latitude = source.Location.Coordinates.Latitude,
                 Name = source.Name,
                 ShowPrice = source.ShowPrice,
-                VideoLinks = source.VideoLinks.ToList(),
-                DesiredInstruments = source.DesiredInstruments.ToList(),
+                VideoLinks = source.VideoLinks?.ToList(),
+                DesiredInstruments = source.DesiredInstruments?.ToList(),
                 //todo
                 //Musicians = source.Musicians.Select(x=>x.ToMusicianPreview()).ToList()
             };

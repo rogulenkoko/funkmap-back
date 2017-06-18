@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
 using Autofac;
@@ -21,11 +22,23 @@ namespace Funkmap
             var mongoClient = new MongoClient(connectionString);
             builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().SingleInstance();
 
-            var loginIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+            var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
             builder.Register(container=> container.Resolve<IMongoDatabase>().GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
-                .OnActivating(async collection=> await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>() { loginIndexModel, geoBaseIndexModel}))
+                .OnActivating(async collection=> await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>() { loginBaseIndexModel, geoBaseIndexModel }))
                 .As<IMongoCollection<BaseEntity>>();
+
+            var loginMusicianIndexModel = new CreateIndexModel<MusicianEntity>(Builders<MusicianEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
+                .OnActivating(async collection => await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<MusicianEntity>>() { loginMusicianIndexModel }))
+                .As<IMongoCollection<MusicianEntity>>();
+
+            var loginBandIndexModel = new CreateIndexModel<BandEntity>(Builders<BandEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
+                .OnActivating(async collection => await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<BandEntity>>() { loginBandIndexModel }))
+                .As<IMongoCollection<BandEntity>>();
+
+
 
             builder.RegisterType<BaseRepository>().As<IBaseRepository>().SingleInstance();
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
@@ -33,6 +46,7 @@ namespace Funkmap
             builder.RegisterType<ShopRepository>().As<IShopRepository>().SingleInstance();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            Console.WriteLine("Загружен основной модуль");
         }
     }
 }

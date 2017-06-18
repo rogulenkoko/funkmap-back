@@ -22,16 +22,6 @@ namespace Funkmap.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
-        public async Task<IHttpActionResult> GetMusicians()
-        {
-            var allMusicians = await _musicianRepository.GetAllAsync();
-
-            return Content(HttpStatusCode.OK, allMusicians);
-
-        }
-
-        [HttpGet]
         [Route("get/{id}")]
         public async Task<IHttpActionResult> GetMusician(string id)
         {

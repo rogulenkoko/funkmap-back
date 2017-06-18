@@ -22,9 +22,9 @@ namespace Funkmap.Common.Data.Mongo
             return await _collection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<T> GetAsync(string id)
+        public async Task<T> GetAsync(string login)
         {
-            var filter = Builders<T>.Filter.Eq("Id", id);
+            var filter = Builders<T>.Filter.Eq("log", login);
             return await _collection.Find(filter).SingleOrDefaultAsync();
         }
 

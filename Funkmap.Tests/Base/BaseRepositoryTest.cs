@@ -34,7 +34,7 @@ namespace Funkmap.Tests.Mongo
         public void GetAll()
         {
             var all = new BaseRepository(_baseCollection).GetAllAsyns().Result;
-
+            Assert.AreEqual(all.Count,10);
         }
     }
 

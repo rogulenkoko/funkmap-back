@@ -105,9 +105,11 @@
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="FunkmapModule.cs" />
     <Compile Include="Mappers\BandModelMapper.cs" />
+    <Compile Include="Mappers\MarkerModelMapper.cs" />
     <Compile Include="Mappers\MusicianModelMapper.cs" />
     <Compile Include="Mappers\ShopModelMapper.cs" />
     <Compile Include="Models\BandModel.cs" />
+    <Compile Include="Models\MarkerModel.cs" />
     <Compile Include="Models\MusicianModel.cs" />
     <Compile Include="Models\ShopModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

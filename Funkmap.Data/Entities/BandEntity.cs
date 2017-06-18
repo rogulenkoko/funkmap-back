@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Common;
 using Funkmap.Data.Entities.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -7,6 +8,11 @@ namespace Funkmap.Data.Entities
 {
     public class BandEntity : BaseEntity
     {
+        public BandEntity()
+        {
+            EntityType = EntityType.Band;
+        }
+
         [BsonElement("sp")]
         [BsonIgnoreIfDefault]
         public double ShowPrice { get; set; }

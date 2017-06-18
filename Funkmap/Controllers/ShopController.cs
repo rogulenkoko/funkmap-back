@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Mappers;
 
 namespace Funkmap.Controllers
 {
@@ -14,33 +15,14 @@ namespace Funkmap.Controllers
         {
             _shopRepository = shopRepository;
         }
-
-        [HttpGet]
-        [Route("all")]
-        public async Task<IHttpActionResult> GetShops()
-        {
-            var allShops = await _shopRepository.GetAllAsync();
-            return Content(HttpStatusCode.OK, allShops);
-        }
-
+       
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<IHttpActionResult> GetShop(long id)
+        public async Task<IHttpActionResult> GetShop(string login)
         {
-            var shopEntity = await _shopRepository.GetAsync(id);
+            var shopEntity = await _shopRepository.GetAsync(login);
             var shop = shopEntity.ToModel();
             return Content(HttpStatusCode.OK, shop);
-        }
-
-        
-        [HttpGet]
-        [Route("getbyname/{name}")]
-        public async Task<IHttpActionResult> GetShopsByName(string name)
-        {
-            var shops = await _shopRepository.GetShopsPreviewsSearchByName(name);
-            
-            return Content(HttpStatusCode.OK, shops);
-
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Funkmap.Tests.Data
         {
             SeedMusicians();
             SeedBands();
+            SeedShops();
         }
 
         private void SeedMusicians()
@@ -87,9 +88,10 @@ namespace Funkmap.Tests.Data
 
             var b1 = new BandEntity()
             {
-                Login = "test",
+                UserLogin = "test",
                 DesiredInstruments = new List<InstrumentType>() { InstrumentType.Bass, InstrumentType.Guitar},
                 Name = "The Beatles",
+                Login = "beatles",
                 ShowPrice = 123412,
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 52))
@@ -97,8 +99,9 @@ namespace Funkmap.Tests.Data
 
             var b2 = new BandEntity()
             {
-                Login = "rogulenkoko",
+                UserLogin = "rogulenkoko",
                 Name = "Red Hot Chili Peppers",
+                Login = "rhcp",
                 ShowPrice = 123412,
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(28, 52))
@@ -106,8 +109,9 @@ namespace Funkmap.Tests.Data
 
             var b3 = new BandEntity()
             {
-                Login = "rogulenkoko",
+                UserLogin = "rogulenkoko",
                 Name = "Coldplay",
+                Login = "coldplay",
                 ShowPrice = 123,
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 50))
             };
@@ -115,6 +119,47 @@ namespace Funkmap.Tests.Data
             repository.CreateAsync(b1).Wait();
             repository.CreateAsync(b2).Wait();
             repository.CreateAsync(b3).Wait();
+        }
+
+        private void SeedShops()
+        {
+            var repository = new ShopRepository(_database.GetCollection<ShopEntity>(CollectionNameProvider.BaseCollectionName));
+
+            var s1 = new ShopEntity()
+            {
+                Login = "guitars",
+                Name = "Гитарушки",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(32, 52)),
+                WebSite = "https://ru.wikipedia.org/wiki/C_Sharp"
+            };
+
+            var s2 = new ShopEntity()
+            {
+                Login = "pinkponk",
+                Name = "Пинк и Понк",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(33, 51)),
+                WebSite = "http://online-simpsons.ru"
+            };
+
+            var s3 = new ShopEntity()
+            {
+                Login = "monkey",
+                Name = "Monkey Business",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 54)),
+                WebSite = "https://сайт.com"
+            };
+            var s4 = new ShopEntity()
+            {
+                Login = "oneshop",
+                Name = "One-shop",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 51)),
+                WebSite = "http://tttt.ru"
+            };
+
+            repository.CreateAsync(s1).Wait();
+            repository.CreateAsync(s2).Wait();
+            repository.CreateAsync(s3).Wait();
+            repository.CreateAsync(s4).Wait();
         }
     }
 }

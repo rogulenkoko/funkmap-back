@@ -22,7 +22,7 @@ namespace Funkmap.Mappers
                 BirthDate = source.BirthDate,
                 Age = (int)Math.Round((DateTime.Now - source.BirthDate).TotalDays / 365),
                 Styles = source.Styles.ToArray(),
-                Avatar = source.Photo.Bytes,
+                Avatar = source.Photo?.Bytes,
                 YouTubeLink = source.YouTubeLink,
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,

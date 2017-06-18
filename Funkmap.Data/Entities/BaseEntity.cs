@@ -14,7 +14,7 @@ namespace Funkmap.Data.Entities.Abstract
         public string Login { get; set; }
 
         [BsonElement("user")]
-        public long UserId { get; set; } //todo изменить на ObjectId после переноса модуля авторизации на монгу
+        public string UserLogin { get; set; } //todo добавить ObjectId после переноса модуля авторизации на монгу
 
         [BsonElement("n")]
         public string Name { get; set; }
@@ -44,6 +44,11 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("fb")]
         [BsonIgnoreIfDefault]
         public string FacebookLink { get; set; }
+
+
+        //для музыканта, чтобы определять правильно маркер на клиенте
+        [BsonElement("intsr")]
+        public InstrumentType Instrument { get; set; }
 
 
     }
