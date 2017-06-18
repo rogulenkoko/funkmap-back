@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BandRepository : MongoRepository<BandEntity>, IBandRepository
+    public class BandRepository : MongoLoginRepository<BandEntity>, IBandRepository
     {
         private IBandRepository _bandRepositoryImplementation;
 

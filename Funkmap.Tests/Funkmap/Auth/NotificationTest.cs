@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Common.Notification;
+﻿using Funkmap.Common.Notification;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Funkmap.Tests.Auth
+namespace Funkmap.Tests.Funkmap.Auth
 {
     [TestClass]
     public class NotificationTest

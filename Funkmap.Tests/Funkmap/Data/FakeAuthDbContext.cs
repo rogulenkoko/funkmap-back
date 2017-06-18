@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Tests.Images;
 
-namespace Funkmap.Tests.Data
+namespace Funkmap.Tests.Funkmap.Data
 {
     public class FakeAuthDbContext : AuthContext
     {

@@ -10,7 +10,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class ShopRepository : MongoRepository<ShopEntity>, IShopRepository
+    public class ShopRepository : MongoLoginRepository<ShopEntity>, IShopRepository
     {
         public ShopRepository(IMongoCollection<ShopEntity> collection) : base(collection)
         {

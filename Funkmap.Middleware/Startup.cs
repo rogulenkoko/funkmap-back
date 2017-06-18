@@ -61,6 +61,7 @@ namespace Funkmap.Middleware
         {
             Assembly.Load("Funkmap");
             Assembly.Load("Funkmap.Module.Auth");
+            Assembly.Load("Funkmap.Messenger");
         }
 
 

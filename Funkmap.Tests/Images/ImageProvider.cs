@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Funkmap.Tests.Data
+namespace Funkmap.Tests.Images
 {
     public static class ImageProvider
     {

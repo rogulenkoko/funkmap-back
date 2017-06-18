@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories;
+using Funkmap.Tests.Images;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace Funkmap.Tests.Data
+namespace Funkmap.Tests.Funkmap.Data
 {
     [TestClass]
-    public class DataSeeder
+    public class FunkmapDataSeeder
     {
         private readonly IMongoDatabase _database;
 
-        public DataSeeder(IMongoDatabase database)
+        public FunkmapDataSeeder(IMongoDatabase database)
         {
             _database = database;
         }

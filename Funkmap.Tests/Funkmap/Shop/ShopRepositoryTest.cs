@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Funkmap.Tests.Shop
+namespace Funkmap.Tests.Funkmap.Shop
 {
     [TestClass]
     public class ShopRepositoryTest

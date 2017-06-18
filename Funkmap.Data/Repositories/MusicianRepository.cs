@@ -10,7 +10,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class MusicianRepository : MongoRepository<MusicianEntity>, IMusicianRepository
+    public class MusicianRepository : MongoLoginRepository<MusicianEntity>, IMusicianRepository
     {
         private readonly IMongoCollection<MusicianEntity> _collection;
 

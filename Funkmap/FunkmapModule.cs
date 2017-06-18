@@ -17,8 +17,8 @@ namespace Funkmap
     {
         public void Register(ContainerBuilder builder)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString;
-            var databaseName = ConfigurationManager.AppSettings["MongoDbName"];
+            var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
+            var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
             var mongoClient = new MongoClient(connectionString);
             builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().SingleInstance();
 

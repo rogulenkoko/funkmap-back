@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Repositories;
+﻿using Funkmap.Data.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Funkmap.Tests.Musician
+namespace Funkmap.Tests.Funkmap.Musician
 {
     [TestClass]
     public class MusicianRepositoryTest

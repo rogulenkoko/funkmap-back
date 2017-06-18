@@ -22,9 +22,9 @@ namespace Funkmap.Common.Data.Mongo
             return await _collection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<T> GetAsync(string login)
+        public virtual async Task<T> GetAsync(string id)
         {
-            var filter = Builders<T>.Filter.Eq("log", login);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             return await _collection.Find(filter).SingleOrDefaultAsync();
         }
 
@@ -39,5 +39,18 @@ namespace Funkmap.Common.Data.Mongo
         }
 
         public abstract Task<UpdateResult> UpdateAsync(T entity);
+    }
+
+    public abstract class MongoLoginRepository<T> : MongoRepository<T> where T: class 
+    {
+        public MongoLoginRepository(IMongoCollection<T> collection) : base(collection)
+        {
+        }
+
+        public async override Task<T> GetAsync(string login)
+        {
+            var filter = Builders<T>.Filter.Eq("log", login);
+            return await _collection.Find(filter).SingleOrDefaultAsync();
+        }
     }
 }
