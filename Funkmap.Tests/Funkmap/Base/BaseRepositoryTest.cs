@@ -1,5 +1,7 @@
 ﻿using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories;
+using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Tests.Funkmap.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
@@ -10,20 +12,34 @@ namespace Funkmap.Tests.Funkmap.Base
     public class EntityRepositoryTest
     {
 
-        private IMongoCollection<BaseEntity> _baseCollection;
+        private IBaseRepository _baseRepository;
 
         [TestInitialize]
         public void Initialize()
         {
-            _baseCollection = FunkmapDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
+            _baseRepository =new BaseRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName));
 
         }
 
         [TestMethod]
         public void GetAll()
         {
-            var all = new BaseRepository(_baseCollection).GetAllAsyns().Result;
+            var all = _baseRepository.GetAllAsyns().Result;
             Assert.AreEqual(all.Count,10);
+        }
+
+        [TestMethod]
+        public void GetNearestTest()
+        {
+            var parameter = new LocationParameter()
+            {
+                Longitude = 30,
+                Latitude = 50,
+                RadiusDeg = 1
+            };
+            var nearest = _baseRepository.GetNearestAsync(parameter).Result;
+            Assert.AreEqual(nearest.Count, 5);
+
         }
     }
 
