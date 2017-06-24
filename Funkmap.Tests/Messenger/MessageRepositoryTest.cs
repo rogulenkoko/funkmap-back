@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories;
@@ -20,7 +21,7 @@ namespace Funkmap.Tests.Messenger
         [TestInitialize]
         public void Initialize()
         {
-            _messageRepository = new MessageRepository(MessengerDbProvider.DropAndCreateDatabase.GetCollection<MessageEntity>(CollectionNameProvider.MessegesCollectionName));
+            _messageRepository = new MessageRepository(MessengerDbProvider.DropAndCreateDatabase.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessegesCollectionName));
 
         }
 

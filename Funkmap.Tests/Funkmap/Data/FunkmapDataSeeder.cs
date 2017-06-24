@@ -117,7 +117,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "beatles",
                 ShowPrice = 123412,
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 52))
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 52)),
+                MusicianLogins = new List<string>() { "rogulenkoko", "razrab"}
             };
 
             var b2 = new BandEntity()
@@ -127,7 +128,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "rhcp",
                 ShowPrice = 123412,
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(28, 52))
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(28, 52)),
+                MusicianLogins = new List<string>() { "rogulenkoko" }
             };
 
             var b3 = new BandEntity()

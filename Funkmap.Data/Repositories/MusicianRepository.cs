@@ -26,10 +26,19 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<MusicianEntity>> GetFilteredMusicians(MusicianFilterParameter parameter)
         {
-            //db.bases.find({t:1, stls:{$all:[1,3]}})
-            var typeFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician); //todo подумать как для каждого репозитория вынести этот фильтр
-            var stylesFilter = Builders<MusicianEntity>.Filter.All(x => x.Styles, parameter.Styles);
-            var result = await _collection.Find(typeFilter & stylesFilter).ToListAsync();
+            //db.bases.find({t:1, stls:{$all:[1,3]}, sex:1})
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician); //todo подумать как для каждого репозитория вынести этот фильтр
+
+            if (parameter.Styles != null && parameter.Styles.Count != 0)
+            {
+                filter = filter & Builders<MusicianEntity>.Filter.All(x => x.Styles, parameter.Styles);
+            }
+
+            if (parameter.Sex != Sex.None)
+            {
+                filter = filter & Builders<MusicianEntity>.Filter.Eq(x => x.Sex, parameter.Sex);
+            }
+            var result = await _collection.Find(filter).ToListAsync();
             return result;
         }
     }

@@ -18,8 +18,7 @@ namespace Funkmap.Mappers
                 ShowPrice = source.ShowPrice,
                 VideoLinks = source.VideoLinks?.ToList(),
                 DesiredInstruments = source.DesiredInstruments?.ToList(),
-                //todo
-                //Musicians = source.Musicians.Select(x=>x.ToMusicianPreview()).ToList()
+                Musicians = source.MusicianLogins
             };
         }
     }

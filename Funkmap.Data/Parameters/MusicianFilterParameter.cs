@@ -10,5 +10,7 @@ namespace Funkmap.Data.Parameters
     public class MusicianFilterParameter
     {
         public List<Styles> Styles { get; set; }
+
+        public Sex Sex { get; set; }
     }
 }

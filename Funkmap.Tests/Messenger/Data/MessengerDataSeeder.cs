@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Data.Entities;
+using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using MongoDB.Driver;
@@ -27,7 +28,7 @@ namespace Funkmap.Tests.Messenger.Data
 
         private void SeedMessages()
         {
-            var messageRepository = new MessageRepository(_database.GetCollection<MessageEntity>(CollectionNameProvider.MessegesCollectionName));
+            var messageRepository = new MessageRepository(_database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessegesCollectionName));
             var messages = new List<MessageEntity>()
             {
                 new MessageEntity() {Consumer = "test", Sender = "rogulenkoko", Text = "привет",Date = DateTime.Now.AddMinutes(2) },
@@ -47,7 +48,7 @@ namespace Funkmap.Tests.Messenger.Data
 
         private void SeedDialogs()
         {
-            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(CollectionNameProvider.DialogsCollectionName));
+            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
 
             var dialogs = new List<DialogEntity>()
             {

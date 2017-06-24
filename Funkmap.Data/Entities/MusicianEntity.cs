@@ -37,12 +37,14 @@ namespace Funkmap.Data.Entities
 
     public enum Sex
     {
+        None = 0,
         Male = 1,
         Female = 2
     }
 
     public enum Styles
     {
+        None = 0,
         HipHop = 1,
         Rock = 2,
         Funk = 3
@@ -50,6 +52,7 @@ namespace Funkmap.Data.Entities
 
     public enum InstrumentType
     {
+        None = 0,
         Bass = 1,
         Drums = 2,
         Vocal = 3,

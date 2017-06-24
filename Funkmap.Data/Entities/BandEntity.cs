@@ -27,6 +27,6 @@ namespace Funkmap.Data.Entities
 
         [BsonElement("mus")]
         [BsonIgnoreIfDefault]
-        public List<ObjectId> MusicianIds { get; set; }
+        public List<string> MusicianLogins{ get; set; }
     }
 }
