@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ShopEntity.cs" />
+    <Compile Include="Parameters\MusicianFilterParameter.cs" />
     <Compile Include="Repositories\Abstract\IShopRepository.cs" />
     <Compile Include="Parameters\LocationParameter.cs" />
     <Compile Include="Repositories\Abstract\IBandRepository.cs" />
@@ -125,6 +126,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\Tools\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

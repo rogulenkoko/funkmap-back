@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Auth.Data
 {
-    public class AuthRepository : MongoRepository<UserEntity>, IAuthRepository
+    public class AuthRepository : MongoLoginRepository<UserEntity>, IAuthRepository
     {
         public AuthRepository(IMongoCollection<UserEntity> collection) : base(collection)
         {

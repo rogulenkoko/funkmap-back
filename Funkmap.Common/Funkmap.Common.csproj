@@ -86,7 +86,7 @@
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
     <Compile Include="EntityType.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
-    <Compile Include="FunkmapHandler.cs" />
+    <Compile Include="FunkmapMiddleware.cs" />
     <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Models\LocationRequest.cs" />
     <Compile Include="Notification\Abstract\INotificationService.cs" />

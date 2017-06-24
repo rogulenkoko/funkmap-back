@@ -24,6 +24,7 @@ namespace Funkmap.Middleware
 
 
             appBuilder.UseCors(CorsOptions.AllowAll);
+            appBuilder.Use<FunkmapMiddleware>();
 
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
@@ -38,7 +39,6 @@ namespace Funkmap.Middleware
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             config.Filters.Add(new ValidateRequestModelAttribute());
-            config.MessageHandlers.Add(new FunkmapHandler());
 
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);
