@@ -26,46 +26,14 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
-            //todo
-            var typeDocument = new BsonDocument();
-            typeDocument.AddRange(new[]
-            {
-                new BsonElement("type", "Point"),
-                new BsonElement("coordinates", new BsonArray
-                {
-                    parameter.Longitude,
-                    parameter.Latitude
-                })
-            });
-            var geometryElement = new BsonElement("$geometry", typeDocument);
-            var nearElement = new BsonDocument();
-            nearElement.AddRange(new[]
-            {
-                geometryElement,
-                new BsonElement("$maxDistance", parameter.RadiusDeg)
-            });
-            var filter = new BsonDocument();
-            filter.AddRange(new[]
-            {
-                new BsonElement("loc", new BsonDocument("$near", nearElement)),
-            });
 
-            var result = new List<BaseEntity>();
-            using (var cursor = await _collection.FindAsync(filter))
-            {
-                while (await cursor.MoveNextAsync())
-                {
-                    var batch = cursor.Current as ICollection<BaseEntity>;
-                    if (batch == null) continue;
-
-                    var chunk = new List<BaseEntity>(batch.Count);
-                    chunk.AddRange(batch);
-
-                    result.AddRange(chunk);
-                }
-            }
-
+            var center = new [] { parameter.Longitude, parameter.Latitude };
+            var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
+            var filter = new BsonDocument("loc", new BsonDocument("$within", new BsonDocument("$center", centerQueryArray)));
+            var projection = Builders<BaseEntity>.Projection.Include(x => x.Login).Include(x => x.EntityType).Include(x => x.Location).Include(x => x.Instrument);
+            var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
             return result;
+
         }
 
         public virtual Task<UpdateResult> UpdateAsync(BaseEntity entity)

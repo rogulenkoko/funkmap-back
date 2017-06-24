@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
-using Funkmap.Common.Data.Abstract;
+using Funkmap.Common.Data.Mongo.Abstract;
 
 namespace Funkmap.Auth.Data.Abstract
 {
-    public interface IAuthRepository : IRepository<UserEntity>
+    public interface IAuthRepository : IMongoRepository<UserEntity>
     {
         Task<UserEntity> Login(string login, string password);
 

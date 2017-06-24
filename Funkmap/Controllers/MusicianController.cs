@@ -38,16 +38,15 @@ namespace Funkmap.Controllers
         {
             var entity = model.ToMusicianEntity();
             var response = new BaseResponse();
-            try
+
+            var existingMusician = await _musicianRepository.GetAsync(model.Login);
+            if (existingMusician != null)
             {
-                await _musicianRepository.CreateAsync(entity);
-                response.Success = true;
+                return Content(HttpStatusCode.OK, response);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+
+            await _musicianRepository.CreateAsync(entity);
+            response.Success = true;
             return Content(HttpStatusCode.OK, response);
 
         }

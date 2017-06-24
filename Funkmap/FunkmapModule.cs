@@ -23,9 +23,11 @@ namespace Funkmap
             builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().SingleInstance();
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+            var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x=>x.EntityType));
             var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
             builder.Register(container=> container.Resolve<IMongoDatabase>().GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
-                .OnActivating(async collection=> await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>() { loginBaseIndexModel, geoBaseIndexModel }))
+                .OnActivating(async collection=> await collection.Instance.Indexes
+                .CreateManyAsync(new List<CreateIndexModel<BaseEntity>>() { loginBaseIndexModel, entityTypeBaseIndexModel, geoBaseIndexModel }))
                 .As<IMongoCollection<BaseEntity>>();
 
             var loginMusicianIndexModel = new CreateIndexModel<MusicianEntity>(Builders<MusicianEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });

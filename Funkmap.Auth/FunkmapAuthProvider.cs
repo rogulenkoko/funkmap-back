@@ -5,14 +5,23 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data;
+using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using MongoDB.Driver;
 
 namespace Funkmap.Module.Auth
 {
     public class FunkmapAuthProvider : OAuthAuthorizationServerProvider
     {
+        private readonly IAuthRepository _repository;
+
+        public FunkmapAuthProvider(IAuthRepository repository)
+        {
+            _repository = repository;
+        }
+
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
@@ -20,9 +29,8 @@ namespace Funkmap.Module.Auth
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var repository = new AuthRepository(new AuthContext());
             
-            UserEntity user = await repository.Login(context.UserName, context.Password);
+            UserEntity user = await _repository.Login(context.UserName, context.Password);
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");

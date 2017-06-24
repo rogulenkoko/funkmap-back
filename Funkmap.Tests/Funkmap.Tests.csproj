@@ -79,10 +79,8 @@
   <ItemGroup>
     <Compile Include="Funkmap\Auth\AuthRepositoryTest.cs" />
     <Compile Include="Funkmap\Auth\NotificationTest.cs" />
-    <Compile Include="Funkmap\Auth\UserRepositoryTest.cs" />
     <Compile Include="Funkmap\Data\FunkmapDbProvider.cs" />
     <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
-    <Compile Include="Funkmap\Data\FakeAuthDbContext.cs" />
     <Compile Include="Images\ImageProvider.cs" />
     <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
     <Compile Include="Messenger\Data\MessengerDataSeeder.cs" />

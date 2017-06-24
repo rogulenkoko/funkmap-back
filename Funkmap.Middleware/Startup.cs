@@ -32,6 +32,8 @@ namespace Funkmap.Middleware
             LoadAssemblies();
             RegisterModules(containerBuilder);
 
+            containerBuilder.RegisterType<FunkmapAuthProvider>();
+
             var container = containerBuilder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
@@ -46,7 +48,7 @@ namespace Funkmap.Middleware
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new FunkmapAuthProvider(),
+                Provider = container.Resolve<FunkmapAuthProvider>(),
                 RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
                 
                 

@@ -85,8 +85,7 @@ namespace Funkmap.Module.Auth.Controllers
                 try
                 {
                     var userConfirm = _usersConfirmationCache[request.Login];
-                    _authRepository.Add(userConfirm.User);
-                    await _authRepository.SaveAsync();
+                    await _authRepository.CreateAsync(userConfirm.User);
                     response.Success = true;
                 }
                 catch (Exception e)

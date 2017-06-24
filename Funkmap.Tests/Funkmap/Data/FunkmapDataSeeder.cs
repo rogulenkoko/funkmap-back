@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Funkmap.Auth.Data;
+using Funkmap.Auth.Data.Entities;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories;
+using Funkmap.Module.Auth;
 using Funkmap.Tests.Images;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
@@ -24,6 +27,28 @@ namespace Funkmap.Tests.Funkmap.Data
             SeedMusicians();
             SeedBands();
             SeedShops();
+            SeedUsers();
+        }
+
+        private void SeedUsers()
+        {
+            var repository = new AuthRepository(_database.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
+            var u1 = new UserEntity()
+            {
+                Login = "rogulenkoko",
+                Password = "1",
+                Email = "rogulenkoko@gmail.com"
+            };
+            u1.Avatar = ImageProvider.GetAvatar();
+
+            var u2 = new UserEntity()
+            {
+                Login = "test",
+                Password = "1",
+                Email = "test@mail.ru"
+            };
+            repository.CreateAsync(u1).Wait();
+            repository.CreateAsync(u2).Wait();
         }
 
         private void SeedMusicians()

@@ -43,7 +43,7 @@ namespace Funkmap.Mappers
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
                 Styles = source.Styles.ToList(),
-                Photo = source.Avatar,
+                Photo = source.Avatar ?? new byte[] {},
                 YouTubeLink = source.YouTubeLink,
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,
