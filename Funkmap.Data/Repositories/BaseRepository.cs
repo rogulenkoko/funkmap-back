@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Funkmap.Data.Domain;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
@@ -34,6 +35,20 @@ namespace Funkmap.Data.Repositories
             var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
             return result;
 
+        }
+
+        public async Task<ICollection<FullBaseModel>> GetFullNearest(LocationParameter parameter)
+        {
+            var center = new[] { parameter.Longitude, parameter.Latitude };
+            var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
+            var filter = new BsonDocument("loc", new BsonDocument("$within", new BsonDocument("$center", centerQueryArray)));
+
+            var t = await _collection.Find(x => true).ToListAsync();
+
+            var result = new List<FullBaseModel>();
+
+           
+            return result;
         }
 
         public virtual Task<UpdateResult> UpdateAsync(BaseEntity entity)

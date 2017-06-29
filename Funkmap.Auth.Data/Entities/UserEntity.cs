@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -21,5 +22,9 @@ namespace Funkmap.Auth.Data.Entities
         [BsonElement("av")]
         [BsonIgnoreIfDefault]
         public BsonBinaryData Avatar { get; set; }
+
+        [BsonElement("favs")]
+        [BsonIgnoreIfDefault]
+        public List<string> Favourites { get; set; }
     }
 }

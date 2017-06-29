@@ -1,7 +1,7 @@
 ﻿
-using System.ComponentModel.DataAnnotations;
+using Microsoft.Build.Framework;
 
-namespace Funkmap.Common.Models
+namespace Funkmap.Models.Requests
 {
     public class LocationRequest
     {

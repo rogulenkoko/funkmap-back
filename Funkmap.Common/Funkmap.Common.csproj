@@ -88,7 +88,6 @@
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="FunkmapMiddleware.cs" />
     <Compile Include="Models\BaseResponse.cs" />
-    <Compile Include="Models\LocationRequest.cs" />
     <Compile Include="Notification\Abstract\INotificationService.cs" />
     <Compile Include="Notification\EmailNotificationService.cs" />
     <Compile Include="Notification\Notification.cs" />

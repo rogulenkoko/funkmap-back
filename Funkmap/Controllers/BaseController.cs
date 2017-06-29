@@ -6,6 +6,7 @@ using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
+using Funkmap.Models.Requests;
 
 namespace Funkmap.Controllers
 {
@@ -42,6 +43,30 @@ namespace Funkmap.Controllers
             var result = await _repository.GetNearestAsync(parameters);
             var markers = result.Select(x => x.ToMarkerModel()).ToList();
             return Content(HttpStatusCode.OK, markers);
+
+        }
+
+        [HttpPost]
+        [Route("fullnearest")]
+        public async Task<IHttpActionResult> GetFullNearest(LocationRequest request)
+        {
+            var parameters = new LocationParameter()
+            {
+                Longitude = request.Longitude,
+                Latitude = request.Latitude,
+                RadiusDeg = request.RadiusDeg
+            };
+            var result = await _repository.GetNearestAsync(parameters);
+            var markers = result.Select(x => x.ToMarkerModel()).ToList();
+            return Content(HttpStatusCode.OK, markers);
+        }
+
+        [HttpPost]
+        [Route("specific")]
+        public async Task<IHttpActionResult> GetSpecific(string[] logins)
+        {
+
+            return Ok();
 
         }
     }

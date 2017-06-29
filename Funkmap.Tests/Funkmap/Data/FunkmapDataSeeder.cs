@@ -45,7 +45,8 @@ namespace Funkmap.Tests.Funkmap.Data
             {
                 Login = "test",
                 Password = "1",
-                Email = "test@mail.ru"
+                Email = "test@mail.ru",
+                Favourites = new List<string>() { "madlib" }
             };
             repository.CreateAsync(u1).Wait();
             repository.CreateAsync(u2).Wait();

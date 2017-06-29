@@ -111,6 +111,8 @@
     <Compile Include="Models\BandModel.cs" />
     <Compile Include="Models\MarkerModel.cs" />
     <Compile Include="Models\MusicianModel.cs" />
+    <Compile Include="Models\Requests\LocationRequest.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\ShopModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

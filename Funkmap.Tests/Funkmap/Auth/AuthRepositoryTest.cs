@@ -29,8 +29,19 @@ namespace Funkmap.Tests.Funkmap.Auth
 
             result = _repository.Login("test", "2").Result;
             Assert.IsNull(result);
+        }
 
-            
+        [TestMethod]
+        public void FavouritesTest()
+        {
+            _repository.SetFavourite("test", "razrab").Wait();
+            var favourites = _repository.GetFavouritesAsync("test").Result;
+            Assert.AreEqual(favourites.Count, 2);
+
+            _repository.SetFavourite("test", "razrab").Wait();
+            favourites = _repository.GetFavouritesAsync("test").Result;
+            Assert.AreEqual(favourites.Count, 1);
+
         }
     }
 }

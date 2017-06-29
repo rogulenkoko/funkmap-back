@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
@@ -34,20 +35,30 @@ namespace Funkmap.Auth.Data
             return avatar?.Avatar?.AsByteArray;
         }
 
-        public async Task<bool> SaveAvatarAsync(string login, byte[] image)
+        public async Task SaveAvatarAsync(string login, byte[] image)
         {
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
             var update = Builders<UserEntity>.Update.Set(x => x.Avatar, image);
-            try
-            {
-                var result = await _collection.UpdateOneAsync(filter, update);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
-            }
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<List<string>> GetFavouritesAsync(string login)
+        {
+            var projection = Builders<UserEntity>.Projection.Include(x => x.Favourites);
+            var user = await _collection.Find(x => x.Login == login).Project<UserEntity>(projection).SingleOrDefaultAsync();
+            return user?.Favourites;
+        }
+
+        public async Task SetFavourite(string login, string favouriteLogin)
+        {
+            var projection = Builders<UserEntity>.Projection.Include(x => x.Favourites);
+            var user = await _collection.Find(x => x.Login == login).Project<UserEntity>(projection).SingleOrDefaultAsync();
+            if (user == null) throw new InvalidOperationException(login);
+            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
+            var update = user.Favourites.Contains(favouriteLogin) 
+                         ? Builders<UserEntity>.Update.Pull(x => x.Favourites, favouriteLogin)
+                         : Builders<UserEntity>.Update.Push(x => x.Favourites, favouriteLogin);
+            await _collection.UpdateOneAsync(filter, update);
         }
 
         public override Task<UpdateResult> UpdateAsync(UserEntity entity)

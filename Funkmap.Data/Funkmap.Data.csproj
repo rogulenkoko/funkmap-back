@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\FullBaseModel.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Parameters\MusicianFilterParameter.cs" />
     <Compile Include="Repositories\Abstract\IShopRepository.cs" />

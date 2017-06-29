@@ -11,40 +11,42 @@ using Funkmap.Module.Auth.Models;
 
 namespace Funkmap.Module.Auth.Controllers
 {
-    [RoutePrefix("api/user")]
+    [RoutePrefix("api/favourites")]
     [ValidateRequestModel]
-    public class UserController : ApiController
+    public class FavouriteController : ApiController
     {
         private readonly IAuthRepository _authRepository;
 
-        public UserController(IAuthRepository authRepository)
+        public FavouriteController(IAuthRepository authRepository)
         {
             _authRepository = authRepository;
         }
-
+        
         [HttpGet]
-        [Route("avatar/{login}")]
-        public async Task<IHttpActionResult> GetAvatar(string login)
+        [Route("logins")]
+        public async Task<IHttpActionResult> GetFavouritesLogins()
         {
-            var image = await _authRepository.GetAvatarAsync(login);
-            return Ok(image);
+            var login = "test"; //todo взять из реквеста логин юзера
+            var result = await _authRepository.GetFavouritesAsync(login);
+            return Ok(result);
         }
 
-        [HttpPost]
-        [Route("saveAvatar")]
-        public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
+        [HttpGet]
+        [Route("setfavourite")]
+        public async Task<IHttpActionResult> SetFavourite(string favouriteLogin)
         {
             var response = new BaseResponse();
+            var login = "test"; //todo взять из реквеста логин юзера
             try
             {
-                await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
+                await _authRepository.SetFavourite(login, favouriteLogin);
                 response.Success = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-           
+            
             return Ok(response);
         }
     }
