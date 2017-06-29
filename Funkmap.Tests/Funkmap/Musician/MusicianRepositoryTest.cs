@@ -23,7 +23,6 @@ namespace Funkmap.Tests.Funkmap.Musician
         [TestMethod]
         public void GetStyleFilteredMusicianTest()
         {
-
             var parameter = new MusicianFilterParameter()
             {
                 Styles = new List<Styles>() { Styles.Funk }

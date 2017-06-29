@@ -67,10 +67,6 @@
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Data\Funkmap.Common.Data.csproj">
-      <Project>{5a7801ea-883b-479a-a9f4-d2db730eaea1}</Project>
-      <Name>Funkmap.Common.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

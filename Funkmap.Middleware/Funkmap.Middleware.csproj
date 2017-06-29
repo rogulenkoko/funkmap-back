@@ -126,10 +126,6 @@
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
       <Name>Funkmap.Module.Auth</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Data\Funkmap.Common.Data.csproj">
-      <Project>{5a7801ea-883b-479a-a9f4-d2db730eaea1}</Project>
-      <Name>Funkmap.Common.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>

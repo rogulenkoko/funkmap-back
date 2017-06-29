@@ -22,30 +22,36 @@ namespace Funkmap
             var mongoClient = new MongoClient(connectionString);
             builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().SingleInstance();
 
-            var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
-            var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x=>x.EntityType));
-            var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
-            builder.Register(container=> container.Resolve<IMongoDatabase>().GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
-                .OnActivating(async collection=> await collection.Instance.Indexes
-                .CreateManyAsync(new List<CreateIndexModel<BaseEntity>>() { loginBaseIndexModel, entityTypeBaseIndexModel, geoBaseIndexModel }))
+
+            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BaseEntity>>();
 
-            var loginMusicianIndexModel = new CreateIndexModel<MusicianEntity>(Builders<MusicianEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
-                .OnActivating(async collection => await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<MusicianEntity>>() { loginMusicianIndexModel }))
                 .As<IMongoCollection<MusicianEntity>>();
 
-            var loginBandIndexModel = new CreateIndexModel<BandEntity>(Builders<BandEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
-                .OnActivating(async collection => await collection.Instance.Indexes.CreateManyAsync(new List<CreateIndexModel<BandEntity>>() { loginBandIndexModel }))
                 .As<IMongoCollection<BandEntity>>();
-
-
 
             builder.RegisterType<BaseRepository>().As<IBaseRepository>().SingleInstance();
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
             builder.RegisterType<BandRepository>().As<IBandRepository>().SingleInstance();
             builder.RegisterType<ShopRepository>().As<IShopRepository>().SingleInstance();
+
+            var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+            var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));
+            var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
+            
+            builder.RegisterBuildCallback(async c =>  
+            {
+                //создание индексов при запуске приложения
+                var collection = c.Resolve<IMongoCollection<BaseEntity>>();
+                await collection.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>
+                {
+                    loginBaseIndexModel,
+                    entityTypeBaseIndexModel,
+                    geoBaseIndexModel,
+                });
+            });
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен основной модуль");

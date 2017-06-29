@@ -14,7 +14,7 @@ namespace Funkmap.Data.Entities.Abstract
         public string Login { get; set; }
 
         [BsonElement("user")]
-        public string UserLogin { get; set; } //todo добавить ObjectId после переноса модуля авторизации на монгу
+        public string UserLogin { get; set; }
 
         [BsonElement("n")]
         public string Name { get; set; }
