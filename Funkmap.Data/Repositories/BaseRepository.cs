@@ -34,11 +34,22 @@ namespace Funkmap.Data.Repositories
 
             var center = new[] { parameter.Longitude, parameter.Latitude };
             var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
-            var filter = new BsonDocument("loc", new BsonDocument("$within", new BsonDocument("$center", centerQueryArray)));
+
+
             var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name);
-            var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+
+            ICollection<BaseEntity> result;
+            if (parameter.Longitude == null || parameter.Latitude == null)
+            {
+                result = await _collection.Find(x => true).Project<BaseEntity>(projection).ToListAsync();
+            }
+            else
+            {
+                var filter = new BsonDocument("loc", new BsonDocument("$within", new BsonDocument("$center", centerQueryArray)));
+                result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+            }
             return result;
 
         }
@@ -59,6 +70,13 @@ namespace Funkmap.Data.Repositories
                 result = await _collection.Find(filter).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
             }
 
+            return result;
+        }
+
+        public async Task<ICollection<BaseEntity>> GetSpecificAsync(string[] logins)
+        {
+            var filter = Builders<BaseEntity>.Filter.In(x => x.Login, logins);
+            var result = await _collection.Find(filter).ToListAsync();
             return result;
         }
 

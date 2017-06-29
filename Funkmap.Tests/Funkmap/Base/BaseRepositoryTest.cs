@@ -1,4 +1,5 @@
-﻿using Funkmap.Data.Domain;
+﻿using System.Collections.Generic;
+using Funkmap.Data.Domain;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories;
@@ -19,7 +20,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestInitialize]
         public void Initialize()
         {
-            _baseRepository =new BaseRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName));
+            _baseRepository = new BaseRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName));
 
         }
 
@@ -27,7 +28,7 @@ namespace Funkmap.Tests.Funkmap.Base
         public void GetAll()
         {
             var all = _baseRepository.GetAllAsyns().Result;
-            Assert.AreEqual(all.Count,10);
+            Assert.AreEqual(all.Count, 10);
         }
 
         [TestMethod]
@@ -41,6 +42,19 @@ namespace Funkmap.Tests.Funkmap.Base
             };
             var nearest = _baseRepository.GetNearestAsync(parameter).Result;
             Assert.AreEqual(nearest.Count, 5);
+        }
+
+
+        [TestMethod]
+        public void GetSpecificTest()
+        {
+            var logins = new List<string>() { "razrab" };
+            var result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
+            Assert.AreEqual(result.Count, 1);
+
+            logins.Add("rogulenkoko");
+            result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
+            Assert.AreEqual(result.Count, 2);
         }
     }
 }
