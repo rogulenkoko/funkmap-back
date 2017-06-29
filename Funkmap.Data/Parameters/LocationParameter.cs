@@ -13,11 +13,11 @@ namespace Funkmap.Data.Parameters
         /// <summary>
         /// Широта объекта относительно которого надо искать
         /// </summary>
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         /// <summary>
         /// Долгота объекта относительно которого надо искать
         /// </summary>
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
     }
 }

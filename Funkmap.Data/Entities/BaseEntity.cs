@@ -3,8 +3,10 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace Funkmap.Data.Entities.Abstract
+namespace Funkmap.Data.Entities
 {
+    [BsonDiscriminator(RootClass = true)]
+    [BsonKnownTypes(typeof(MusicianEntity), typeof(ShopEntity), typeof(BandEntity))]
     public class BaseEntity
     {
         [BsonId]
@@ -44,12 +46,6 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("fb")]
         [BsonIgnoreIfDefault]
         public string FacebookLink { get; set; }
-
-
-        //для музыканта, чтобы определять правильно маркер на клиенте
-        [BsonElement("intsr")]
-        public InstrumentType Instrument { get; set; }
-
 
     }
 }

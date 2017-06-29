@@ -7,7 +7,7 @@ using Funkmap.Data.Entities;
 
 namespace Funkmap.Data.Domain
 {
-    public abstract class FullBaseModel
+    public class FullBaseModel
     {
         public string Login { get; set; }
         public string Title { get; set; }

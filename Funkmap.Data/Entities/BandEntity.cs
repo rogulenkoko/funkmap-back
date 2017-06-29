@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Common;
-using Funkmap.Data.Entities.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

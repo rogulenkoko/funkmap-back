@@ -48,17 +48,17 @@ namespace Funkmap.Controllers
 
         [HttpPost]
         [Route("fullnearest")]
-        public async Task<IHttpActionResult> GetFullNearest(LocationRequest request)
+        public async Task<IHttpActionResult> GetFullNearest(FullLocationRequest request)
         {
-            var parameters = new LocationParameter()
+            var parameters = new FullLocationParameter()
             {
                 Longitude = request.Longitude,
                 Latitude = request.Latitude,
                 RadiusDeg = request.RadiusDeg
             };
-            var result = await _repository.GetNearestAsync(parameters);
-            var markers = result.Select(x => x.ToMarkerModel()).ToList();
-            return Content(HttpStatusCode.OK, markers);
+            var result = await _repository.GetFullNearestAsync(parameters);
+            var searchModels = result.Select(x => x.ToSearchModel()).ToList();
+            return Content(HttpStatusCode.OK, searchModels);
         }
 
         [HttpPost]

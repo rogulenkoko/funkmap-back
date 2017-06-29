@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Funkmap.Common;
 using Funkmap.Data.Entities;
 
 namespace Funkmap.Models
@@ -13,6 +9,7 @@ namespace Funkmap.Models
         public string Title { get; set; }
         public byte[] Avatar { get; set; }
 
+        public EntityType Type { get; set; }
 
         //для музыканта
         public InstrumentType Instrument { get; set; }

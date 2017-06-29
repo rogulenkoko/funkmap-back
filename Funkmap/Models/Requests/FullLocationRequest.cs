@@ -3,7 +3,7 @@ using Microsoft.Build.Framework;
 
 namespace Funkmap.Models.Requests
 {
-    public class LocationRequest
+    public class FullLocationRequest
     {
         [Required]
         public double RadiusDeg { get; set; }
@@ -19,5 +19,11 @@ namespace Funkmap.Models.Requests
         /// Долгота объекта относительно которого надо искать
         /// </summary>
         public double? Longitude { get; set; }
+
+        [Required]
+        public int Skip { get; set; }
+
+        [Required]
+        public int Take { get; set; }
     }
 }

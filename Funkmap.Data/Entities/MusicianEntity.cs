@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Funkmap.Common;
-using Funkmap.Data.Entities.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -13,6 +12,9 @@ namespace Funkmap.Data.Entities
         {
             EntityType = EntityType.Musician;
         }
+
+        [BsonElement("intsr")]
+        public InstrumentType Instrument { get; set; }
 
         [BsonElement("sex")]
         [BsonIgnoreIfDefault]

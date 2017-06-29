@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Data.Entities.Abstract;
+﻿using Funkmap.Data.Entities;
 using Funkmap.Models;
 
 namespace Funkmap.Mappers
@@ -19,7 +14,7 @@ namespace Funkmap.Mappers
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
                 ModelType = source.EntityType,
-                Instrument = source.Instrument
+                Instrument = (source as MusicianEntity)?.Instrument ?? InstrumentType.None
             };
         }
     }

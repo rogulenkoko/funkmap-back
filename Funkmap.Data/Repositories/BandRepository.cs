@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories.Abstract;
 using MongoDB.Driver;
 
