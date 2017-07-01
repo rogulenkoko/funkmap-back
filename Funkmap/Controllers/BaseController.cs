@@ -2,7 +2,6 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
@@ -65,8 +64,9 @@ namespace Funkmap.Controllers
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
-
-            return Ok();
+            var baseEntities = await _repository.GetSpecificAsync(logins);
+            var items = baseEntities.Select(x => x.ToSearchModel());
+            return Ok(items);
 
         }
     }
