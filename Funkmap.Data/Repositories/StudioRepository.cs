@@ -7,13 +7,13 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class ShopRepository : MongoLoginRepository<ShopEntity>, IShopRepository
+    public class StudioRepository : MongoLoginRepository<StudioEntity>,IStudioRepository
     {
-        public ShopRepository(IMongoCollection<ShopEntity> collection) : base(collection)
+        public StudioRepository(IMongoCollection<StudioEntity> collection) : base(collection)
         {
         }
 
-        public override Task<UpdateResult> UpdateAsync(ShopEntity entity)
+        public override Task<UpdateResult> UpdateAsync(StudioEntity entity)
         {
             throw new NotImplementedException();
         }

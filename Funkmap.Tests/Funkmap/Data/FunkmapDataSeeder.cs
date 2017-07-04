@@ -28,6 +28,8 @@ namespace Funkmap.Tests.Funkmap.Data
             SeedBands();
             SeedShops();
             SeedUsers();
+            SeedStudios();
+            SeedRehearsalPoints();
         }
 
         private void SeedUsers()
@@ -68,7 +70,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Instrument = InstrumentType.Brass,
                 VkLink = "https://vk.com/id30724049",
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
-                BandLogin = "funkmap"
+                BandLogin = "funkmap",
+                ExpirienceType = ExpirienceType.Advanced
             };
 
 
@@ -85,7 +88,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Styles = new List<Styles>() { Styles.Funk, Styles.Rock},
                 Instrument = InstrumentType.Drums,
                 FacebookLink = "https://ru-ru.facebook.com/",
-                BandLogin = "beatles"
+                BandLogin = "beatles",
+                ExpirienceType = ExpirienceType.Begginer
             };
 
             var m3 = new MusicianEntity()
@@ -98,7 +102,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 51)),
                 Styles = new List<Styles>() { Styles.HipHop},
                 Instrument = InstrumentType.Keyboard,
-                BandLogin = "metallica"
+                BandLogin = "metallica",
+                ExpirienceType = ExpirienceType.SuperStar
             };
 
             repository.CreateAsync(m1).Wait();
@@ -116,7 +121,6 @@ namespace Funkmap.Tests.Funkmap.Data
                 DesiredInstruments = new List<InstrumentType>() { InstrumentType.Bass, InstrumentType.Guitar},
                 Name = "The Beatles",
                 Login = "beatles",
-                ShowPrice = 123412,
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 52)),
                 MusicianLogins = new List<string>() { "rogulenkoko", "razrab"}
@@ -127,7 +131,6 @@ namespace Funkmap.Tests.Funkmap.Data
                 UserLogin = "rogulenkoko",
                 Name = "Red Hot Chili Peppers",
                 Login = "rhcp",
-                ShowPrice = 123412,
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(28, 52)),
                 MusicianLogins = new List<string>() { "rogulenkoko" }
@@ -138,7 +141,6 @@ namespace Funkmap.Tests.Funkmap.Data
                 UserLogin = "rogulenkoko",
                 Name = "Coldplay",
                 Login = "coldplay",
-                ShowPrice = 123,
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 50))
             };
 
@@ -156,7 +158,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "guitars",
                 Name = "Гитарушки",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(32, 52)),
-                WebSite = "https://ru.wikipedia.org/wiki/C_Sharp"
+                Website = "https://ru.wikipedia.org/wiki/C_Sharp"
             };
 
             var s2 = new ShopEntity()
@@ -164,7 +166,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "pinkponk",
                 Name = "Пинк и Понк",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(33, 51)),
-                WebSite = "http://online-simpsons.ru"
+                Website = "http://online-simpsons.ru"
             };
 
             var s3 = new ShopEntity()
@@ -172,20 +174,71 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "monkey",
                 Name = "Monkey Business",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 54)),
-                WebSite = "https://сайт.com"
+                Website = "https://сайт.com"
             };
             var s4 = new ShopEntity()
             {
                 Login = "oneshop",
                 Name = "One-shop",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 51)),
-                WebSite = "http://tttt.ru"
+                Website = "http://tttt.ru"
             };
 
             repository.CreateAsync(s1).Wait();
             repository.CreateAsync(s2).Wait();
             repository.CreateAsync(s3).Wait();
             repository.CreateAsync(s4).Wait();
+        }
+
+        private void SeedStudios()
+        {
+            var repository = new StudioRepository(_database.GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName));
+
+            var s1 = new StudioEntity()
+            {
+                Login = "blackstar",
+                Name = "Black Star",
+                VkLink = "vk",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(25, 24)),
+                UserLogin = "rogulenkoko"
+            };
+
+            var s2 = new StudioEntity()
+            {
+                Login = "gaz",
+                Name = "Gazgolder",
+                FacebookLink = "face",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(25, 27)),
+                UserLogin = "test"
+            };
+
+            repository.CreateAsync(s1).Wait();
+            repository.CreateAsync(s2).Wait();
+        }
+
+        private void SeedRehearsalPoints()
+        {
+            var repository = new RehearsalPointRepository(_database.GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName));
+            var r1 = new RehearsalPointEntity()
+            {
+                Login = "monkey",
+                Name = "Monkey Business",
+                Address = "пр-т Мира 12",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(27, 27)),
+                UserLogin = "test"
+            };
+            
+
+            var r2 = new RehearsalPointEntity()
+            {
+                Login = "grandsound",
+                Name = "Grand Sound",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 27)),
+                UserLogin = "test"
+            };
+
+            repository.CreateAsync(r1).Wait();
+            repository.CreateAsync(r2).Wait();
         }
     }
 }

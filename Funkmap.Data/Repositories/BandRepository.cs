@@ -9,8 +9,6 @@ namespace Funkmap.Data.Repositories
 {
     public class BandRepository : MongoLoginRepository<BandEntity>, IBandRepository
     {
-        private IBandRepository _bandRepositoryImplementation;
-
         public BandRepository(IMongoCollection<BandEntity> collection) : base(collection)
         {
         }

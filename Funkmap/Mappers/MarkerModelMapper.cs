@@ -1,4 +1,5 @@
 ﻿using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;
 
 namespace Funkmap.Mappers

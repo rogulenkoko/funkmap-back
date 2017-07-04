@@ -16,7 +16,7 @@ namespace Funkmap.Tests.Funkmap.Musician
         [TestInitialize]
         public void Initialize()
         {
-            _musicianRepository = new MusicianRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName));
+            _musicianRepository = new MusicianRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName));
         }
 
         [TestMethod]

@@ -13,7 +13,7 @@ namespace Funkmap.Mappers
                 StoreName = sourse.Name,
                 Latitude = sourse.Location.Coordinates.Latitude,
                 Longitude = sourse.Location.Coordinates.Longitude,
-                WebSite = sourse.WebSite
+                WebSite = sourse.Website
             };
 
         }

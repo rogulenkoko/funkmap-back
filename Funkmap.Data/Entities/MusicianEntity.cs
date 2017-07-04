@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Funkmap.Common;
+using Funkmap.Data.Entities.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -27,6 +28,9 @@ namespace Funkmap.Data.Entities
         [BsonElement("stls")]
         [BsonIgnoreIfDefault]
         public List<Styles> Styles { get; set; }
+
+        [BsonElement("exp")]
+        public ExpirienceType ExpirienceType { get; set; }
 
         [BsonElement("band")]
         [BsonIgnoreIfDefault]
@@ -61,5 +65,13 @@ namespace Funkmap.Data.Entities
         Brass = 4,
         Guitar = 5,
         Keyboard = 6
+    }
+
+    public enum ExpirienceType
+    {
+        Begginer = 1,
+        Middle = 2,
+        Advanced = 3,
+        SuperStar = 4
     }
 }

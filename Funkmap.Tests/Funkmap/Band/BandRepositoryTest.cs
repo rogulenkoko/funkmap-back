@@ -19,7 +19,7 @@ namespace Funkmap.Tests.Funkmap.Band
         [TestInitialize]
         public void Initialize()
         {
-            _bandRepository = new BandRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName));
+            _bandRepository = new BandRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName));
         }
         
     }

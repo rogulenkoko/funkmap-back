@@ -80,7 +80,7 @@
     <Compile Include="Funkmap\Auth\AuthRepositoryTest.cs" />
     <Compile Include="Funkmap\Auth\NotificationTest.cs" />
     <Compile Include="Funkmap\Band\BandRepositoryTest.cs" />
-    <Compile Include="Funkmap\Data\FunkmapDbProvider.cs" />
+    <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
     <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
     <Compile Include="Images\ImageProvider.cs" />
     <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />

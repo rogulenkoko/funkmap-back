@@ -15,7 +15,7 @@ namespace Funkmap.Tests.Funkmap.Auth
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new AuthRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
+            _repository = new AuthRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
         }
 
         [TestMethod]

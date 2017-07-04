@@ -1,12 +1,19 @@
-﻿using Funkmap.Common;
+﻿using System.Collections.Generic;
+using Funkmap.Common;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace Funkmap.Data.Entities
+namespace Funkmap.Data.Entities.Abstract
 {
     [BsonDiscriminator(RootClass = true)]
-    [BsonKnownTypes(typeof(MusicianEntity), typeof(ShopEntity), typeof(BandEntity))]
+
+    [BsonKnownTypes(
+        typeof(MusicianEntity), 
+        typeof(ShopEntity), 
+        typeof(BandEntity),
+        typeof(StudioEntity),
+        typeof(RehearsalPointEntity))]
     public class BaseEntity
     {
         [BsonId]
@@ -46,6 +53,10 @@ namespace Funkmap.Data.Entities
         [BsonElement("fb")]
         [BsonIgnoreIfDefault]
         public string FacebookLink { get; set; }
+
+        [BsonElement("gallery")]
+        [BsonIgnoreIfDefault]
+        public List<BsonBinaryData> Gallery { get; set; }
 
     }
 }

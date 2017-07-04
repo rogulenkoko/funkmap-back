@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Funkmap.Data.Domain;
 using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
@@ -20,7 +20,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestInitialize]
         public void Initialize()
         {
-            _baseRepository = new BaseRepository(FunkmapDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName));
+            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName));
 
         }
 

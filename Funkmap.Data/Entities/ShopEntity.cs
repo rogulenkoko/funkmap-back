@@ -1,9 +1,10 @@
 ﻿using Funkmap.Common;
+using Funkmap.Data.Entities.Abstract;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Data.Entities
 {
-    public class ShopEntity : BaseEntity
+    public class ShopEntity : EstablishmentEntity
     {
         public ShopEntity()
         {
@@ -12,6 +13,7 @@ namespace Funkmap.Data.Entities
 
         [BsonElement("ws")]
         [BsonIgnoreIfDefault]
-        public string WebSite { get; set; }
+        public string Website { get; set; }
+        
     }
 }

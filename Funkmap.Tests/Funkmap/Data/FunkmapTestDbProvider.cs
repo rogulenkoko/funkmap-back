@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Tests.Funkmap.Data
 {
-    public class FunkmapDbProvider
+    public class FunkmapTestDbProvider
     {
         public static IMongoDatabase DropAndCreateDatabase
         {
