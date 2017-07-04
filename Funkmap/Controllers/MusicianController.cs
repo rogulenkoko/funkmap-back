@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Data.Repositories.Abstract;
@@ -26,12 +27,12 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetMusician(string id)
         {
             var musicianEntity = await _musicianRepository.GetAsync(id);
-            var musican = musicianEntity.ToMusicianModel();
+            MusicianPreviewModel musican = musicianEntity.ToPreviewModel();
             return Content(HttpStatusCode.OK, musican);
 
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("save")]
         public async Task<IHttpActionResult> SaveMusician(MusicianModel model)
@@ -44,6 +45,9 @@ namespace Funkmap.Controllers
             {
                 return Content(HttpStatusCode.OK, response);
             }
+
+            var userLogin = Request.GetLogin();
+            entity.UserLogin = userLogin;
 
             await _musicianRepository.CreateAsync(entity);
             response.Success = true;

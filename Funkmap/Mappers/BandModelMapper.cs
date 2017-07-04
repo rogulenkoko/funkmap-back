@@ -15,9 +15,25 @@ namespace Funkmap.Mappers
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
                 Name = source.Name,
-                VideoLinks = source.VideoLinks?.ToList(),
-                DesiredInstruments = source.DesiredInstruments?.ToList(),
+                VideoLinks = source.VideoLinks,
+                DesiredInstruments = source.DesiredInstruments,
                 Musicians = source.MusicianLogins
+            };
+        }
+
+        public static BandModelPreview ToModelPreview(this BandEntity source)
+        {
+            if (source == null) return null;
+            return new BandModelPreview()
+            {
+                Login = source.Login,
+                Name = source.Name,
+                Avatar = source.Photo.AsByteArray,
+                VkLink = source.VkLink,
+                YouTubeLink = source.YouTubeLink,
+                FacebookLink = source.FacebookLink,
+                DesiredInstruments = source.DesiredInstruments,
+                Description = source.Description
             };
         }
     }

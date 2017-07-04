@@ -15,6 +15,6 @@ namespace Funkmap.Models
 
         //для музыканта
         public InstrumentType Instrument { get; set; }
-        public int Expirience { get; set; }
+        public ExpirienceType Expirience { get; set; }
     }
 }

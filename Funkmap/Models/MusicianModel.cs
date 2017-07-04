@@ -21,7 +21,6 @@ namespace Funkmap.Models
         public Sex Sex { get; set; }
         public DateTime BirthDate { get; set; }
         public int Age { get; set; }
-        public int Expirience { get; set; }
         public Styles[] Styles { get; set; }
 
         [Required]
@@ -32,6 +31,19 @@ namespace Funkmap.Models
         public string VkLink { get; set; }
         public string YouTubeLink { get; set; }
         public string FacebookLink { get; set; }
+    }
 
+    public class MusicianPreviewModel
+    {
+        public string Login { get; set; }
+        public string Name { get; set; }
+        public ExpirienceType Expirience { get; set; }
+        public Styles[] Styles { get; set; } 
+
+        public byte[] Avatar { get; set; }
+
+        public string VkLink { get; set; }
+        public string YouTubeLink { get; set; }
+        public string FacebookLink { get; set; }
     }
 }

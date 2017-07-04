@@ -21,7 +21,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetShop(string login)
         {
             var shopEntity = await _shopRepository.GetAsync(login);
-            var shop = shopEntity.ToModel();
+            var shop = shopEntity.ToPreviewModel();
             return Content(HttpStatusCode.OK, shop);
         }
     }

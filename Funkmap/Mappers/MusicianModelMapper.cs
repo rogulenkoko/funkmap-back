@@ -50,5 +50,21 @@ namespace Funkmap.Mappers
                 Instrument = source.Instrument
             };
         }
+
+        public static MusicianPreviewModel ToPreviewModel(this MusicianEntity source)
+        {
+            if (source == null) return null;
+            return new MusicianPreviewModel()
+            {
+                Login = source.Login,
+                Styles = source.Styles.ToArray(),
+                Name = source.Name,
+                Avatar = source.Photo.AsByteArray,
+                Expirience = source.ExpirienceType,
+                VkLink = source.VkLink,
+                YouTubeLink = source.YouTubeLink,
+                FacebookLink = source.FacebookLink
+            };
+        }
     }
 }

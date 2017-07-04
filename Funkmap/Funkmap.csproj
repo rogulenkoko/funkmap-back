@@ -102,20 +102,26 @@
     <Compile Include="Controllers\BandController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MusicianController.cs" />
+    <Compile Include="Controllers\RehearsalPointController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
+    <Compile Include="Controllers\StudioController.cs" />
     <Compile Include="FunkmapModule.cs" />
     <Compile Include="Mappers\BandModelMapper.cs" />
     <Compile Include="Mappers\MarkerModelMapper.cs" />
     <Compile Include="Mappers\MusicianModelMapper.cs" />
+    <Compile Include="Mappers\RehearsalPointMapper.cs" />
     <Compile Include="Mappers\SearchModelMapper.cs" />
     <Compile Include="Mappers\ShopModelMapper.cs" />
+    <Compile Include="Mappers\StudioModelMapper.cs" />
     <Compile Include="Models\BandModel.cs" />
     <Compile Include="Models\MarkerModel.cs" />
     <Compile Include="Models\MusicianModel.cs" />
+    <Compile Include="Models\RehearsalPointModel.cs" />
     <Compile Include="Models\Requests\FullLocationRequest.cs" />
     <Compile Include="Models\Requests\LocationRequest.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\ShopModel.cs" />
+    <Compile Include="Models\StudioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetBand(string id)
         {
             var bandEntity = await _bandRepository.GetAsync(id);
-            var band = bandEntity.ToModel();
+            var band = bandEntity.ToModelPreview();
             return Content(HttpStatusCode.OK, band);
 
         }
