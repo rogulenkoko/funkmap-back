@@ -220,7 +220,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Name = "Black Star",
                 VkLink = "vk",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(25, 24)),
-                UserLogin = "rogulenkoko"
+                UserLogin = "rogulenkoko",
+                Address = "ул. Мовчанского 12"
             };
 
             var s2 = new StudioEntity()
@@ -229,7 +230,9 @@ namespace Funkmap.Tests.Funkmap.Data
                 Name = "Gazgolder",
                 FacebookLink = "face",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(25, 27)),
-                UserLogin = "test"
+                UserLogin = "test",
+                Address = "ул. Торжковская 15",
+                Description = "Супер клевая студия на которой записываются суперклевые пацаны"
             };
 
             repository.CreateAsync(s1).Wait();
@@ -245,7 +248,9 @@ namespace Funkmap.Tests.Funkmap.Data
                 Name = "Monkey Business",
                 Address = "пр-т Мира 12",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(27, 27)),
-                UserLogin = "test"
+                UserLogin = "test",
+                YouTubeLink = "yout",
+                Description = "Точка при магазине, супер оборудование и все такое еу еу"
             };
             
 
@@ -254,7 +259,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "grandsound",
                 Name = "Grand Sound",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 27)),
-                UserLogin = "test"
+                UserLogin = "test",
+                YouTubeLink = "yout",
             };
 
             repository.CreateAsync(r1).Wait();
