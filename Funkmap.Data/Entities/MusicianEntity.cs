@@ -69,6 +69,7 @@ namespace Funkmap.Data.Entities
 
     public enum ExpirienceType
     {
+        None = 0,
         Begginer = 1,
         Middle = 2,
         Advanced = 3,

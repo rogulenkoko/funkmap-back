@@ -13,6 +13,8 @@
         public string Login { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string WebSite { get; set; }
+        public string Address { get; set; }
         public byte[] Avatar { get; set; }
         public string WorkingHoursDescription { get; set; }
         public string VkLink { get; set; }

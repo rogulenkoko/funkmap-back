@@ -117,6 +117,7 @@
     <Compile Include="Models\MarkerModel.cs" />
     <Compile Include="Models\MusicianModel.cs" />
     <Compile Include="Models\RehearsalPointModel.cs" />
+    <Compile Include="Models\Requests\FilteredMusicianRequest.cs" />
     <Compile Include="Models\Requests\FullLocationRequest.cs" />
     <Compile Include="Models\Requests\LocationRequest.cs" />
     <Compile Include="Models\SearchModel.cs" />

@@ -17,7 +17,7 @@ namespace Funkmap.Controllers
         }
        
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("get/{login}")]
         public async Task<IHttpActionResult> GetShop(string login)
         {
             var shopEntity = await _shopRepository.GetAsync(login);

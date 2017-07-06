@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Data.Entities;
 
-namespace Funkmap.Data.Parameters
+namespace Funkmap.Models.Requests
 {
-    public class MusicianFilterParameter
+    public class FilteredMusicianRequest
     {
         public InstrumentType Instrument { get; set; }
         public ExpirienceType Expirience { get; set; }

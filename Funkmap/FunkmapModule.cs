@@ -32,10 +32,21 @@ namespace Funkmap
             builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BandEntity>>();
 
+            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<ShopEntity>(CollectionNameProvider.BaseCollectionName))
+                .As<IMongoCollection<ShopEntity>>();
+
+            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName))
+                .As<IMongoCollection<RehearsalPointEntity>>();
+
+            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
+                .As<IMongoCollection<StudioEntity>>();
+
             builder.RegisterType<BaseRepository>().As<IBaseRepository>().SingleInstance();
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
             builder.RegisterType<BandRepository>().As<IBandRepository>().SingleInstance();
             builder.RegisterType<ShopRepository>().As<IShopRepository>().SingleInstance();
+            builder.RegisterType<RehearsalPointRepository>().As<IRehearsalPointRepository>();
+            builder.RegisterType<StudioRepository>().As<IStudioRepository>();
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));

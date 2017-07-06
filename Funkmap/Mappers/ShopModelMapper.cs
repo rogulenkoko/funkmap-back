@@ -25,12 +25,14 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                Avatar = source.Photo.AsByteArray,
+                Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
                 YouTubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 Description = source.Description,
-                WorkingHoursDescription = source.WorkingHoursDescription
+                WorkingHoursDescription = source.WorkingHoursDescription,
+                WebSite = source.Website,
+                Address = source.Address
             };
         }
     }

@@ -25,8 +25,8 @@ namespace Funkmap.Data.Entities
         [BsonIgnoreIfDefault]
         public List<string> MusicianLogins{ get; set; }
 
-        [BsonElement("workh")]
+        [BsonElement("stls")]
         [BsonIgnoreIfDefault]
-        public string WorkingHoursDescription { get; set; }
+        public List<Styles> Styles { get; set; }
     }
 }

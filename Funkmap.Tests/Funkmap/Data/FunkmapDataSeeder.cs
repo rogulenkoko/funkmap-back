@@ -123,7 +123,10 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "beatles",
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 52)),
-                MusicianLogins = new List<string>() { "rogulenkoko", "razrab"}
+                MusicianLogins = new List<string>() { "rogulenkoko", "razrab"},
+                Styles = new List<Styles>() { Styles.Funk, Styles.HipHop},
+                Description = "Даже не буду ничего говорить",
+                VkLink = "vk"
             };
 
             var b2 = new BandEntity()
@@ -133,7 +136,10 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "rhcp",
                 VideoLinks = new List<string>() { "firstVideo", "secondVideo" },
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(28, 52)),
-                MusicianLogins = new List<string>() { "rogulenkoko" }
+                MusicianLogins = new List<string>() { "rogulenkoko" },
+                Styles = new List<Styles>() { Styles.Funk, Styles.Rock },
+                Description = "Мы жгучие перцы из солнечной калифорнии и этим все сказано",
+                YouTubeLink = "yt"
             };
 
             var b3 = new BandEntity()
@@ -141,7 +147,11 @@ namespace Funkmap.Tests.Funkmap.Data
                 UserLogin = "rogulenkoko",
                 Name = "Coldplay",
                 Login = "coldplay",
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 50))
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 50)),
+                Styles = new List<Styles>() { Styles.Rock },
+                Description = "Мы грустная группа которая играет холодно",
+                FacebookLink = "asda",
+                VkLink = "aaa"
             };
 
             repository.CreateAsync(b1).Wait();
@@ -158,7 +168,10 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "guitars",
                 Name = "Гитарушки",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(32, 52)),
-                Website = "https://ru.wikipedia.org/wiki/C_Sharp"
+                Website = "https://ru.wikipedia.org/wiki/C_Sharp",
+                Description = "Небольшой магазин с гитарами и прочим барахлом",
+                VkLink = "qwe",
+                Address = "пр-т Независимости 12"
             };
 
             var s2 = new ShopEntity()
@@ -166,22 +179,29 @@ namespace Funkmap.Tests.Funkmap.Data
                 Login = "pinkponk",
                 Name = "Пинк и Понк",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(33, 51)),
-                Website = "http://online-simpsons.ru"
+                Website = "http://online-simpsons.ru",
+                VkLink = "qwe"
             };
 
             var s3 = new ShopEntity()
             {
-                Login = "monkey",
+                Login = "monkeyb",
                 Name = "Monkey Business",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 54)),
-                Website = "https://сайт.com"
+                Website = "https://сайт.com",
+                Description = "Большой магазин с гитарами и прочим барахлом",
+                YouTubeLink = "asdasda",
+                Address = "пр-т Каменоостровский 11"
             };
             var s4 = new ShopEntity()
             {
                 Login = "oneshop",
                 Name = "One-shop",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 51)),
-                Website = "http://tttt.ru"
+                Website = "http://tttt.ru",
+                YouTubeLink = "asdasda",
+                FacebookLink = "asdasda",
+                Address = "пр-т Невский 5"
             };
 
             repository.CreateAsync(s1).Wait();

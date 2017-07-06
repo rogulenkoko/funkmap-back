@@ -8,6 +8,7 @@ using Funkmap.Common.Models;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
+using Funkmap.Models.Requests;
 
 namespace Funkmap.Controllers
 {
@@ -30,6 +31,14 @@ namespace Funkmap.Controllers
             MusicianPreviewModel musican = musicianEntity.ToPreviewModel();
             return Content(HttpStatusCode.OK, musican);
 
+        }
+
+        [HttpPost]
+        [Route("getfiltered/{id}")]
+        public async Task<IHttpActionResult> GetFilteredMusicians(FilteredMusicianRequest request)
+        {
+
+            return Ok();
         }
 
         [Authorize]
