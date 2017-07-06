@@ -16,5 +16,13 @@ namespace Funkmap.Models
         //для музыканта
         public InstrumentType Instrument { get; set; }
         public ExpirienceType Expirience { get; set; }
+
+
+        //для магазина 
+        public string Address { get; set; }
+        public string Website { get; set; }
+
+        //для группы 
+        public Styles[] Styles { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Funkmap.Data.Entities;
+﻿using System;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;
 
@@ -9,6 +10,24 @@ namespace Funkmap.Mappers
         public static SearchModel ToSearchModel(this BaseEntity source)
         {
             if (source == null) return null;
+
+            string address = String.Empty;
+
+            if (source is ShopEntity)
+            {
+                address = (source as ShopEntity)?.Address;
+            }
+
+            if (source is StudioEntity)
+            {
+                address = (source as StudioEntity)?.Address;
+            }
+
+            if (source is RehearsalPointEntity)
+            {
+                address = (source as RehearsalPointEntity)?.Address;
+            }
+
             return new SearchModel()
             {
                 Avatar = source.Photo?.AsByteArray,
@@ -17,7 +36,13 @@ namespace Funkmap.Mappers
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
                 Type = source.EntityType,
-                Instrument = (source as MusicianEntity)?.Instrument ?? InstrumentType.None
+                Instrument = (source as MusicianEntity)?.Instrument ?? InstrumentType.None,
+                Expirience = (source as MusicianEntity)?.ExpirienceType ?? ExpirienceType.None,
+
+                Address = address,
+                Website = (source as ShopEntity)?.Website,
+
+                Styles = (source as BandEntity)?.Styles?.ToArray()
             };
         }
     }
