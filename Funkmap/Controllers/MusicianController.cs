@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
@@ -34,11 +36,18 @@ namespace Funkmap.Controllers
         }
 
         [HttpPost]
-        [Route("getfiltered/{id}")]
+        [Route("getfiltered")]
         public async Task<IHttpActionResult> GetFilteredMusicians(FilteredMusicianRequest request)
         {
-
-            return Ok();
+            var parameter = new MusicianFilterParameter()
+            {
+                Instruments = request.Instruments,
+                Styles = request.Styles,
+                Expirience = request.Expirience
+            };
+            var entities = await _musicianRepository.GetFilteredMusiciansAsync(parameter);
+            var result = entities.Select(x => x.ToSearchModel()).ToList();
+            return Ok(result);
         }
 
         [Authorize]

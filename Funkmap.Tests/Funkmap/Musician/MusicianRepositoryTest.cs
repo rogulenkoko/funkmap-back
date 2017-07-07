@@ -20,6 +20,20 @@ namespace Funkmap.Tests.Funkmap.Musician
         }
 
         [TestMethod]
+        public void GetFilteredMusicianTest()
+        {
+            var parameter = new MusicianFilterParameter()
+            {
+                Styles = new List<Styles>() { Styles.Funk },
+                Expirience = ExpirienceType.Advanced
+            };
+
+            var result = _musicianRepository.GetFilteredMusiciansAsync(parameter).Result;
+
+
+        }
+
+        [TestMethod]
         public void GetStyleFilteredMusicianTest()
         {
             var parameter = new MusicianFilterParameter()
@@ -27,15 +41,15 @@ namespace Funkmap.Tests.Funkmap.Musician
                 Styles = new List<Styles>() { Styles.Funk }
             };
 
-            var result = _musicianRepository.GetFilteredMusicians(parameter).Result;
+            var result = _musicianRepository.GetFilteredMusiciansAsync(parameter).Result;
             Assert.AreEqual(result.Count, 2);
 
             parameter.Styles.Add(Styles.Rock);
-            result = _musicianRepository.GetFilteredMusicians(parameter).Result;
+            result = _musicianRepository.GetFilteredMusiciansAsync(parameter).Result;
             Assert.AreEqual(result.Count, 1);
 
             parameter.Styles.Add(Styles.HipHop);
-            result = _musicianRepository.GetFilteredMusicians(parameter).Result;
+            result = _musicianRepository.GetFilteredMusiciansAsync(parameter).Result;
             Assert.AreEqual(result.Count, 0);
 
 

@@ -24,7 +24,14 @@ namespace Funkmap.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<MusicianEntity>> GetFilteredMusicians(MusicianFilterParameter parameter)
+        public override async Task<ICollection<MusicianEntity>> GetAllAsync()
+        {
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
+            var result = await _collection.Find(filter).ToListAsync();
+            return result;
+        }
+
+        public async Task<ICollection<MusicianEntity>> GetFilteredMusiciansAsync(MusicianFilterParameter parameter)
         {
             //db.bases.find({t:1, stls:{$all:[1,3]}, exp:1, intsr:{$in:[1,2]} })
             var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician); //todo подумать как для каждого репозитория вынести этот фильтр
