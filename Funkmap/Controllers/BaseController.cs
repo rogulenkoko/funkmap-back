@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Auth;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
@@ -67,7 +68,17 @@ namespace Funkmap.Controllers
             var baseEntities = await _repository.GetSpecificAsync(logins);
             var items = baseEntities.Select(x => x.ToSearchModel());
             return Ok(items);
-
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("users")]
+        public async Task<IHttpActionResult> GetUserEntitiesLogins()
+        {
+            var userLogin = Request.GetLogin();
+            var logins = await _repository.GetUserEntitiesLogins(userLogin);
+            return Ok(logins);
+        }
+
     }
 }

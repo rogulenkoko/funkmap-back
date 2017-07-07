@@ -41,7 +41,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Password = "1",
                 Email = "rogulenkoko@gmail.com"
             };
-            u1.Avatar = ImageProvider.GetAvatar();
+            u1.Avatar = ImageProvider.GetAvatar("avatar.jpg");
 
             var u2 = new UserEntity()
             {
@@ -75,7 +75,7 @@ namespace Funkmap.Tests.Funkmap.Data
             };
 
 
-            m1.Photo = ImageProvider.GetAvatar();
+            m1.Photo = ImageProvider.GetAvatar("avatar.jpg");
 
             var m2 = new MusicianEntity()
             {
@@ -128,6 +128,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Description = "Даже не буду ничего говорить",
                 VkLink = "vk"
             };
+
+            b1.Photo = ImageProvider.GetAvatar("beatles-avatar.jpg");
 
             var b2 = new BandEntity()
             {

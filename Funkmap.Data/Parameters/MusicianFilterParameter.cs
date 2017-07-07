@@ -5,7 +5,7 @@ namespace Funkmap.Data.Parameters
 {
     public class MusicianFilterParameter
     {
-        public InstrumentType Instrument { get; set; }
+        public List<InstrumentType> Instruments { get; set; }
         public ExpirienceType Expirience { get; set; }
         public List<Styles> Styles { get; set; }
     }

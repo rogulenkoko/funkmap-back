@@ -133,7 +133,9 @@
   <ItemGroup>
     <Resource Include="Images\avatar.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\beatles-avatar.jpg" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

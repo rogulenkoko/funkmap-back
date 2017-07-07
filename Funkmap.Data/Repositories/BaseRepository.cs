@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
@@ -77,6 +78,15 @@ namespace Funkmap.Data.Repositories
         {
             var filter = Builders<BaseEntity>.Filter.In(x => x.Login, logins);
             var result = await _collection.Find(filter).ToListAsync();
+            return result;
+        }
+
+        public async Task<ICollection<string>> GetUserEntitiesLogins(string userLogin)
+        {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.UserLogin, userLogin);
+            var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
+            var entities = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+            var result = entities.Select(x => x.Login).ToList();
             return result;
         }
 

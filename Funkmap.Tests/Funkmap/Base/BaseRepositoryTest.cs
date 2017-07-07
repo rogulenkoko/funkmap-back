@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Tests.Funkmap.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Funkmap.Tests.Funkmap.Base
 {

@@ -26,7 +26,7 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<MusicianEntity>> GetFilteredMusicians(MusicianFilterParameter parameter)
         {
-            //db.bases.find({t:1, stls:{$all:[1,3]}, exp:1, intsr:1 })
+            //db.bases.find({t:1, stls:{$all:[1,3]}, exp:1, intsr:{$in:[1,2]} })
             var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician); //todo подумать как для каждого репозитория вынести этот фильтр
 
             if (parameter.Styles != null && parameter.Styles.Count != 0)
@@ -39,9 +39,9 @@ namespace Funkmap.Data.Repositories
                 filter = filter & Builders<MusicianEntity>.Filter.Eq(x => x.ExpirienceType, parameter.Expirience);
             }
 
-            if (parameter.Instrument != InstrumentType.None)
+            if (parameter.Instruments != null && parameter.Instruments.Count != 0)
             {
-                filter = filter & Builders<MusicianEntity>.Filter.Eq(x => x.Instrument, parameter.Instrument);
+                filter = filter & Builders<MusicianEntity>.Filter.In(x => x.Instrument, parameter.Instruments);
             }
             var result = await _collection.Find(filter).ToListAsync();
             return result;
