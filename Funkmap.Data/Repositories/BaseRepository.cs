@@ -62,7 +62,7 @@ namespace Funkmap.Data.Repositories
         {
             var center = new[] { parameter.Longitude, parameter.Latitude };
             var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
-            
+
             ICollection<BaseEntity> result;
             if (parameter.Longitude == null || parameter.Latitude == null)
             {
@@ -95,23 +95,32 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
+            var filter = CreateFilter(commonFilter, parameter);
+            var result = await _collection.Find(filter).Skip(commonFilter.Take).Limit(commonFilter.Take).ToListAsync();
+            return result;
+        }
 
+        public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        {
+            var filter = CreateFilter(commonFilter, parameter);
+            var result = await _collection.Find(filter).ToListAsync();
+            return result.Select(x=>x.Login).ToList();
+        }
+
+        private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        {
             var filter = _filterFactory.CreateFilter(parameter);
-            if (commonFilter != null)
-            {
-                if (commonFilter.EntityType != 0)
-                {
-                    filter = filter & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, commonFilter.EntityType);
-                }
 
-                if (!String.IsNullOrEmpty(commonFilter.SearchText))
-                {
-                    filter = filter & Builders<BaseEntity>.Filter.Regex(x => x.Name, $"/{commonFilter.SearchText}/i");
-                }
+            if (commonFilter.EntityType != 0)
+            {
+                filter = filter & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, commonFilter.EntityType);
             }
 
-            var result = await _collection.Find(filter).ToListAsync();
-            return result;
+            if (!String.IsNullOrEmpty(commonFilter.SearchText))
+            {
+                filter = filter & Builders<BaseEntity>.Filter.Regex(x => x.Name, $"/{commonFilter.SearchText}/i");
+            }
+            return filter;
         }
 
         public virtual Task<UpdateResult> UpdateAsync(BaseEntity entity)

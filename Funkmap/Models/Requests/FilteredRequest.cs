@@ -6,6 +6,8 @@ namespace Funkmap.Models.Requests
 {
     public class FilteredRequest
     {
+        public int Skip { get; set; }
+        public int Take { get; set; }
         public string SearchText { get; set; }
         public EntityType EntityType { get; set; }
         public List<InstrumentType> Instruments { get; set; }

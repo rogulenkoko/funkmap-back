@@ -7,6 +7,7 @@ using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models.Requests;
+using Funkmap.Models.Responses;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 
@@ -75,6 +76,15 @@ namespace Funkmap.Controllers
             return Ok(items);
         }
 
+        [HttpPost]
+        [Route("specificmarkers")]
+        public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
+        {
+            var baseEntities = await _repository.GetSpecificAsync(logins);
+            var items = baseEntities.Select(x => x.ToMarkerModel());
+            return Ok(items);
+        }
+
         [HttpGet]
         [Authorize]
         [Route("users")]
@@ -92,12 +102,23 @@ namespace Funkmap.Controllers
             var commonParameter = new CommonFilterParameter()
             {
                 EntityType = request.EntityType,
-                SearchText = request.SearchText
+                SearchText = request.SearchText,
+                Skip = request.Skip,
+                Take = request.Take
             };
             var paramter = _parameterFactory.CreateParameter(request);
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
-            var result = filteredEntities.Select(x => x.ToSearchModel()).ToList();
-            return Ok(result);
+            var items = filteredEntities.Select(x => x.ToSearchModel()).ToList();
+
+            var logins = await _repository.GetAllFilteredLoginsAsync(commonParameter, paramter);
+
+            var reponse = new SearchResponse()
+            {
+                Items = items,
+                AllCount = logins.Count,
+                AllLogins = logins
+            };
+            return Ok(reponse);
         }
 
 
