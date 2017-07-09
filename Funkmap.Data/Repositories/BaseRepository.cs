@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Data.Services.Abstract;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -14,10 +14,13 @@ namespace Funkmap.Data.Repositories
     public class BaseRepository : IBaseRepository
     {
         private readonly IMongoCollection<BaseEntity> _collection;
+        private readonly IFilterFactory _filterFactory;
 
-        public BaseRepository(IMongoCollection<BaseEntity> collection)
+        public BaseRepository(IMongoCollection<BaseEntity> collection,
+                              IFilterFactory filterFactory)
         {
             _collection = collection;
+            _filterFactory = filterFactory;
         }
 
         public async Task<ICollection<BaseEntity>> GetAllAsyns()
@@ -87,6 +90,27 @@ namespace Funkmap.Data.Repositories
             var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
             var entities = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
             var result = entities.Select(x => x.Login).ToList();
+            return result;
+        }
+
+        public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        {
+
+            var filter = _filterFactory.CreateFilter(parameter);
+            if (commonFilter != null)
+            {
+                if (commonFilter.EntityType != 0)
+                {
+                    filter = filter & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, commonFilter.EntityType);
+                }
+
+                if (!String.IsNullOrEmpty(commonFilter.SearchText))
+                {
+                    filter = filter & Builders<BaseEntity>.Filter.Regex(x => x.Name, $"/{commonFilter.SearchText}/i");
+                }
+            }
+
+            var result = await _collection.Find(filter).ToListAsync();
             return result;
         }
 

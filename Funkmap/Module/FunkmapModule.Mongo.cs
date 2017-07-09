@@ -9,13 +9,17 @@ using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Data.Services;
+using Funkmap.Data.Services.Abstract;
+using Funkmap.Tools;
+using Microsoft.VisualBasic;
 using MongoDB.Driver;
 
 namespace Funkmap
 {
-    public class FunkmapModule : IFunkmapModule
+    public partial class FunkmapModule 
     {
-        public void Register(ContainerBuilder builder)
+        private void RegisterMongoDependiences(ContainerBuilder builder)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
             var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
@@ -41,18 +45,12 @@ namespace Funkmap
             builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<StudioEntity>>();
 
-            builder.RegisterType<BaseRepository>().As<IBaseRepository>().SingleInstance();
-            builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
-            builder.RegisterType<BandRepository>().As<IBandRepository>().SingleInstance();
-            builder.RegisterType<ShopRepository>().As<IShopRepository>().SingleInstance();
-            builder.RegisterType<RehearsalPointRepository>().As<IRehearsalPointRepository>();
-            builder.RegisterType<StudioRepository>().As<IStudioRepository>();
-
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));
             var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
             
-            builder.RegisterBuildCallback(async c =>  
+
+            builder.RegisterBuildCallback(async c =>
             {
                 //создание индексов при запуске приложения
                 var collection = c.Resolve<IMongoCollection<BaseEntity>>();
@@ -63,9 +61,6 @@ namespace Funkmap
                     geoBaseIndexModel,
                 });
             });
-
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            Console.WriteLine("Загружен основной модуль");
         }
     }
 }

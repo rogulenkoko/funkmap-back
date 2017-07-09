@@ -7,6 +7,8 @@ using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models.Requests;
+using Funkmap.Tools;
+using Funkmap.Tools.Abstract;
 
 namespace Funkmap.Controllers
 {
@@ -14,10 +16,13 @@ namespace Funkmap.Controllers
     public class BaseController : ApiController
     {
         private readonly IBaseRepository _repository;
+        private readonly IParameterFactory _parameterFactory;
 
-        public BaseController(IBaseRepository repository)
+        public BaseController(IBaseRepository repository,
+                              IParameterFactory parameterFactory)
         {
             _repository = repository;
+            _parameterFactory = parameterFactory;
         }
 
         [HttpGet]
@@ -79,6 +84,22 @@ namespace Funkmap.Controllers
             var logins = await _repository.GetUserEntitiesLogins(userLogin);
             return Ok(logins);
         }
+
+        [HttpPost]
+        [Route("filtered")]
+        public async Task<IHttpActionResult> GetFiltered(FilteredRequest request)
+        {
+            var commonParameter = new CommonFilterParameter()
+            {
+                EntityType = request.EntityType,
+                SearchText = request.SearchText
+            };
+            var paramter = _parameterFactory.CreateParameter(request);
+            var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
+            var result = filteredEntities.Select(x => x.ToSearchModel()).ToList();
+            return Ok(result);
+        }
+
 
     }
 }

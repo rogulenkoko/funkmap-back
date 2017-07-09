@@ -9,6 +9,5 @@ namespace Funkmap.Data.Repositories.Abstract
 {
     public interface IMusicianRepository : IMongoRepository<MusicianEntity>
     {
-        Task<ICollection<MusicianEntity>> GetFilteredMusiciansAsync(MusicianFilterParameter parameter);
     }
 }

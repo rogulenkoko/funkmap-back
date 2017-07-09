@@ -103,6 +103,7 @@
     <Compile Include="Entities\RehearsalPointEntity.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Entities\StudioEntity.cs" />
+    <Compile Include="Parameters\CommonFilterParameter.cs" />
     <Compile Include="Parameters\FullLocationParameter.cs" />
     <Compile Include="Parameters\MusicianFilterParameter.cs" />
     <Compile Include="Repositories\Abstract\IRehearsalPointRepository.cs" />
@@ -122,6 +123,11 @@
     <Compile Include="Repositories\RehearsalPointRepository.cs" />
     <Compile Include="Repositories\ShopRepository.cs" />
     <Compile Include="Repositories\StudioRepository.cs" />
+    <Compile Include="Services\Abstract\IFilterFactory.cs" />
+    <Compile Include="Services\Abstract\IFilterService.cs" />
+    <Compile Include="Services\BandFilterService.cs" />
+    <Compile Include="Services\MusicianFilterService.cs" />
+    <Compile Include="Services\FilterFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
@@ -137,6 +143,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

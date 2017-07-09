@@ -16,5 +16,7 @@ namespace Funkmap.Data.Repositories.Abstract
         Task<ICollection<BaseEntity>> GetSpecificAsync(string[] logins);
 
         Task<ICollection<string>> GetUserEntitiesLogins(string userLogin);
+
+        Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
     }
 }

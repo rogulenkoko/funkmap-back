@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Common;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Data.Services;
+using Funkmap.Data.Services.Abstract;
 using Funkmap.Tests.Funkmap.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,7 +21,9 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestInitialize]
         public void Initialize()
         {
-            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName));
+            var filterServices = new List<IFilterService>() {new MusicianFilterService()};
+            IFilterFactory factory = new FilterFactory(filterServices);
+            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
 
         }
 
@@ -52,6 +58,25 @@ namespace Funkmap.Tests.Funkmap.Base
             logins.Add("rogulenkoko");
             result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
             Assert.AreEqual(result.Count, 2);
+        }
+
+        [TestMethod]
+        public void GetFilteredMusicians()
+        {
+            var commonParameter = new CommonFilterParameter()
+            {
+                EntityType = EntityType.Musician,
+                SearchText = "рог"
+            };
+
+            var musicianParameter = new MusicianFilterParameter()
+            {
+                Styles = new List<Styles>() { Styles.HipHop},
+                Expirience = ExpirienceType.Advanced
+            };
+
+            var result = _baseRepository.GetFilteredAsync(commonParameter, musicianParameter).Result;
+            Assert.AreEqual(result.Count, 1);
         }
     }
 }

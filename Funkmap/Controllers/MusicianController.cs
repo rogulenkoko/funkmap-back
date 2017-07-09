@@ -35,21 +35,6 @@ namespace Funkmap.Controllers
 
         }
 
-        [HttpPost]
-        [Route("getfiltered")]
-        public async Task<IHttpActionResult> GetFilteredMusicians(FilteredMusicianRequest request)
-        {
-            var parameter = new MusicianFilterParameter()
-            {
-                Instruments = request.Instruments,
-                Styles = request.Styles,
-                Expirience = request.Expirience
-            };
-            var entities = await _musicianRepository.GetFilteredMusiciansAsync(parameter);
-            var result = entities.Select(x => x.ToSearchModel()).ToList();
-            return Ok(result);
-        }
-
         [Authorize]
         [HttpPost]
         [Route("save")]
