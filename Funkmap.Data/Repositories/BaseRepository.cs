@@ -96,7 +96,7 @@ namespace Funkmap.Data.Repositories
         public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var filter = CreateFilter(commonFilter, parameter);
-            var result = await _collection.Find(filter).Skip(commonFilter.Take).Limit(commonFilter.Take).ToListAsync();
+            var result = await _collection.Find(filter).Skip(commonFilter.Skip).Limit(commonFilter.Take).ToListAsync();
             return result;
         }
 
