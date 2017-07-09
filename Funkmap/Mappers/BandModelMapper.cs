@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Funkmap.Data.Entities;
 using Funkmap.Models;
+using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Mappers
 {
@@ -18,6 +19,24 @@ namespace Funkmap.Mappers
                 VideoLinks = source.VideoLinks,
                 DesiredInstruments = source.DesiredInstruments,
                 Musicians = source.MusicianLogins
+            };
+        }
+
+        public static BandEntity ToBandEntity(this BandModel source)
+        {
+            if (source == null) return null;
+
+            return new BandEntity()
+            {
+                Login = source.Login,
+                Description = source.Description,
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)),
+                Name = source.Name,
+                Styles = source.Styles.ToList(),
+                Photo = source.Avatar ?? new byte[] { },
+                YouTubeLink = source.YouTubeLink,
+                VkLink = source.VkLink,
+                FacebookLink = source.FacebookLink
             };
         }
 
