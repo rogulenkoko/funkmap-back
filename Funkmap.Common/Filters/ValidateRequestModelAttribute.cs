@@ -14,6 +14,11 @@ namespace Funkmap.Common.Filters
                 actionContext.Response = actionContext.Request.CreateErrorResponse(
                     HttpStatusCode.BadRequest, actionContext.ModelState);
             }
+
+            if (actionContext.ActionArguments.ContainsValue(null))
+            {
+                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The argument cannot be null");
+            }
         }
     }
 }

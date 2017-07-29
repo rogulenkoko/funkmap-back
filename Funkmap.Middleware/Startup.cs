@@ -12,6 +12,7 @@ using Funkmap.Module.Auth;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
+using NLog;
 using Owin;
 
 namespace Funkmap.Middleware
@@ -29,6 +30,7 @@ namespace Funkmap.Middleware
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             var containerBuilder = new ContainerBuilder();
+
 
             LoadAssemblies();
             RegisterModules(containerBuilder);

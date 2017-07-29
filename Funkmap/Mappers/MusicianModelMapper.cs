@@ -23,10 +23,14 @@ namespace Funkmap.Mappers
                 Age = (int)Math.Round((DateTime.Now - source.BirthDate).TotalDays / 365),
                 Styles = source.Styles.ToArray(),
                 Avatar = source.Photo?.Bytes,
-                YouTubeLink = source.YouTubeLink,
+                VideosYoutube = source.YouTubeVideoLins,
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,
-                Instrument = source.Instrument
+                Instrument = source.Instrument,
+                Expirience = source.ExpirienceType,
+                SoundCloudLink = source.SoundCloudLink,
+                YoutubeLink = source.YouTubeLink
+                
             };
         }
 
@@ -44,10 +48,13 @@ namespace Funkmap.Mappers
                 BirthDate = source.BirthDate,
                 Styles = source.Styles.ToList(),
                 Photo = source.Avatar ?? new byte[] {},
-                YouTubeLink = source.YouTubeLink,
+                YouTubeVideoLins = source.VideosYoutube?.Where(x=> !String.IsNullOrEmpty(x)).Distinct().ToList(),
+                YouTubeLink = source.YoutubeLink,
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,
-                Instrument = source.Instrument
+                Instrument = source.Instrument,
+                ExpirienceType = source.Expirience,
+                SoundCloudLink = source.SoundCloudLink
             };
         }
 

@@ -35,6 +35,16 @@ namespace Funkmap.Controllers
 
         }
 
+        [HttpGet]
+        [Route("getFull/{id}")]
+        public async Task<IHttpActionResult> GetFullMusician(string id)
+        {
+            var musicianEntity = await _musicianRepository.GetAsync(id);
+            MusicianModel musican = musicianEntity.ToMusicianModel();
+            return Content(HttpStatusCode.OK, musican);
+
+        }
+
         [Authorize]
         [HttpPost]
         [Route("save")]

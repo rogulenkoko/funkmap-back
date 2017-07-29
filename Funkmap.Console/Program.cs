@@ -1,4 +1,5 @@
-﻿using Funkmap.Middleware;
+﻿using System.Configuration;
+using Funkmap.Middleware;
 using Microsoft.Owin.Hosting;
 
 namespace Funkmap.Console
@@ -7,8 +8,7 @@ namespace Funkmap.Console
     {
         static void Main(string[] args)
         {
-            string baseAddress = "http://localhost:9000/";
-            //string baseAddress = "http://office.scout-gps.ru:11212/";
+            string baseAddress = ConfigurationManager.AppSettings["serverAddress"];
 
             using (WebApp.Start<Startup>(baseAddress))
             {

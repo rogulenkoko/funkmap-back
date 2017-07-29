@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{09F81BB0-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Data", "Funkmap.Auth.Data\Funkmap.Auth.Data.csproj", "{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap.Web\Funkmap.Web.csproj", "{8DC1D182-24EA-467E-A9CF-C1833B6977A1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Console", "Funkmap.Console\Funkmap.Console.csproj", "{61AFCC5A-0521-4ED3-A21B-6313F1A05945}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Middleware", "Funkmap.Middleware\Funkmap.Middleware.csproj", "{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}"
@@ -34,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger", "Funkmap.Messenger\Funkmap.Messenger.csproj", "{A7957BFB-CF3B-4820-A929-F53FCAFFA00D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Data", "Funkmap.Messenger.Data\Funkmap.Messenger.Data.csproj", "{592D2C7A-FF06-45E5-B9AB-BF25F83815D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap.Web\Funkmap.Web.csproj", "{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +57,6 @@ Global
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DC1D182-24EA-467E-A9CF-C1833B6977A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DC1D182-24EA-467E-A9CF-C1833B6977A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DC1D182-24EA-467E-A9CF-C1833B6977A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DC1D182-24EA-467E-A9CF-C1833B6977A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,6 +85,10 @@ Global
 		{592D2C7A-FF06-45E5-B9AB-BF25F83815D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{592D2C7A-FF06-45E5-B9AB-BF25F83815D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{592D2C7A-FF06-45E5-B9AB-BF25F83815D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

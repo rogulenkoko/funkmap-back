@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Funkmap.Data.Entities;
 using Microsoft.Build.Framework;
 
@@ -26,11 +27,16 @@ namespace Funkmap.Models
         [Required]
         public InstrumentType Instrument { get; set; }
 
+        public ExpirienceType Expirience { get; set; }
+
         public byte[] Avatar { get; set; }
 
+        public List<string> VideosYoutube { get; set; }
+
         public string VkLink { get; set; }
-        public string YouTubeLink { get; set; }
+        public string YoutubeLink { get; set; }
         public string FacebookLink { get; set; }
+        public string SoundCloudLink { get; set; }
     }
 
     public class MusicianPreviewModel

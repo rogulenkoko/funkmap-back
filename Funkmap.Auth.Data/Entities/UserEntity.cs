@@ -7,6 +7,11 @@ namespace Funkmap.Auth.Data.Entities
 {
     public class UserEntity
     {
+        public UserEntity()
+        {
+            Favourites = new List<string>();
+        }
+
         [BsonId]
         public ObjectId Id { get; set; }
 
