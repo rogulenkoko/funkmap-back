@@ -3,12 +3,16 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Autofac;
+using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Notification;
 using Funkmap.Common.Notification.Abstract;
+using Funkmap.Messenger;
 using Funkmap.Module.Auth;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
@@ -27,6 +31,8 @@ namespace Funkmap.Middleware
             appBuilder.UseCors(CorsOptions.AllowAll);
             appBuilder.Use<FunkmapMiddleware>();
 
+           
+
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             var containerBuilder = new ContainerBuilder();
@@ -36,6 +42,9 @@ namespace Funkmap.Middleware
             RegisterModules(containerBuilder);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();
+            
+            
+            
 
             var container = containerBuilder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
@@ -51,16 +60,20 @@ namespace Funkmap.Middleware
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = container.Resolve<FunkmapAuthProvider>(),
-                RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
-                
-                
+                RefreshTokenProvider = new FunkmapRefreshTokenProvider()
             };
             
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
             appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
             
+
             config.MapHttpAttributeRoutes();
             appBuilder.UseWebApi(config);
+
+            var signalRConfig = new HubConfiguration();
+            signalRConfig.Resolver = new AutofacDependencyResolver(container);
+            appBuilder.MapSignalR("/signalr", signalRConfig);
         }
 
         private void LoadAssemblies()
