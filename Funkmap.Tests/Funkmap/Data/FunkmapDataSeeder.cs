@@ -27,32 +27,12 @@ namespace Funkmap.Tests.Funkmap.Data
             SeedMusicians();
             SeedBands();
             SeedShops();
-            SeedUsers();
+            
             SeedStudios();
             SeedRehearsalPoints();
         }
 
-        private void SeedUsers()
-        {
-            var repository = new AuthRepository(_database.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
-            var u1 = new UserEntity()
-            {
-                Login = "rogulenkoko",
-                Password = "1",
-                Email = "rogulenkoko@gmail.com"
-            };
-            u1.Avatar = ImageProvider.GetAvatar("avatar.jpg");
-
-            var u2 = new UserEntity()
-            {
-                Login = "test",
-                Password = "1",
-                Email = "test@mail.ru",
-                Favourites = new List<string>() { "madlib" }
-            };
-            repository.CreateAsync(u1).Wait();
-            repository.CreateAsync(u2).Wait();
-        }
+        
 
         private void SeedMusicians()
         {

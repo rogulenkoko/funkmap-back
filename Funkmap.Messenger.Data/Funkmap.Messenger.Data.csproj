@@ -58,7 +58,8 @@
   <ItemGroup>
     <Compile Include="Entities\DialogEntity.cs" />
     <Compile Include="Entities\MessageEntity.cs" />
-    <Compile Include="Parameters\DialogParameter.cs" />
+    <Compile Include="Parameters\DialogMessagesParameter.cs" />
+    <Compile Include="Parameters\UserDialogsParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstract\IDialogRepository.cs" />
     <Compile Include="Repositories\Abstract\IMessageRepository.cs" />

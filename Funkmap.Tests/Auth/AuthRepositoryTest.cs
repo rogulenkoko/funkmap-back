@@ -4,6 +4,7 @@ using Funkmap.Auth.Data.Entities;
 using Funkmap.Tests.Funkmap.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Funkmap.Module.Auth;
+using Funkmap.Tests.Auth.Data;
 
 namespace Funkmap.Tests.Funkmap.Auth
 {
@@ -15,7 +16,7 @@ namespace Funkmap.Tests.Funkmap.Auth
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new AuthRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
+            _repository = new AuthRepository(AuthTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
         }
 
         [TestMethod]

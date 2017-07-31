@@ -22,22 +22,19 @@ namespace Funkmap.Messenger.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<MessageEntity>> GetDilaogMessages(DialogParameter parameter)
+        public async Task<ICollection<MessageEntity>> GetDilaogMessages(DialogMessagesParameter messagesParameter)
         {
-            var keys = Builders<MessageEntity>.IndexKeys.Descending(x => x.Date);
-            _collection.Indexes.CreateOne(keys);
-
             //диалог с самим собой
-            if (parameter.Members.Length == 2 && parameter.Members[0] == parameter.Members[1])
+            if (messagesParameter.Members.Length == 2 && messagesParameter.Members[0] == messagesParameter.Members[1])
             {
-                return await _collection.Find(x => x.Consumer == parameter.Members[0] && x.Sender == parameter.Members[0]).ToListAsync();
+                return await _collection.Find(x => x.Receiver == messagesParameter.Members[0] && x.Sender == messagesParameter.Members[0]).ToListAsync();
             }
 
-            var result = await _collection.Find(x => parameter.Members.Contains(x.Consumer)
-                                                           && parameter.Members.Contains(x.Sender)
-                                                           && !(x.Sender == parameter.Members[0] && x.Consumer == parameter.Members[0]))
-                .Skip(parameter.Skip)
-                .Limit(parameter.Take)
+            var result = await _collection.Find(x => messagesParameter.Members.Contains(x.Receiver)
+                                                           && messagesParameter.Members.Contains(x.Sender)
+                                                           && !(x.Sender == messagesParameter.Members[0] && x.Receiver == messagesParameter.Members[0]))
+                .Skip(messagesParameter.Skip)
+                .Limit(messagesParameter.Take)
                 .ToListAsync();
 
             return result;

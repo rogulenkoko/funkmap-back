@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using MongoDB.Driver;
 
@@ -21,9 +22,9 @@ namespace Funkmap.Messenger.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<DialogEntity>> GetUserDialogs(string login)
+        public async Task<ICollection<DialogEntity>> GetUserDialogs(UserDialogsParameter parameter)
         {
-            return await _collection.Find(dialog => dialog.Participants.Any(participant => participant == login)).ToListAsync();
+            return await _collection.Find(dialog => dialog.Participants.Any(participant => participant == parameter.Login)).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
         }
     }
 }

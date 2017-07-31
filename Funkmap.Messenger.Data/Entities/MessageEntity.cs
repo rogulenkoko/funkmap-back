@@ -11,13 +11,20 @@ namespace Funkmap.Messenger.Data.Entities
 {
     public class MessageEntity : MongoEntity
     {
-        public DateTime Date { get; set; }
+
+        public MessageEntity()
+        {
+            DateTimeUtc = DateTime.UtcNow;
+        }
+
+        [BsonElement("date")]
+        public DateTime DateTimeUtc { get; set; }
 
         [BsonElement("sen")]
         public string Sender { get; set; }
 
-        [BsonElement("cons")]
-        public string Consumer { get; set; }
+        [BsonElement("rec")]
+        public string Receiver { get; set; }
 
         [BsonElement("t")]
         public string Text { get; set; }

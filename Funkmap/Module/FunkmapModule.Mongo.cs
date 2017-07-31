@@ -24,25 +24,28 @@ namespace Funkmap
             var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
             var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
             var mongoClient = new MongoClient(connectionString);
-            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().SingleInstance();
+
+            var databaseIocName = "funkmap";
+
+            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
 
 
-            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BaseEntity>>();
 
-            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<MusicianEntity>>();
 
-            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BandEntity>>();
 
-            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<ShopEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<ShopEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<ShopEntity>>();
 
-            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<RehearsalPointEntity>>();
 
-            builder.Register(container => container.Resolve<IMongoDatabase>().GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<StudioEntity>>();
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });

@@ -1,6 +1,6 @@
 ﻿namespace Funkmap.Messenger.Data.Parameters
 {
-    public class DialogParameter
+    public class DialogMessagesParameter
     {
         public string[] Members { get; set; }
         public int Skip { get; set; }

@@ -11,6 +11,6 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
 {
     public interface IMessageRepository : IMongoRepository<MessageEntity>
     {
-        Task<ICollection<MessageEntity>> GetDilaogMessages(DialogParameter parameter);
+        Task<ICollection<MessageEntity>> GetDilaogMessages(DialogMessagesParameter messagesParameter);
     }
 }

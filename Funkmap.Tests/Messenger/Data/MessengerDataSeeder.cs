@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Data.Entities;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
@@ -31,14 +27,14 @@ namespace Funkmap.Tests.Messenger.Data
             var messageRepository = new MessageRepository(_database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessegesCollectionName));
             var messages = new List<MessageEntity>()
             {
-                new MessageEntity() {Consumer = "test", Sender = "rogulenkoko", Text = "привет",Date = DateTime.Now.AddMinutes(2) },
-                new MessageEntity() {Consumer = "rogulenkoko", Sender = "test", Text = "привет",Date = DateTime.Now.AddMinutes(5) },
-                new MessageEntity() {Consumer = "test", Sender = "rogulenkoko", Text = "привет",Date = DateTime.Now.AddMinutes(1) },
-                new MessageEntity() {Consumer = "test", Sender = "rogulenkoko", Text = "привет",Date = DateTime.Now.AddMinutes(7) },
-                new MessageEntity() {Consumer = "asd", Sender = "rogulenkoko", Text = "привет",Date = DateTime.Now.AddMinutes(2) },
-                new MessageEntity() {Consumer = "test", Sender = "asd", Text = "привет",Date = DateTime.Now.AddMinutes(2) },
-                new MessageEntity() {Consumer = "test", Sender = "rogulenkoko", Text = "привет",Date = DateTime.Now },
-                new MessageEntity() {Consumer = "rogulenkoko", Sender = "rogulenkoko", Text = "с самим собой",Date = DateTime.Now }
+                new MessageEntity() {Receiver = "test", Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(2) },
+                new MessageEntity() {Receiver = "rogulenkoko", Sender = "test", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(5) },
+                new MessageEntity() {Receiver = "test", Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(1) },
+                new MessageEntity() {Receiver = "test", Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(7) },
+                new MessageEntity() {Receiver = "asd", Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(2) },
+                new MessageEntity() {Receiver = "test", Sender = "asd", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(2) },
+                new MessageEntity() {Receiver = "test", Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now },
+                new MessageEntity() {Receiver = "rogulenkoko", Sender = "rogulenkoko", Text = "с самим собой",DateTimeUtc= DateTime.Now }
             };
             foreach (var message in messages)
             {

@@ -1,12 +1,13 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Funkmap.Messenger.Services
 {
     public interface IMessengerCacheService
     {
+        void AddOnlineUser(string id, string login);
+        void RemoveOnlineUser(string id);
+
+        ICollection<string> GetConnectionIdsByLogin(string login);
     }
 }

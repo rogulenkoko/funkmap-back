@@ -77,8 +77,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Funkmap\Auth\AuthRepositoryTest.cs" />
-    <Compile Include="Funkmap\Auth\NotificationTest.cs" />
+    <Compile Include="Auth\Data\AuthDataSeeder.cs" />
+    <Compile Include="Auth\AuthRepositoryTest.cs" />
+    <Compile Include="Auth\Data\AuthTestDbProvider.cs" />
+    <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="Funkmap\Band\BandRepositoryTest.cs" />
     <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
     <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />

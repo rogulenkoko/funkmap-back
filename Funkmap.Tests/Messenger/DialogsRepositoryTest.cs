@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Tests.Funkmap.Data;
@@ -34,10 +35,17 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetUserDialogs()
         {
-            var dialogs = _dialogRepository.GetUserDialogs("rogulenkoko").Result;
+            var parameter = new UserDialogsParameter()
+            {
+                Login = "rogulenkoko",
+                Skip = 0,
+                Take = 100
+            };
+            var dialogs = _dialogRepository.GetUserDialogs(parameter).Result;
             Assert.AreEqual(dialogs.Count, 4);
 
-            dialogs = _dialogRepository.GetUserDialogs("test").Result;
+            parameter.Login = "test";
+            dialogs = _dialogRepository.GetUserDialogs(parameter).Result;
             Assert.AreEqual(dialogs.Count, 2);
         }
     }

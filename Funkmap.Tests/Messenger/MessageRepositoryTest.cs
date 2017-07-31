@@ -29,7 +29,7 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetDialogMessages()
         {
-            var parameter = new DialogParameter()
+            var parameter = new DialogMessagesParameter()
             {
                 Members = new[] { "rogulenkoko", "test" },
                 Skip = 0,

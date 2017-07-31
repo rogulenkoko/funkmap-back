@@ -70,7 +70,8 @@ namespace Funkmap.Mappers
                 Expirience = source.ExpirienceType,
                 VkLink = source.VkLink,
                 YouTubeLink = source.YouTubeLink,
-                FacebookLink = source.FacebookLink
+                FacebookLink = source.FacebookLink,
+                SoundCloudLink = source.SoundCloudLink
             };
         }
     }
