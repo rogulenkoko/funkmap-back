@@ -8,6 +8,7 @@ using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models.Requests;
+using Funkmap.Messenger.Services;
 
 namespace Funkmap.Messenger.Controllers
 {
@@ -17,11 +18,15 @@ namespace Funkmap.Messenger.Controllers
     {
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessageRepository _messageRepository;
+        private readonly IMessengerCacheService _messengerCache;
 
-        public MessengerController(IDialogRepository dialogRepository, IMessageRepository messageRepository)
+        public MessengerController(IDialogRepository dialogRepository, 
+                                   IMessageRepository messageRepository,
+                                   IMessengerCacheService messengerCache)
         {
             _dialogRepository = dialogRepository;
             _messageRepository = messageRepository;
+            _messengerCache = messengerCache;
         }
 
         [HttpPost]
@@ -58,6 +63,15 @@ namespace Funkmap.Messenger.Controllers
             var messagesEntities = await _messageRepository.GetDilaogMessages(parameter);
             var messages = messagesEntities.Select(x => x.ToModel()).ToList();
             return Content(HttpStatusCode.OK, messages);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getOnlineUsers")]
+        public async Task<IHttpActionResult> GetDialogMessages()
+        {
+            var logins = _messengerCache.GetOnlineUsersLogins();
+            return Content(HttpStatusCode.OK, logins);
         }
     }
 }

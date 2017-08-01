@@ -9,5 +9,7 @@ namespace Funkmap.Messenger.Services
         void RemoveOnlineUser(string id);
 
         ICollection<string> GetConnectionIdsByLogin(string login);
+
+        ICollection<string> GetOnlineUsersLogins();
     }
 }

@@ -115,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MessengerController.cs" />
-    <Compile Include="Hubs\IMessengerHub.cs" />
+    <Compile Include="Hubs\Abstract\IMessengerHub.cs" />
     <Compile Include="Mappers\DialogMapper.cs" />
     <Compile Include="Mappers\MessageMapper.cs" />
     <Compile Include="MessengerCollectionNameProvider.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="Models\Requests\DialogMessagesRequest.cs" />
     <Compile Include="Models\Requests\DialogsRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IMessengerCacheService.cs" />
+    <Compile Include="Services\Abstract\IMessengerCacheService.cs" />
     <Compile Include="Services\MessengerCacheService.cs" />
   </ItemGroup>
   <ItemGroup>

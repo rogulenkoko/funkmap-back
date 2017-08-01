@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Models;
+using Funkmap.Messenger.Data.Repositories.Abstract;
+using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Services;
 using Microsoft.AspNet.SignalR;
@@ -12,20 +15,36 @@ namespace Funkmap.Messenger.Hubs
     public class MessengerHub : Hub, IMessengerHub
     {
         private readonly IMessengerCacheService _cacheService;
+        private readonly IMessageRepository _messageRepository;
 
-        public MessengerHub(IMessengerCacheService cacheService)
+        public MessengerHub(IMessengerCacheService cacheService,
+                            IMessageRepository messageRepository)
         {
             _cacheService = cacheService;
+            _messageRepository = messageRepository;
         }
 
         [HubMethodName("sendMessage")]
-        public BaseResponse SendMessage(Message message)
+        public async Task<BaseResponse> SendMessage(Message message)
         {
+            var response = new BaseResponse();
+
             var receiverConnectionIds = _cacheService.GetConnectionIdsByLogin(message.Receiver);
             var senderConnectionIds = _cacheService.GetConnectionIdsByLogin(message.Sender);
             var allIds = receiverConnectionIds.Concat(senderConnectionIds).ToList();
-            Clients.Clients(allIds).OnMessageSent(message);
-            return new BaseResponse() {Success = true};
+
+            try
+            {
+                await _messageRepository.CreateAsync(message.ToEntity());
+                Clients.Clients(allIds).OnMessageSent(message);
+                response.Success = true;
+                return response;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new BaseResponse();
+            }
         } 
 
         public override Task OnConnected()

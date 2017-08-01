@@ -33,5 +33,10 @@ namespace Funkmap.Messenger.Services
         {
             return _onlineUsers.Where(x => x.Value == login).Select(x => x.Key).ToList();
         }
+
+        public ICollection<string> GetOnlineUsersLogins()
+        {
+            return _onlineUsers.Values.Distinct().ToList();
+        }
     }
 }

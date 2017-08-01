@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Messenger.Data.Entities;
+﻿using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Models;
 
 namespace Funkmap.Messenger.Mappers
@@ -18,6 +13,17 @@ namespace Funkmap.Messenger.Mappers
                 Receiver = source.Receiver,
                 Sender = source.Sender,
                 DateTimeUtc = source.DateTimeUtc,
+                Text = source.Text
+            };
+        }
+
+        public static MessageEntity ToEntity(this Message source)
+        {
+            if (source == null) return null;
+            return new MessageEntity()
+            {
+                Receiver = source.Receiver,
+                Sender = source.Sender,
                 Text = source.Text
             };
         }
