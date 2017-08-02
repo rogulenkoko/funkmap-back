@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Funkmap.Messenger.Data.Repositories
@@ -35,7 +33,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
         public async Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter)
         {
-            var filter = Builders<DialogEntity>.Filter.All(x => x.Participants, parameter.Members);
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, new ObjectId(parameter.DialogId));
 
             var countProjection = Builders<DialogEntity>.Projection.Include(x => x.MessagesCount);
             var dialog = await _collection.Find(filter).Project<DialogEntity>(countProjection).SingleOrDefaultAsync();
@@ -49,6 +47,21 @@ namespace Funkmap.Messenger.Data.Repositories
             dialog = await _collection.Find(filter).Project<DialogEntity>(projection).SingleOrDefaultAsync();
             var messages = dialog?.Messages;
             return messages;
+        }
+
+        public async Task AddMessage(string dialogId, MessageEntity message)
+        {
+            var update = Builders<DialogEntity>.Update.Push(x => x.Messages, message).Inc(x => x.MessagesCount, 1);
+            await _collection.UpdateOneAsync<DialogEntity>(entity => entity.Id == new ObjectId(dialogId), update);
+        }
+
+        public async Task<ICollection<string>> GetDialogMembers(string id)
+        {
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, new ObjectId(id));
+            var projection = Builders<DialogEntity>.Projection.Include(x => x.Participants);
+            var dialog = await _collection.Find(filter).Project<DialogEntity>(projection).FirstOrDefaultAsync();
+            var members = dialog?.Participants;
+            return members;
         }
 
         public async Task CreateAsync(DialogEntity item)

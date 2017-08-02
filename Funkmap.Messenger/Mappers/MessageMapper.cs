@@ -12,7 +12,8 @@ namespace Funkmap.Messenger.Mappers
             {
                 Sender = source.Sender,
                 DateTimeUtc = source.DateTimeUtc,
-                Text = source.Text
+                Text = source.Text,
+
             };
         }
 

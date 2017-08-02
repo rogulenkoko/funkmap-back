@@ -14,6 +14,8 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
         Task CreateAsync(DialogEntity item);
         Task<ICollection<DialogEntity>> GetUserDialogsAsync(UserDialogsParameter parameter);
         Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter);
+        Task AddMessage(string dialogId, MessageEntity message);
+        Task<ICollection<string>> GetDialogMembers(string id);
 
 
     }

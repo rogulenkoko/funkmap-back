@@ -2,7 +2,7 @@
 {
     public class DialogMessagesRequest
     {
-        public string Reciever { get; set; }
+        public string DialogId { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
     }

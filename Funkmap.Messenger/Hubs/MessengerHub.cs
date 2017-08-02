@@ -16,33 +16,35 @@ namespace Funkmap.Messenger.Hubs
     public class MessengerHub : Hub, IMessengerHub
     {
         private readonly IMessengerCacheService _cacheService;
+        private readonly IDialogRepository _dialogRepository;
 
-        public MessengerHub(IMessengerCacheService cacheService)
+        public MessengerHub(IMessengerCacheService cacheService,
+                            IDialogRepository dialogRepository)
         {
             _cacheService = cacheService;
+            _dialogRepository = dialogRepository;
         }
 
         [HubMethodName("sendMessage")]
         public async Task<BaseResponse> SendMessage(Message message)
         {
-            return null;
-            //var response = new BaseResponse();
+            var response = new BaseResponse();
 
-            //var allIds = message.Receivers.Concat(new List<string>() { message.Sender }).ToList();
-            //var clientIds = _cacheService.GetConnectionIdsByLogins(allIds).ToList();
+            var members = await _dialogRepository.GetDialogMembers(message.DialogId);
+            var clientIds = _cacheService.GetConnectionIdsByLogins(members).ToList();
 
-            //try
-            //{
-            //    await _messageRepository.CreateAsync(message.ToEntity());
-            //    Clients.Clients(clientIds).OnMessageSent(message);
-            //    response.Success = true;
-            //    return response;
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    return new BaseResponse();
-            //}
+            try
+            {
+                await _dialogRepository.AddMessage(message.DialogId, message.ToEntity());
+                Clients.Clients(clientIds).OnMessageSent(message);
+                response.Success = true;
+                return response;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new BaseResponse();
+            }
         } 
 
         public override Task OnConnected()

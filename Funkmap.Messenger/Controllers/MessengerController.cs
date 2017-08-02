@@ -51,16 +51,18 @@ namespace Funkmap.Messenger.Controllers
         {
             var userLogin = Request.GetLogin();
 
+
+            //проверить является ли этот пользователем участником диалога
             var parameter = new DialogMessagesParameter()
             {
                 Skip = request.Skip,
                 Take = request.Take,
-                Members = new [] { request.Reciever, userLogin }
+                DialogId = request.DialogId
             };
 
-            //var messagesEntities = await _messageRepository.GetDilaogMessages(parameter);
-            //var messages = messagesEntities.Select(x => x.ToModel()).ToList();
-            return Content(HttpStatusCode.OK, new Message());
+            var messagesEntities = await _dialogRepository.GetDialogMessagesAsync(parameter);
+            var messages = messagesEntities.Select(x => x.ToModel()).ToList();
+            return Content(HttpStatusCode.OK, messages);
         }
 
         [HttpGet]
