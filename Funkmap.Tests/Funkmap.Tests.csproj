@@ -90,7 +90,6 @@
     <Compile Include="Messenger\Data\MessengerDbProvider.cs" />
     <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
     <Compile Include="Messenger\DialogsRepositoryTest.cs" />
-    <Compile Include="Messenger\MessageRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Funkmap\Shop\ShopRepositoryTest.cs" />
   </ItemGroup>

@@ -22,10 +22,7 @@ namespace Funkmap.Messenger.Data.Entities
 
         [BsonElement("sen")]
         public string Sender { get; set; }
-
-        [BsonElement("rec")]
-        public string Receiver { get; set; }
-
+        
         [BsonElement("t")]
         public string Text { get; set; }
 

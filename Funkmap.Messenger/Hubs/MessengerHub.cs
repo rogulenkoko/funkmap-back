@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Models;
@@ -15,36 +16,33 @@ namespace Funkmap.Messenger.Hubs
     public class MessengerHub : Hub, IMessengerHub
     {
         private readonly IMessengerCacheService _cacheService;
-        private readonly IMessageRepository _messageRepository;
 
-        public MessengerHub(IMessengerCacheService cacheService,
-                            IMessageRepository messageRepository)
+        public MessengerHub(IMessengerCacheService cacheService)
         {
             _cacheService = cacheService;
-            _messageRepository = messageRepository;
         }
 
         [HubMethodName("sendMessage")]
         public async Task<BaseResponse> SendMessage(Message message)
         {
-            var response = new BaseResponse();
+            return null;
+            //var response = new BaseResponse();
 
-            var receiverConnectionIds = _cacheService.GetConnectionIdsByLogin(message.Receiver);
-            var senderConnectionIds = _cacheService.GetConnectionIdsByLogin(message.Sender);
-            var allIds = receiverConnectionIds.Concat(senderConnectionIds).ToList();
+            //var allIds = message.Receivers.Concat(new List<string>() { message.Sender }).ToList();
+            //var clientIds = _cacheService.GetConnectionIdsByLogins(allIds).ToList();
 
-            try
-            {
-                await _messageRepository.CreateAsync(message.ToEntity());
-                Clients.Clients(allIds).OnMessageSent(message);
-                response.Success = true;
-                return response;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new BaseResponse();
-            }
+            //try
+            //{
+            //    await _messageRepository.CreateAsync(message.ToEntity());
+            //    Clients.Clients(clientIds).OnMessageSent(message);
+            //    response.Success = true;
+            //    return response;
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    return new BaseResponse();
+            //}
         } 
 
         public override Task OnConnected()

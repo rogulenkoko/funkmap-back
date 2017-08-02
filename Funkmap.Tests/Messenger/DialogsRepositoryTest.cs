@@ -26,13 +26,6 @@ namespace Funkmap.Tests.Messenger
         }
 
         [TestMethod]
-        public void GetAllDialogs()
-        {
-            var allDialogs = _dialogRepository.GetAllAsync().Result;
-            Assert.AreEqual(allDialogs.Count, 7);
-        }
-
-        [TestMethod]
         public void GetUserDialogs()
         {
             var parameter = new UserDialogsParameter()
@@ -41,12 +34,30 @@ namespace Funkmap.Tests.Messenger
                 Skip = 0,
                 Take = 100
             };
-            var dialogs = _dialogRepository.GetUserDialogs(parameter).Result;
+            var dialogs = _dialogRepository.GetUserDialogsAsync(parameter).Result;
             Assert.AreEqual(dialogs.Count, 4);
 
             parameter.Login = "test";
-            dialogs = _dialogRepository.GetUserDialogs(parameter).Result;
+            dialogs = _dialogRepository.GetUserDialogsAsync(parameter).Result;
             Assert.AreEqual(dialogs.Count, 2);
+        }
+
+        [TestMethod]
+        public void GetDialogMessages()
+        {
+            var parameter = new DialogMessagesParameter()
+            {
+                Members = new []{"rogulenkoko", "test"},
+                Take = 4,
+                Skip = 0
+            };
+
+            var messages = _dialogRepository.GetDialogMessagesAsync(parameter).Result;
+            Assert.AreEqual(messages.Count, 4);
+
+            parameter.Skip = 4;
+            messages = _dialogRepository.GetDialogMessagesAsync(parameter).Result;
+            Assert.AreEqual(messages.Count, 2);
         }
     }
 }

@@ -45,8 +45,7 @@ namespace Funkmap.Messenger
                     messageDateIndex
                 });
             });
-
-            builder.RegisterType<MessageRepository>().As<IMessageRepository>();
+            
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
 
             builder.RegisterType<MessengerCacheService>().As<IMessengerCacheService>().SingleInstance();

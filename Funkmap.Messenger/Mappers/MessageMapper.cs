@@ -10,7 +10,6 @@ namespace Funkmap.Messenger.Mappers
             if (source == null) return null;
             return new Message()
             {
-                Receiver = source.Receiver,
                 Sender = source.Sender,
                 DateTimeUtc = source.DateTimeUtc,
                 Text = source.Text
@@ -22,7 +21,6 @@ namespace Funkmap.Messenger.Mappers
             if (source == null) return null;
             return new MessageEntity()
             {
-                Receiver = source.Receiver,
                 Sender = source.Sender,
                 Text = source.Text
             };

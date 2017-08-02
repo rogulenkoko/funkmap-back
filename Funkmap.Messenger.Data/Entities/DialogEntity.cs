@@ -14,5 +14,12 @@ namespace Funkmap.Messenger.Data.Entities
         [BsonElement("prtcpnts")]
         public List<string> Participants { get; set; }
 
+
+        [BsonElement("mc")]
+        public int MessagesCount { get; set; }
+
+        [BsonElement("m")]
+        public List<MessageEntity> Messages { get; set; }
+
     }
 }

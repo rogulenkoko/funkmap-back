@@ -40,9 +40,9 @@ namespace Funkmap.Messenger.Services
             
         }
 
-        public ICollection<string> GetConnectionIdsByLogin(string login)
+        public ICollection<string> GetConnectionIdsByLogins(ICollection<string> logins)
         {
-            return _onlineUsers.Where(x => x.Value == login).Select(x => x.Key).ToList();
+            return _onlineUsers.Where(x => logins.Contains(x.Value)).Select(x => x.Key).ToList();
         }
 
         public ICollection<string> GetOnlineUsersLogins()

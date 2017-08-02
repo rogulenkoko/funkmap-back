@@ -7,6 +7,7 @@ using Funkmap.Common.Filters;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
+using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Services;
 
@@ -17,15 +18,12 @@ namespace Funkmap.Messenger.Controllers
     public class MessengerController : ApiController
     {
         private readonly IDialogRepository _dialogRepository;
-        private readonly IMessageRepository _messageRepository;
         private readonly IMessengerCacheService _messengerCache;
 
         public MessengerController(IDialogRepository dialogRepository, 
-                                   IMessageRepository messageRepository,
                                    IMessengerCacheService messengerCache)
         {
             _dialogRepository = dialogRepository;
-            _messageRepository = messageRepository;
             _messengerCache = messengerCache;
         }
 
@@ -41,7 +39,7 @@ namespace Funkmap.Messenger.Controllers
                 Skip = request.Skip,
                 Take = request.Take
             };
-            var dialogsEntities = await _dialogRepository.GetUserDialogs(parameter);
+            var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(parameter);
             var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin)).ToList();
             return Content(HttpStatusCode.OK, dialogs);
         }
@@ -60,9 +58,9 @@ namespace Funkmap.Messenger.Controllers
                 Members = new [] { request.Reciever, userLogin }
             };
 
-            var messagesEntities = await _messageRepository.GetDilaogMessages(parameter);
-            var messages = messagesEntities.Select(x => x.ToModel()).ToList();
-            return Content(HttpStatusCode.OK, messages);
+            //var messagesEntities = await _messageRepository.GetDilaogMessages(parameter);
+            //var messages = messagesEntities.Select(x => x.ToModel()).ToList();
+            return Content(HttpStatusCode.OK, new Message());
         }
 
         [HttpGet]
