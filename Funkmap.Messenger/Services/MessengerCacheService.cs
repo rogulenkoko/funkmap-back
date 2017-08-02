@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,17 +17,27 @@ namespace Funkmap.Messenger.Services
 
         public void AddOnlineUser(string id, string login)
         {
-            RemoveOnlineUser(id); //на всякий
             _onlineUsers[id] = login;
         }
 
-        public void RemoveOnlineUser(string id)
+        public void RemoveOnlineUser(string id, out string login)
         {
             if (_onlineUsers.ContainsKey(id))
             {
-                string login;
                 _onlineUsers.TryRemove(id, out login);
+                var removedLogin = login;
+
+                var removedLoginKey = _onlineUsers.Where(x => x.Value == removedLogin).Select(x=>x.Key).ToList();
+                if (removedLoginKey.Count > 0)
+                {
+                    login = String.Empty;
+                }
             }
+            else
+            {
+                login = String.Empty;
+            }
+            
         }
 
         public ICollection<string> GetConnectionIdsByLogin(string login)

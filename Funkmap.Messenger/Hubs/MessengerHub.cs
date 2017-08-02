@@ -54,6 +54,8 @@ namespace Funkmap.Messenger.Hubs
 
             _cacheService.AddOnlineUser(connectionId, login);
 
+            Clients.All.onUserConnected(login);
+
             return base.OnConnected();
         }
 
@@ -62,7 +64,10 @@ namespace Funkmap.Messenger.Hubs
         {
             
             var connectionId = Context.ConnectionId;
-            _cacheService.RemoveOnlineUser(connectionId);
+            string login;
+            _cacheService.RemoveOnlineUser(connectionId, out login);
+            Clients.All.onUserDisconnected(login);
+
             return base.OnDisconnected(stopCalled);
         }
     }
