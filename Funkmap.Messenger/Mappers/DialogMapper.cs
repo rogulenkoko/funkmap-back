@@ -12,7 +12,8 @@ namespace Funkmap.Messenger.Mappers
             if (source == null) return null;
             return new Dialog()
             {
-                Reciever = source.Participants.Except(new List<string>() {userLogin}).FirstOrDefault()
+                DialogId = source.Id.ToString(),
+                Name = source.Participants.FirstOrDefault(x => x != userLogin)
             };
         }
     }

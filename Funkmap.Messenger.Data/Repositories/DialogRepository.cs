@@ -41,6 +41,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
             var skip = -(parameter.Skip + parameter.Take);
             var take = skip + messagesCount + parameter.Take;
+            if(take <= 0) return new List<MessageEntity>();
 
             var projection = Builders<DialogEntity>.Projection.Slice(x => x.Messages, skip, take);
             
