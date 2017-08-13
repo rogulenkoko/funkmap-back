@@ -1,11 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
+using Funkmap.Tests.Images;
 using Funkmap.Tests.Messenger.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Messenger
 {
@@ -17,7 +20,8 @@ namespace Funkmap.Tests.Messenger
         [TestInitialize]
         public void Initialize()
         {
-            _dialogRepository = new DialogRepository(MessengerDbProvider.DropAndCreateDatabase.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
+            var db = MessengerDbProvider.DropAndCreateDatabase;
+            _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), new GridFSBucket(db));
         }
 
         [TestMethod]
@@ -110,6 +114,57 @@ namespace Funkmap.Tests.Messenger
 
             Assert.AreNotEqual(dialogMessages.Count, newDialogMessages.Count);
             Assert.AreEqual(dialogMessages.Count + 1, newDialogMessages.Count);
+        }
+
+        [TestMethod]
+        public void MessageContentTest()
+        {
+            var dialogsParameter = new UserDialogsParameter()
+            {
+                Login = "rogulenkoko",
+                Skip = 0,
+                Take = 100
+            };
+            var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).Result;
+            var dialog = dialogs.First();
+
+            var filename = "beatles-avatar.jpg";
+            var image = ImageProvider.GetAvatar(filename);
+
+            var message = new MessageEntity()
+            {
+                Text = "aaaaa",
+                Sender = "rogulenkoko",
+                Content = new List<ContentItem>()
+                {
+                    new ContentItem()
+                    {
+                        FileBytes = image,
+                        FileName = filename,
+                        ContentType = ContentType.Image
+                    }
+                }
+            };
+
+            _dialogRepository.AddMessage(dialog.Id.ToString(), message).Wait();
+
+            var dialogMessagesParameter = new DialogMessagesParameter()
+            {
+                DialogId = dialog.Id.ToString(),
+                Skip = 0,
+                Take = 100
+            };
+            var dialogMessages = _dialogRepository.GetDialogMessagesAsync(dialogMessagesParameter).Result;
+
+
+            var files = _dialogRepository.GetMessagesContent(dialogMessages
+                .SelectMany(x => x.Content.Select(y => y.FileId.ToString()))
+                .ToArray());
+
+            Assert.AreEqual(files.Count, 1);
+
+            var file = files.First();
+            Assert.AreEqual(file.FileBytes.Length, image.Length);
         }
     }
 }

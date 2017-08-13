@@ -11,6 +11,7 @@ using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Services;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Messenger
 {
@@ -34,9 +35,10 @@ namespace Funkmap.Messenger
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName))
                 .As<IMongoCollection<DialogEntity>>();
 
-            var messageDateIndex = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Descending(x => x.DateTimeUtc));
 
-            
+            builder.Register(container => new GridFSBucket(container.Resolve<IMongoDatabase>())).As<IGridFSBucket>();
+
+            var messageDateIndex = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Descending(x => x.DateTimeUtc));
             builder.RegisterBuildCallback(async c =>
             {
                 var collection = c.Resolve<IMongoCollection<MessageEntity>>();

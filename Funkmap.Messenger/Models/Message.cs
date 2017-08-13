@@ -9,5 +9,7 @@ namespace Funkmap.Messenger.Models
         public string Sender { get; set; }
         public string Text { get; set; }
         public DateTime DateTimeUtc { get; set; }
+
+        public string[] Images { get; set; }
     }
 }

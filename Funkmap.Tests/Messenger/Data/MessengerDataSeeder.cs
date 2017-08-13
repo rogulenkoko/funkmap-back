@@ -4,6 +4,7 @@ using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Messenger.Data
 {
@@ -23,7 +24,7 @@ namespace Funkmap.Tests.Messenger.Data
 
         private void SeedDialogs()
         {
-            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
+            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), new GridFSBucket(_database));
 
             var messages = new List<MessageEntity>()
             {

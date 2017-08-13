@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -11,10 +8,10 @@ namespace Funkmap.Messenger.Data.Entities
 {
     public class MessageEntity : MongoEntity
     {
-
         public MessageEntity()
         {
             DateTimeUtc = DateTime.UtcNow;
+            Content = new List<ContentItem>();
         }
 
         [BsonElement("date")]
@@ -29,6 +26,8 @@ namespace Funkmap.Messenger.Data.Entities
         [BsonElement("cont")]
         [BsonIgnoreIfDefault]
         public List<ContentItem> Content { get; set; }
+
+        public bool IsNew { get; set; }
     }
 
     public class ContentItem
@@ -36,8 +35,14 @@ namespace Funkmap.Messenger.Data.Entities
         [BsonElement("ct")]
         public ContentType ContentType { get; set; }
 
+        [BsonElement("n")]
+        public string FileName { get; set; }
+
         [BsonElement("bts")]
-        public BsonBinaryData Content { get; set; }
+        public ObjectId FileId { get; set; }
+
+        [BsonIgnore]
+        public byte[] FileBytes { get; set; } 
     }
 
     public enum ContentType

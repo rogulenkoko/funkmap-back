@@ -17,6 +17,8 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
         Task AddMessage(string dialogId, MessageEntity message);
         Task<ICollection<string>> GetDialogMembers(string id);
 
+        ICollection<ContentItem> GetMessagesContent(string[] contentIds);
+
 
     }
 }
