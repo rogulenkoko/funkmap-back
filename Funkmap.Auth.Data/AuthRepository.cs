@@ -61,7 +61,7 @@ namespace Funkmap.Auth.Data
             await _collection.UpdateOneAsync(filter, update);
         }
 
-        public override Task<UpdateResult> UpdateAsync(UserEntity entity)
+        public override Task UpdateAsync(UserEntity entity)
         {
             throw new NotImplementedException();
         }

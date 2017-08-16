@@ -38,7 +38,7 @@ namespace Funkmap.Common.Data.Mongo
             return await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", id));
         }
 
-        public abstract Task<UpdateResult> UpdateAsync(T entity);
+        public abstract Task UpdateAsync(T entity);
     }
 
     public abstract class MongoLoginRepository<T> : MongoRepository<T> where T: class 

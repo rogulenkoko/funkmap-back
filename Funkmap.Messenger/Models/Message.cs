@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Funkmap.Messenger.Data.Entities;
 
 namespace Funkmap.Messenger.Models
 {
@@ -10,6 +11,6 @@ namespace Funkmap.Messenger.Models
         public string Text { get; set; }
         public DateTime DateTimeUtc { get; set; }
 
-        public string[] Images { get; set; }
+        public ContentItem[] Images { get; set; }
     }
 }

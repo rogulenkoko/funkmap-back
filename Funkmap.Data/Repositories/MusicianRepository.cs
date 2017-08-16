@@ -19,9 +19,11 @@ namespace Funkmap.Data.Repositories
             _collection = collection;
         }
 
-        public override Task<UpdateResult> UpdateAsync(MusicianEntity entity)
+        public override async Task UpdateAsync(MusicianEntity entity)
         {
-            throw new NotImplementedException();
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.Id, entity.Id);
+
+            await _collection.ReplaceOneAsync(filter, entity);
         }
 
         public override async Task<ICollection<MusicianEntity>> GetAllAsync()

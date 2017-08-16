@@ -22,7 +22,7 @@ namespace Funkmap.Data.Repositories
             return result;
         }
 
-        public override Task<UpdateResult> UpdateAsync(BandEntity entity)
+        public override Task UpdateAsync(BandEntity entity)
         {
             throw new NotImplementedException();
         }

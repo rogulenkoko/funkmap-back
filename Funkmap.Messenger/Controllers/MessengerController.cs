@@ -68,7 +68,7 @@ namespace Funkmap.Messenger.Controllers
         [HttpGet]
         [Authorize]
         [Route("getOnlineUsers")]
-        public async Task<IHttpActionResult> GetDialogMessages()
+        public IHttpActionResult GetDialogMessages()
         {
             var logins = _messengerCache.GetOnlineUsersLogins();
             return Content(HttpStatusCode.OK, logins);

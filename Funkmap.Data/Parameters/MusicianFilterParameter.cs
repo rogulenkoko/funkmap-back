@@ -11,7 +11,7 @@ namespace Funkmap.Data.Parameters
     public class MusicianFilterParameter : IFilterParameter
     {
         public List<InstrumentType> Instruments { get; set; }
-        public ExpirienceType Expirience { get; set; }
+        public List<ExpirienceType> Expirience { get; set; }
         public List<Styles> Styles { get; set; }
         public EntityType EntityType => EntityType.Musician;
     }

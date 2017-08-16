@@ -1,4 +1,6 @@
-﻿using Funkmap.Messenger.Data.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Models;
 
 namespace Funkmap.Messenger.Mappers
@@ -20,10 +22,17 @@ namespace Funkmap.Messenger.Mappers
         public static MessageEntity ToEntity(this Message source)
         {
             if (source == null) return null;
+
+
+            var content = new List<ContentItem>();
+
+           // content.AddRange(source.Images.Select());
+
             return new MessageEntity()
             {
                 Sender = source.Sender,
-                Text = source.Text
+                Text = source.Text,
+                
             };
         }
     }

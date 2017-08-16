@@ -11,7 +11,7 @@ namespace Funkmap.Models.Requests
         public string SearchText { get; set; }
         public EntityType EntityType { get; set; }
         public List<InstrumentType> Instruments { get; set; }
-        public ExpirienceType Expirience { get; set; }
+        public List<ExpirienceType> Expirience { get; set; }
         public List<Styles> Styles { get; set; }
     }
 }

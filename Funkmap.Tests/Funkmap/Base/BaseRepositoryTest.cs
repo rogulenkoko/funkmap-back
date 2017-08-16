@@ -72,7 +72,7 @@ namespace Funkmap.Tests.Funkmap.Base
             var musicianParameter = new MusicianFilterParameter()
             {
                 Styles = new List<Styles>() { Styles.HipHop},
-                Expirience = ExpirienceType.Advanced
+                Expirience = new List<ExpirienceType>() { ExpirienceType.Advanced}
             };
 
             var result = _baseRepository.GetFilteredAsync(commonParameter, musicianParameter).Result;

@@ -6,11 +6,13 @@ using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
+using Funkmap.Tools;
 
 namespace Funkmap.Controllers
 {
@@ -63,6 +65,31 @@ namespace Funkmap.Controllers
             entity.UserLogin = userLogin;
 
             await _musicianRepository.CreateAsync(entity);
+            response.Success = true;
+            return Content(HttpStatusCode.OK, response);
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("edit")]
+        public async Task<IHttpActionResult> EditMusician(MusicianModel model)
+        {
+            var entity = model.ToMusicianEntity();
+            var response = new BaseResponse();
+
+            var existingMusician = await _musicianRepository.GetAsync(model.Login);
+            if (existingMusician == null)
+            {
+                return Content(HttpStatusCode.OK, response);
+            }
+
+            var userLogin = Request.GetLogin();
+            entity.UserLogin = userLogin;
+
+            existingMusician.FillEntity<MusicianEntity>(entity);
+
+            await _musicianRepository.UpdateAsync(existingMusician);
             response.Success = true;
             return Content(HttpStatusCode.OK, response);
 

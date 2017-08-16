@@ -129,6 +129,7 @@
     <Compile Include="Models\StudioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Abstract\IParameterFactory.cs" />
+    <Compile Include="Tools\EntityUpdateExtension.cs" />
     <Compile Include="Tools\ParametersFactory.cs" />
   </ItemGroup>
   <ItemGroup>

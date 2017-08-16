@@ -123,7 +123,7 @@ namespace Funkmap.Data.Repositories
             return filter;
         }
 
-        public virtual Task<UpdateResult> UpdateAsync(BaseEntity entity)
+        public virtual Task UpdateAsync(BaseEntity entity)
         {
             throw new NotImplementedException();
         }

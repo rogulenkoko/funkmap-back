@@ -42,6 +42,7 @@ namespace Funkmap.Tests.Funkmap.Data
             {
                 Sex = Sex.Male,
                 Login = "rogulenkoko",
+                UserLogin = "test",
                 BirthDate = DateTime.Now,
                 Description = "Описание",
                 Name = "Кирилл Рогуленко",

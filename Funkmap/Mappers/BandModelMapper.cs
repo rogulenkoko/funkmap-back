@@ -32,7 +32,7 @@ namespace Funkmap.Mappers
                 Description = source.Description,
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)),
                 Name = source.Name,
-                Styles = source.Styles.ToList(),
+                Styles = source.Styles?.ToList(),
                 Photo = source.Avatar ?? new byte[] { },
                 YouTubeLink = source.YouTubeLink,
                 VkLink = source.VkLink,

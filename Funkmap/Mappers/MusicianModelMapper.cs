@@ -42,11 +42,11 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Description = source.Description,
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)),
+                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
-                Styles = source.Styles.ToList(),
+                Styles = source.Styles?.ToList(),
                 Photo = source.Avatar ?? new byte[] {},
                 YouTubeVideoLins = source.VideosYoutube?.Where(x=> !String.IsNullOrEmpty(x)).Distinct().ToList(),
                 YouTubeLink = source.YoutubeLink,
