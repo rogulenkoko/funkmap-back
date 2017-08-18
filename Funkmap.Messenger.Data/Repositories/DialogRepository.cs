@@ -1,11 +1,14 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Common.Data.Mongo.Abstract;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -24,10 +27,12 @@ namespace Funkmap.Messenger.Data.Repositories
 
         public async Task<ICollection<DialogEntity>> GetUserDialogsAsync(UserDialogsParameter parameter)
         {
+            var participantsFilter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, parameter.Login);
+
             var projection = Builders<DialogEntity>.Projection.Exclude(x => x.Messages);
 
             var dialogs = await _collection
-                .Find(dialog => dialog.Participants.Any(participant => participant == parameter.Login))
+                .Find(participantsFilter)
                 .Project<DialogEntity>(projection)
                 .Skip(parameter.Skip)
                 .Limit(parameter.Take)
@@ -93,9 +98,38 @@ namespace Funkmap.Messenger.Data.Repositories
             return members;
         }
 
+
+        public async Task<ICollection<DialogEntity>> GetDialogsWithNewMessages(DialogsWithNewMessagesParameter parameter)
+        {
+            //db.dialogs.aggregate([
+            //{$match:{"prtcpnts.":"rogulenkoko"}}, 
+            //{$unwind:"$m"},
+            //{$match:{ "m.date": {$gte: ISODate("2017-08-18 20:52:19.913Z")}}}, 
+            //{$group:{_id:"_id", m:{$push:"$m"}}}])
+
+            var userMatchFilter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, parameter.Login);
+
+            var dateMatchFilter = Builders<MessageUnwinded>.Filter.Gt(x=>x.Message.DateTimeUtc, parameter.LastVisitDate);
+            
+            var result = await _collection
+                .Aggregate<DialogEntity>()
+                .Match(userMatchFilter)
+                .Unwind<DialogEntity, MessageUnwinded>(x=>x.Messages)
+                .Match(dateMatchFilter)
+                .Group(x=> x.Id, value => new DialogEntity()
+                {
+                    Id = value.Key,
+                    Messages = value.Select(x=>x.Message).ToList()
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
         public async Task CreateAsync(DialogEntity item)
         {
             await _collection.InsertOneAsync(item);
         }
     }
+
 }

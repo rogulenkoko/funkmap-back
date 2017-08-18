@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
@@ -166,5 +167,22 @@ namespace Funkmap.Tests.Messenger
             var file = files.First();
             Assert.AreEqual(file.FileBytes.Length, image.Length);
         }
+
+        [TestMethod]
+        public void GetDialogsWithNewMEssages()
+        {
+            var parameter = new DialogsWithNewMessagesParameter()
+            {
+                Login = "rogulenkoko",
+                LastVisitDate = DateTime.Now.AddMinutes(-30)
+            };
+
+            var result = _dialogRepository.GetDialogsWithNewMessages(parameter).GetAwaiter().GetResult();
+
+            Assert.AreEqual(result.Count, 1);
+        }
     }
+
+
+    
 }

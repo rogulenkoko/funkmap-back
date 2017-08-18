@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Data.Abstract;
+using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Module.Auth.Models;
@@ -19,6 +20,19 @@ namespace Funkmap.Module.Auth.Controllers
             _authRepository = authRepository;
         }
 
+
+        [HttpGet]
+        [Authorize]
+        [Route("lastVisit")]
+        public async Task<IHttpActionResult> UpdateLastVisitDate()
+        {
+            var response = new BaseResponse();
+            var login = Request.GetLogin();
+            await _authRepository.UpdateLastVisitDate(login, DateTime.UtcNow);
+
+            return Ok(response);
+        }
+
         [HttpGet]
         [Route("avatar/{login}")]
         public async Task<IHttpActionResult> GetAvatar(string login)
@@ -32,15 +46,8 @@ namespace Funkmap.Module.Auth.Controllers
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
         {
             var response = new BaseResponse();
-            try
-            {
-                await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
-                response.Success = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
+            response.Success = true;
            
             return Ok(response);
         }

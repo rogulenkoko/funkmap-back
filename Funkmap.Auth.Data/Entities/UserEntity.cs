@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -31,5 +32,8 @@ namespace Funkmap.Auth.Data.Entities
         [BsonElement("favs")]
         [BsonIgnoreIfDefault]
         public List<string> Favourites { get; set; }
+
+        [BsonElement("date")]
+        public DateTime LastVisitDateUtc { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Data.Mongo.Abstract;
@@ -17,5 +18,7 @@ namespace Funkmap.Auth.Data.Abstract
         Task<List<string>> GetFavouritesAsync(string login);
 
         Task SetFavourite(string login, string favouriteLogin);
+
+        Task UpdateLastVisitDate(string login, DateTime date);
     }
 }

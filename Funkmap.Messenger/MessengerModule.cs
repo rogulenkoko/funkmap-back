@@ -28,23 +28,17 @@ namespace Funkmap.Messenger
 
             builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
 
-
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessegesCollectionName))
-                .As<IMongoCollection<MessageEntity>>();
-
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName))
                 .As<IMongoCollection<DialogEntity>>();
 
 
             builder.Register(container => new GridFSBucket(container.Resolve<IMongoDatabase>())).As<IGridFSBucket>();
-
-            var messageDateIndex = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Descending(x => x.DateTimeUtc));
+            
             builder.RegisterBuildCallback(async c =>
             {
                 var collection = c.Resolve<IMongoCollection<MessageEntity>>();
                 await collection.Indexes.CreateManyAsync(new List<CreateIndexModel<MessageEntity>>
                 {
-                    messageDateIndex
                 });
             });
             

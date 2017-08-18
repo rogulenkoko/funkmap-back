@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Owin;
 
 namespace Funkmap.Common
@@ -11,9 +12,16 @@ namespace Funkmap.Common
 
         public async override Task Invoke(IOwinContext context)
         {
-            //тут логируем до входа в контроллер
-            await this.Next.Invoke(context);
-            //тут логируем после входа в контроллер
+            try
+            {
+                await this.Next.Invoke(context);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
     }
 }

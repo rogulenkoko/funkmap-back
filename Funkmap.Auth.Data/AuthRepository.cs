@@ -61,6 +61,12 @@ namespace Funkmap.Auth.Data
             await _collection.UpdateOneAsync(filter, update);
         }
 
+        public async Task UpdateLastVisitDate(string login, DateTime date)
+        {
+            var update = Builders<UserEntity>.Update.Set(x => x.LastVisitDateUtc, date);
+            await _collection.UpdateOneAsync(x => x.Login == login, update);
+        }
+
         public override Task UpdateAsync(UserEntity entity)
         {
             throw new NotImplementedException();
