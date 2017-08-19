@@ -5,8 +5,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Auth;
+using Funkmap.Common.Models;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
+using Funkmap.Models;
 
 namespace Funkmap.Controllers
 {
@@ -27,6 +30,29 @@ namespace Funkmap.Controllers
             var studioEntity = await _studioRepository.GetAsync(id);
             var studio = studioEntity.ToPreviewModel();
             return Content(HttpStatusCode.OK, studio);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("save")]
+        public async Task<IHttpActionResult> SaveMusician(StudioModel model)
+        {
+            var entity = model.ToStudioEntity();
+            var response = new BaseResponse();
+
+            var existingStudio = await _studioRepository.GetAsync(model.Login);
+            if (existingStudio != null)
+            {
+                return Content(HttpStatusCode.OK, response);
+            }
+
+            var userLogin = Request.GetLogin();
+            entity.UserLogin = userLogin;
+
+            await _studioRepository.CreateAsync(entity);
+            response.Success = true;
+            return Content(HttpStatusCode.OK, response);
+
         }
     }
 }

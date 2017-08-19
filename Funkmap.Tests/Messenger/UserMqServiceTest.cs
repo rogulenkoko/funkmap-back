@@ -32,7 +32,7 @@ namespace Funkmap.Tests.Messenger
             var repository = new AuthRepository(AuthTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
 
             UserMqService baseMqService = new UserMqService(redisMqServer, repository);
-
+            baseMqService.InitHandlers();
             _userService = new UserService(redisMqFactory);
             redisMqServer.Start();
 

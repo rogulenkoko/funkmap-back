@@ -10,7 +10,6 @@ using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
-using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Services;
 
