@@ -82,7 +82,7 @@ namespace Funkmap.Messenger.Controllers
 
         [HttpGet]
         [Authorize]
-        [Route("getNewDialogMessages")]
+        [Route("getNewMessagesCount")]
         public async Task<IHttpActionResult> GetNewDialogMessages()
         {
 
@@ -95,7 +95,7 @@ namespace Funkmap.Messenger.Controllers
 
             if (!date.HasValue)
             {
-                return Ok(new List<DialogEntity>());
+                return Ok(0);
             }
 
             var parameter = new DialogsWithNewMessagesParameter()
@@ -104,7 +104,10 @@ namespace Funkmap.Messenger.Controllers
                 LastVisitDate = date.Value
             };
             ICollection<DialogEntity> dialogsWithNewMessages = await _dialogRepository.GetDialogsWithNewMessagesAsync(parameter);
-            return Ok(dialogsWithNewMessages);
+
+            int newMessagesCount = dialogsWithNewMessages.SelectMany(x=>x.Messages).Count();
+
+            return Ok(newMessagesCount);
 
         }
     }

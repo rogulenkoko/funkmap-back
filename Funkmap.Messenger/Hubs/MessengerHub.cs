@@ -58,8 +58,6 @@ namespace Funkmap.Messenger.Hubs
             _cacheService.AddOnlineUser(connectionId, login);
             Clients.All.onUserConnected(login);
 
-            _userService.UpdateLastVisitDate(new UserUpdateLastVisitDateRequest() { Login = login });
-
             return base.OnConnected();
         }
 
