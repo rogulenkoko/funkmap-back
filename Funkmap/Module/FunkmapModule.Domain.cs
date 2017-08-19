@@ -8,7 +8,7 @@ using Funkmap.Data.Services.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 
-namespace Funkmap
+namespace Funkmap.Module
 {
     public partial class FunkmapModule 
     {

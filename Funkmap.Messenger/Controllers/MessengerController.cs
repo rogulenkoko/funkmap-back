@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
+using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
@@ -19,12 +22,15 @@ namespace Funkmap.Messenger.Controllers
     {
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessengerCacheService _messengerCache;
+        private readonly UserService _userService;
 
         public MessengerController(IDialogRepository dialogRepository, 
-                                   IMessengerCacheService messengerCache)
+                                   IMessengerCacheService messengerCache,
+                                   UserService userService)
         {
             _dialogRepository = dialogRepository;
             _messengerCache = messengerCache;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -72,6 +78,34 @@ namespace Funkmap.Messenger.Controllers
         {
             var logins = _messengerCache.GetOnlineUsersLogins();
             return Content(HttpStatusCode.OK, logins);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getNewDialogMessages")]
+        public async Task<IHttpActionResult> GetNewDialogMessages()
+        {
+
+            var login = Request.GetLogin();
+            var request = new UserLastVisitDateRequest()
+            {
+                Login = login
+            };
+            var date = _userService.GetLastVisitDate(request).LastVisitDateUtc;
+
+            if (!date.HasValue)
+            {
+                return Ok(new List<DialogEntity>());
+            }
+
+            var parameter = new DialogsWithNewMessagesParameter()
+            {
+                Login = login,
+                LastVisitDate = date.Value
+            };
+            ICollection<DialogEntity> dialogsWithNewMessages = await _dialogRepository.GetDialogsWithNewMessagesAsync(parameter);
+            return Ok(dialogsWithNewMessages);
+
         }
     }
 }

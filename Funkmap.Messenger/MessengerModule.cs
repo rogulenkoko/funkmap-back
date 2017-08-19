@@ -5,6 +5,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
+using Funkmap.Auth.Contracts.Services;
 using Funkmap.Common.Abstract;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
@@ -45,6 +46,11 @@ namespace Funkmap.Messenger
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
 
             builder.RegisterType<MessengerCacheService>().As<IMessengerCacheService>().SingleInstance();
+
+            builder.RegisterType<UserService>().AsSelf();
+
+            //раскоментить, когда модуль авторизации и месенджера будут под разными доменами
+            //builder.RegisterType<UserService>().As<IUserMqService>();
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

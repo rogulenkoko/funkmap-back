@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Data", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap.Web\Funkmap.Web.csproj", "{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Contracts", "Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj", "{02251E80-52A1-4B3E-824B-3DA229DD9EA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA0DAD2-8B52-4327-B578-B0CB8024EA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02251E80-52A1-4B3E-824B-3DA229DD9EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02251E80-52A1-4B3E-824B-3DA229DD9EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02251E80-52A1-4B3E-824B-3DA229DD9EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02251E80-52A1-4B3E-824B-3DA229DD9EA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{27669BFD-E68A-436D-833F-1167C244BD59} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
 		{A7957BFB-CF3B-4820-A929-F53FCAFFA00D} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{592D2C7A-FF06-45E5-B9AB-BF25F83815D0} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
+		{02251E80-52A1-4B3E-824B-3DA229DD9EA6} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 	EndGlobalSection
 EndGlobal

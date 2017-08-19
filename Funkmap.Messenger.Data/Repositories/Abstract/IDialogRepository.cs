@@ -16,7 +16,7 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
         ICollection<ContentItem> GetMessagesContent(string[] contentIds);
 
 
-        Task<ICollection<DialogEntity>> GetDialogsWithNewMessages(DialogsWithNewMessagesParameter parameter);
+        Task<ICollection<DialogEntity>> GetDialogsWithNewMessagesAsync(DialogsWithNewMessagesParameter parameter);
 
 
     }

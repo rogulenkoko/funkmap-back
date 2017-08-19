@@ -33,7 +33,8 @@ namespace Funkmap.Tests.Funkmap.Auth
             {
                 Login = "rogulenkoko",
                 Password = "1",
-                Email = "rogulenkoko@gmail.com"
+                Email = "rogulenkoko@gmail.com",
+                LastVisitDateUtc = DateTime.UtcNow.AddMinutes(-20)
             };
             u1.Avatar = ImageProvider.GetAvatar("avatar.jpg");
 

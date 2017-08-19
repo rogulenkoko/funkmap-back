@@ -99,7 +99,7 @@ namespace Funkmap.Messenger.Data.Repositories
         }
 
 
-        public async Task<ICollection<DialogEntity>> GetDialogsWithNewMessages(DialogsWithNewMessagesParameter parameter)
+        public async Task<ICollection<DialogEntity>> GetDialogsWithNewMessagesAsync(DialogsWithNewMessagesParameter parameter)
         {
             //db.dialogs.aggregate([
             //{$match:{"prtcpnts.":"rogulenkoko"}}, 

@@ -177,7 +177,7 @@ namespace Funkmap.Tests.Messenger
                 LastVisitDate = DateTime.Now.AddMinutes(-30)
             };
 
-            var result = _dialogRepository.GetDialogsWithNewMessages(parameter).GetAwaiter().GetResult();
+            var result = _dialogRepository.GetDialogsWithNewMessagesAsync(parameter).GetAwaiter().GetResult();
 
             Assert.AreEqual(result.Count, 1);
         }
