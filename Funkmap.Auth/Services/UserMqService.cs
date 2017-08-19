@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Funkmap.Auth.Contracts.Models;
 using Funkmap.Auth.Contracts.Services;
+using Funkmap.Common.RedisMq;
 using ServiceStack.Messaging;
 
 using IFunkmapAuthRepository = Funkmap.Auth.Data.Abstract.IAuthRepository;
 
 namespace Funkmap.Module.Auth.Services
 {
-    public class UserMqService : IUserMqService
+    public class UserMqService : IUserMqService, IRedisMqService
     {
 
         private readonly IMessageService _messageService;
@@ -19,13 +19,12 @@ namespace Funkmap.Module.Auth.Services
         {
             _messageService = messageService;
             _authRepository = authRepository;
-
-            InitHandlers();
         }
 
         public void InitHandlers()
         {
             _messageService.RegisterHandler<UserLastVisitDateRequest>(request => GetLastVisitDate(request?.GetBody()));
+            _messageService.RegisterHandler<UserUpdateLastVisitDateRequest>(request => UpdateLastVisitDate(request?.GetBody()));
         }
 
         public UserLastVisitDateResponse GetLastVisitDate(UserLastVisitDateRequest request)
@@ -38,6 +37,25 @@ namespace Funkmap.Module.Auth.Services
             {
                 LastVisitDateUtc = date
             };
+        }
+
+        public UserUpdateLastVisitDateResponse UpdateLastVisitDate(UserUpdateLastVisitDateRequest request)
+        {
+            if (request == null) throw new ArgumentNullException();
+            var response = new UserUpdateLastVisitDateResponse();
+
+            try
+            {
+                _authRepository.UpdateLastVisitDateAsync(request.Login, DateTime.UtcNow).GetAwaiter().GetResult();
+                response.Success = true;
+                return response;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return response;
+            }
+            
         }
     }
 }

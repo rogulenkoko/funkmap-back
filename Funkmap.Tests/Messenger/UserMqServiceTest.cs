@@ -49,6 +49,16 @@ namespace Funkmap.Tests.Messenger
 
             Assert.IsNotNull(response);
             Assert.IsTrue(response.LastVisitDateUtc.HasValue);
+
+
+            var updateRequest = new UserUpdateLastVisitDateRequest()
+            {
+                Login = "rogulenkoko"
+            };
+
+            var updateResult = _userService.UpdateLastVisitDate(updateRequest);
+            Assert.IsNotNull(updateResult);
+            Assert.IsTrue(updateResult.Success);
         }
     }
 }

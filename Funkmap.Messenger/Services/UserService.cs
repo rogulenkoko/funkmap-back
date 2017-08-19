@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Contracts.Models;
 using Funkmap.Auth.Contracts.Services;
 using ServiceStack.Messaging;
@@ -10,9 +11,7 @@ namespace Funkmap.Messenger.Services
     {
 
         private readonly IMessageFactory _redisMqFactory;
-
-        private readonly string _messengerMQName = "mq:messenger:123";
-
+        
         private readonly TimeSpan _mqTimeOut = TimeSpan.FromSeconds(15);
 
         public UserService(IMessageFactory redisMqFactory)
@@ -24,14 +23,28 @@ namespace Funkmap.Messenger.Services
         {
             using (var mqClient = _redisMqFactory.CreateMessageQueueClient())
             {
-                var uniqueCallbackQ = "mq:c1" + ":" + Guid.NewGuid().ToString("N");
-
+                var messengerMQName = QNameBuilder.BuildQueueName("messenger");
                 mqClient.Publish(new Message<UserLastVisitDateRequest>(request)
                 {
-                    ReplyTo = uniqueCallbackQ
+                    ReplyTo = messengerMQName
                 });
 
-                var response = mqClient.Get<UserLastVisitDateResponse>(uniqueCallbackQ, _mqTimeOut)?.GetBody();
+                var response = mqClient.Get<UserLastVisitDateResponse>(messengerMQName, _mqTimeOut)?.GetBody();
+                return response;
+            }
+        }
+
+        public UserUpdateLastVisitDateResponse UpdateLastVisitDate(UserUpdateLastVisitDateRequest request)
+        {
+            using (var mqClient = _redisMqFactory.CreateMessageQueueClient())
+            {
+                var messengerMQName = QNameBuilder.BuildQueueName("messenger");
+                mqClient.Publish(new Message<UserLastVisitDateRequest>(request)
+                {
+                    ReplyTo = messengerMQName
+                });
+
+                var response = mqClient.Get<UserUpdateLastVisitDateResponse>(messengerMQName, _mqTimeOut).GetBody();
                 return response;
             }
         }

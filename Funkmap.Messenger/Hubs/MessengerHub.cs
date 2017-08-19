@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Models;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
@@ -16,12 +17,15 @@ namespace Funkmap.Messenger.Hubs
     {
         private readonly IMessengerCacheService _cacheService;
         private readonly IDialogRepository _dialogRepository;
+        private readonly UserService _userService;
 
         public MessengerHub(IMessengerCacheService cacheService,
-                            IDialogRepository dialogRepository)
+                            IDialogRepository dialogRepository,
+                            UserService userService)
         {
             _cacheService = cacheService;
             _dialogRepository = dialogRepository;
+            _userService = userService;
         }
 
         [HubMethodName("sendMessage")]
@@ -52,8 +56,9 @@ namespace Funkmap.Messenger.Hubs
             var login = Context.QueryString["login"];
 
             _cacheService.AddOnlineUser(connectionId, login);
-
             Clients.All.onUserConnected(login);
+
+            _userService.UpdateLastVisitDate(new UserUpdateLastVisitDateRequest() { Login = login });
 
             return base.OnConnected();
         }
@@ -66,6 +71,8 @@ namespace Funkmap.Messenger.Hubs
             string login;
             _cacheService.RemoveOnlineUser(connectionId, out login);
             Clients.All.onUserDisconnected(login);
+
+            _userService.UpdateLastVisitDate(new UserUpdateLastVisitDateRequest() { Login = login });
 
             return base.OnDisconnected(stopCalled);
         }

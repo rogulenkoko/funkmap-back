@@ -11,4 +11,14 @@ namespace Funkmap.Auth.Contracts.Models
     {
         public string Login { get; set; }
     }
+
+    public class UserUpdateLastVisitDateRequest : UserLastVisitDateRequest
+    {
+        
+    }
+
+    public class UserUpdateLastVisitDateResponse
+    {
+        public bool Success { get; set; }
+    }
 }

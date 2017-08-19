@@ -4,10 +4,12 @@ using System.Configuration;
 using System.Reflection;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Funkmap.Auth.Contracts.Services;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Abstract;
+using Funkmap.Module.Auth.Services;
 using MongoDB.Driver;
 
 namespace Funkmap.Module.Auth
@@ -32,6 +34,10 @@ namespace Funkmap.Module.Auth
                 .OnActivating(async collection => await collection.Instance.Indexes
                     .CreateManyAsync(new List<CreateIndexModel<UserEntity>>() { loginBaseIndexModel}))
                 .As<IMongoCollection<UserEntity>>();
+
+
+
+            builder.RegisterType<UserMqService>().As<IUserMqService>();
 
             builder.RegisterType<AuthRepository>().As<IAuthRepository>();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

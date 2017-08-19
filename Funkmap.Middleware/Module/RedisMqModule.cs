@@ -1,5 +1,9 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Autofac;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.RedisMq;
 using ServiceStack.Messaging;
 using ServiceStack.Messaging.Redis;
 using ServiceStack.Redis;
@@ -17,7 +21,32 @@ namespace Funkmap.Middleware.Module
             builder.RegisterInstance(redisMqFactory).As<IMessageFactory>().SingleInstance();
 
             IMessageService redisMqServer = new RedisMqServer(redisClientManager, retryCount: 2);
-            builder.RegisterInstance(redisMqServer).As<IMessageService>().SingleInstance().OnActivating(x=> x.Instance.Start());
+            builder.RegisterInstance(redisMqServer).As<IMessageService>().SingleInstance();
+
+            var modules = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.FullName.Contains("Funkmap"))
+                .SelectMany(s => s.GetTypes())
+                .Where(x => x.GetInterfaces().Contains(typeof(IRedisMqService)))
+                .Distinct()
+                .ToList();
+            builder.RegisterTypes(modules.ToArray()).As<IRedisMqService>();
+
+            builder.RegisterType<RedisMqModulesActivator>().AsSelf().AutoActivate();
+
+        }
+    }
+
+
+    public class RedisMqModulesActivator
+    {
+        public RedisMqModulesActivator(IEnumerable<IRedisMqService> services, IMessageService redisMqServer)
+        {
+            foreach (var service in services)
+            {
+                service.InitHandlers();
+            }
+
+            redisMqServer.Start();
         }
     }
 }

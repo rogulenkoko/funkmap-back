@@ -35,14 +35,6 @@ namespace Funkmap.Messenger
 
             builder.Register(container => new GridFSBucket(container.Resolve<IMongoDatabase>())).As<IGridFSBucket>();
             
-            builder.RegisterBuildCallback(async c =>
-            {
-                var collection = c.Resolve<IMongoCollection<MessageEntity>>();
-                await collection.Indexes.CreateManyAsync(new List<CreateIndexModel<MessageEntity>>
-                {
-                });
-            });
-            
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
 
             builder.RegisterType<MessengerCacheService>().As<IMessengerCacheService>().SingleInstance();

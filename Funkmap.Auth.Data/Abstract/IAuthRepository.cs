@@ -19,7 +19,7 @@ namespace Funkmap.Auth.Data.Abstract
 
         Task SetFavourite(string login, string favouriteLogin);
 
-        Task UpdateLastVisitDate(string login, DateTime date);
+        Task UpdateLastVisitDateAsync(string login, DateTime date);
 
         Task<DateTime?> GetLastVisitDate(string login);
     }

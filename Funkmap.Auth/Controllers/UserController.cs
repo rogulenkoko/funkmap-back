@@ -28,7 +28,7 @@ namespace Funkmap.Module.Auth.Controllers
         {
             var response = new BaseResponse();
             var login = Request.GetLogin();
-            await _authRepository.UpdateLastVisitDate(login, DateTime.UtcNow);
+            await _authRepository.UpdateLastVisitDateAsync(login, DateTime.UtcNow);
 
             return Ok(response);
         }
