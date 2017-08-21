@@ -7,11 +7,9 @@ using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
-using Funkmap.Models.Requests;
 using Funkmap.Tools;
 
 namespace Funkmap.Controllers

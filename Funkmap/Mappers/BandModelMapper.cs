@@ -18,7 +18,14 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 VideoLinks = source.VideoLinks,
                 DesiredInstruments = source.DesiredInstruments,
-                Musicians = source.MusicianLogins
+                Musicians = source.MusicianLogins,
+                FacebookLink = source.FacebookLink,
+                SoundCloudLink = source.SoundCloudLink,
+                YoutubeLink = source.YouTubeLink,
+                VkLink = source.VkLink,
+                Styles = source.Styles,
+                Description = source.Description,
+                Avatar = source.Photo?.AsByteArray
             };
         }
 
@@ -30,13 +37,15 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Description = source.Description,
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)),
+                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
                 Styles = source.Styles?.ToList(),
                 Photo = source.Avatar ?? new byte[] { },
-                YouTubeLink = source.YouTubeLink,
+                YouTubeLink = source.YoutubeLink,
                 VkLink = source.VkLink,
-                FacebookLink = source.FacebookLink
+                FacebookLink = source.FacebookLink,
+                SoundCloudLink = source.SoundCloudLink,
+                
             };
         }
 

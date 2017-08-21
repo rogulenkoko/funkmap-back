@@ -107,7 +107,7 @@ namespace Funkmap.Messenger.Data.Repositories
             //{$match:{ "m.date": {$gte: ISODate("2017-08-18 20:52:19.913Z")}}}, 
             //{$group:{_id:"_id", m:{$push:"$m"}}}])
 
-            var userMatchFilter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, parameter.Login);
+            var userMatchFilter = Builders<DialogEntity>.Filter.AnyNe(x => x.Participants, parameter.Login);
 
             var dateMatchFilter = Builders<MessageUnwinded>.Filter.Gt(x=>x.Message.DateTimeUtc, parameter.LastVisitDate);
             

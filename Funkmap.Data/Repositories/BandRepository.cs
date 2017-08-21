@@ -22,9 +22,11 @@ namespace Funkmap.Data.Repositories
             return result;
         }
 
-        public override Task UpdateAsync(BandEntity entity)
+        public override async Task UpdateAsync(BandEntity entity)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BandEntity>.Filter.Eq(x => x.Id, entity.Id);
+
+            await _collection.ReplaceOneAsync(filter, entity);
         }
     }
 }

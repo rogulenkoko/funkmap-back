@@ -11,6 +11,8 @@ namespace Funkmap.Data.Entities
         public BandEntity()
         {
             EntityType = EntityType.Band;
+            Styles = new List<Styles>();
+            MusicianLogins = new List<string>();
         }
 
         [BsonElement("dinstr")]
