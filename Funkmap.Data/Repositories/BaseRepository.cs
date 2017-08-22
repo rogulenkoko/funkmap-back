@@ -107,6 +107,13 @@ namespace Funkmap.Data.Repositories
             return result.Select(x=>x.Login).ToList();
         }
 
+        public async Task<bool> CheckIfLoginExistAsync(string login)
+        {
+            var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
+            var entity = await _collection.Find(x => x.Login == login).Project(projection).FirstOrDefaultAsync();
+            return entity != null;
+        }
+
         private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var filter = _filterFactory.CreateFilter(parameter);

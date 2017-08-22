@@ -121,6 +121,14 @@ namespace Funkmap.Controllers
             return Ok(reponse);
         }
 
+        [HttpGet]
+        [Route("checkLogin/{login}")]
+        public async Task<IHttpActionResult> CheckIfLoginExist(string login)
+        {
+            var isExist = await _repository.CheckIfLoginExistAsync(login);
+            return Ok(isExist);
+        }
+
 
     }
 }

@@ -32,11 +32,11 @@ namespace Funkmap.Controllers
 
         [HttpGet]
         [Route("getFull/{id}")]
-        public async Task<IHttpActionResult> GetFullMusician(string id)
+        public async Task<IHttpActionResult> GetFullBand(string id)
         {
-            var musicianEntity = await _bandRepository.GetAsync(id);
-            BandModel musican = musicianEntity.ToModel();
-            return Content(HttpStatusCode.OK, musican);
+            var bandEntity = await _bandRepository.GetAsync(id);
+            BandModel band = bandEntity.ToModel();
+            return Content(HttpStatusCode.OK, band);
 
         }
 

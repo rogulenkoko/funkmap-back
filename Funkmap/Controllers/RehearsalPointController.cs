@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
+using Funkmap.Tools;
 
 namespace Funkmap.Controllers
 {
@@ -18,6 +20,17 @@ namespace Funkmap.Controllers
         public RehearsalPointController(IRehearsalPointRepository rehearsalRepository)
         {
             _rehearsalRepository = rehearsalRepository;
+        }
+
+
+        [HttpGet]
+        [Route("getFull/{id}")]
+        public async Task<IHttpActionResult> GetFullBand(string id)
+        {
+            var rehearsalPointEntity = await _rehearsalRepository.GetAsync(id);
+            RehearsalPointModel band = rehearsalPointEntity.ToModel();
+            return Content(HttpStatusCode.OK, band);
+
         }
 
         [HttpGet]
@@ -47,6 +60,31 @@ namespace Funkmap.Controllers
             entity.UserLogin = userLogin;
 
             await _rehearsalRepository.CreateAsync(entity);
+            response.Success = true;
+            return Content(HttpStatusCode.OK, response);
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("edit")]
+        public async Task<IHttpActionResult> EditMusician(RehearsalPointModel model)
+        {
+            var entity = model.ToRehearsalPointEntity();
+            var response = new BaseResponse();
+
+            var existingRehearsalPoint = await _rehearsalRepository.GetAsync(model.Login);
+            if (existingRehearsalPoint == null)
+            {
+                return Content(HttpStatusCode.OK, response);
+            }
+
+            var userLogin = Request.GetLogin();
+            entity.UserLogin = userLogin;
+
+            existingRehearsalPoint.FillEntity<RehearsalPointEntity>(entity);
+
+            await _rehearsalRepository.UpdateAsync(existingRehearsalPoint);
             response.Success = true;
             return Content(HttpStatusCode.OK, response);
 

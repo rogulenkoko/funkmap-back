@@ -15,7 +15,14 @@ namespace Funkmap.Mappers
                 StoreName = sourse.Name,
                 Latitude = sourse.Location.Coordinates.Latitude,
                 Longitude = sourse.Location.Coordinates.Longitude,
-                WebSite = sourse.Website
+                WebSite = sourse.Website,
+                Login = sourse.Login,
+                Name = sourse.Name,
+                Description = sourse.Description,
+                YouTubeLink = sourse.YouTubeLink,
+                VkLink = sourse.VkLink,
+                FacebookLink = sourse.FacebookLink,
+                SoundCloudLink = sourse.SoundCloudLink
             };
 
         }
@@ -46,7 +53,7 @@ namespace Funkmap.Mappers
                 Login = source.Login,
                 Description = source.Description,
                 FacebookLink = source.FacebookLink,
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)),
+                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
                 SoundCloudLink = source.SoundCloudLink,
                 VkLink = source.VkLink,

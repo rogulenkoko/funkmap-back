@@ -6,6 +6,28 @@ namespace Funkmap.Mappers
 {
     public static class StudioModelMapper
     {
+
+        public static StudioModel ToModel(this StudioEntity source)
+        {
+            if (source == null) return null;
+            return new StudioModel()
+            {
+                Login = source.Login,
+                Name = source.Name,
+                Avatar = source.Photo?.AsByteArray,
+                VkLink = source.VkLink,
+                YouTubeLink = source.YouTubeLink,
+                FacebookLink = source.FacebookLink,
+                WorkingHoursDescription = source.WorkingHoursDescription,
+                Description = source.Description,
+                Address = source.Address,
+                Longitude = source.Location.Coordinates.Longitude,
+                Latitude = source.Location.Coordinates.Latitude,
+                SoundCloudLink = source.SoundCloudLink
+            };
+        }
+
+
         public static StudioPreviewModel ToPreviewModel(this StudioEntity source)
         {
             if (source == null) return null;
@@ -19,7 +41,8 @@ namespace Funkmap.Mappers
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
-                Address = source.Address
+                Address = source.Address,
+                SoundCloudLink = source.SoundCloudLink
             };
         }
 
@@ -31,12 +54,13 @@ namespace Funkmap.Mappers
                 Login = source.Login,
                 FacebookLink = source.FacebookLink,
                 Description = source.Description,
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)),
+                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
                 SoundCloudLink = source.SoundCloudLink,
                 VkLink = source.VkLink,
                 YouTubeLink = source.YouTubeLink,
-                WorkingHoursDescription = source.WorkingHoursDescription
+                WorkingHoursDescription = source.WorkingHoursDescription,
+                
             };
         }
     }

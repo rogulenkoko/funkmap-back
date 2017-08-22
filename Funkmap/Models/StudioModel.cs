@@ -34,5 +34,6 @@ namespace Funkmap.Models
         public string VkLink { get; set; }
         public string YouTubeLink { get; set; }
         public string FacebookLink { get; set; }
+        public string SoundCloudLink { get; set; }
     }
 }

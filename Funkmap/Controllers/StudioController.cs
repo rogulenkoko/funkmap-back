@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
+using Funkmap.Tools;
 
 namespace Funkmap.Controllers
 {
@@ -21,6 +23,16 @@ namespace Funkmap.Controllers
         public StudioController(IStudioRepository studioRepository)
         {
             _studioRepository = studioRepository;
+        }
+
+        [HttpGet]
+        [Route("getFull/{id}")]
+        public async Task<IHttpActionResult> GetFullStudio(string id)
+        {
+            var studioEntity = await _studioRepository.GetAsync(id);
+            StudioModel studio = studioEntity.ToModel();
+            return Content(HttpStatusCode.OK, studio);
+
         }
 
         [HttpGet]
@@ -50,6 +62,31 @@ namespace Funkmap.Controllers
             entity.UserLogin = userLogin;
 
             await _studioRepository.CreateAsync(entity);
+            response.Success = true;
+            return Content(HttpStatusCode.OK, response);
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("edit")]
+        public async Task<IHttpActionResult> EditShop(StudioModel model)
+        {
+            var entity = model.ToStudioEntity();
+            var response = new BaseResponse();
+
+            var existingStudio = await _studioRepository.GetAsync(model.Login);
+            if (existingStudio == null)
+            {
+                return Content(HttpStatusCode.OK, response);
+            }
+
+            var userLogin = Request.GetLogin();
+            entity.UserLogin = userLogin;
+
+            existingStudio.FillEntity<StudioEntity>(entity);
+
+            await _studioRepository.UpdateAsync(existingStudio);
             response.Success = true;
             return Content(HttpStatusCode.OK, response);
 
