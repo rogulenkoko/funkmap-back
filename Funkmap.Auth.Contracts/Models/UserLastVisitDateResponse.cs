@@ -2,19 +2,9 @@
 
 namespace Funkmap.Auth.Contracts.Models
 {
-    public class UserLastVisitDateResponse
-    {
-        public DateTime? LastVisitDateUtc { get; set; }
-    }
-
-    public class UserLastVisitDateRequest
+   public class UserUpdateLastVisitDateRequest
     {
         public string Login { get; set; }
-    }
-
-    public class UserUpdateLastVisitDateRequest : UserLastVisitDateRequest
-    {
-        
     }
 
     public class UserUpdateLastVisitDateResponse

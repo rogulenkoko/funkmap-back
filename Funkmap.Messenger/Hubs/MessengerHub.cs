@@ -38,7 +38,7 @@ namespace Funkmap.Messenger.Hubs
 
             try
             {
-                await _dialogRepository.AddMessage(message.DialogId, message.ToEntity());
+                //await _dialogRepository.AddMessage(message.DialogId, message.ToEntity());
                 Clients.Clients(clientIds).OnMessageSent(message);
                 response.Success = true;
                 return response;

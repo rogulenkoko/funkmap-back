@@ -9,7 +9,6 @@ namespace Funkmap.Messenger.Data.Entities
         public DialogEntity()
         {
             Participants = new List<string>();
-            Messages = new List<MessageEntity>();
         }
 
         [BsonElement("prtcpnts")]
@@ -18,9 +17,6 @@ namespace Funkmap.Messenger.Data.Entities
 
         [BsonElement("mc")]
         public int MessagesCount { get; set; }
-
-        [BsonElement("m")]
-        public List<MessageEntity> Messages { get; set; }
 
     }
 }

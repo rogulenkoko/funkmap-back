@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -24,21 +25,30 @@ namespace Funkmap.Tests.Messenger.Data
 
         private void SeedDialogs()
         {
-            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), new GridFSBucket(_database));
+            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
+            var messagesRepository = new MessageRepository(_database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName), new GridFSBucket(_database));
+
+            var dialogId = ObjectId.GenerateNewId();
 
             var messages = new List<MessageEntity>()
             {
-                new MessageEntity() { Sender = "rogulenkoko", Text = "первое сообщение",DateTimeUtc = DateTime.Now.AddHours(-2) },
-                new MessageEntity() { Sender = "test", Text = "привет",DateTimeUtc = DateTime.Now.AddHours(-1) },
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(7) },
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(10) },
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(12) },
-                new MessageEntity() { Sender = "rogulenkoko", Text = "последнее сообщение",DateTimeUtc= DateTime.Now.AddMinutes(20) }
+                new MessageEntity() { Sender = "rogulenkoko", Text = "первое сообщение",DateTimeUtc = DateTime.Now.AddHours(-2), DialogId = dialogId},
+                new MessageEntity() { Sender = "test", Text = "привет",DateTimeUtc = DateTime.Now.AddHours(-1), DialogId = dialogId},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(7), DialogId = dialogId},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(10), DialogId = dialogId},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(12), DialogId = dialogId},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "последнее сообщение",DateTimeUtc= DateTime.Now.AddMinutes(20), DialogId = dialogId}
             };
+
+            foreach (var message in messages)
+            {
+                messagesRepository.CreateAsync(message).Wait();
+            }
+            
 
             var dialogs = new List<DialogEntity>()
             {
-                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "test"}, Messages = messages, MessagesCount = messages.Count},
+                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "test"}, MessagesCount = messages.Count, Id = dialogId},
                 new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "qwe"}},
                 new DialogEntity() {Participants = new List<string>() {"qwe", "test"}},
                 new DialogEntity() {Participants = new List<string>() {"asd", "zxc"}},

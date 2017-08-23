@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using Funkmap.Tests.Funkmap.Data;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Messenger.Data
 {
@@ -18,6 +19,13 @@ namespace Funkmap.Tests.Messenger.Data
                 new MessengerDataSeeder(db).SeedData();
                 return db;
             }
+        }
+
+        public static IGridFSBucket GetGridFsBucket(IMongoDatabase database)
+        {
+            database.CreateCollection("fs.files");
+            database.CreateCollection("fs.chunks");
+            return new GridFSBucket(database);
         }
     }
 }

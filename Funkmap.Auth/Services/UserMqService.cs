@@ -23,20 +23,7 @@ namespace Funkmap.Module.Auth.Services
 
         public void InitHandlers()
         {
-            _messageService.RegisterHandler<UserLastVisitDateRequest>(request => GetLastVisitDate(request?.GetBody()));
             _messageService.RegisterHandler<UserUpdateLastVisitDateRequest>(request => UpdateLastVisitDate(request?.GetBody()));
-        }
-
-        public UserLastVisitDateResponse GetLastVisitDate(UserLastVisitDateRequest request)
-        {
-            if(request == null) throw new ArgumentNullException();
-
-            var date = _authRepository.GetLastVisitDate(request.Login).GetAwaiter().GetResult();
-
-            return new UserLastVisitDateResponse()
-            {
-                LastVisitDateUtc = date
-            };
         }
 
         public UserUpdateLastVisitDateResponse UpdateLastVisitDate(UserUpdateLastVisitDateRequest request)

@@ -31,6 +31,7 @@ namespace Funkmap.Messenger
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName))
                 .As<IMongoCollection<DialogEntity>>();
+            
 
 
             builder.Register(container => new GridFSBucket(container.Resolve<IMongoDatabase>())).As<IGridFSBucket>();

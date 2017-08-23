@@ -143,7 +143,9 @@
     <Compile Include="Models\Requests\DialogsRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstract\IMessengerCacheService.cs" />
+    <Compile Include="Services\Abstract\IMessengerService.cs" />
     <Compile Include="Services\MessengerCacheService.cs" />
+    <Compile Include="Services\MessengerService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

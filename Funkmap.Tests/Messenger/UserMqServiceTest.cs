@@ -41,15 +41,6 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetLastVisitDate()
         {
-            var request = new UserLastVisitDateRequest()
-            {
-                Login = "rogulenkoko"
-            };
-            var response = _userService.GetLastVisitDate(request);
-
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.LastVisitDateUtc.HasValue);
-
 
             var updateRequest = new UserUpdateLastVisitDateRequest()
             {

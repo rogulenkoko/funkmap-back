@@ -12,7 +12,11 @@ namespace Funkmap.Messenger.Data.Entities
         {
             DateTimeUtc = DateTime.UtcNow;
             Content = new List<ContentItem>();
+            ParticipantsWhoRead = new List<string>();
         }
+
+        [BsonElement("d")]
+        public ObjectId DialogId { get; set; }
 
         [BsonElement("date")]
         public DateTime DateTimeUtc { get; set; }
@@ -23,11 +27,12 @@ namespace Funkmap.Messenger.Data.Entities
         [BsonElement("t")]
         public string Text { get; set; }
 
+        [BsonElement("pwr")]
+        public List<string> ParticipantsWhoRead { get; set; }
+
         [BsonElement("cont")]
         [BsonIgnoreIfDefault]
         public List<ContentItem> Content { get; set; }
-
-        public bool IsNew { get; set; }
     }
 
     public class ContentItem

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -20,16 +21,20 @@ namespace Funkmap.Messenger.Controllers
     public class MessengerController : ApiController
     {
         private readonly IDialogRepository _dialogRepository;
+        private readonly IMessageRepository _messageRepository;
+
         private readonly IMessengerCacheService _messengerCache;
         private readonly UserService _userService;
 
-        public MessengerController(IDialogRepository dialogRepository, 
+        public MessengerController(IDialogRepository dialogRepository,
+                                   IMessageRepository messageRepository,
                                    IMessengerCacheService messengerCache,
                                    UserService userService)
         {
             _dialogRepository = dialogRepository;
             _messengerCache = messengerCache;
             _userService = userService;
+            _messageRepository = messageRepository;
         }
 
         [HttpPost]
@@ -65,9 +70,9 @@ namespace Funkmap.Messenger.Controllers
                 DialogId = request.DialogId
             };
 
-            var messagesEntities = await _dialogRepository.GetDialogMessagesAsync(parameter);
-            var messages = messagesEntities.Select(x => x.ToModel()).ToList();
-            return Content(HttpStatusCode.OK, messages);
+            //var messagesEntities = await _dialogRepository.GetDialogMessagesAsync(parameter);
+            //var messages = messagesEntities.Select(x => x.ToModel()).ToList();
+            return Content(HttpStatusCode.OK, 2);
         }
 
         [HttpGet]
@@ -81,32 +86,28 @@ namespace Funkmap.Messenger.Controllers
 
         [HttpGet]
         [Authorize]
-        [Route("getNewMessagesCount")]
+        [Route("getDialogsWithNewMessagesCount")]
         public async Task<IHttpActionResult> GetNewDialogMessages()
         {
 
             var login = Request.GetLogin();
-            var request = new UserLastVisitDateRequest()
-            {
-                Login = login
-            };
-            var date = _userService.GetLastVisitDate(request).LastVisitDateUtc;
-
-            if (!date.HasValue)
-            {
-                return Ok(0);
-            }
-
-            var parameter = new DialogsWithNewMessagesParameter()
+            var dialogsParameter = new UserDialogsParameter()
             {
                 Login = login,
-                LastVisitDate = date.Value
+                Skip = 0,
+                Take = Int32.MaxValue
             };
-            ICollection<DialogEntity> dialogsWithNewMessages = await _dialogRepository.GetDialogsWithNewMessagesAsync(parameter);
+            var dialogs = await _dialogRepository.GetUserDialogsAsync(dialogsParameter);
+            if (dialogs == null || dialogs.Count == 0) return Ok(0);
 
-            int newMessagesCount = dialogsWithNewMessages.SelectMany(x=>x.Messages).Count();
+            var messagesParameter = new GetDialogsWithNewMessagesParameter()
+            {
+                Login = login,
+                DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
+            };
+            var count = await _messageRepository.GetDialogsWithNewMessagesCountAsync(messagesParameter);
 
-            return Ok(newMessagesCount);
+            return Ok(count);
 
         }
     }

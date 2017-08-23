@@ -19,27 +19,12 @@ namespace Funkmap.Messenger.Services
             _redisMqFactory = redisMqFactory;
         }
 
-        public UserLastVisitDateResponse GetLastVisitDate(UserLastVisitDateRequest request)
-        {
-            using (var mqClient = _redisMqFactory.CreateMessageQueueClient())
-            {
-                var messengerMQName = QNameBuilder.BuildQueueName("messenger");
-                mqClient.Publish(new Message<UserLastVisitDateRequest>(request)
-                {
-                    ReplyTo = messengerMQName
-                });
-
-                var response = mqClient.Get<UserLastVisitDateResponse>(messengerMQName, _mqTimeOut)?.GetBody();
-                return response;
-            }
-        }
-
         public UserUpdateLastVisitDateResponse UpdateLastVisitDate(UserUpdateLastVisitDateRequest request)
         {
             using (var mqClient = _redisMqFactory.CreateMessageQueueClient())
             {
                 var messengerMQName = QNameBuilder.BuildQueueName("messenger");
-                mqClient.Publish(new Message<UserLastVisitDateRequest>(request)
+                mqClient.Publish(new Message<UserUpdateLastVisitDateRequest>(request)
                 {
                     ReplyTo = messengerMQName
                 });
