@@ -31,12 +31,37 @@ namespace Funkmap.Messenger
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName))
                 .As<IMongoCollection<DialogEntity>>();
-            
 
+            var dialogLastMessageDateIndexModel = new CreateIndexModel<DialogEntity>(Builders<DialogEntity>.IndexKeys.Descending(x => x.LastMessageDate));
+            var messageDialogIdIndexModel = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Ascending(x => x.DialogId));
 
-            builder.Register(container => new GridFSBucket(container.Resolve<IMongoDatabase>())).As<IGridFSBucket>();
+            builder.Register(container =>
+            {
+                var database = container.Resolve<IMongoDatabase>();
+                database.CreateCollection("fs.files");
+                database.CreateCollection("fs.chunks");
+                return new GridFSBucket(database);
+
+            }).As<IGridFSBucket>();
             
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
+
+            builder.RegisterBuildCallback(async c =>
+            {
+                //создание индексов при запуске приложения
+                var dialogsCollection = c.Resolve<IMongoCollection<DialogEntity>>();
+                await dialogsCollection.Indexes.CreateManyAsync(new List<CreateIndexModel<DialogEntity>>
+                {
+                    dialogLastMessageDateIndexModel,
+                });
+
+
+                var messagesCollection = c.Resolve<IMongoCollection<MessageEntity>>();
+                await messagesCollection.Indexes.CreateManyAsync(new List<CreateIndexModel<MessageEntity>>
+                {
+                    messageDialogIdIndexModel,
+                });
+            });
 
             builder.RegisterType<MessengerCacheService>().As<IMessengerCacheService>().SingleInstance();
 
