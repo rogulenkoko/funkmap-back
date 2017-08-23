@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Models;
+using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Mappers
 {
@@ -32,7 +34,8 @@ namespace Funkmap.Messenger.Mappers
             {
                 Sender = source.Sender,
                 Text = source.Text,
-                
+                DialogId = new ObjectId(source.DialogId),
+                DateTimeUtc = DateTime.UtcNow
             };
         }
     }

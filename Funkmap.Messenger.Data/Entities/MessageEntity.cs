@@ -33,6 +33,9 @@ namespace Funkmap.Messenger.Data.Entities
         [BsonElement("cont")]
         [BsonIgnoreIfDefault]
         public List<ContentItem> Content { get; set; }
+
+        [BsonElement("ir")]
+        public bool IsRead { get; set; }
     }
 
     public class ContentItem

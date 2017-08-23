@@ -5,15 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Tests.Images;
 using Funkmap.Tests.Messenger.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Messenger
 {
@@ -44,7 +42,7 @@ namespace Funkmap.Tests.Messenger
             };
 
             var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).GetAwaiter().GetResult();
-            var param = new GetDialogsWithNewMessagesParameter()
+            var param = new DialogsNewMessagesParameter()
             {
                 Login = dialogsParameter.Login,
                 DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
@@ -75,6 +73,18 @@ namespace Funkmap.Tests.Messenger
 
             var messages = _messageRepository.GetDialogMessagesAsync(parameter).Result; 
             Assert.AreEqual(messages.Count, 4);
+
+
+            var newMessagesParameter = new DialogsNewMessagesParameter()
+            {
+                Login = parameter.UserLogin,
+                DialogIds = new List<string>() { parameter.DialogId } 
+            };
+            ICollection<DialogsNewMessagesCountResult> newMessagesCount = _messageRepository.GetDialogNewMessagesCount(newMessagesParameter)
+                .GetAwaiter().GetResult();
+            var myDialogResult = newMessagesCount.Single(x => x.DialogId.ToString() == parameter.DialogId);
+
+            Assert.AreEqual(myDialogResult.NewMessagesCount, 2);
 
             parameter.Skip = 4;
             messages = _messageRepository.GetDialogMessagesAsync(parameter).Result;
@@ -183,6 +193,34 @@ namespace Funkmap.Tests.Messenger
 
             var file = files.First();
             Assert.AreEqual(file.FileBytes.Length, image.Length);
+        }
+
+        [TestMethod]
+        public void GetLastDialogMessage()
+        {
+            var dialogsParameter = new UserDialogsParameter()
+            {
+                Login = "rogulenkoko",
+                Skip = 0,
+                Take = 100
+            };
+            var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).Result;
+            var dialog = dialogs.First();
+
+            var parameter = new DialogMessagesParameter()
+            {
+                DialogId = dialog.Id.ToString(),
+                Take = Int32.MaxValue,
+                Skip = 0,
+                UserLogin = "rogulenkoko"
+            };
+
+            var allMessages = _messageRepository.GetDialogMessagesAsync(parameter).GetAwaiter().GetResult();
+            var trueLastMessage = allMessages.Last();
+
+            var lastMessage = _messageRepository.GetLastDialogMessage(dialog.Id.ToString()).GetAwaiter().GetResult();
+
+            Assert.AreEqual(lastMessage.Id.ToString(), trueLastMessage.Id.ToString());
         }
 
     }

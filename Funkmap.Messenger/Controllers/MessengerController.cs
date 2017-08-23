@@ -11,6 +11,7 @@ using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
+using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Services;
 
@@ -50,7 +51,9 @@ namespace Funkmap.Messenger.Controllers
                 Take = request.Take
             };
             var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(parameter);
-            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin)).ToList();
+           // var lastDialogMessage = await _messageRepository.ge
+
+            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, null)).ToList();
             return Content(HttpStatusCode.OK, dialogs);
         }
 
@@ -70,9 +73,9 @@ namespace Funkmap.Messenger.Controllers
                 DialogId = request.DialogId
             };
 
-            //var messagesEntities = await _dialogRepository.GetDialogMessagesAsync(parameter);
-            //var messages = messagesEntities.Select(x => x.ToModel()).ToList();
-            return Content(HttpStatusCode.OK, 2);
+            var messagesEntities = await _messageRepository.GetDialogMessagesAsync(parameter);
+            var messages = messagesEntities.Select(x => x.ToModel()).ToList();
+            return Content(HttpStatusCode.OK, messages);
         }
 
         [HttpGet]
@@ -100,7 +103,7 @@ namespace Funkmap.Messenger.Controllers
             var dialogs = await _dialogRepository.GetUserDialogsAsync(dialogsParameter);
             if (dialogs == null || dialogs.Count == 0) return Ok(0);
 
-            var messagesParameter = new GetDialogsWithNewMessagesParameter()
+            var messagesParameter = new DialogsNewMessagesParameter()
             {
                 Login = login,
                 DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
@@ -108,7 +111,22 @@ namespace Funkmap.Messenger.Controllers
             var count = await _messageRepository.GetDialogsWithNewMessagesCountAsync(messagesParameter);
 
             return Ok(count);
+        }
 
+        [HttpPost]
+        [Authorize]
+        [Route("getDialogNewMessagesCount")]
+        public async Task<IHttpActionResult> GetDialogNewMessagesCount(string[] dialogIds)
+        {
+            var login = Request.GetLogin();
+            var parameter = new DialogsNewMessagesParameter()
+            {
+                Login = login,
+                DialogIds = dialogIds
+            };
+            var messagesCount = await _messageRepository.GetDialogNewMessagesCount(parameter);
+            var result = messagesCount.Select(x => x.ToModel());
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
@@ -22,8 +23,11 @@ namespace Funkmap.Messenger.Data.Repositories
         {
             var participantsFilter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, parameter.Login);
 
+            var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
+
             var dialogs = await _collection
                 .Find(participantsFilter)
+                .Sort(sortFilter)
                 .Skip(parameter.Skip)
                 .Limit(parameter.Take)
                 .ToListAsync();
@@ -40,9 +44,22 @@ namespace Funkmap.Messenger.Data.Repositories
             return members;
         }
 
-        public async Task CreateAsync(DialogEntity item)
+        public async Task UpdateLastMessageDate(UpdateLastMessageDateParameter parameter)
         {
+            if(String.IsNullOrEmpty(parameter.DialogId)) throw new ArgumentException(nameof(parameter.DialogId));
+            if(parameter.Date == DateTime.MinValue) throw new ArgumentException(nameof(parameter.DialogId));
+
+            var update = Builders<DialogEntity>.Update.Set(x => x.LastMessageDate, parameter.Date);
+            await _collection.UpdateOneAsync(x => x.Id == new ObjectId(parameter.DialogId), update);
+        }
+
+        public async Task<ObjectId> CreateAsync(DialogEntity item)
+        {
+            if(item == null || item.Participants.Count < 2) throw new ArgumentException(nameof(item));
             await _collection.InsertOneAsync(item);
+
+            return item.Id;
+
         }
     }
 

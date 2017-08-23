@@ -138,6 +138,7 @@
     <Compile Include="Hubs\MessengerHub.cs" />
     <Compile Include="MessengerModule.cs" />
     <Compile Include="Models\Dialog.cs" />
+    <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Requests\DialogMessagesRequest.cs" />
     <Compile Include="Models\Requests\DialogsRequest.cs" />

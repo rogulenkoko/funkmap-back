@@ -42,13 +42,13 @@ namespace Funkmap.Tests.Messenger.Data
 
             foreach (var message in messages)
             {
-                messagesRepository.CreateAsync(message).Wait();
+                messagesRepository.AddMessage(message).Wait();
             }
             
 
             var dialogs = new List<DialogEntity>()
             {
-                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "test"}, MessagesCount = messages.Count, Id = dialogId},
+                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "test"}, Id = dialogId},
                 new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "qwe"}},
                 new DialogEntity() {Participants = new List<string>() {"qwe", "test"}},
                 new DialogEntity() {Participants = new List<string>() {"asd", "zxc"}},

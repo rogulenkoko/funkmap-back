@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 
 namespace Funkmap.Messenger.Data.Repositories.Abstract
@@ -12,7 +13,9 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
     {
         Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter);
         ICollection<ContentItem> GetMessagesContent(string[] contentIds);
-        Task<int> GetDialogsWithNewMessagesCountAsync(GetDialogsWithNewMessagesParameter paramete);
+        Task<int> GetDialogsWithNewMessagesCountAsync(DialogsNewMessagesParameter paramete);
+        Task<ICollection<DialogsNewMessagesCountResult>> GetDialogNewMessagesCount(DialogsNewMessagesParameter parameter);
         Task AddMessage(MessageEntity message);
+        Task<MessageEntity> GetLastDialogMessage(string dialogId);
     }
 }

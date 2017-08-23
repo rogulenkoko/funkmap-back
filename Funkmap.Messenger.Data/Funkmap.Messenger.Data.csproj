@@ -63,8 +63,10 @@
     <Compile Include="Entities\DialogEntity.cs" />
     <Compile Include="Entities\MessageEntity.cs" />
     <Compile Include="Entities\MessageUnwinded.cs" />
+    <Compile Include="Objects\DialogsNewMessagesCountResult.cs" />
     <Compile Include="Parameters\DialogMessagesParameter.cs" />
-    <Compile Include="Parameters\GetDialogsWithNewMessagesParameter.cs" />
+    <Compile Include="Parameters\DialogsNewMessagesParameter.cs" />
+    <Compile Include="Parameters\UpdateLastMessageDateParameter.cs" />
     <Compile Include="Parameters\UserDialogsParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstract\IDialogRepository.cs" />

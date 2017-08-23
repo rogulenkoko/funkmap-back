@@ -11,5 +11,7 @@ namespace Funkmap.Messenger.Models
         public string DialogId { get; set; }
         public string Name { get; set; }
         public byte[] Avatar { get; set; }
+
+        public Message LastMessage { get; set; }
     }
 }

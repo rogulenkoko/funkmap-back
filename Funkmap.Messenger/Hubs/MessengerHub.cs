@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Models;
+using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
@@ -17,15 +20,18 @@ namespace Funkmap.Messenger.Hubs
     {
         private readonly IMessengerCacheService _cacheService;
         private readonly IDialogRepository _dialogRepository;
+        private readonly IMessageRepository _messageRepository;
         private readonly UserService _userService;
 
         public MessengerHub(IMessengerCacheService cacheService,
                             IDialogRepository dialogRepository,
+                            IMessageRepository messageRepository,
                             UserService userService)
         {
             _cacheService = cacheService;
             _dialogRepository = dialogRepository;
             _userService = userService;
+            _messageRepository = messageRepository;
         }
 
         [HubMethodName("sendMessage")]
@@ -38,7 +44,26 @@ namespace Funkmap.Messenger.Hubs
 
             try
             {
-                //await _dialogRepository.AddMessage(message.DialogId, message.ToEntity());
+                if (message.IsInNewDialog)
+                {
+                    var dialogEntity = new DialogEntity()
+                    {
+                        LastMessageDate = DateTime.UtcNow,
+                        Participants = new List<string>() { message.Sender, message.Reciever }
+                    };
+                    var dialogId = await _dialogRepository.CreateAsync(dialogEntity);
+                    message.DialogId = dialogId.ToString();
+                }
+
+                var messageEntity = message.ToEntity();
+                await _messageRepository.AddMessage(messageEntity);
+                await _dialogRepository.UpdateLastMessageDate(
+                    new UpdateLastMessageDateParameter()
+                    {
+                        DialogId = message.DialogId,
+                        Date = messageEntity.DateTimeUtc
+                    });
+
                 Clients.Clients(clientIds).OnMessageSent(message);
                 response.Success = true;
                 return response;

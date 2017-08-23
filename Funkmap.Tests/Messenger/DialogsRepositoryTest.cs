@@ -9,6 +9,7 @@ using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Tests.Images;
 using Funkmap.Tests.Messenger.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Bson;
 using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Messenger
@@ -40,6 +41,41 @@ namespace Funkmap.Tests.Messenger
             parameter.Login = "test";
             dialogs = _dialogRepository.GetUserDialogsAsync(parameter).Result;
             Assert.AreEqual(dialogs.Count, 2);
+        }
+
+        [TestMethod]
+        public void UpdateLastMessageDateTest()
+        {
+            var dialogsParameter = new UserDialogsParameter()
+            {
+                Login = "rogulenkoko",
+                Skip = 0,
+                Take = 100
+            };
+            var dialog = _dialogRepository.GetUserDialogsAsync(dialogsParameter).GetAwaiter().GetResult().Last();
+
+            var parameter = new UpdateLastMessageDateParameter()
+            {
+                DialogId = dialog.Id.ToString(),
+                Date = DateTime.Now
+            };
+            _dialogRepository.UpdateLastMessageDate(parameter).Wait();
+
+            var updatedDialog = _dialogRepository.GetUserDialogsAsync(dialogsParameter).GetAwaiter().GetResult().First();
+
+            Assert.AreEqual(updatedDialog.Id.ToString(), dialog.Id.ToString());
+        }
+
+        [TestMethod]
+        public void CreateDialog()
+        {
+            var dialog = new DialogEntity()
+            {
+                LastMessageDate = DateTime.Now,
+                Participants = new List<string>() { "qwert", "trewq"}
+            };
+            var id = _dialogRepository.CreateAsync(dialog).GetAwaiter().GetResult();
+            Assert.AreNotEqual(id.ToString(), ObjectId.Empty.ToString());
         }
     }
 }

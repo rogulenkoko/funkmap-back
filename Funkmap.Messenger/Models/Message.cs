@@ -12,5 +12,10 @@ namespace Funkmap.Messenger.Models
         public DateTime DateTimeUtc { get; set; }
 
         public ContentItem[] Images { get; set; }
+
+
+        //поля на случай если такого диалога еще не создано и надо его создать при отправлении сообщения
+        public bool IsInNewDialog { get; set; }
+        public string Reciever { get; set; }
     }
 }
