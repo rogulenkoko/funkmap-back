@@ -61,7 +61,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
             var dialogFilter = Builders<MessageEntity>.Filter.Eq(x => x.DialogId, new ObjectId(parameter.DialogId));
             var messageProjection = Builders<MessageEntity>.Projection
-                .Exclude(x => x.ParticipantsWhoRead);
+                .Exclude(x => x.ToParticipants);
 
             var sort = Builders<MessageEntity>.Sort.Descending(x => x.Id);
 
@@ -72,10 +72,9 @@ namespace Funkmap.Messenger.Data.Repositories
                 .ToListAsync();
 
             var readFilter = Builders<MessageEntity>.Filter.In(x => x.Id, messages.Select(x => x.Id))
-                            & Builders<MessageEntity>.Filter.AnyNe(x=>x.ParticipantsWhoRead, parameter.UserLogin)
                             & Builders<MessageEntity>.Filter.Ne(x=> x.Sender, parameter.UserLogin);
 
-            var update = Builders<MessageEntity>.Update.AddToSet(x => x.ParticipantsWhoRead, parameter.UserLogin).Set(x=>x.IsRead, true);
+            var update = Builders<MessageEntity>.Update.Pull(x => x.ToParticipants, parameter.UserLogin).Set(x=>x.IsRead, true);
 
             await _collection.UpdateManyAsync(readFilter, update);
                 
@@ -102,7 +101,7 @@ namespace Funkmap.Messenger.Data.Repositories
         public async Task<int> GetDialogsWithNewMessagesCountAsync(DialogsNewMessagesParameter parameter)
         {
             var filter = Builders<MessageEntity>.Filter.In(x=>x.DialogId, parameter.DialogIds.Select(x=> new ObjectId(x)))
-                            & Builders<MessageEntity>.Filter.AnyNe(x => x.ParticipantsWhoRead, parameter.Login);
+                            & Builders<MessageEntity>.Filter.AnyNe(x => x.ToParticipants, parameter.Login);
 
             var grouping = await _collection.Aggregate<MessageEntity>()
                 .Match(filter)
@@ -129,7 +128,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
             if (String.IsNullOrEmpty(parameter.Login)) throw new ArgumentException(nameof(parameter.Login));
 
-            var newMessagesFilter = Builders<MessageEntity>.Filter.AnyNe(x => x.ParticipantsWhoRead, parameter.Login)
+            var newMessagesFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, parameter.Login)
                                     & Builders<MessageEntity>.Filter.In(x => x.DialogId,
                                         parameter.DialogIds.Select(x => new ObjectId(x)));
 

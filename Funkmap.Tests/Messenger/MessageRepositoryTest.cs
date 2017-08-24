@@ -84,7 +84,7 @@ namespace Funkmap.Tests.Messenger
                 .GetAwaiter().GetResult();
             var myDialogResult = newMessagesCount.Single(x => x.DialogId.ToString() == parameter.DialogId);
 
-            Assert.AreEqual(myDialogResult.NewMessagesCount, 2);
+            Assert.AreEqual(myDialogResult.NewMessagesCount, 1);
 
             parameter.Skip = 4;
             messages = _messageRepository.GetDialogMessagesAsync(parameter).Result;

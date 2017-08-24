@@ -21,7 +21,7 @@ namespace Funkmap.Messenger.Mappers
             };
         }
 
-        public static MessageEntity ToEntity(this Message source)
+        public static MessageEntity ToEntity(this Message source, List<string> recievers)
         {
             if (source == null) return null;
 
@@ -35,7 +35,8 @@ namespace Funkmap.Messenger.Mappers
                 Sender = source.Sender,
                 Text = source.Text,
                 DialogId = new ObjectId(source.DialogId),
-                DateTimeUtc = DateTime.UtcNow
+                DateTimeUtc = DateTime.UtcNow,
+                ToParticipants = recievers
             };
         }
     }

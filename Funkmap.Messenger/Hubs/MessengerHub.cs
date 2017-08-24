@@ -44,6 +44,7 @@ namespace Funkmap.Messenger.Hubs
 
             try
             {
+                List<string> participants;
                 if (message.IsInNewDialog)
                 {
                     var dialogEntity = new DialogEntity()
@@ -53,11 +54,18 @@ namespace Funkmap.Messenger.Hubs
                     };
                     var dialogId = await _dialogRepository.CreateAsync(dialogEntity);
                     message.DialogId = dialogId.ToString();
+                    participants = new List<string>() {message.Reciever};
+                }
+                else
+                {
+                    var dialogParticipants = await _dialogRepository.GetDialogMembers(message.DialogId);
+                    participants = dialogParticipants.ToList();
                 }
 
-                var messageEntity = message.ToEntity();
+                var messageEntity = message.ToEntity(participants);
                 await _messageRepository.AddMessage(messageEntity);
-                await _dialogRepository.UpdateLastMessageDate(
+
+                _dialogRepository.UpdateLastMessageDate(
                     new UpdateLastMessageDateParameter()
                     {
                         DialogId = message.DialogId,

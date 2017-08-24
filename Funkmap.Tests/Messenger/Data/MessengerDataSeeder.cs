@@ -29,15 +29,16 @@ namespace Funkmap.Tests.Messenger.Data
             var messagesRepository = new MessageRepository(_database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName), new GridFSBucket(_database));
 
             var dialogId = ObjectId.GenerateNewId();
+            var participants = new List<string>() {"test", "rogulenkoko"};
 
             var messages = new List<MessageEntity>()
             {
-                new MessageEntity() { Sender = "rogulenkoko", Text = "первое сообщение",DateTimeUtc = DateTime.Now.AddHours(-2), DialogId = dialogId},
-                new MessageEntity() { Sender = "test", Text = "привет",DateTimeUtc = DateTime.Now.AddHours(-1), DialogId = dialogId},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(7), DialogId = dialogId},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(10), DialogId = dialogId},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(12), DialogId = dialogId},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "последнее сообщение",DateTimeUtc= DateTime.Now.AddMinutes(20), DialogId = dialogId}
+                new MessageEntity() { Sender = "rogulenkoko", Text = "первое сообщение",DateTimeUtc = DateTime.Now.AddHours(-2), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
+                new MessageEntity() { Sender = "test", Text = "привет",DateTimeUtc = DateTime.Now.AddHours(-1), DialogId = dialogId, ToParticipants = new List<string>() {"rogulenkoko"}},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(7), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(10), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(12), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
+                new MessageEntity() { Sender = "rogulenkoko", Text = "последнее сообщение",DateTimeUtc= DateTime.Now.AddMinutes(20), DialogId = dialogId, ToParticipants = new List<string>() {"test"}}
             };
 
             foreach (var message in messages)
@@ -48,7 +49,7 @@ namespace Funkmap.Tests.Messenger.Data
 
             var dialogs = new List<DialogEntity>()
             {
-                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "test"}, Id = dialogId},
+                new DialogEntity() {Participants = participants, Id = dialogId},
                 new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "qwe"}},
                 new DialogEntity() {Participants = new List<string>() {"qwe", "test"}},
                 new DialogEntity() {Participants = new List<string>() {"asd", "zxc"}},
