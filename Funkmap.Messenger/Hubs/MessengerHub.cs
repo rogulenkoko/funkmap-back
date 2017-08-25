@@ -38,32 +38,15 @@ namespace Funkmap.Messenger.Hubs
         public async Task<BaseResponse> SendMessage(Message message)
         {
             var response = new BaseResponse();
-
-            var members = await _dialogRepository.GetDialogMembers(message.DialogId);
-            var clientIds = _cacheService.GetConnectionIdsByLogins(members).ToList();
-
+            
             try
             {
-                List<string> participants;
-                if (message.IsInNewDialog)
-                {
-                    var dialogEntity = new DialogEntity()
-                    {
-                        LastMessageDate = DateTime.UtcNow,
-                        Participants = new List<string>() { message.Sender, message.Reciever }
-                    };
-                    var dialogId = await _dialogRepository.CreateAsync(dialogEntity);
-                    message.DialogId = dialogId.ToString();
-                    participants = new List<string>() {message.Reciever};
-                }
-                else
-                {
-                    var dialogParticipants = await _dialogRepository.GetDialogMembers(message.DialogId);
-                    var dialogParticipantsWithoutSender = dialogParticipants.Where(x => x != message.Sender).ToList();
+                var dialogParticipants = await _dialogRepository.GetDialogMembers(message.DialogId);
+                var dialogParticipantsWithoutSender = dialogParticipants.Where(x => x != message.Sender).ToList();
                     
-                    participants = dialogParticipantsWithoutSender.Where(login=> !_cacheService.CheckDialogIsOpened(login, message.DialogId)).ToList();
-                }
-
+                var participants = dialogParticipantsWithoutSender.Where(login=> !_cacheService.CheckDialogIsOpened(login, message.DialogId)).ToList();
+                
+                message.DateTimeUtc = DateTime.UtcNow;
                 var messageEntity = message.ToEntity(participants);
                 await _messageRepository.AddMessage(messageEntity);
 
@@ -73,6 +56,9 @@ namespace Funkmap.Messenger.Hubs
                         DialogId = message.DialogId,
                         Date = messageEntity.DateTimeUtc
                     });
+
+                var members = await _dialogRepository.GetDialogMembers(message.DialogId);
+                var clientIds = _cacheService.GetConnectionIdsByLogins(members).ToList();
 
                 Clients.Clients(clientIds).OnMessageSent(message);
                 response.Success = true;

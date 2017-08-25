@@ -74,18 +74,6 @@ namespace Funkmap.Tests.Messenger
             var messages = _messageRepository.GetDialogMessagesAsync(parameter).Result; 
             Assert.AreEqual(messages.Count, 4);
 
-
-            var newMessagesParameter = new DialogsNewMessagesParameter()
-            {
-                Login = parameter.UserLogin,
-                DialogIds = new List<string>() { parameter.DialogId } 
-            };
-            ICollection<DialogsNewMessagesCountResult> newMessagesCount = _messageRepository.GetDialogNewMessagesCount(newMessagesParameter)
-                .GetAwaiter().GetResult();
-            var myDialogResult = newMessagesCount.Single(x => x.DialogId.ToString() == parameter.DialogId);
-
-            Assert.AreEqual(myDialogResult.NewMessagesCount, 1);
-
             parameter.Skip = 4;
             messages = _messageRepository.GetDialogMessagesAsync(parameter).Result;
             Assert.AreEqual(messages.Count, 2);

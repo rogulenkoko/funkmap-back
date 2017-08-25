@@ -35,7 +35,7 @@ namespace Funkmap.Messenger.Mappers
                 Sender = source.Sender,
                 Text = source.Text,
                 DialogId = new ObjectId(source.DialogId),
-                DateTimeUtc = DateTime.UtcNow,
+                DateTimeUtc = source.DateTimeUtc,
                 ToParticipants = recievers
             };
         }

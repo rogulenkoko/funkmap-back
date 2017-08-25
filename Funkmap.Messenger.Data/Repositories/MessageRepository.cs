@@ -98,6 +98,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
             var readFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, parameter.UserLogin)
                             & Builders<MessageEntity>.Filter.Lte(x=>x.DateTimeUtc, lastMessageDate)
+                            & Builders<MessageEntity>.Filter.Eq(x=>x.DialogId, new ObjectId(parameter.DialogId))
                             & Builders<MessageEntity>.Filter.Ne(x=> x.Sender, parameter.UserLogin);
 
             var update = Builders<MessageEntity>.Update.Pull(x => x.ToParticipants, parameter.UserLogin).Set(x=>x.IsRead, true);

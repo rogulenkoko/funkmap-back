@@ -32,6 +32,7 @@ namespace Funkmap.Mappers
             {
                 Avatar = source.Photo?.AsByteArray,
                 Login = source.Login,
+                UserLogin = source.UserLogin,
                 Title = source.Name,
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,

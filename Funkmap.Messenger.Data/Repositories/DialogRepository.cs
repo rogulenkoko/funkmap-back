@@ -61,6 +61,15 @@ namespace Funkmap.Messenger.Data.Repositories
             return item.Id;
 
         }
+
+        public async Task<bool> IsDialogExist(List<string> particpants)
+        {
+            var filter = Builders<DialogEntity>.Filter.All(x => x.Participants, particpants);
+            var projection = Builders<DialogEntity>.Projection.Include(x => x.Id);
+            var existingDialog = await _collection.Find(filter).Project(projection).Limit(1).ToListAsync();
+            if (existingDialog == null || existingDialog.Count == 0) return false;
+            return true;
+        }
     }
 
 }

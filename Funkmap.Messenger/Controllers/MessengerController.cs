@@ -13,6 +13,7 @@ using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
+using Funkmap.Messenger.Models.Responses;
 using Funkmap.Messenger.Services;
 
 namespace Funkmap.Messenger.Controllers
@@ -51,11 +52,34 @@ namespace Funkmap.Messenger.Controllers
                 Take = request.Take
             };
             var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(parameter);
+            if (dialogsEntities == null || dialogsEntities.Count == 0) return Ok(new List<Dialog>());
+
             var dialogIds = dialogsEntities.Select(x => x.Id.ToString()).ToArray();
             var lastDialogMessage = await _messageRepository.GetLastDialogsMessages(dialogIds);
 
             var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y=>y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
             return Content(HttpStatusCode.OK, dialogs);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("createDialog")]
+        public async Task<IHttpActionResult> CreateDialog(Dialog dialog)
+        {
+            if (dialog.Participants == null || dialog.Participants.Count < 2) return BadRequest("Invalid parameter");
+
+            var isExist = await _dialogRepository.IsDialogExist(dialog.Participants);
+
+            if (isExist) return BadRequest("Dialog exists");
+
+            var id = await _dialogRepository.CreateAsync(dialog.ToEntity());
+            var response = new CreateDialogResponse()
+            {
+                Success = true,
+                DialogId = id.ToString()
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
@@ -121,6 +145,7 @@ namespace Funkmap.Messenger.Controllers
         public async Task<IHttpActionResult> GetDialogsNewMessagesCount(string[] dialogIds)
         {
             var login = Request.GetLogin();
+            if (dialogIds.Length == 0) return BadRequest();
             var parameter = new DialogsNewMessagesParameter()
             {
                 Login = login,

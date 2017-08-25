@@ -29,5 +29,14 @@ namespace Funkmap.Messenger.Mappers
                 NewMessagesCount = source.NewMessagesCount
             };
         }
+
+        public static DialogEntity ToEntity(this Dialog source)
+        {
+            if (source == null) return null;
+            return new DialogEntity()
+            {
+                Participants = source.Participants
+            };
+        }
     }
 }
