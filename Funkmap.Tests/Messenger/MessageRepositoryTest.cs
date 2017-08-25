@@ -47,8 +47,8 @@ namespace Funkmap.Tests.Messenger
                 Login = dialogsParameter.Login,
                 DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
             };
-            var count = _messageRepository.GetDialogsWithNewMessagesCountAsync(param).GetAwaiter().GetResult();
-            Assert.AreEqual(count, 1);
+            var count = _messageRepository.GetDialogsWithNewMessagesAsync(param).GetAwaiter().GetResult();
+            Assert.AreEqual(count.Count, 1);
         }
 
         [TestMethod]
@@ -218,8 +218,8 @@ namespace Funkmap.Tests.Messenger
             var allMessages = _messageRepository.GetDialogMessagesAsync(parameter).GetAwaiter().GetResult();
             var trueLastMessage = allMessages.Last();
 
-            var lastMessage = _messageRepository.GetLastDialogMessage(dialog.Id.ToString()).GetAwaiter().GetResult();
-
+            var lastMessages = _messageRepository.GetLastDialogsMessages(new string[] { dialog.Id.ToString()}).GetAwaiter().GetResult();
+            var lastMessage = lastMessages.First();
             Assert.AreEqual(lastMessage.Id.ToString(), trueLastMessage.Id.ToString());
         }
 

@@ -59,7 +59,9 @@ namespace Funkmap.Messenger.Hubs
                 else
                 {
                     var dialogParticipants = await _dialogRepository.GetDialogMembers(message.DialogId);
-                    participants = dialogParticipants.ToList();
+                    var dialogParticipantsWithoutSender = dialogParticipants.Where(x => x != message.Sender).ToList();
+                    
+                    participants = dialogParticipantsWithoutSender.Where(login=> !_cacheService.CheckDialogIsOpened(login, message.DialogId)).ToList();
                 }
 
                 var messageEntity = message.ToEntity(participants);
@@ -81,7 +83,15 @@ namespace Funkmap.Messenger.Hubs
                 Console.WriteLine(e);
                 return new BaseResponse();
             }
-        } 
+        }
+
+        [HubMethodName("setOpenedDialog")]
+        public BaseResponse SetOpenedDialog(string dialogId)
+        {
+            var connectionId = Context.ConnectionId;
+            var isSucces = _cacheService.SetOpenedDialog(connectionId, dialogId);
+            return new BaseResponse() {Success = isSucces};
+        }
 
         public override Task OnConnected()
         {

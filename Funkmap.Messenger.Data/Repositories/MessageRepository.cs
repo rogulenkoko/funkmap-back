@@ -10,6 +10,7 @@ using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -42,13 +43,33 @@ namespace Funkmap.Messenger.Data.Repositories
             await _collection.InsertOneAsync(message);
         }
 
-        public async Task<MessageEntity> GetLastDialogMessage(string dialogId)
+        public async Task<ICollection<MessageEntity>> GetLastDialogsMessages(string[] dialogIds)
         {
-            if(String.IsNullOrEmpty(dialogId)) throw new ArgumentException(nameof(dialogId));
+            //db.messages.aggregate([
+            //{$match: { d: ObjectId("599f49c5208c1127f4f2dde4")} },
+            //{$sort: { _id: -1} },
+            //{$group: { _id: "$d",m: {$first: "$$ROOT"} } }
+            //])
+
+
+            if (dialogIds == null || dialogIds.Length == 0) throw new ArgumentException(nameof(dialogIds));
 
             var sort = Builders<MessageEntity>.Sort.Descending(x => x.Id);
-            var message = await _collection.Find(x => x.DialogId == new ObjectId(dialogId)).Sort(sort).Limit(1).FirstOrDefaultAsync();
-            return message;
+
+            var dialogsFilter = Builders<MessageEntity>.Filter.In(x => x.DialogId, dialogIds.Select(x=>new ObjectId(x)));
+
+            var messages = await _collection.Aggregate()
+                .Match(dialogsFilter)
+                .Sort(sort)
+                .Group(x => x.DialogId, y => new LastDialogMessageResult()
+                {
+                    DialogId = y.Key,
+                    LastMessage = new BsonDocument("$first", "$$ROOT") 
+                }).ToListAsync();
+
+            if(messages == null) return new List<MessageEntity>();
+
+            return messages.Select(x => BsonSerializer.Deserialize<MessageEntity>(x.LastMessage)).ToList();
         }
 
         public async Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter)
@@ -70,8 +91,13 @@ namespace Funkmap.Messenger.Data.Repositories
                 .Skip(parameter.Skip)
                 .Limit(parameter.Take)
                 .ToListAsync();
+            if(messages == null || messages.Count == 0) return new List<MessageEntity>();
 
-            var readFilter = Builders<MessageEntity>.Filter.In(x => x.Id, messages.Select(x => x.Id))
+            //дата последнего сообщения
+            DateTime lastMessageDate = messages.First().DateTimeUtc;
+
+            var readFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, parameter.UserLogin)
+                            & Builders<MessageEntity>.Filter.Lte(x=>x.DateTimeUtc, lastMessageDate)
                             & Builders<MessageEntity>.Filter.Ne(x=> x.Sender, parameter.UserLogin);
 
             var update = Builders<MessageEntity>.Update.Pull(x => x.ToParticipants, parameter.UserLogin).Set(x=>x.IsRead, true);
@@ -98,10 +124,10 @@ namespace Funkmap.Messenger.Data.Repositories
             return results.Values;
         }
 
-        public async Task<int> GetDialogsWithNewMessagesCountAsync(DialogsNewMessagesParameter parameter)
+        public async Task<ICollection<DialogEntity>> GetDialogsWithNewMessagesAsync(DialogsNewMessagesParameter parameter)
         {
             var filter = Builders<MessageEntity>.Filter.In(x=>x.DialogId, parameter.DialogIds.Select(x=> new ObjectId(x)))
-                            & Builders<MessageEntity>.Filter.AnyNe(x => x.ToParticipants, parameter.Login);
+                            & Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, parameter.Login);
 
             var grouping = await _collection.Aggregate<MessageEntity>()
                 .Match(filter)
@@ -113,10 +139,10 @@ namespace Funkmap.Messenger.Data.Repositories
 
             if (grouping == null)
             {
-                return 0;
+                return new List<DialogEntity>();
             }
 
-            return grouping.Count;
+            return grouping;
         }
 
         public async Task<ICollection<DialogsNewMessagesCountResult>> GetDialogNewMessagesCount(

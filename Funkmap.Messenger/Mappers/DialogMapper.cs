@@ -15,7 +15,8 @@ namespace Funkmap.Messenger.Mappers
             {
                 DialogId = source.Id.ToString(),
                 Name = source.Participants.FirstOrDefault(x => x != userLogin),
-                LastMessage = lastMessage
+                LastMessage = lastMessage,
+                Participants = source.Participants
             };
         }
 

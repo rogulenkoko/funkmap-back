@@ -9,7 +9,10 @@ namespace Funkmap.Messenger.Services
         void RemoveOnlineUser(string id, out string login);
 
         ICollection<string> GetConnectionIdsByLogins(ICollection<string> login);
-
         ICollection<string> GetOnlineUsersLogins();
+
+
+        bool CheckDialogIsOpened(string login, string dialogId);
+        bool SetOpenedDialog(string id, string dialogId);
     }
 }

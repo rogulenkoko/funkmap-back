@@ -32,19 +32,23 @@ namespace Funkmap.Messenger
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName))
                 .As<IMongoCollection<DialogEntity>>();
 
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName))
+                .As<IMongoCollection<MessageEntity>>();
+
             var dialogLastMessageDateIndexModel = new CreateIndexModel<DialogEntity>(Builders<DialogEntity>.IndexKeys.Descending(x => x.LastMessageDate));
             var messageDialogIdIndexModel = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Ascending(x => x.DialogId));
 
             builder.Register(container =>
             {
                 var database = container.Resolve<IMongoDatabase>();
-                database.CreateCollection("fs.files");
-                database.CreateCollection("fs.chunks");
+                //database.CreateCollection("fs.files");
+                //database.CreateCollection("fs.chunks");
                 return new GridFSBucket(database);
 
             }).As<IGridFSBucket>();
             
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
+            builder.RegisterType<MessageRepository>().As<IMessageRepository>();
 
             builder.RegisterBuildCallback(async c =>
             {

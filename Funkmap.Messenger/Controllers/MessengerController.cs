@@ -51,9 +51,10 @@ namespace Funkmap.Messenger.Controllers
                 Take = request.Take
             };
             var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(parameter);
-           // var lastDialogMessage = await _messageRepository.ge
+            var dialogIds = dialogsEntities.Select(x => x.Id.ToString()).ToArray();
+            var lastDialogMessage = await _messageRepository.GetLastDialogsMessages(dialogIds);
 
-            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, null)).ToList();
+            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y=>y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
             return Content(HttpStatusCode.OK, dialogs);
         }
 
@@ -70,7 +71,8 @@ namespace Funkmap.Messenger.Controllers
             {
                 Skip = request.Skip,
                 Take = request.Take,
-                DialogId = request.DialogId
+                DialogId = request.DialogId,
+                UserLogin = userLogin
             };
 
             var messagesEntities = await _messageRepository.GetDialogMessagesAsync(parameter);
@@ -108,15 +110,15 @@ namespace Funkmap.Messenger.Controllers
                 Login = login,
                 DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
             };
-            var count = await _messageRepository.GetDialogsWithNewMessagesCountAsync(messagesParameter);
+            var dialogsWithNewMessages = await _messageRepository.GetDialogsWithNewMessagesAsync(messagesParameter);
 
-            return Ok(count);
+            return Ok(dialogsWithNewMessages);
         }
 
         [HttpPost]
         [Authorize]
-        [Route("getDialogNewMessagesCount")]
-        public async Task<IHttpActionResult> GetDialogNewMessagesCount(string[] dialogIds)
+        [Route("getDialogsNewMessagesCount")]
+        public async Task<IHttpActionResult> GetDialogsNewMessagesCount(string[] dialogIds)
         {
             var login = Request.GetLogin();
             var parameter = new DialogsNewMessagesParameter()
