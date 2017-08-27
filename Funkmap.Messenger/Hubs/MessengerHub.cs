@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Contracts.Models;
+using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
@@ -16,6 +17,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 namespace Funkmap.Messenger.Hubs
 {
     [HubName("messenger")]
+    [ValidateRequestModel]
     public class MessengerHub : Hub, IMessengerHub
     {
         private readonly IMessengerCacheService _cacheService;
@@ -78,11 +80,14 @@ namespace Funkmap.Messenger.Hubs
         [HubMethodName("setOpenedDialog")]
         public async Task<BaseResponse> SetOpenedDialog(string dialogId)
         {
+            if (String.IsNullOrEmpty(dialogId)) return new BaseResponse() {Success = false};
             var connectionId = Context.ConnectionId;
             var isSucces = _cacheService.SetOpenedDialog(connectionId, dialogId);
 
             var dialogMembers = await _dialogRepository.GetDialogMembers(dialogId);
-            var connectionIds = _cacheService.GetConnectionIdsByLogins(dialogMembers).ToList();
+            var login = Context.QueryString["login"];
+            var userConnections = _cacheService.GetConnectionIdsByLogins(new List<string>() {login});
+            var connectionIds = _cacheService.GetConnectionIdsByLogins(dialogMembers).Except(userConnections).ToList();
 
             Clients.Clients(connectionIds).onDialogRead(dialogId);
 

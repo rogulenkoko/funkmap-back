@@ -19,17 +19,15 @@ namespace Funkmap.Messenger.Data.Repositories
             _collection = collection;
         }
 
-        public async Task<ICollection<DialogEntity>> GetUserDialogsAsync(UserDialogsParameter parameter)
+        public async Task<ICollection<DialogEntity>> GetUserDialogsAsync(string login)
         {
-            var participantsFilter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, parameter.Login);
+            var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, login);
 
             var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
 
             var dialogs = await _collection
-                .Find(participantsFilter)
+                .Find(filter)
                 .Sort(sortFilter)
-                .Skip(parameter.Skip)
-                .Limit(parameter.Take)
                 .ToListAsync();
 
             return dialogs;

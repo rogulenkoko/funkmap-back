@@ -141,7 +141,6 @@
     <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Requests\DialogMessagesRequest.cs" />
-    <Compile Include="Models\Requests\DialogsRequest.cs" />
     <Compile Include="Models\Responses\CreateDialogResponse.cs" />
     <Compile Include="Models\UserCached.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

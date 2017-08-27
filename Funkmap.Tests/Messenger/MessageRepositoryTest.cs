@@ -34,17 +34,12 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetNewMessagesTest()
         {
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
+            var login = "rogulenkoko";
 
-            var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).GetAwaiter().GetResult();
+            var dialogs = _dialogRepository.GetUserDialogsAsync(login).GetAwaiter().GetResult();
             var param = new DialogsNewMessagesParameter()
             {
-                Login = dialogsParameter.Login,
+                Login = login,
                 DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
             };
             var count = _messageRepository.GetDialogsWithNewMessagesAsync(param).GetAwaiter().GetResult();
@@ -54,14 +49,8 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetDialogMessages()
         {
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
-
-            var dialog = _dialogRepository.GetUserDialogsAsync(dialogsParameter).Result.First();
+            var login = "rogulenkoko";
+            var dialog = _dialogRepository.GetUserDialogsAsync(login).Result.First();
 
             var parameter = new DialogMessagesParameter()
             {
@@ -97,13 +86,8 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void CreateMessageTest()
         {
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
-            var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).Result;
+            var login = "rogulenkoko";
+            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
             var dialog = dialogs.First();
 
             var dialogMessagesParameter = new DialogMessagesParameter()
@@ -111,14 +95,14 @@ namespace Funkmap.Tests.Messenger
                 DialogId = dialog.Id.ToString(),
                 Skip = 0,
                 Take = 100,
-                UserLogin = dialogsParameter.Login
+                UserLogin = login
             };
             var dialogMessages = _messageRepository.GetDialogMessagesAsync(dialogMessagesParameter).Result;
 
             var message = new MessageEntity()
             {
                 Text = "aaaaa",
-                Sender = "rogulenkoko",
+                Sender = login,
                 DialogId = dialog.Id
             };
 
@@ -133,13 +117,8 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void MessageContentTest()
         {
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
-            var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).Result;
+            var login = "rogulenkoko";
+            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
             var dialog = dialogs.First();
 
             var filename = "beatles-avatar.jpg";
@@ -148,7 +127,7 @@ namespace Funkmap.Tests.Messenger
             var message = new MessageEntity()
             {
                 Text = "aaaaa",
-                Sender = "rogulenkoko",
+                Sender = login,
                 DialogId = dialog.Id,
                 Content = new List<ContentItem>()
                 {
@@ -168,7 +147,7 @@ namespace Funkmap.Tests.Messenger
                 DialogId = dialog.Id.ToString(),
                 Skip = 0,
                 Take = 100,
-                UserLogin = "rogulenkoko"
+                UserLogin = login
             };
             var dialogMessages = _messageRepository.GetDialogMessagesAsync(dialogMessagesParameter).Result;
 
@@ -186,13 +165,8 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetLastDialogMessage()
         {
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
-            var dialogs = _dialogRepository.GetUserDialogsAsync(dialogsParameter).Result;
+            var login = "rogulenkoko";
+            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
             var dialog = dialogs.First();
 
             var parameter = new DialogMessagesParameter()
@@ -200,7 +174,7 @@ namespace Funkmap.Tests.Messenger
                 DialogId = dialog.Id.ToString(),
                 Take = Int32.MaxValue,
                 Skip = 0,
-                UserLogin = "rogulenkoko"
+                UserLogin = login
             };
 
             var allMessages = _messageRepository.GetDialogMessagesAsync(parameter).GetAwaiter().GetResult();

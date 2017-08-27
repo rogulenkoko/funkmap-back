@@ -29,30 +29,20 @@ namespace Funkmap.Tests.Messenger
         [TestMethod]
         public void GetUserDialogs()
         {
-            var parameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
-            var dialogs = _dialogRepository.GetUserDialogsAsync(parameter).Result;
+            var login = "rogulenkoko";
+            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
             Assert.AreEqual(dialogs.Count, 4);
 
-            parameter.Login = "test";
-            dialogs = _dialogRepository.GetUserDialogsAsync(parameter).Result;
+            login = "test";
+            dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
             Assert.AreEqual(dialogs.Count, 2);
         }
 
         [TestMethod]
         public void UpdateLastMessageDateTest()
         {
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = "rogulenkoko",
-                Skip = 0,
-                Take = 100
-            };
-            var dialog = _dialogRepository.GetUserDialogsAsync(dialogsParameter).GetAwaiter().GetResult().Last();
+            var login = "rogulenkoko";
+            var dialog = _dialogRepository.GetUserDialogsAsync(login).GetAwaiter().GetResult().Last();
 
             var parameter = new UpdateLastMessageDateParameter()
             {
@@ -61,7 +51,7 @@ namespace Funkmap.Tests.Messenger
             };
             _dialogRepository.UpdateLastMessageDate(parameter).Wait();
 
-            var updatedDialog = _dialogRepository.GetUserDialogsAsync(dialogsParameter).GetAwaiter().GetResult().First();
+            var updatedDialog = _dialogRepository.GetUserDialogsAsync(login).GetAwaiter().GetResult().First();
 
             Assert.AreEqual(updatedDialog.Id.ToString(), dialog.Id.ToString());
         }

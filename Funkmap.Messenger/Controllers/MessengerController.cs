@@ -39,19 +39,13 @@ namespace Funkmap.Messenger.Controllers
             _messageRepository = messageRepository;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         [Route("getDialogs")]
-        public async Task<IHttpActionResult> GetDialogs(DialogsRequest request)
+        public async Task<IHttpActionResult> GetDialogs()
         {
             var userLogin = Request.GetLogin();
-            var parameter = new UserDialogsParameter()
-            {
-                Login = userLogin,
-                Skip = request.Skip,
-                Take = request.Take
-            };
-            var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(parameter);
+            var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(userLogin);
             if (dialogsEntities == null || dialogsEntities.Count == 0) return Ok(new List<Dialog>());
 
             var dialogIds = dialogsEntities.Select(x => x.Id.ToString()).ToArray();
@@ -120,13 +114,7 @@ namespace Funkmap.Messenger.Controllers
         {
 
             var login = Request.GetLogin();
-            var dialogsParameter = new UserDialogsParameter()
-            {
-                Login = login,
-                Skip = 0,
-                Take = Int32.MaxValue
-            };
-            var dialogs = await _dialogRepository.GetUserDialogsAsync(dialogsParameter);
+            var dialogs = await _dialogRepository.GetUserDialogsAsync(login);
             if (dialogs == null || dialogs.Count == 0) return Ok(0);
 
             var messagesParameter = new DialogsNewMessagesParameter()
