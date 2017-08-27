@@ -16,7 +16,7 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
@@ -36,11 +36,11 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
-                Address = source.Address
+                Address = source.Address,
             };
         }
 
@@ -56,8 +56,9 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
-                YouTubeLink = source.YouTubeLink,
-                
+                YouTubeLink = source.YoutubeLink,
+                Address = source.Address
+
             };
         }
     }

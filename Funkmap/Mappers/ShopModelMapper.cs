@@ -7,22 +7,23 @@ namespace Funkmap.Mappers
 {
     public static class ShopModelMapper 
     {
-        public static ShopModel ToModel(this ShopEntity sourse)
+        public static ShopModel ToModel(this ShopEntity source)
         {
-            if (sourse == null) return null;
+            if (source == null) return null;
             return new ShopModel
             {
-                StoreName = sourse.Name,
-                Latitude = sourse.Location.Coordinates.Latitude,
-                Longitude = sourse.Location.Coordinates.Longitude,
-                WebSite = sourse.Website,
-                Login = sourse.Login,
-                Name = sourse.Name,
-                Description = sourse.Description,
-                YouTubeLink = sourse.YouTubeLink,
-                VkLink = sourse.VkLink,
-                FacebookLink = sourse.FacebookLink,
-                SoundCloudLink = sourse.SoundCloudLink
+                StoreName = source.Name,
+                Latitude = source.Location.Coordinates.Latitude,
+                Longitude = source.Location.Coordinates.Longitude,
+                WebSite = source.Website,
+                Login = source.Login,
+                Name = source.Name,
+                Description = source.Description,
+                YoutubeLink = source.YouTubeLink,
+                VkLink = source.VkLink,
+                FacebookLink = source.FacebookLink,
+                SoundCloudLink = source.SoundCloudLink,
+                Address = source.Address
             };
 
         }
@@ -36,7 +37,7 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 Description = source.Description,
                 WorkingHoursDescription = source.WorkingHoursDescription,
@@ -57,9 +58,10 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 SoundCloudLink = source.SoundCloudLink,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YouTubeLink = source.YoutubeLink,
                 Website = source.WebSite,
-                WorkingHoursDescription = source.WorkingHoursDescription
+                WorkingHoursDescription = source.WorkingHoursDescription,
+                Address = source.Address
             };
         }
     }

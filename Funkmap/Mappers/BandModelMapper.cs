@@ -25,7 +25,8 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 Styles = source.Styles,
                 Description = source.Description,
-                Avatar = source.Photo?.AsByteArray
+                Avatar = source.Photo?.AsByteArray,
+                Address = source.Address
             };
         }
 
@@ -45,7 +46,7 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
-                
+                Address = source.Address
             };
         }
 

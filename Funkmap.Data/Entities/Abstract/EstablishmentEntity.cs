@@ -10,10 +10,6 @@ namespace Funkmap.Data.Entities.Abstract
 {
     public abstract class EstablishmentEntity : BaseEntity
     {
-        [BsonElement("addr")]
-        [BsonIgnoreIfDefault]
-        public string Address { get; set; }
-
         [BsonElement("workh")]
         [BsonIgnoreIfDefault]
         public string WorkingHoursDescription { get; set; }

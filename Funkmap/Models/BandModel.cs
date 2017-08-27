@@ -3,24 +3,12 @@ using Funkmap.Data.Entities;
 
 namespace Funkmap.Models
 {
-    public class BandModel
+    public class BandModel : BaseModel
     {
-        public string Name { get; set; }
-        public string Login { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public string Description { get; set; }
-        public byte[] Avatar { get; set; }
         public ICollection<Styles> Styles { get; set; }
         public ICollection<InstrumentType> DesiredInstruments { get; set; }
         public ICollection<string> VideoLinks { get; set; }
         public ICollection<string> Musicians { get; set; }
-
-        public string VkLink { get; set; }
-        public string YoutubeLink { get; set; }
-        public string FacebookLink { get; set; }
-
-        public string SoundCloudLink { get; set; }
     }
 
     public class BandModelPreview

@@ -52,7 +52,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 VkLink = "https://vk.com/id30724049",
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
                 BandLogin = "funkmap",
-                ExpirienceType = ExpirienceType.Advanced
+                ExpirienceType = ExpirienceType.Advanced,
+                YouTubeVideoLins = new List<string>() { "mpR5zbEXdW8", "GlreDCpb5t0" }
             };
 
 

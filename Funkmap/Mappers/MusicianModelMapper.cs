@@ -29,8 +29,9 @@ namespace Funkmap.Mappers
                 Instrument = source.Instrument,
                 Expirience = source.ExpirienceType,
                 SoundCloudLink = source.SoundCloudLink,
-                YoutubeLink = source.YouTubeLink
-                
+                YoutubeLink = source.YouTubeLink,
+                Address = source.Address
+
             };
         }
 
@@ -54,7 +55,8 @@ namespace Funkmap.Mappers
                 FacebookLink = source.FacebookLink,
                 Instrument = source.Instrument,
                 ExpirienceType = source.Expirience,
-                SoundCloudLink = source.SoundCloudLink
+                SoundCloudLink = source.SoundCloudLink,
+                Address = source.Address
             };
         }
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Auth.Data.Objects;
 using Funkmap.Common.Data.Mongo;
 using MongoDB.Driver;
 
@@ -28,11 +30,12 @@ namespace Funkmap.Auth.Data
             return isExist;
         }
 
-        public async Task<byte[]> GetAvatarAsync(string login)
+        public async Task<ICollection<UserAvatarResult>> GetAvatarsAsync(string[] logins)
         {
-            var projection = Builders<UserEntity>.Projection.Include(x => x.Avatar);
-            var avatar = await _collection.Find(x=>x.Login == login).Project<UserEntity>(projection).SingleOrDefaultAsync();
-            return avatar?.Avatar?.AsByteArray;
+            var projection = Builders<UserEntity>.Projection.Include(x => x.Avatar).Include(x=>x.Login);
+            var filter = Builders<UserEntity>.Filter.In(x => x.Login, logins);
+            var avatars = await _collection.Find(filter).Project<UserEntity>(projection).ToListAsync();
+            return avatars.Select(x=> new UserAvatarResult() {Login = x.Login, Avatar = x.Avatar?.AsByteArray}).ToList();
         }
 
         public async Task SaveAvatarAsync(string login, byte[] image)

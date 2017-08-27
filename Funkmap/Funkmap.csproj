@@ -106,6 +106,7 @@
     <Compile Include="Controllers\RehearsalPointController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\StudioController.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Responses\SearchResponse.cs" />
     <Compile Include="Module\FunkmapModule.Domain.cs" />
     <Compile Include="Module\FunkmapModule.Mongo.cs" />

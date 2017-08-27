@@ -34,6 +34,9 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("loc")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; }
 
+        [BsonElement("a")]
+        public string Address { get; set; }
+
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
         public BsonBinaryData Photo { get; set; }

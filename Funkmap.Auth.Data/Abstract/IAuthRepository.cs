@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Auth.Data.Objects;
 using Funkmap.Common.Data.Mongo.Abstract;
 
 namespace Funkmap.Auth.Data.Abstract
@@ -12,7 +13,7 @@ namespace Funkmap.Auth.Data.Abstract
 
         Task<bool> CheckIfExist(string login);
 
-        Task<byte[]> GetAvatarAsync(string login);
+        Task<ICollection<UserAvatarResult>> GetAvatarsAsync(string[] login);
         Task SaveAvatarAsync(string login, byte[] image);
 
         Task<List<string>> GetFavouritesAsync(string login);

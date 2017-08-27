@@ -17,7 +17,7 @@ namespace Funkmap.Messenger.Mappers
                 Sender = source.Sender,
                 DateTimeUtc = source.DateTimeUtc,
                 Text = source.Text,
-
+                IsNew = !source.IsRead
             };
         }
 
@@ -36,7 +36,8 @@ namespace Funkmap.Messenger.Mappers
                 Text = source.Text,
                 DialogId = new ObjectId(source.DialogId),
                 DateTimeUtc = source.DateTimeUtc,
-                ToParticipants = recievers
+                ToParticipants = recievers,
+                IsRead = !source.IsNew
             };
         }
     }

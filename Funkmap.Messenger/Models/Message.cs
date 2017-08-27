@@ -12,5 +12,7 @@ namespace Funkmap.Messenger.Models
         public DateTime DateTimeUtc { get; set; }
 
         public ContentItem[] Images { get; set; }
+
+        public bool IsNew { get; set; }
     }
 }

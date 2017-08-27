@@ -5,20 +5,8 @@ using Microsoft.Build.Framework;
 
 namespace Funkmap.Models
 {
-    public class MusicianModel
+    public class MusicianModel : BaseModel
     {
-        [Required]
-        public string Login { get; set; }
-
-        [Required]
-        public double Latitude { get; set; }
-
-        [Required]
-        public double Longitude { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-        public string Description { get; set; }
         public Sex Sex { get; set; }
         public DateTime BirthDate { get; set; }
         public int Age { get; set; }
@@ -29,14 +17,11 @@ namespace Funkmap.Models
 
         public ExpirienceType Expirience { get; set; }
 
-        public byte[] Avatar { get; set; }
+       
 
         public List<string> VideosYoutube { get; set; }
 
-        public string VkLink { get; set; }
-        public string YoutubeLink { get; set; }
-        public string FacebookLink { get; set; }
-        public string SoundCloudLink { get; set; }
+       
     }
 
     public class MusicianPreviewModel

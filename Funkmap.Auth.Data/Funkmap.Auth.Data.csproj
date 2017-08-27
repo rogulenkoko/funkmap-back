@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IAuthRepository.cs" />
     <Compile Include="Entities\UserEntity.cs" />
+    <Compile Include="Objects\UserAvatarResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthRepository.cs" />
   </ItemGroup>

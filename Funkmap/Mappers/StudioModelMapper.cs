@@ -16,7 +16,7 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
@@ -37,7 +37,7 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
@@ -58,9 +58,10 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 SoundCloudLink = source.SoundCloudLink,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YouTubeLink = source.YoutubeLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
-                
+                Address = source.Address
+
             };
         }
     }
