@@ -114,6 +114,16 @@ namespace Funkmap.Data.Repositories
             return entity != null;
         }
 
+        public async Task ChangeAvatarAsync(ChangeAvatarParameter parameter)
+        {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.Login)
+                         & Builders<BaseEntity>.Filter.Eq(x => x.UserLogin, parameter.UserLogin);
+
+            var update = Builders<BaseEntity>.Update.Set(x => x.Photo, parameter.Avatar);
+
+            await _collection.FindOneAndUpdateAsync(filter, update);
+        }
+
         private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var filter = _filterFactory.CreateFilter(parameter);

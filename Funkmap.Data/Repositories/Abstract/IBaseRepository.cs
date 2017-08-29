@@ -22,5 +22,7 @@ namespace Funkmap.Data.Repositories.Abstract
         Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
 
         Task<bool> CheckIfLoginExistAsync(string login);
+
+        Task ChangeAvatarAsync(ChangeAvatarParameter parameter);
     }
 }

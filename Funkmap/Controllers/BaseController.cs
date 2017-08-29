@@ -3,9 +3,11 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
+using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
+using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
 using Funkmap.Tools;
@@ -129,6 +131,21 @@ namespace Funkmap.Controllers
             return Ok(isExist);
         }
 
+        [HttpPost]
+        [Route("changeAvatar")]
+        [Authorize]
+        public async Task<IHttpActionResult> ChangeAvatar(ChangeAvatarRequest request)
+        {
+            var userLogin = Request.GetLogin();
+            var parameter = new ChangeAvatarParameter()
+            {
+                Login = request.Login,
+                UserLogin = userLogin,
+                Avatar = request.Avatar
+            };
+            await _repository.ChangeAvatarAsync(parameter);
+            return Ok(new BaseResponse() {Success = true});
+        }
 
     }
 }

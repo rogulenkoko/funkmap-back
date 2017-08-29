@@ -103,6 +103,7 @@
     <Compile Include="Entities\RehearsalPointEntity.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Entities\StudioEntity.cs" />
+    <Compile Include="Parameters\ChangeAvatarParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
     <Compile Include="Parameters\FullLocationParameter.cs" />
     <Compile Include="Parameters\MusicianFilterParameter.cs" />

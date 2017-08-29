@@ -24,7 +24,7 @@ namespace Funkmap.Data.Entities
 
         [BsonElement("bd")]
         [BsonIgnoreIfDefault]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         [BsonElement("stls")]
         [BsonIgnoreIfDefault]
