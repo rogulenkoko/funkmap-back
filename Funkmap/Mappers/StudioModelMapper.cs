@@ -60,7 +60,8 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 YouTubeLink = source.YoutubeLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
-                Address = source.Address
+                Address = source.Address,
+                Photo = source.Avatar ?? new byte[] { }
 
             };
         }

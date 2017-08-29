@@ -11,7 +11,7 @@ namespace Funkmap.Mappers
         public static MusicianModel ToMusicianModel(this MusicianEntity source)
         {
             if (source == null) return null;
-            int? age = source.BirthDate == null ? 0 : (int)Math.Round((DateTime.Now - source.BirthDate.Value).TotalDays / 365);
+            int? age = source.BirthDate == null ? 0 : (int)Math.Floor((DateTime.Now - source.BirthDate.Value).TotalDays / 365);
             return new MusicianModel()
             {
                 Login = source.Login,

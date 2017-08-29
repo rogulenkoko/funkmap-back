@@ -23,7 +23,8 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
-                Address = source.Address
+                Address = source.Address,
+                Avatar = source.Photo?.AsByteArray
             };
 
         }
@@ -61,7 +62,8 @@ namespace Funkmap.Mappers
                 YouTubeLink = source.YoutubeLink,
                 Website = source.WebSite,
                 WorkingHoursDescription = source.WorkingHoursDescription,
-                Address = source.Address
+                Address = source.Address,
+                Photo = source.Avatar ?? new byte[] { }
             };
         }
     }

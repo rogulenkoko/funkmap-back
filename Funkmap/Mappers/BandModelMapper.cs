@@ -59,11 +59,13 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Avatar = source.Photo?.AsByteArray,
                 VkLink = source.VkLink,
-                YouTubeLink = source.YouTubeLink,
+                YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 DesiredInstruments = source.DesiredInstruments,
                 Description = source.Description,
-                Styles = source.Styles
+                Styles = source.Styles,
+                SoundCloudLink = source.SoundCloudLink
+                
             };
         }
     }
