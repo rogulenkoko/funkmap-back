@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using Funkmap.Common.Logger;
 using Microsoft.Owin;
-using Microsoft.Owin.Logging;
 
-namespace Funkmap.Common
+namespace Funkmap.Middleware
 {
     public class FunkmapMiddleware : OwinMiddleware
     {
@@ -16,13 +14,13 @@ namespace Funkmap.Common
             _logger = logger;
         }
 
-        public async override Task Invoke(IOwinContext context)
+        public override async Task Invoke(IOwinContext context)
         {
             //todo
             _logger.Info($"Запрос {context.Request.Method}: {context.Request.Path}");
             try
             {
-                await this.Next.Invoke(context);
+                await Next.Invoke(context);
             }
             catch (Exception e)
             {

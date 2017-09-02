@@ -42,8 +42,9 @@ namespace Funkmap.Middleware
             
 
             var container = containerBuilder.Build();
-            
-            appBuilder.Use(typeof(FunkmapMiddleware), container.Resolve<IFunkmapLogger<FunkmapMiddleware>>());
+
+            var logger = container.Resolve<IFunkmapLogger<FunkmapMiddleware>>();
+            appBuilder.Use<FunkmapMiddleware>(logger);
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 

@@ -13,5 +13,16 @@ namespace Funkmap.Common.Settings
         string Email { get; }
 
         string EmailPassword { get; }
+
+        LoggingType LoggingType { get; }
+
+
+    }
+
+    public enum LoggingType
+    {
+        Empty = 0,
+        File = 1,
+        Email = 2
     }
 }

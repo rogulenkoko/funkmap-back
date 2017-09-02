@@ -41,5 +41,15 @@ namespace Funkmap.Middleware.Settings
                 return appEmailPassword;
             }
         }
+
+        public LoggingType LoggingType
+        {
+            get
+            {
+                LoggingType loggingType;
+                Enum.TryParse(ConfigurationManager.AppSettings["loggingType"], out loggingType);
+                return loggingType;
+            }
+        }
     }
 }
