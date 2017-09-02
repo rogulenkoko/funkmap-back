@@ -26,10 +26,10 @@ namespace Funkmap.Middleware.Module
             var modules = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => x.FullName.Contains("Funkmap"))
                 .SelectMany(s => s.GetTypes())
-                .Where(x => x.GetInterfaces().Contains(typeof(IRedisMqService)))
+                .Where(x => x.GetInterfaces().Contains(typeof(IRedisMqConsumer)))
                 .Distinct()
                 .ToList();
-            builder.RegisterTypes(modules.ToArray()).As<IRedisMqService>();
+            builder.RegisterTypes(modules.ToArray()).As<IRedisMqConsumer>();
 
             builder.RegisterType<RedisMqModulesActivator>().AsSelf().AutoActivate();
 
@@ -39,7 +39,7 @@ namespace Funkmap.Middleware.Module
 
     public class RedisMqModulesActivator
     {
-        public RedisMqModulesActivator(IEnumerable<IRedisMqService> services, IMessageService redisMqServer)
+        public RedisMqModulesActivator(IEnumerable<IRedisMqConsumer> services, IMessageService redisMqServer)
         {
             foreach (var service in services)
             {

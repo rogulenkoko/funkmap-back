@@ -1,6 +1,5 @@
 ﻿using Funkmap.Auth.Contracts.Models;
 using Funkmap.Auth.Data;
-using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Messenger.Services;
 using Funkmap.Module.Auth;

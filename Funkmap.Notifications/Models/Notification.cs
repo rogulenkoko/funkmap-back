@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Funkmap.Common.RedisMq
+namespace Funkmap.Notifications.Models
 {
-    public interface IRedisMqService
+    public class Notification
     {
-        void InitHandlers();
     }
 }

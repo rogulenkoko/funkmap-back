@@ -233,6 +233,10 @@
       <Project>{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}</Project>
       <Name>Funkmap.Common.Notifications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.RedisMq\Funkmap.Common.RedisMq.csproj">
+      <Project>{464ffa1f-5fec-4410-84e1-cdd6605b2415}</Project>
+      <Name>Funkmap.Common.RedisMq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
@@ -248,6 +252,10 @@
     <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
       <Name>Funkmap.Messenger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
+      <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
+      <Name>Funkmap.Notifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>

@@ -5,13 +5,10 @@ using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
-using Funkmap.Common;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
-using Funkmap.Messenger;
 using Funkmap.Module.Auth;
 using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Infrastructure;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
@@ -80,6 +77,7 @@ namespace Funkmap.Middleware
             Assembly.Load("Funkmap");
             Assembly.Load("Funkmap.Module.Auth");
             Assembly.Load("Funkmap.Messenger");
+            Assembly.Load("Funkmap.Notifications");
         }
 
 

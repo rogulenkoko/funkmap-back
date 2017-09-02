@@ -8,7 +8,7 @@ using IFunkmapAuthRepository = Funkmap.Auth.Data.Abstract.IAuthRepository;
 
 namespace Funkmap.Module.Auth.Services
 {
-    public class UserMqService : IUserMqService, IRedisMqService
+    public class UserMqService : IUserMqService, IRedisMqConsumer
     {
 
         private readonly IMessageService _messageService;

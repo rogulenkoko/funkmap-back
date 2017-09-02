@@ -41,6 +41,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common.Logger", "Fu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common.Notifications", "Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj", "{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common.RedisMq", "Funkmap.Common.RedisMq\Funkmap.Common.RedisMq.csproj", "{464FFA1F-5FEC-4410-84E1-CDD6605B2415}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{08290CCE-C71D-4BCA-A324-2E41CEEDB6AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications", "Funkmap.Notifications\Funkmap.Notifications.csproj", "{8515BAFF-45B7-433D-8486-E9CE68F97E09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +113,14 @@ Global
 		{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{464FFA1F-5FEC-4410-84E1-CDD6605B2415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{464FFA1F-5FEC-4410-84E1-CDD6605B2415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{464FFA1F-5FEC-4410-84E1-CDD6605B2415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{464FFA1F-5FEC-4410-84E1-CDD6605B2415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8515BAFF-45B7-433D-8486-E9CE68F97E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8515BAFF-45B7-433D-8486-E9CE68F97E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8515BAFF-45B7-433D-8486-E9CE68F97E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8515BAFF-45B7-433D-8486-E9CE68F97E09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,5 +137,7 @@ Global
 		{02251E80-52A1-4B3E-824B-3DA229DD9EA6} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{7100436D-3277-42BD-877E-0DD4504EEC97} = {83C3F360-228C-440D-8F95-E106470E5217}
 		{CC5B36A9-D49F-4583-B74C-D2F3A17087A4} = {83C3F360-228C-440D-8F95-E106470E5217}
+		{464FFA1F-5FEC-4410-84E1-CDD6605B2415} = {83C3F360-228C-440D-8F95-E106470E5217}
+		{8515BAFF-45B7-433D-8486-E9CE68F97E09} = {08290CCE-C71D-4BCA-A324-2E41CEEDB6AF}
 	EndGlobalSection
 EndGlobal
