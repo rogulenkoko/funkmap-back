@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using Funkmap.Middleware;
 using Microsoft.Owin.Hosting;
+using NLog;
+using NLog.Config;
 
 namespace Funkmap.Console
 {

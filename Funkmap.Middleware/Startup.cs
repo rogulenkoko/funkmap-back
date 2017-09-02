@@ -7,6 +7,7 @@ using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common;
 using Funkmap.Common.Filters;
+using Funkmap.Common.Logger;
 using Funkmap.Common.Notification;
 using Funkmap.Common.Notification.Abstract;
 using Funkmap.Messenger;
@@ -29,7 +30,7 @@ namespace Funkmap.Middleware
 
 
             appBuilder.UseCors(CorsOptions.AllowAll);
-            appBuilder.Use<FunkmapMiddleware>();
+            
 
            
 
@@ -44,9 +45,11 @@ namespace Funkmap.Middleware
             containerBuilder.RegisterType<FunkmapAuthProvider>();
             
             
-            
 
             var container = containerBuilder.Build();
+            
+            appBuilder.Use(typeof(FunkmapMiddleware), container.Resolve<IFunkmapLogger<FunkmapMiddleware>>());
+
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             config.Filters.Add(new ValidateRequestModelAttribute());
