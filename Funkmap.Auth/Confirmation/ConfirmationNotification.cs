@@ -1,4 +1,4 @@
-﻿using Funkmap.Common.Notification;
+﻿using Funkmap.Common.Notifications.Notification;
 
 namespace Funkmap.Module.Auth.Confirmation
 {

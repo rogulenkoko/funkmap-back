@@ -164,6 +164,10 @@
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
+      <Project>{cc5b36a9-d49f-4583-b74c-d2f3a17087a4}</Project>
+      <Name>Funkmap.Common.Notifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
@@ -179,6 +183,10 @@
     <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
       <Name>Funkmap.Messenger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Middleware\Funkmap.Middleware.csproj">
+      <Project>{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}</Project>
+      <Name>Funkmap.Middleware</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>

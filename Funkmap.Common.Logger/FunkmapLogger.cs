@@ -11,7 +11,7 @@ namespace Funkmap.Common.Logger
     {
         void Info(string message);
         void Trace(string message);
-        void Error(Exception exception, string message);
+        void Error(Exception exception, string message = "");
     }
 
     public class FunkmapLogger<T> : IFunkmapLogger<T> where T : class
@@ -23,7 +23,7 @@ namespace Funkmap.Common.Logger
             _logger = logger;
         }
 
-        public void Error(Exception exception, string message)
+        public void Error(Exception exception, string message = "")
         {
             _logger.Error($"{typeof(T).FullName}: {message}", exception);
         }

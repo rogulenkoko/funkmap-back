@@ -8,8 +8,6 @@ using Autofac.Integration.WebApi;
 using Funkmap.Common;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
-using Funkmap.Common.Notification;
-using Funkmap.Common.Notification.Abstract;
 using Funkmap.Messenger;
 using Funkmap.Module.Auth;
 using Microsoft.AspNet.SignalR;
@@ -31,9 +29,6 @@ namespace Funkmap.Middleware
 
             appBuilder.UseCors(CorsOptions.AllowAll);
             
-
-           
-
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             var containerBuilder = new ContainerBuilder();
@@ -91,8 +86,6 @@ namespace Funkmap.Middleware
         {
             var loader = new ModulesLoader();
             loader.LoadAllModules(builder);
-
-            builder.RegisterType<EmailNotificationService>().As<INotificationService>();
         }
     }
 

@@ -1,4 +1,7 @@
-﻿using Funkmap.Common.Notification;
+﻿using Autofac.Extras.Moq;
+using Funkmap.Common.Notifications.Notification;
+using Funkmap.Common.Settings;
+using Funkmap.Middleware.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Funkmap.Tests.Funkmap.Auth
@@ -9,15 +12,20 @@ namespace Funkmap.Tests.Funkmap.Auth
         [TestMethod]
         public void SendEmailTest()
         {
-            var service = new EmailNotificationService();
-            var message = new ConfirmationNotification()
+            using (var mock = AutoMock.GetLoose())
             {
-                Subject = "Test",
-                Body = "test",
-                Receiver = "rogulenkoko@gmail.com"
-            };
-            var success = service.SendNotification(message).Result;
-            Assert.IsTrue(success);
+                mock.Provide<ISettingsService>(new MonolithSettingsService());
+                var service = mock.Create<EmailNotificationService>();
+                var message = new ConfirmationNotification()
+                {
+                    Subject = "Test",
+                    Body = "test",
+                    Receiver = "rogulenkoko@gmail.com"
+                };
+                var success = service.SendNotification(message).Result;
+                Assert.IsTrue(success);
+            }
+            
         }
     }
 
