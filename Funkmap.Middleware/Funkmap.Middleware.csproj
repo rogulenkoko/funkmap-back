@@ -199,13 +199,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunkmapMiddleware.cs" />
-    <Compile Include="ModulesLoader.cs" />
-    <Compile Include="Module\NotificationToolModule.cs" />
-    <Compile Include="Module\RedisMqModule.cs" />
-    <Compile Include="Module\SettingsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\MonolithSettings.cs" />
     <Compile Include="Settings\MonolithSettingsService.cs" />
+    <Compile Include="Settings\SettingsModule.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@ using System.Linq;
 using Autofac;
 using Funkmap.Common.Abstract;
 
-namespace Funkmap.Middleware
+namespace Funkmap.Common.Tools
 {
     public class ModulesLoader
     {

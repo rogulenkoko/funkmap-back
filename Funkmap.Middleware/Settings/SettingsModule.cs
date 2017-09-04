@@ -1,9 +1,8 @@
 ﻿using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Settings;
-using Funkmap.Middleware.Settings;
 
-namespace Funkmap.Middleware.Module
+namespace Funkmap.Middleware.Settings
 {
     public class SettingsModule : IFunkmapModule
     {

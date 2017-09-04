@@ -8,7 +8,7 @@ using ServiceStack.Messaging;
 using ServiceStack.Messaging.Redis;
 using ServiceStack.Redis;
 
-namespace Funkmap.Middleware.Module
+namespace Funkmap.Common.Modules
 {
     public class RedisMqModule : IFunkmapModule
     {
