@@ -5,6 +5,7 @@ using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Filters;
+using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
 using Funkmap.Module.Auth;
 using Microsoft.Owin;
@@ -23,8 +24,6 @@ namespace Funkmap.Auth.Console
 
             appBuilder.UseCors(CorsOptions.AllowAll);
 
-            //config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-
             var containerBuilder = new ContainerBuilder();
 
 
@@ -37,8 +36,8 @@ namespace Funkmap.Auth.Console
 
             var container = containerBuilder.Build();
 
-            //var logger = container.Resolve<IFunkmapLogger<FunkmapMiddleware>>();
-            //appBuilder.Use<FunkmapMiddleware>(logger);
+            var logger = container.Resolve<IFunkmapLogger<FunkmapMiddleware>>();
+            appBuilder.Use<FunkmapMiddleware>(logger);
 
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 

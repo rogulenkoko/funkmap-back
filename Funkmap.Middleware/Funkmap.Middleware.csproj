@@ -226,6 +226,10 @@
       <Project>{7100436d-3277-42bd-877e-0dd4504eec97}</Project>
       <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Modules\Funkmap.Common.Modules.csproj">
+      <Project>{0a159116-29ad-4ac1-909b-8eb8712922bd}</Project>
+      <Name>Funkmap.Common.Modules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
       <Project>{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}</Project>
       <Name>Funkmap.Common.Notifications</Name>

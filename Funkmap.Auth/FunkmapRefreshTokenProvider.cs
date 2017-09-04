@@ -7,7 +7,8 @@ namespace Funkmap.Module.Auth
     {
         public override void Create(AuthenticationTokenCreateContext context)
         {
-            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.Now.AddDays(7));
+            context.Ticket.Properties.ExpiresUtc = new DateTimeOffset(DateTime.UtcNow.AddDays(7));
+            context.Ticket.Properties.AllowRefresh = true;
             context.SetToken(context.SerializeTicket());
         }
 

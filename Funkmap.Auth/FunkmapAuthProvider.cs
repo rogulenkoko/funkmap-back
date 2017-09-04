@@ -48,8 +48,14 @@ namespace Funkmap.Module.Auth
             var props = new AuthenticationProperties(propertiesDictionary);
 
             var ticket = new AuthenticationTicket(identity, props);
+            ticket.Properties.AllowRefresh = true;
             context.Validated(ticket);
 
+        }
+
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            return base.GrantRefreshToken(context);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)

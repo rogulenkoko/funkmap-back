@@ -5,7 +5,6 @@ using System.Reflection;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
-using Funkmap.Auth.Contracts.Services;
 using Funkmap.Common.Abstract;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;

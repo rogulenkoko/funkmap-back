@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Funkmap.Common.Filters;
 using Funkmap.Notifications.Services.Abstract;
 using Microsoft.AspNet.SignalR;
@@ -10,7 +6,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Funkmap.Notifications.Hubs
 {
-    [HubName("messenger")]
+    [HubName("notifications")]
     [ValidateRequestModel]
     public class NotificationsHub : Hub
     {
