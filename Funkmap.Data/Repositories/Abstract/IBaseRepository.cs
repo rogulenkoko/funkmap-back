@@ -23,6 +23,10 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task<bool> CheckIfLoginExistAsync(string login);
 
+        Task UpdateAsync(BaseEntity entity);
+
         Task ChangeAvatarAsync(ChangeAvatarParameter parameter);
+
+        //Task AddOrUpdateVideo(UpdateVideoParameter parameter);
     }
 }

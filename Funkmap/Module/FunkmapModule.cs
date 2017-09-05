@@ -13,6 +13,8 @@ namespace Funkmap.Module
             RegisterDomainDependiences(builder);
             RegisterMongoDependiences(builder);
 
+
+
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен основной модуль");
         }

@@ -42,7 +42,7 @@ namespace Funkmap.Data.Entities.Abstract
         public BsonBinaryData Photo { get; set; }
 
         [BsonElement("ytv")]
-        public List<string> YouTubeVideoLins { get; set; }
+        public List<VideoInfo> VideoInfos { get; set; }
 
         [BsonElement("d")]
         [BsonIgnoreIfDefault]
@@ -68,5 +68,18 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonIgnoreIfDefault]
         public List<BsonBinaryData> Gallery { get; set; }
 
+    }
+
+    public class VideoInfo
+    {
+        [BsonElement("vid")]
+        public string Id { get; set; }
+
+        [BsonElement("vn")]
+        public string Name { get; set; }
+
+        [BsonElement("vd")]
+        public string Description { get; set; }
+        
     }
 }

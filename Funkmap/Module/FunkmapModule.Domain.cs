@@ -5,6 +5,7 @@ using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Services;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 
@@ -24,6 +25,8 @@ namespace Funkmap.Module
             builder.RegisterType<FilterFactory>().As<IFilterFactory>();
             
             builder.RegisterType<ParameterFactory>().As<IParameterFactory>();
+
+            builder.RegisterType<EntityUpdateService>().As<IEntityUpdateService>();
 
             var filterServices = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())

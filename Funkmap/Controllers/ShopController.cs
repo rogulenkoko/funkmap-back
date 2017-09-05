@@ -62,30 +62,5 @@ namespace Funkmap.Controllers
             return Content(HttpStatusCode.OK, response);
 
         }
-
-        [Authorize]
-        [HttpPost]
-        [Route("edit")]
-        public async Task<IHttpActionResult> EditShop(ShopModel model)
-        {
-            var entity = model.ToShopEntity();
-            var response = new BaseResponse();
-
-            var existingShop = await _shopRepository.GetAsync(model.Login);
-            if (existingShop == null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            existingShop.FillEntity<ShopEntity>(entity);
-
-            await _shopRepository.UpdateAsync(existingShop);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
-        }
     }
 }

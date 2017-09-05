@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Funkmap.Common;
 using Microsoft.Build.Framework;
 
 namespace Funkmap.Models
 {
     public abstract class BaseModel
     {
+        [Required]
+        public EntityType EntityType { get; set; }
+
         [Required]
         public string Login { get; set; }
         

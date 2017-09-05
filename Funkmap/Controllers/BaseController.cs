@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
@@ -10,6 +11,7 @@ using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
+using Funkmap.Services;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 
@@ -20,12 +22,15 @@ namespace Funkmap.Controllers
     {
         private readonly IBaseRepository _repository;
         private readonly IParameterFactory _parameterFactory;
+        private readonly IEntityUpdateService _updateService;
 
         public BaseController(IBaseRepository repository,
-                              IParameterFactory parameterFactory)
+                              IParameterFactory parameterFactory,
+                              IEntityUpdateService updateService)
         {
             _repository = repository;
             _parameterFactory = parameterFactory;
+            _updateService = updateService;
         }
 
         [HttpGet]
@@ -130,6 +135,16 @@ namespace Funkmap.Controllers
             var isExist = await _repository.CheckIfLoginExistAsync(login);
             return Ok(isExist);
         }
+
+        [HttpPost]
+        [Route("update")]
+        [Authorize]
+        public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
+        {
+            await _updateService.UpdateEntity(model);
+            return Ok(new BaseResponse() { Success = true });
+        }
+
 
         [HttpPost]
         [Route("changeAvatar")]

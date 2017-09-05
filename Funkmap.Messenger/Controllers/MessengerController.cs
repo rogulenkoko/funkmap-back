@@ -133,7 +133,7 @@ namespace Funkmap.Messenger.Controllers
         public async Task<IHttpActionResult> GetDialogsNewMessagesCount(string[] dialogIds)
         {
             var login = Request.GetLogin();
-            if (dialogIds.Length == 0) return BadRequest();
+            if (dialogIds.Length == 0) return Ok(new List<DialogsNewMessagesCountModel>());
             var parameter = new DialogsNewMessagesParameter()
             {
                 Login = login,

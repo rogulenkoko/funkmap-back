@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
@@ -124,6 +125,14 @@ namespace Funkmap.Data.Repositories
             await _collection.FindOneAndUpdateAsync(filter, update);
         }
 
+        //public Task AddOrUpdateVideo(UpdateVideoParameter parameter)
+        //{
+        //    var 
+        //    var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.Login);
+
+        //    var update = Builders<BaseEntity>.Update.Set(x=>)
+        //}
+
         private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var filter = _filterFactory.CreateFilter(parameter);
@@ -140,9 +149,11 @@ namespace Funkmap.Data.Repositories
             return filter;
         }
 
-        public virtual Task UpdateAsync(BaseEntity entity)
+        public async Task UpdateAsync(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login);
+
+            await _collection.ReplaceOneAsync(filter, entity);
         }
     }
 }

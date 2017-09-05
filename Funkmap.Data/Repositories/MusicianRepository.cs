@@ -19,11 +19,9 @@ namespace Funkmap.Data.Repositories
             _collection = collection;
         }
 
-        public override async Task UpdateAsync(MusicianEntity entity)
+        public override Task UpdateAsync(MusicianEntity entity)
         {
-            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.Id, entity.Id);
-
-            await _collection.ReplaceOneAsync(filter, entity);
+            throw new NotImplementedException("Использовать для обновления BaseRepository");
         }
 
         public override async Task<ICollection<MusicianEntity>> GetAllAsync()

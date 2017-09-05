@@ -62,31 +62,5 @@ namespace Funkmap.Controllers
             return Content(HttpStatusCode.OK, response);
 
         }
-
-
-        [Authorize]
-        [HttpPost]
-        [Route("edit")]
-        public async Task<IHttpActionResult> EditMusician(BandModel model)
-        {
-            var entity = model.ToBandEntity();
-            var response = new BaseResponse();
-
-            var existingBand = await _bandRepository.GetAsync(model.Login);
-            if (existingBand == null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            existingBand.FillEntity<BandEntity>(entity);
-
-            await _bandRepository.UpdateAsync(existingBand);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
-        }
     }
 }

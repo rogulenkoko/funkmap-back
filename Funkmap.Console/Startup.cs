@@ -47,11 +47,15 @@ namespace Funkmap.Console
             //OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             //{
             //    AllowInsecureHttp = true,
-            //    TokenEndpointPath = new PathString("/api/token"),
-            //    AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-            //    Provider = container.Resolve<FunkmapAuthProvider>(),
-            //    RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
-            //    AuthorizeEndpointPath = 
+            //    TokenEndpointPath = new PathString() new PathString("http://localhost:9001/api/token"),
+            //    //AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+            //    Provider = new OAuthAuthorizationServerProvider()
+            //    {
+            //        OnValidateClientRedirectUri = 
+            //    },
+            //    //RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
+            //    //AuthorizeEndpointPath =
+                
             //};
 
             //appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);

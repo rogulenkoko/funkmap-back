@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Common;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
@@ -77,6 +78,15 @@ namespace Funkmap.Tests.Funkmap.Base
 
             var result = _baseRepository.GetFilteredAsync(commonParameter, musicianParameter).Result;
             Assert.AreEqual(result.Count, 1);
+        }
+
+        [TestMethod]
+        public void UpdateEntity()
+        {
+            var entity = _baseRepository.GetAllAsyns().GetAwaiter().GetResult().First();
+            (entity as MusicianEntity).Instrument = InstrumentType.Keyboard;
+            _baseRepository.UpdateAsync(entity).GetAwaiter().GetResult();
+            var updatedEntity = _baseRepository.GetSpecificAsync(new[] {entity.Login}).GetAwaiter().GetResult();
         }
     }
 }

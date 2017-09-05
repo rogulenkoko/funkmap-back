@@ -22,10 +22,9 @@ namespace Funkmap.Data.Repositories
             return result;
         }
 
-        public override async Task UpdateAsync(StudioEntity entity)
+        public override Task UpdateAsync(StudioEntity entity)
         {
-            var filter = Builders<StudioEntity>.Filter.Eq(x => x.Id, entity.Id);
-            await _collection.ReplaceOneAsync(filter, entity);
+            throw new NotImplementedException("Использовать для обновления BaseRepository");
         }
     }
 }

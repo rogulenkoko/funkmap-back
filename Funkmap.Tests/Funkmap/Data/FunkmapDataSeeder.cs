@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Images;
@@ -53,7 +54,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
                 BandLogin = "funkmap",
                 ExpirienceType = ExpirienceType.Advanced,
-                YouTubeVideoLins = new List<string>() { "mpR5zbEXdW8", "GlreDCpb5t0" }
+                VideoInfos = new List<VideoInfo>() { new VideoInfo() {Id = "mpR5zbEXdW8" } , new VideoInfo() { Id = "GlreDCpb5t0" } }
             };
 
 
