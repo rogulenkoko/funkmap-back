@@ -8,7 +8,7 @@ using Microsoft.Build.Framework;
 
 namespace Funkmap.Models
 {
-    public abstract class BaseModel
+    public class BaseModel
     {
         [Required]
         public EntityType EntityType { get; set; }

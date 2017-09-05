@@ -11,6 +11,7 @@ using Funkmap.Models;
 using Funkmap.Tests.Funkmap.Data;
 using Funkmap.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Bson;
 
 namespace Funkmap.Tests.Funkmap.Musician
 {
@@ -38,10 +39,11 @@ namespace Funkmap.Tests.Funkmap.Musician
             {
                 Login = "asd",
                 BirthDate = DateTime.Now,
-                Description = "zzzzz"
+                Description = "zzzzz",
+                Photo = new byte[] {1,2,3}
             };
 
-            entity.FillEntity<MusicianEntity>(newEntity);
+            var t = entity.FillEntity<MusicianEntity>(newEntity);
 
             Assert.AreEqual(entity.Login, newEntity.Login);
 

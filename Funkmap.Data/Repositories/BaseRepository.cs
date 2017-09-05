@@ -125,14 +125,6 @@ namespace Funkmap.Data.Repositories
             await _collection.FindOneAndUpdateAsync(filter, update);
         }
 
-        //public Task AddOrUpdateVideo(UpdateVideoParameter parameter)
-        //{
-        //    var 
-        //    var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.Login);
-
-        //    var update = Builders<BaseEntity>.Update.Set(x=>)
-        //}
-
         private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var filter = _filterFactory.CreateFilter(parameter);
@@ -151,7 +143,7 @@ namespace Funkmap.Data.Repositories
 
         public async Task UpdateAsync(BaseEntity entity)
         {
-            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login);
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x=>x.EntityType, entity.EntityType);
 
             await _collection.ReplaceOneAsync(filter, entity);
         }

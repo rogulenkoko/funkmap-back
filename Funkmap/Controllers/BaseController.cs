@@ -145,22 +145,5 @@ namespace Funkmap.Controllers
             return Ok(new BaseResponse() { Success = true });
         }
 
-
-        [HttpPost]
-        [Route("changeAvatar")]
-        [Authorize]
-        public async Task<IHttpActionResult> ChangeAvatar(ChangeAvatarRequest request)
-        {
-            var userLogin = Request.GetLogin();
-            var parameter = new ChangeAvatarParameter()
-            {
-                Login = request.Login,
-                UserLogin = userLogin,
-                Avatar = request.Avatar
-            };
-            await _repository.ChangeAvatarAsync(parameter);
-            return Ok(new BaseResponse() {Success = true});
-        }
-
     }
 }

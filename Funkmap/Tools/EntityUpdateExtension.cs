@@ -39,6 +39,21 @@ namespace Funkmap.Tools
 
                 }
 
+                if (propertyInfo.GetValue(entity)?.GetType() == typeof(BsonBinaryData))
+                {
+                    var value = propertyInfo.GetValue(entity) as BsonBinaryData;
+                    var newValue = propertyInfo.GetValue(newEntity) as BsonBinaryData;
+
+                    if(newValue == null) continue;
+                    else
+                    {
+                        if (!CompareObjects(value?.AsByteArray, newValue?.AsByteArray))
+                        {
+                            propertyInfo.SetValue(entity, propertyInfo.GetValue(newEntity));
+                        }
+                    }
+                }
+
 
                 if (!CompareObjects(propertyInfo.GetValue(newEntity), propertyInfo.GetValue(emptyInstance)))
                 {

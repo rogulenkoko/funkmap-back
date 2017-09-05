@@ -16,6 +16,13 @@ namespace Funkmap.Data.Entities.Abstract
         typeof(RehearsalPointEntity))]
     public class BaseEntity
     {
+        public BaseEntity()
+        {
+            VideoInfos = new List<VideoInfo>();
+            Photo = new byte[] { };
+        }
+
+
         [BsonId]
         public ObjectId Id { get; set; }
 

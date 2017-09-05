@@ -25,8 +25,6 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task UpdateAsync(BaseEntity entity);
 
-        Task ChangeAvatarAsync(ChangeAvatarParameter parameter);
-
-        //Task AddOrUpdateVideo(UpdateVideoParameter parameter);
+        //Task ChangeAvatarAsync(ChangeAvatarParameter parameter);
     }
 }
