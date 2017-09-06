@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
 using Microsoft.Build.Framework;
 
 namespace Funkmap.Models
@@ -17,8 +15,6 @@ namespace Funkmap.Models
         public InstrumentType Instrument { get; set; }
 
         public ExpirienceType Expirience { get; set; }
-        
-        public List<VideoInfo> VideoInfos { get; set; }
 
        
     }

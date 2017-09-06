@@ -87,6 +87,15 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("vd")]
         public string Description { get; set; }
-        
+
+        [BsonElement("vt")]
+        public VideoType Type { get; set; }
+
+    }
+
+    public enum VideoType
+    {
+        Youtube = 1,
+        Vimeo = 2
     }
 }

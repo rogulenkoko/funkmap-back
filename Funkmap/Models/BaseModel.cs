@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common;
+using Funkmap.Data.Entities.Abstract;
 using Microsoft.Build.Framework;
 
 namespace Funkmap.Models
@@ -27,6 +28,7 @@ namespace Funkmap.Models
         public string Description { get; set; }
 
         public byte[] Avatar { get; set; }
+        public List<VideoInfo> VideoInfos { get; set; }
 
         public string VkLink { get; set; }
         public string YoutubeLink { get; set; }
