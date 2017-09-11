@@ -7,6 +7,7 @@ using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
+using Funkmap.Models.Requests;
 using Funkmap.Tools;
 
 namespace Funkmap.Controllers
@@ -61,6 +62,15 @@ namespace Funkmap.Controllers
             response.Success = true;
             return Content(HttpStatusCode.OK, response);
 
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("invite")]
+        public IHttpActionResult InviteMusician(GroupInviteMusicianRequest request)
+        {
+
+            return Ok();
         }
     }
 }

@@ -36,5 +36,15 @@ namespace Funkmap.Common.RedisMq
                 return response?.GetBody();
             }
         }
+
+        protected virtual void Publish<TRequest>(TRequest request) where TRequest : class
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            using (var mqClient = _redisMqFactory.CreateMessageQueueClient())
+            {
+                mqClient.Publish(new Message<TRequest>(request));
+            }
+        }
     }
 }

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Notifications.Models;
+﻿using System.Collections.Generic;
+using Funkmap.Notifications.Contracts;
 
 namespace Funkmap.Notifications.Services.Abstract
 {
     public interface INotificationsService
     {
+        NotificationType NotificationType { get; }
+
         ICollection<Notification> GetNotifications(string login);
     }
+
+   
 }

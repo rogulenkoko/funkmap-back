@@ -19,7 +19,7 @@ namespace Funkmap.Data.Entities.Abstract
         public BaseEntity()
         {
             VideoInfos = new List<VideoInfo>();
-            Photo = new byte[] { };
+            //Photo = new byte[] { };
         }
 
 

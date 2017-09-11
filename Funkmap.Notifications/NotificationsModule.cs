@@ -12,7 +12,7 @@ namespace Funkmap.Notifications
     {
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterType<NotificationsService>().As<INotificationsService>();
+            //builder.RegisterType<BandInviteNotificationsService>().As<INotificationsService>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль уведомлений");

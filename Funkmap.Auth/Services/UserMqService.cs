@@ -2,6 +2,7 @@
 using Funkmap.Auth.Contracts.Models;
 using Funkmap.Auth.Contracts.Services;
 using Funkmap.Common.RedisMq;
+using ServiceStack;
 using ServiceStack.Messaging;
 
 using IFunkmapAuthRepository = Funkmap.Auth.Data.Abstract.IAuthRepository;
