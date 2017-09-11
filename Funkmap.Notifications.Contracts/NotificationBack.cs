@@ -1,7 +1,7 @@
 ﻿
 namespace Funkmap.Notifications.Contracts
 {
-    public abstract class NotificationBackRequest
+    public abstract class NotificationBack
     {
         /// <summary>
         /// Идентификатор изначального реквеста

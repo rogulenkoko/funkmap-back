@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Funkmap\InviteToGroupBackRequest.cs" />
+    <Compile Include="Funkmap\InviteToGroupBack.cs" />
     <Compile Include="Funkmap\InviteToGroupRequest.cs" />
     <Compile Include="Notification.cs" />
-    <Compile Include="NotificationBackRequest.cs" />
+    <Compile Include="NotificationBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

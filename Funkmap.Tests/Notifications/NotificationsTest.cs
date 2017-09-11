@@ -13,6 +13,7 @@ using Funkmap.Module.Auth;
 using Funkmap.Module.Auth.Services;
 using Funkmap.Notifications.Contracts.Funkmap;
 using Funkmap.Notifications.Services;
+using Funkmap.Notifications.Services.Abstract;
 using Funkmap.Services;
 using Funkmap.Tests.Auth.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,8 +35,10 @@ namespace Funkmap.Tests.Notifications
             var redisMqModule = new RedisMqModule();
             redisMqModule.Register(builder);
 
-            var serviceType = typeof(Service<,>).MakeGenericType(new[] {typeof(Request), typeof(Response)});
-            builder.RegisterType(serviceType).As<IService>();
+            builder.RegisterType<FunkmapNotificationService>();
+
+            var serviceType = typeof(NotificationsService<,>).MakeGenericType(new[] {typeof(InviteToGroupRequest), typeof(InviteToGroupBack) });
+            builder.RegisterType(serviceType).As<INotificationsService>().As<IRedisMqConsumer>();
 
             _container = builder.Build();
 
@@ -48,7 +51,7 @@ namespace Funkmap.Tests.Notifications
         {
             var specificNotificationService = _container.Resolve<FunkmapNotificationService>();
 
-            var baseNotificationService = _container.Resolve<BandInviteNotificationsService>();
+            var baseNotificationService = _container.Resolve<INotificationsService>();
 
             var request = new InviteToGroupRequest()
             {
@@ -59,67 +62,7 @@ namespace Funkmap.Tests.Notifications
             };
             specificNotificationService.InviteMusicianToGroup(request);
             Thread.Sleep(5000);
-            baseNotificationService.PublishBackRequest(new InviteToGroupBackRequest() {RequestId = request.Id, Answer = true});
-        }
-
-
-        [TestMethod]
-        public void AutofacMagic()
-        {
-            var col = _container.Resolve<IEnumerable<IService>>();
-            col.FirstOrDefault().PublishBack(new Response());
-            Thread.Sleep(5000);
-        }
-
-        public interface IService
-        {
-            void PublishBack(IResponse response);
-        }
-
-        public class Service<TRequest, TResponse> : RedisMqProducer, IRedisMqConsumer, IService where  TRequest : class, IRequest
-                                                                                                where TResponse : class , IResponse
-        {
-            private readonly IMessageService _messageService;
-            public Service(IMessageFactory redisMqFactory, IMessageService messageService) : base(redisMqFactory)
-            {
-                _messageService = messageService;
-            }
-
-            public void InitHandlers()
-            {
-                _messageService.RegisterHandler<TRequest>(req=> Publish(req?.GetBody()));
-            }
-
-            private bool Publish(TRequest request)
-            {
-                return true;
-            }
-
-            public void PublishBack(IResponse response)
-            {
-                Publish<TResponse>(response as TResponse);
-            }
-        }
-
-
-        public interface IRequest
-        {
-            string Property { get; }   
-        }
-
-        public class Request : IRequest
-        {
-            public string Property => "test";
-        }
-
-        public interface IResponse
-        {
-            string ResponseProperty { get; }
-        }
-
-        public class Response : IResponse
-        {
-            public string ResponseProperty => "testresponse";
+            baseNotificationService.PublishBackRequest(new InviteToGroupBack() {RequestId = request.Id, Answer = true});
         }
     }
 }

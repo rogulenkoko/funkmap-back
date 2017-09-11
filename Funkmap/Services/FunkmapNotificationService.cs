@@ -15,10 +15,10 @@ namespace Funkmap.Services
 
         public void InitHandlers()
         {
-            _messageService.RegisterHandler<InviteToGroupBackRequest>(request=> OnGroupInviteAnswered(request?.GetBody()));
+            _messageService.RegisterHandler<InviteToGroupBack>(request=> OnGroupInviteAnswered(request?.GetBody()));
         }
 
-        private bool OnGroupInviteAnswered(InviteToGroupBackRequest request)
+        private bool OnGroupInviteAnswered(InviteToGroupBack request)
         {
             return true;
         }

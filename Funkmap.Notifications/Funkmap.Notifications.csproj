@@ -96,9 +96,8 @@
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="NotificationsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Abstract\IBackNotificationService.cs" />
     <Compile Include="Services\Abstract\INotificationsService.cs" />
-    <Compile Include="Services\BandInviteNotificationsService.cs" />
+    <Compile Include="Services\NotificationsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
