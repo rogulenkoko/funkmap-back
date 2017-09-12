@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -8,8 +9,10 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.RedisMq;
 using Funkmap.Contracts.Notifications;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Data.Entities;
 using Funkmap.Notifications.Services;
 using Funkmap.Notifications.Services.Abstract;
+using MongoDB.Driver;
 
 namespace Funkmap.Notifications
 {
@@ -17,6 +20,18 @@ namespace Funkmap.Notifications
     {
         public void Register(ContainerBuilder builder)
         {
+
+            var connectionString = ConfigurationManager.ConnectionStrings["FunkmapNotificationsMongoConnection"].ConnectionString;
+            var databaseName = ConfigurationManager.AppSettings["FunkmapNotificationsDbName"];
+            var mongoClient = new MongoClient(connectionString);
+
+            var databaseIocName = "notifications";
+
+            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
+            
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<NotificationEntity>(NotificationsCollectionNameProvider.BaseCollectionName))
+                .As<IMongoCollection<NotificationEntity>>();
+
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => x.FullName.Contains("Funkmap"))
                 .SelectMany(s => s.GetTypes())
@@ -33,22 +48,6 @@ namespace Funkmap.Notifications
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль уведомлений");
-        }
-
-        public class NotificationServiceFactory
-        {
-            public ICollection<INotificationsService> NotificationsServices { get; private set; }
-
-            /// <summary>
-            /// Инициализирует только в первый раз (NotificationsServices были null)
-            /// </summary>
-            public void SetNotificationServices(ICollection<INotificationsService> notificationsServices)
-            {
-                if (NotificationsServices == null)
-                {
-                    NotificationsServices = notificationsServices;
-                }
-            }
         }
     }
 }

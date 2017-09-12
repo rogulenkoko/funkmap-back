@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Common;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services.Abstract;
@@ -29,8 +31,7 @@ namespace Funkmap.Data.Repositories
             var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name);
-
-
+            
             return await _collection.Find(x => true).Project<BaseEntity>(projection).ToListAsync();
         }
 
@@ -87,11 +88,31 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<string>> GetUserEntitiesLogins(string userLogin)
         {
+            //db.bases.find({"user":"rogulenkoko"},{"log":1})
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.UserLogin, userLogin);
             var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
             var entities = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
             var result = entities.Select(x => x.Login).ToList();
             return result;
+        }
+
+        public async Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin)
+        {
+            //db.bases.aggregate([
+            //{ $match: { user: "rogulenkoko" } },
+            //{ $group: { _id: "$t", count: {$sum: 1} } } 
+            //])
+
+            var countResult = await _collection.Aggregate()
+                .Match(x => x.UserLogin == userLogin)
+                .Group(x=> x.EntityType, y=> new UserEntitiesCountInfo()
+                {
+                    EntityType = y.Key,
+                    Count = y.Count(),
+                    Logins = y.Select(x=>x.Login).ToList()
+                }).ToListAsync();
+
+            return countResult;
         }
 
         public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)

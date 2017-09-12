@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Funkmap.Common;
 using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 
 namespace Funkmap.Data.Repositories.Abstract
@@ -24,5 +26,7 @@ namespace Funkmap.Data.Repositories.Abstract
         Task<bool> CheckIfLoginExistAsync(string login);
 
         Task UpdateAsync(BaseEntity entity);
+
+        Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin);
     }
 }

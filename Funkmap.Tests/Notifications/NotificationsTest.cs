@@ -56,7 +56,7 @@ namespace Funkmap.Tests.Notifications
                 
             };
             specificNotificationService.InviteMusicianToGroup(request);
-            baseNotificationService.PublishBackRequest(new InviteToBandBack() {RequestId = request.Id, Answer = true});
+            baseNotificationService.PublishBackRequest(new InviteToBandBack() {Notification = request, Answer = true});
         }
     }
 }

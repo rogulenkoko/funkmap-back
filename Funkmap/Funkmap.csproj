@@ -110,10 +110,12 @@
     <Compile Include="Controllers\RehearsalPointController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\StudioController.cs" />
+    <Compile Include="Mappers\UsersEntitiesCountMapper.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ChangeAvatarRequest.cs" />
     <Compile Include="Models\Requests\BandInviteMusicianRequest.cs" />
     <Compile Include="Models\Responses\SearchResponse.cs" />
+    <Compile Include="Models\UsersEntitiesCountModel.cs" />
     <Compile Include="Module\FunkmapModule.Domain.cs" />
     <Compile Include="Module\FunkmapModule.Mongo.cs" />
     <Compile Include="Module\FunkmapModule.cs" />

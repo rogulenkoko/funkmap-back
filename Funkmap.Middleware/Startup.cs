@@ -32,7 +32,8 @@ namespace Funkmap.Middleware
             var containerBuilder = new ContainerBuilder();
 
             
-            AppDomain.CurrentDomain.GetAssemblies().Select(x => AppDomain.CurrentDomain.Load(x.GetName()));
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x=>x.FullName.Contains("Funkmap")).ToList();
+            assemblies.ForEach(assemblie => AppDomain.CurrentDomain.Load(assemblie.GetName()));
             RegisterModules(containerBuilder);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();

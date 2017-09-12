@@ -6,10 +6,13 @@ using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Contracts.Notifications;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
+using Funkmap.Models.Requests;
+using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 
 namespace Funkmap.Controllers
@@ -19,10 +22,12 @@ namespace Funkmap.Controllers
     public class MusicianController: ApiController
     {
         private readonly IMusicianRepository _musicianRepository;
+        private readonly IFunkmapNotificationService _notificationService;
 
-        public MusicianController(IMusicianRepository musicianRepository)
+        public MusicianController(IMusicianRepository musicianRepository, IFunkmapNotificationService notificationService)
         {
             _musicianRepository = musicianRepository;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
@@ -43,6 +48,29 @@ namespace Funkmap.Controllers
             MusicianModel musican = musicianEntity.ToMusicianModel();
             return Content(HttpStatusCode.OK, musican);
 
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("invite")]
+        public async Task<IHttpActionResult> InviteMusician(BandInviteMusicianRequest request)
+        {
+            var login = Request.GetLogin();
+            var musician = await _musicianRepository.GetAsync(request.MusicianLogin);
+            if (musician == null) return BadRequest("musician doesn't exist");
+
+            var recieverLogin = musician.UserLogin;
+            
+            var requestMessage = new InviteToBandRequest()
+            {
+                BandLogin = request.BandLogin,
+                InvitedMusicianLogin = request.MusicianLogin,
+                InviterLogin = login,
+                RecieverLogin = recieverLogin
+            };
+
+            _notificationService.InviteMusicianToGroup(requestMessage);
+            return Ok();
         }
 
         [Authorize]

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Logger;
 using Funkmap.Common.Settings;
 using NLog;
 using NLog.Config;
 
-namespace Funkmap.Common.Logger
+namespace Funkmap.Common.Modules
 {
     public class LoggerModule : IFunkmapModule
     {

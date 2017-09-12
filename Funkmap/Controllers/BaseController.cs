@@ -102,6 +102,17 @@ namespace Funkmap.Controllers
             return Ok(logins);
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("userscount")]
+        public async Task<IHttpActionResult> GetUserEntitiesCountInfo()
+        {
+            var userLogin = Request.GetLogin();
+            var countResults = await _repository.GetUserEntitiesCountInfo(userLogin);
+            var result = countResults.ToCountModels();
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("filtered")]
         public async Task<IHttpActionResult> GetFiltered(FilteredRequest request)

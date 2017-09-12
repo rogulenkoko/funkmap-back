@@ -22,7 +22,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestInitialize]
         public void Initialize()
         {
-            var filterServices = new List<IFilterService>() {new MusicianFilterService()};
+            var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
             _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
 
@@ -72,8 +72,8 @@ namespace Funkmap.Tests.Funkmap.Base
 
             var musicianParameter = new MusicianFilterParameter()
             {
-                Styles = new List<Styles>() { Styles.HipHop},
-                Expirience = new List<ExpirienceType>() { ExpirienceType.Advanced}
+                Styles = new List<Styles>() { Styles.HipHop },
+                Expirience = new List<ExpirienceType>() { ExpirienceType.Advanced }
             };
 
             var result = _baseRepository.GetFilteredAsync(commonParameter, musicianParameter).Result;
@@ -86,7 +86,14 @@ namespace Funkmap.Tests.Funkmap.Base
             var entity = _baseRepository.GetAllAsyns().GetAwaiter().GetResult().First();
             (entity as MusicianEntity).Instrument = InstrumentType.Keyboard;
             _baseRepository.UpdateAsync(entity).GetAwaiter().GetResult();
-            var updatedEntity = _baseRepository.GetSpecificAsync(new[] {entity.Login}).GetAwaiter().GetResult();
+            var updatedEntity = _baseRepository.GetSpecificAsync(new[] { entity.Login }).GetAwaiter().GetResult();
+        }
+
+        [TestMethod]
+        public void GetUsersEntitiesCount()
+        {
+            var result = _baseRepository.GetUserEntitiesCountInfo("rogulenkoko").GetAwaiter().GetResult();
+            Assert.AreEqual(result.Count, 2);
         }
     }
 }

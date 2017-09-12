@@ -1,0 +1,34 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Funkmap.Common.Data.Mongo;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Data.Abstract;
+using Funkmap.Notifications.Data.Entities;
+using MongoDB.Driver;
+
+namespace Funkmap.Notifications.Data
+{
+    public class NotificationRepository : MongoRepository<NotificationEntity>, INotificationRepository
+    {
+        public NotificationRepository(IMongoCollection<NotificationEntity> collection) : base(collection)
+        {
+        }
+
+        public override Task UpdateAsync(NotificationEntity entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<ICollection<NotificationEntity>> GetUserNotificationsAsync(string login)
+        {
+            var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login);
+            var notifications = await _collection.Find(filter).ToListAsync();
+
+            var update = Builders<NotificationEntity>.Update.Set(x => x.IsRead, true);
+            _collection.UpdateManyAsync(filter, update);
+
+
+            return notifications;
+        }
+    }
+}

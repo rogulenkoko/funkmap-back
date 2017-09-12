@@ -18,13 +18,11 @@ namespace Funkmap.Controllers
     public class BandController: ApiController
     {
         private readonly IBandRepository _bandRepository;
-        private readonly IFunkmapNotificationService _notificationService;
+        
 
-        public BandController(IBandRepository bandRepository,
-                              IFunkmapNotificationService notificationService)
+        public BandController(IBandRepository bandRepository)
         {
             _bandRepository = bandRepository;
-            _notificationService = notificationService;
         }
         
         [HttpGet]
@@ -67,23 +65,6 @@ namespace Funkmap.Controllers
             response.Success = true;
             return Content(HttpStatusCode.OK, response);
 
-        }
-
-        [Authorize]
-        [HttpPost]
-        [Route("invite")]
-        public IHttpActionResult InviteMusician(BandInviteMusicianRequest request)
-        {
-            var login = Request.GetLogin();
-            var requestMessage = new InviteToBandRequest()
-            {
-                BandLogin = request.BandLogin,
-                InvitedMusicianLogin = request.MusicianLogin,
-                InviterLogin = login
-            };
-
-            _notificationService.InviteMusicianToGroup(requestMessage);
-            return Ok();
         }
     }
 }

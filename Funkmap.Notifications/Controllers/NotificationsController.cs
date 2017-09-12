@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
+using Funkmap.Notifications.Data.Abstract;
+using Funkmap.Notifications.Mappers;
 
 namespace Funkmap.Notifications.Controllers
 {
@@ -14,13 +16,23 @@ namespace Funkmap.Notifications.Controllers
     [ValidateRequestModel]
     public class NotificationsController : ApiController
     {
+        private readonly INotificationRepository _notificationRepository;
+
+        public NotificationsController(INotificationRepository notificationRepository)
+        {
+            _notificationRepository = notificationRepository;
+        }
+
         [HttpGet]
         [Authorize]
         [Route("getNotifications")]
-        public IHttpActionResult GetDialogMessages()
+        public async Task<IHttpActionResult> GetDialogMessages()
         {
             var login = Request.GetLogin();
-            return Content(HttpStatusCode.OK, 1);
+
+            var notifications = await _notificationRepository.GetUserNotificationsAsync(login);
+            var result = notifications.Select(x => x.ToNotification()).ToList();
+            return Content(HttpStatusCode.OK, result);
         }
     }
 }

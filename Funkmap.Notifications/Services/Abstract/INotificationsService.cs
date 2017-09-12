@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Funkmap.Notifications.Contracts;
 
 namespace Funkmap.Notifications.Services.Abstract
@@ -7,7 +8,7 @@ namespace Funkmap.Notifications.Services.Abstract
     {
         NotificationType NotificationType { get; }
 
-        ICollection<Notification> GetNotifications(string login);
+        //Task<ICollection<NotificationModel>> GetNotifications(string login);
 
         void PublishBackRequest(NotificationBack request);
     }
