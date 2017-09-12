@@ -4,9 +4,9 @@ namespace Funkmap.Notifications.Contracts
     public abstract class NotificationBack
     {
         /// <summary>
-        /// Идентификатор изначального реквеста
+        /// Изначальное уведомление
         /// </summary>
-        public string RequestId { get; set; }
+        public Notification Notification { get; set; }
 
         public bool? Answer { get; set; }
     }

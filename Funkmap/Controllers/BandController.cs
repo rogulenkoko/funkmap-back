@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
+using Funkmap.Contracts.Notifications;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
+using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 
 namespace Funkmap.Controllers
@@ -16,10 +18,13 @@ namespace Funkmap.Controllers
     public class BandController: ApiController
     {
         private readonly IBandRepository _bandRepository;
+        private readonly IFunkmapNotificationService _notificationService;
 
-        public BandController(IBandRepository bandRepository)
+        public BandController(IBandRepository bandRepository,
+                              IFunkmapNotificationService notificationService)
         {
             _bandRepository = bandRepository;
+            _notificationService = notificationService;
         }
         
         [HttpGet]
@@ -67,9 +72,17 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("invite")]
-        public IHttpActionResult InviteMusician(GroupInviteMusicianRequest request)
+        public IHttpActionResult InviteMusician(BandInviteMusicianRequest request)
         {
+            var login = Request.GetLogin();
+            var requestMessage = new InviteToBandRequest()
+            {
+                BandLogin = request.BandLogin,
+                InvitedMusicianLogin = request.MusicianLogin,
+                InviterLogin = login
+            };
 
+            _notificationService.InviteMusicianToGroup(requestMessage);
             return Ok();
         }
     }

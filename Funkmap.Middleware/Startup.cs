@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -13,7 +14,6 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
-using NLog;
 using Owin;
 
 namespace Funkmap.Middleware
@@ -31,8 +31,8 @@ namespace Funkmap.Middleware
 
             var containerBuilder = new ContainerBuilder();
 
-
-            LoadAssemblies();
+            
+            AppDomain.CurrentDomain.GetAssemblies().Select(x => AppDomain.CurrentDomain.Load(x.GetName()));
             RegisterModules(containerBuilder);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();
@@ -72,17 +72,7 @@ namespace Funkmap.Middleware
             signalRConfig.Resolver = new AutofacDependencyResolver(container);
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
-
-        private void LoadAssemblies()
-        {
-            Assembly.Load("Funkmap");
-            Assembly.Load("Funkmap.Module.Auth");
-            Assembly.Load("Funkmap.Messenger");
-            Assembly.Load("Funkmap.Notifications");
-            Assembly.Load("Funkmap.Common.Modules");
-        }
-
-
+        
         private void RegisterModules(ContainerBuilder builder)
         {
             var loader = new ModulesLoader();

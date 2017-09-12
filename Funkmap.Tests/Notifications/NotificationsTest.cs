@@ -4,22 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Autofac;
-using Funkmap.Auth.Data;
-using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Modules;
-using Funkmap.Common.RedisMq;
-using Funkmap.Messenger.Services;
-using Funkmap.Module.Auth;
-using Funkmap.Module.Auth.Services;
-using Funkmap.Notifications.Contracts.Funkmap;
-using Funkmap.Notifications.Services;
+using Funkmap.Contracts.Notifications;
+using Funkmap.Module;
+using Funkmap.Notifications;
 using Funkmap.Notifications.Services.Abstract;
 using Funkmap.Services;
-using Funkmap.Tests.Auth.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ServiceStack.Messaging;
-using ServiceStack.Messaging.Redis;
-using ServiceStack.Redis;
 
 namespace Funkmap.Tests.Notifications
 {
@@ -31,14 +22,18 @@ namespace Funkmap.Tests.Notifications
         [TestInitialize]
         public void Initialize()
         {
+            AppDomain.CurrentDomain.GetAssemblies().Select(x => AppDomain.CurrentDomain.Load(x.GetName()));
             var builder = new ContainerBuilder();
             var redisMqModule = new RedisMqModule();
             redisMqModule.Register(builder);
 
+            var funkmapModule = new FunkmapModule();
+            funkmapModule.Register(builder);
+
             builder.RegisterType<FunkmapNotificationService>();
 
-            var serviceType = typeof(NotificationsService<,>).MakeGenericType(new[] {typeof(InviteToGroupRequest), typeof(InviteToGroupBack) });
-            builder.RegisterType(serviceType).As<INotificationsService>().As<IRedisMqConsumer>();
+            var notificationModule = new NotificationsModule();
+            notificationModule.Register(builder);
 
             _container = builder.Build();
 
@@ -51,18 +46,17 @@ namespace Funkmap.Tests.Notifications
         {
             var specificNotificationService = _container.Resolve<FunkmapNotificationService>();
 
-            var baseNotificationService = _container.Resolve<INotificationsService>();
+            var baseNotificationService = _container.Resolve<IEnumerable<INotificationsService>>().FirstOrDefault();
 
-            var request = new InviteToGroupRequest()
+            var request = new InviteToBandRequest()
             {
                 InvitedMusicianLogin = "test",
                 InviterLogin = "rogulenkoko",
-                GroupLogin = "beatles",
+                BandLogin = "beatles",
                 
             };
             specificNotificationService.InviteMusicianToGroup(request);
-            Thread.Sleep(5000);
-            baseNotificationService.PublishBackRequest(new InviteToGroupBack() {RequestId = request.Id, Answer = true});
+            baseNotificationService.PublishBackRequest(new InviteToBandBack() {RequestId = request.Id, Answer = true});
         }
     }
 }

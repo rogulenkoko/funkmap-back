@@ -40,8 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Funkmap\InviteToGroupBack.cs" />
-    <Compile Include="Funkmap\InviteToGroupRequest.cs" />
+    <Compile Include="INotificationTypesPair.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

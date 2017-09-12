@@ -1,10 +1,9 @@
-﻿using Funkmap.Models.Requests;
-using Funkmap.Notifications.Contracts.Funkmap;
+﻿using Funkmap.Contracts.Notifications;
 
 namespace Funkmap.Services.Abstract
 {
     public interface IFunkmapNotificationService
     {
-        void InviteMusicianToGroup(InviteToGroupRequest request);
+        void InviteMusicianToGroup(InviteToBandRequest request);
     }
 }

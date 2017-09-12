@@ -112,7 +112,7 @@
     <Compile Include="Controllers\StudioController.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ChangeAvatarRequest.cs" />
-    <Compile Include="Models\Requests\GroupInviteMusicianRequest.cs" />
+    <Compile Include="Models\Requests\BandInviteMusicianRequest.cs" />
     <Compile Include="Models\Responses\SearchResponse.cs" />
     <Compile Include="Module\FunkmapModule.Domain.cs" />
     <Compile Include="Module\FunkmapModule.Mongo.cs" />
@@ -148,6 +148,10 @@
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+      <Project>{7100436d-3277-42bd-877e-0dd4504eec97}</Project>
+      <Name>Funkmap.Common.Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.RedisMq\Funkmap.Common.RedisMq.csproj">
       <Project>{464ffa1f-5fec-4410-84e1-cdd6605b2415}</Project>
       <Name>Funkmap.Common.RedisMq</Name>
@@ -155,6 +159,10 @@
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
+      <Project>{a1fd61d0-88ec-4e53-a5fc-197071b214c6}</Project>
+      <Name>Funkmap.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>

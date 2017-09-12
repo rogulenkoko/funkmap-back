@@ -116,6 +116,10 @@
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
+      <Project>{a1fd61d0-88ec-4e53-a5fc-197071b214c6}</Project>
+      <Name>Funkmap.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
       <Project>{7086848c-bd30-4677-b267-67163f296244}</Project>
       <Name>Funkmap.Notifications.Contracts</Name>
