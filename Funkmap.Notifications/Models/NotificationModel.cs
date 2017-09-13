@@ -5,6 +5,7 @@ namespace Funkmap.Notifications.Models
 {
     public class NotificationModel
     {
+        public string Id { get; set; }
         public NotificationType NotificationType { get; set; }
         public DateTime Date { get; set; }
         public bool IsRead { get; set; }

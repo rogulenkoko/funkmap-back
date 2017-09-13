@@ -65,6 +65,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Sex = Sex.Female,
                 Login = "madlib",
                 BirthDate = DateTime.Now,
+                UserLogin = "rogulenkoko",
                 Description = "Большое описание музыканта, тудым сюдым. Как дела братва?",
                 Name = "Madlib",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(30, 51)),

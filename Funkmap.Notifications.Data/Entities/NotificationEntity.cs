@@ -23,6 +23,9 @@ namespace Funkmap.Notifications.Data.Entities
         [BsonElement("nrl")]
         public string RecieverLogin { get; set; }
 
+        [BsonElement("nsl")]
+        public string SenderLogin { get; set; }
+
 
         /// <summary>
         /// Сериализованное уведомление

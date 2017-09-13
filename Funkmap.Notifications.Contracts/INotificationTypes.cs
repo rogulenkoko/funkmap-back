@@ -2,9 +2,11 @@
 
 namespace Funkmap.Notifications.Contracts
 {
-    public interface INotificationTypesPair
+    public interface INotificationTypes
     {
         Type RequestType { get; }
         Type ResponseType { get; }
+
+        NotificationType NotificationType { get; }
     }
 }

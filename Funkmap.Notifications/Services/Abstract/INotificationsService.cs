@@ -8,8 +8,6 @@ namespace Funkmap.Notifications.Services.Abstract
     {
         NotificationType NotificationType { get; }
 
-        //Task<ICollection<NotificationModel>> GetNotifications(string login);
-
         void PublishBackRequest(NotificationBack request);
     }
 

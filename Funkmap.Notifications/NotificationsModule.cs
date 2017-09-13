@@ -9,6 +9,8 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.RedisMq;
 using Funkmap.Contracts.Notifications;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Data;
+using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
 using Funkmap.Notifications.Services;
 using Funkmap.Notifications.Services.Abstract;
@@ -32,18 +34,23 @@ namespace Funkmap.Notifications
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<NotificationEntity>(NotificationsCollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<NotificationEntity>>();
 
+            builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
+
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => x.FullName.Contains("Funkmap"))
                 .SelectMany(s => s.GetTypes())
-                .Where(x => x.GetInterfaces().Contains(typeof(INotificationTypesPair)))
+                .Where(x => x.GetInterfaces().Contains(typeof(INotificationTypes)))
                 .Distinct()
                 .ToList();
 
-            var instances = types.Select(x => Activator.CreateInstance(x) as INotificationTypesPair).ToList();
+            var instances = types.Select(x => Activator.CreateInstance(x) as INotificationTypes).ToList();
             foreach (var instance in instances)
             {
                 var serviceType = typeof(NotificationsService<,>).MakeGenericType(new[] { instance.RequestType, instance.ResponseType});
-                builder.RegisterType(serviceType).As<INotificationsService>().As<IRedisMqConsumer>();
+                builder.RegisterType(serviceType)
+                    .As<INotificationsService>()
+                    .As<IRedisMqConsumer>()
+                    .WithParameter(new TypedParameter(typeof(NotificationType), instance.NotificationType));
             }
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

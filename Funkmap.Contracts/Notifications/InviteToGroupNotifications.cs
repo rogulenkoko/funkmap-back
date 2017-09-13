@@ -3,10 +3,11 @@ using Funkmap.Notifications.Contracts;
 
 namespace Funkmap.Contracts.Notifications
 {
-    public class InviteToGroupNotificationsPair : INotificationTypesPair
+    public class InviteToGroupNotifications : INotificationTypes
     {
         public Type RequestType => typeof(InviteToBandRequest);
         public Type ResponseType => typeof(InviteToBandBack);
+        public NotificationType NotificationType => NotificationType.BandInvite;
     }
     
     public class InviteToBandRequest : Notification
@@ -14,12 +15,10 @@ namespace Funkmap.Contracts.Notifications
         public string BandLogin { get; set; }
         public string BandName { get; set; }
         public string InvitedMusicianLogin { get; set; }
-        public string InviterLogin { get; set; }
         public override NotificationType NotificationType => NotificationType.BandInvite;
     }
 
     public class InviteToBandBack : NotificationBack
     {
-        
     }
 }

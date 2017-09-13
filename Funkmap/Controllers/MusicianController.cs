@@ -23,11 +23,15 @@ namespace Funkmap.Controllers
     {
         private readonly IMusicianRepository _musicianRepository;
         private readonly IFunkmapNotificationService _notificationService;
+        private readonly IBaseRepository _baseRepository;
 
-        public MusicianController(IMusicianRepository musicianRepository, IFunkmapNotificationService notificationService)
+        public MusicianController(IMusicianRepository musicianRepository,
+                                  IBaseRepository baseRepository,
+                                  IFunkmapNotificationService notificationService)
         {
             _musicianRepository = musicianRepository;
             _notificationService = notificationService;
+            _baseRepository = baseRepository;
         }
 
         [HttpGet]
@@ -60,13 +64,19 @@ namespace Funkmap.Controllers
             if (musician == null) return BadRequest("musician doesn't exist");
 
             var recieverLogin = musician.UserLogin;
-            
+
+            var bandResult = await _baseRepository.GetSpecificAsync(new [] {request.BandLogin});
+            var band = bandResult.SingleOrDefault() as BandEntity;
+            band.InvitedMusicians.Add(musician.Login);
+            _baseRepository.UpdateAsync(band);
+
             var requestMessage = new InviteToBandRequest()
             {
                 BandLogin = request.BandLogin,
                 InvitedMusicianLogin = request.MusicianLogin,
-                InviterLogin = login,
-                RecieverLogin = recieverLogin
+                SenderLogin = login,
+                RecieverLogin = recieverLogin,
+                BandName = band.Name
             };
 
             _notificationService.InviteMusicianToGroup(requestMessage);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Common;
 using Funkmap.Common.RedisMq;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Data.Abstract;
@@ -21,13 +22,15 @@ namespace Funkmap.Notifications.Services
         private readonly INotificationRepository _notificationRepository;
         public NotificationsService(IMessageFactory redisMqFactory, 
                                     IMessageService messageService,
-                                    INotificationRepository notificationRepository) : base(redisMqFactory)
+                                    INotificationRepository notificationRepository,
+                                    NotificationType notificationType) : base(redisMqFactory)
         {
             _messageService = messageService;
             _notificationRepository = notificationRepository;
+            NotificationType = notificationType;
         }
 
-        public NotificationType NotificationType => NotificationType.BandInvite;
+        public NotificationType NotificationType { get; }
 
         public void InitHandlers()
         {
@@ -41,22 +44,19 @@ namespace Funkmap.Notifications.Services
                 Date = DateTime.UtcNow,
                 InnerNotificationJson = JsonConvert.SerializeObject(request),
                 IsRead = false,
-                RecieverLogin = request.RecieverLogin
+                RecieverLogin = request.RecieverLogin,
+                NotificationType = request.NotificationType,
+                SenderLogin = request.SenderLogin
+                
             };
             await _notificationRepository.CreateAsync(notificatinEntity);
             //todo запись в базу, реагирование через хаб
             return true;
         }
-        
-        //public async Task<ICollection<NotificationModel>> GetNotifications(string login)
-        //{
-        //    var entities = await _notificationRepository.GetUserNotificationsAsync(login);
-        //    return entities.Select(x => x.ToNotification()).ToList();
-        //}
 
         public void PublishBackRequest(NotificationBack request)
         {
-            Publish<TResponse>(request as TResponse);
+            Publish<TResponse>(request.ToSpecificNotificationBack(NotificationType) as TResponse);
         }
     }
 }

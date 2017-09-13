@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INotificationTypesPair.cs" />
+    <Compile Include="INotificationTypes.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

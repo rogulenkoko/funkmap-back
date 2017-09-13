@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Autofac;
+using Autofac.Extras.Moq;
+using Funkmap.Common.Logger;
 using Funkmap.Common.Modules;
 using Funkmap.Contracts.Notifications;
 using Funkmap.Module;
@@ -30,8 +32,6 @@ namespace Funkmap.Tests.Notifications
             var funkmapModule = new FunkmapModule();
             funkmapModule.Register(builder);
 
-            builder.RegisterType<FunkmapNotificationService>();
-
             var notificationModule = new NotificationsModule();
             notificationModule.Register(builder);
 
@@ -51,7 +51,7 @@ namespace Funkmap.Tests.Notifications
             var request = new InviteToBandRequest()
             {
                 InvitedMusicianLogin = "test",
-                InviterLogin = "rogulenkoko",
+                SenderLogin = "rogulenkoko",
                 BandLogin = "beatles",
                 
             };

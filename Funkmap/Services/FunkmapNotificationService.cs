@@ -39,13 +39,22 @@ namespace Funkmap.Services
                 return;
             }
 
-            var entity = await _repository.GetSpecificAsync(new[] {inviteRequest.BandLogin});
+            var entity = await _repository.GetSpecificAsync(new[] { inviteRequest.BandLogin });
             var band = entity.FirstOrDefault() as BandEntity;
             if (band == null) return;
-            if (band.MusicianLogins.Contains(inviteRequest.InvitedMusicianLogin)) return;
-            band.MusicianLogins.Add(inviteRequest.InvitedMusicianLogin);
-            await _repository.UpdateAsync(band);
 
+            if (request.Answer)
+            {
+                if (band.MusicianLogins.Contains(inviteRequest.InvitedMusicianLogin)) return;
+                band.MusicianLogins.Add(inviteRequest.InvitedMusicianLogin);
+                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
+            }
+            else
+            {
+                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
+            }
+
+            await _repository.UpdateAsync(band);
         }
 
         public void InviteMusicianToGroup(InviteToBandRequest request)

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo.Abstract;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Funkmap.Common.Data.Mongo
@@ -21,7 +22,7 @@ namespace Funkmap.Common.Data.Mongo
 
         public virtual async Task<T> GetAsync(string id)
         {
-            var filter = Builders<T>.Filter.Eq("Id", id);
+            var filter = Builders<T>.Filter.Eq("Id", new ObjectId(id));
             return await _collection.Find(filter).SingleOrDefaultAsync();
         }
 
@@ -32,7 +33,7 @@ namespace Funkmap.Common.Data.Mongo
 
         public async Task<DeleteResult> DeleteAsync(string id)
         {
-            return await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", id));
+            return await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", new ObjectId(id)));
         }
 
         public abstract Task UpdateAsync(T entity);

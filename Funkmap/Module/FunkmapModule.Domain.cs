@@ -37,7 +37,7 @@ namespace Funkmap.Module
 
             builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
 
-            builder.RegisterType<InviteToGroupNotificationsPair>().As<INotificationTypesPair>();
+            builder.RegisterType<InviteToGroupNotifications>().As<INotificationTypes>();
         }
     }
 }

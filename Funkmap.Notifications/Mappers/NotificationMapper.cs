@@ -8,7 +8,7 @@ namespace Funkmap.Notifications.Mappers
 {
     public static class NotificationMapper
     {
-        public static NotificationModel ToNotification(this NotificationEntity source)
+        public static NotificationModel ToNotificationModel(this NotificationEntity source)
         {
             if (source == null) return null;
 
@@ -26,12 +26,21 @@ namespace Funkmap.Notifications.Mappers
             }
             return new NotificationModel()
             {
+                Id = source.Id.ToString(),
                 NotificationType = source.NotificationType,
                 RecieverLogin = source.RecieverLogin,
                 Date = source.Date,
                 IsRead = source.IsRead,
-                InnerNotification = innerNotification
+                InnerNotification = innerNotification,
+                SenderLogin = source.SenderLogin
             };
+        }
+
+        public static Notification ToNotification(this NotificationEntity source)
+        {
+            if (source == null) return null;
+
+            return JsonConvert.DeserializeObject<InviteToBandRequest>(source.InnerNotificationJson);
         }
     }
 }

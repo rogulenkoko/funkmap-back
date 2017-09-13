@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Common;
 using Funkmap.Data.Entities.Abstract;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Data.Entities
@@ -13,6 +12,7 @@ namespace Funkmap.Data.Entities
             EntityType = EntityType.Band;
             Styles = new List<Styles>();
             MusicianLogins = new List<string>();
+            InvitedMusicians = new List<string>();
         }
 
         [BsonElement("dinstr")]
@@ -30,5 +30,7 @@ namespace Funkmap.Data.Entities
         [BsonElement("stls")]
         [BsonIgnoreIfDefault]
         public List<Styles> Styles { get; set; }
+
+        public List<string> InvitedMusicians { get; set; }
     }
 }

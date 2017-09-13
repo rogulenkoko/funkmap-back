@@ -93,7 +93,7 @@ namespace Funkmap.Tests.Funkmap.Base
         public void GetUsersEntitiesCount()
         {
             var result = _baseRepository.GetUserEntitiesCountInfo("rogulenkoko").GetAwaiter().GetResult();
-            Assert.AreEqual(result.Count, 2);
+            Assert.AreEqual(result.Count, 3);
         }
     }
 }

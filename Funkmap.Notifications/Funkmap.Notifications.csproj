@@ -111,7 +111,9 @@
   <ItemGroup>
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
+    <Compile Include="Mappers\NotificationBackMapper.cs" />
     <Compile Include="Mappers\NotificationMapper.cs" />
+    <Compile Include="Models\NotificationAnswer.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="NotificationsCollectionNameProvider.cs" />
     <Compile Include="NotificationsModule.cs" />

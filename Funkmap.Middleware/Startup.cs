@@ -31,9 +31,8 @@ namespace Funkmap.Middleware
 
             var containerBuilder = new ContainerBuilder();
 
-            
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x=>x.FullName.Contains("Funkmap")).ToList();
-            assemblies.ForEach(assemblie => AppDomain.CurrentDomain.Load(assemblie.GetName()));
+
+            LoadAssemblies();
             RegisterModules(containerBuilder);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();
@@ -73,7 +72,16 @@ namespace Funkmap.Middleware
             signalRConfig.Resolver = new AutofacDependencyResolver(container);
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
-        
+
+        private void LoadAssemblies()
+        {
+            Assembly.Load("Funkmap");
+            Assembly.Load("Funkmap.Module.Auth");
+            Assembly.Load("Funkmap.Messenger");
+            Assembly.Load("Funkmap.Notifications");
+            Assembly.Load("Funkmap.Common.Modules");
+        }
+
         private void RegisterModules(ContainerBuilder builder)
         {
             var loader = new ModulesLoader();

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Funkmap.Notifications.Contracts
 {
     public abstract class Notification
@@ -7,6 +6,8 @@ namespace Funkmap.Notifications.Contracts
         public abstract NotificationType NotificationType { get; }
 
         public string RecieverLogin { get; set; }
+
+        public string SenderLogin { get; set; }
     }
 
     public enum NotificationType
