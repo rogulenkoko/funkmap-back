@@ -30,5 +30,12 @@ namespace Funkmap.Notifications.Data
 
             return notifications;
         }
+
+        public async Task<long> GetNewNotificationsCount(string login)
+        {
+            var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login) & Builders<NotificationEntity>.Filter.Eq(x => x.IsRead, false);
+            var count = await _collection.Find(filter).CountAsync();
+            return count;
+        }
     }
 }

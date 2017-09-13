@@ -33,7 +33,7 @@ namespace Funkmap.Notifications.Controllers
         [HttpGet]
         [Authorize]
         [Route("getNotifications")]
-        public async Task<IHttpActionResult> GetDialogMessages()
+        public async Task<IHttpActionResult> GetNotifications()
         {
             var login = Request.GetLogin();
 
@@ -41,6 +41,18 @@ namespace Funkmap.Notifications.Controllers
             var result = notifications.Select(x => x.ToNotificationModel()).ToList();
             return Content(HttpStatusCode.OK, result);
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getNewNotificationsCount")]
+        public async Task<IHttpActionResult> GetNewNotificationsCount()
+        {
+            var login = Request.GetLogin();
+
+            var notificationsCount = await _notificationRepository.GetNewNotificationsCount(login);
+            return Content(HttpStatusCode.OK, notificationsCount);
+        }
+
 
         [HttpPost]
         [Authorize]

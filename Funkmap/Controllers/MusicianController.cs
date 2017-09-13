@@ -67,6 +67,13 @@ namespace Funkmap.Controllers
 
             var bandResult = await _baseRepository.GetSpecificAsync(new [] {request.BandLogin});
             var band = bandResult.SingleOrDefault() as BandEntity;
+            if (band == null) return BadRequest("no band");
+
+            if (band.InvitedMusicians.Contains(musician.Login) || band.MusicianLogins.Contains(musician.Login))
+            {
+                return BadRequest("musician is already in band or invited");
+            }
+
             band.InvitedMusicians.Add(musician.Login);
             _baseRepository.UpdateAsync(band);
 
