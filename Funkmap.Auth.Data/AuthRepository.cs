@@ -83,5 +83,11 @@ namespace Funkmap.Auth.Data
         {
             throw new NotImplementedException();
         }
+
+        public async Task<UserEntity> GetUserByEmail(string email)
+        {
+            var filter = Builders<UserEntity>.Filter.Eq("em", email);
+            return await _collection.Find(filter).SingleOrDefaultAsync();
+        }
     }
 }

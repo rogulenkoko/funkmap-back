@@ -85,5 +85,23 @@ namespace Funkmap.Module.Auth.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("restore")]
+        public async Task<IHttpActionResult> SendEmailForКecovery(String email)
+        {
+            var response = new RegistrationResponse();
+            UserEntity user = _authRepository.GetUserByEmail(email).Result;
+            if (user == null)
+                return Ok(response);
+            var notification = new ConfirmationNotification
+            {
+                Receiver = email
+            };
+            notification.BuildMessageText(user.Password);
+            var sendResult = await _notificationService.SendNotification(notification);
+            response.Success = sendResult;
+            return Ok(response);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Funkmap.Auth.Data;
+﻿using System.Threading.Tasks;
+using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Tests.Funkmap.Data;
@@ -43,6 +44,13 @@ namespace Funkmap.Tests.Funkmap.Auth
             favourites = _repository.GetFavouritesAsync("test").Result;
             Assert.AreEqual(favourites.Count, 1);
 
+        }
+
+        [TestMethod]
+        public void GetUserByEmailTest()
+        {
+            UserEntity user = _repository.GetUserByEmail("test@mail.ru").Result;
+            Assert.AreEqual(user.Password,"1");
         }
     }
 }

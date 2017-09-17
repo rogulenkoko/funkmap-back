@@ -9,5 +9,11 @@ namespace Funkmap.Module.Auth.Confirmation
             Subject = "Confirmation";
             Body = $"Code:{code}";
         }
+
+        public void BuildMessageText(string password)
+        {
+            Subject = "Confirmation";
+            Body = $"You password:{password}";
+        }
     }
 }
