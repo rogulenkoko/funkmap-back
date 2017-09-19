@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using Funkmap.Tests.Funkmap.BigData;
 using MongoDB.Driver;
 
 namespace Funkmap.Tests.Funkmap.Data
@@ -14,7 +15,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 var mongoClient = new MongoClient(connectionString);
                 mongoClient.DropDatabase(databaseName);
                 var db = mongoClient.GetDatabase(databaseName);
-                new FunkmapDataSeeder(db).SeedData();
+                new FunkmapBigDataSeeder(db).SeedData();
                 return db;
             }
         }

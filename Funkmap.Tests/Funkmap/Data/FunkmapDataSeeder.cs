@@ -28,7 +28,6 @@ namespace Funkmap.Tests.Funkmap.Data
             SeedMusicians();
             SeedBands();
             SeedShops();
-            
             SeedStudios();
             SeedRehearsalPoints();
         }
