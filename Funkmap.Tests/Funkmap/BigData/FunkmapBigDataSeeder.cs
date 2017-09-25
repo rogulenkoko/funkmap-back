@@ -55,6 +55,8 @@ namespace Funkmap.Tests.Funkmap.BigData
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();
+                if(line=="")
+                    continue;
               _surname.Add(line);
             }
         }
@@ -74,7 +76,7 @@ namespace Funkmap.Tests.Funkmap.BigData
                     {
                         Sex = Sex.Male,
                         Login = _name[j].Substring(0, 1) + _surname[i],
-                        UserLogin = _name[j] + new Random().Next(100000, 999999).ToString(),
+                        UserLogin = _name[j] + (i*_name.Count+j).ToString(),
                         BirthDate = DateTime.Now,
                         Description = "Описание",
                         Name = _name[j] + " " + _surname[i],
@@ -99,11 +101,13 @@ namespace Funkmap.Tests.Funkmap.BigData
         {
             var repository =
                 new BandRepository(_database.GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName));
-            for (int i = 0; i < 150; i++)
+            for (int i = 0; i < _name.Count-1; i++)
             {
+                if(i==_surname.Count)
+                    break;
                 var b1 = new BandEntity()
                 {
-                    UserLogin = "test" + i,
+                    UserLogin = "testBandEntity" + i,
                     DesiredInstruments = new List<InstrumentType>()
                     {
                         (InstrumentType) new Random().Next(0, 6),
@@ -154,8 +158,10 @@ namespace Funkmap.Tests.Funkmap.BigData
         {
             var repository =
                 new StudioRepository(_database.GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName));
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < _surname.Count-2; i++)
             {
+                if(i==_name.Count)
+                    break;
                 var s1 = new StudioEntity()
                 {
                     Login = "IStudio" + i,
@@ -173,29 +179,24 @@ namespace Funkmap.Tests.Funkmap.BigData
         private void SeedRehearsalPoints()
         {
             var repository = new RehearsalPointRepository(_database.GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName));
-            var r1 = new RehearsalPointEntity()
+            for(int i = 0; i < 200; i++)
             {
-                Login = "monkey",
-                Name = "Monkey Business",
-                Address = "пр-т Мира 12",
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(27, 27)),
-                UserLogin = "test",
-                YouTubeLink = "yout",
-                Description = "Точка при магазине, супер оборудование и все такое еу еу"
-            };
+                var r1 = new RehearsalPointEntity()
+                {
+                    Login = "monkey"+i,
+                    Name = "Monkey Business"+i,
+                    Address = "пр-т Мира "+i,
+                    Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(
+                        (double)new Random().Next(25000, 35000) / 1000,
+                        (double)new Random().Next(45000, 55000) / 1000)),
+                    UserLogin = "testRehearsalPoint" + i,
+                    YouTubeLink = "yout",
+                    Description = "Точка при магазине, супер оборудование и все такое еу еу"
+                };
 
-
-            var r2 = new RehearsalPointEntity()
-            {
-                Login = "grandsound",
-                Name = "Grand Sound",
-                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 27)),
-                UserLogin = "test",
-                YouTubeLink = "yout",
-            };
-
-            repository.CreateAsync(r1).Wait();
-            repository.CreateAsync(r2).Wait();
+                repository.CreateAsync(r1).Wait();
+            }
+            
         }
     }
 }

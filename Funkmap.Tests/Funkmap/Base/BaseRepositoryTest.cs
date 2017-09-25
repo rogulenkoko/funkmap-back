@@ -32,7 +32,7 @@ namespace Funkmap.Tests.Funkmap.Base
         public void GetAll()
         {
             var all = _baseRepository.GetAllAsyns().Result;
-            Assert.AreEqual(all.Count, 14);
+            Assert.AreEqual(all.Count, 41891);
         }
 
         [TestMethod]
