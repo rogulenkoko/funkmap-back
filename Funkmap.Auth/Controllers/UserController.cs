@@ -40,6 +40,7 @@ namespace Funkmap.Module.Auth.Controllers
         [Route("avatar/{login}")]
         public async Task<IHttpActionResult> GetAvatar(string login)
         {
+            
             var images = await _authRepository.GetAvatarsAsync(new [] {login });
             return Ok(images.Select(x=>x.Avatar).FirstOrDefault());
         }
@@ -48,7 +49,9 @@ namespace Funkmap.Module.Auth.Controllers
         [Route("avatars")]
         public async Task<IHttpActionResult> GetAvatars(string[] logins)
         {
-            ICollection<UserAvatarResult> avatarResults = await _authRepository.GetAvatarsAsync(logins);
+            if (logins == null) return BadRequest();
+            var distinctLogins = logins.Distinct().ToArray();
+            ICollection<UserAvatarResult> avatarResults = await _authRepository.GetAvatarsAsync(distinctLogins);
             return Ok(avatarResults);
         }
 

@@ -30,7 +30,7 @@ namespace Funkmap.Mappers
 
             return new SearchModel()
             {
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 Login = source.Login,
                 UserLogin = source.UserLogin,
                 Title = source.Name,

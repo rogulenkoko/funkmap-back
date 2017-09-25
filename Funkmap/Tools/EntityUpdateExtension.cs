@@ -44,7 +44,7 @@ namespace Funkmap.Tools
                     var value = propertyInfo.GetValue(entity) as BsonBinaryData;
                     var newValue = propertyInfo.GetValue(newEntity) as BsonBinaryData;
 
-                    if(newValue == null) continue;
+                    if (newValue == null) continue;
                     else
                     {
                         if (!CompareObjects(value?.AsByteArray, newValue?.AsByteArray))
@@ -67,6 +67,9 @@ namespace Funkmap.Tools
 
         public static bool CompareObjects<T>(T expectInput, T actualInput)
         {
+            if (actualInput == null && expectInput != null) return false;
+
+
             if (typeof(T).IsPrimitive)
             {
                 if (expectInput.Equals(actualInput))

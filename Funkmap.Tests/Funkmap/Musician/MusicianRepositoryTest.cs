@@ -40,7 +40,7 @@ namespace Funkmap.Tests.Funkmap.Musician
                 Login = "asd",
                 BirthDate = DateTime.Now,
                 Description = "zzzzz",
-                Photo = new byte[] {1,2,3}
+                Photo = new ImageInfo() {Image = new byte[] { 1, 2, 3 } } 
             };
 
             var t = entity.FillEntity<MusicianEntity>(newEntity);

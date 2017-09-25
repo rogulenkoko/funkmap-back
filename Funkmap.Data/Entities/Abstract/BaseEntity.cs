@@ -46,7 +46,7 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
-        public BsonBinaryData Photo { get; set; }
+        public ImageInfo Photo { get; set; }
 
         [BsonElement("ytv")]
         public List<VideoInfo> VideoInfos { get; set; }
@@ -91,6 +91,12 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("vt")]
         public VideoType Type { get; set; }
 
+    }
+
+    public class ImageInfo
+    {
+        [BsonElement("ab")]
+        public BsonBinaryData Image { get; set; }
     }
 
     public enum VideoType

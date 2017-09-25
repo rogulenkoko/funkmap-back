@@ -19,7 +19,7 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task<ICollection<string>> GetUserEntitiesLogins(string userLogin);
 
-        Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
+        Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
         Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
 

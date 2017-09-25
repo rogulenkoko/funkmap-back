@@ -59,6 +59,11 @@ namespace Funkmap.Controllers
         [Route("invite")]
         public async Task<IHttpActionResult> InviteMusician(BandInviteMusicianRequest request)
         {
+            if (String.IsNullOrEmpty(request.BandLogin) || String.IsNullOrEmpty(request.MusicianLogin))
+            {
+                return BadRequest("ivalid request parameter");
+            }
+
             var login = Request.GetLogin();
             var musician = await _musicianRepository.GetAsync(request.MusicianLogin);
             if (musician == null) return BadRequest("musician doesn't exist");
@@ -87,7 +92,8 @@ namespace Funkmap.Controllers
             };
 
             _notificationService.InviteMusicianToGroup(requestMessage);
-            return Ok();
+            var response = new BaseResponse() {Success = true};
+            return Ok(response);
         }
 
         [Authorize]

@@ -1,4 +1,5 @@
 ﻿using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -14,7 +15,7 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
@@ -36,7 +37,7 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
@@ -62,7 +63,7 @@ namespace Funkmap.Mappers
                 YouTubeLink = source.YoutubeLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Address = source.Address,
-                Photo = source.Avatar ?? new byte[] { },
+                Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
                 VideoInfos = source.VideoInfos
 
             };

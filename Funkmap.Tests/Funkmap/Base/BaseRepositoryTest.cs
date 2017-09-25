@@ -31,6 +31,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestMethod]
         public void GetAll()
         {
+            var i = new ImageInfo() {Image = new byte[] {1,2}};
             var all = _baseRepository.GetAllAsyns().Result;
             Assert.AreEqual(all.Count, 14);
         }

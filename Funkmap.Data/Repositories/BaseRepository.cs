@@ -115,7 +115,7 @@ namespace Funkmap.Data.Repositories
             return countResult;
         }
 
-        public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             var filter = CreateFilter(commonFilter, parameter);
             var result = await _collection.Find(filter).Skip(commonFilter.Skip).Limit(commonFilter.Take).ToListAsync();
@@ -136,19 +136,14 @@ namespace Funkmap.Data.Repositories
             return entity != null;
         }
 
-        public async Task ChangeAvatarAsync(ChangeAvatarParameter parameter)
+        private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
-            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.Login)
-                         & Builders<BaseEntity>.Filter.Eq(x => x.UserLogin, parameter.UserLogin);
+            var filter = Builders<BaseEntity>.Filter.Empty;
 
-            var update = Builders<BaseEntity>.Update.Set(x => x.Photo, parameter.Avatar);
-
-            await _collection.FindOneAndUpdateAsync(filter, update);
-        }
-
-        private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter)
-        {
-            var filter = _filterFactory.CreateFilter(parameter);
+            if (parameter != null)
+            {
+                filter = filter & _filterFactory.CreateFilter(parameter);
+            }
 
             if (commonFilter.EntityType != 0)
             {
@@ -159,6 +154,12 @@ namespace Funkmap.Data.Repositories
             {
                 filter = filter & Builders<BaseEntity>.Filter.Regex(x => x.Name, $"/{commonFilter.SearchText}/i");
             }
+
+            if (!String.IsNullOrEmpty(commonFilter.UserLogin))
+            {
+                filter = filter & Builders<BaseEntity>.Filter.Eq(x => x.UserLogin, commonFilter.UserLogin);
+            }
+
             return filter;
         }
 

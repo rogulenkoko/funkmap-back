@@ -58,7 +58,7 @@ namespace Funkmap.Tests.Funkmap.Data
             };
 
 
-            m1.Photo = ImageProvider.GetAvatar("avatar.jpg");
+            m1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("avatar.jpg")};
 
             var m2 = new MusicianEntity()
             {
@@ -113,7 +113,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 VkLink = "vk"
             };
 
-            b1.Photo = ImageProvider.GetAvatar("beatles-avatar.jpg");
+            b1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("beatles-avatar.jpg")};
 
             var b2 = new BandEntity()
             {

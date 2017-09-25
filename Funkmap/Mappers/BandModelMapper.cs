@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -25,7 +26,7 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 Styles = source.Styles,
                 Description = source.Description,
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 Address = source.Address,
                 VideoInfos = source.VideoInfos
             };
@@ -42,7 +43,7 @@ namespace Funkmap.Mappers
                 Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
                 Styles = source.Styles?.ToList(),
-                Photo = source.Avatar ?? new byte[] { },
+                Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
                 YouTubeLink = source.YoutubeLink,
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,
@@ -59,7 +60,7 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
@@ -67,7 +68,7 @@ namespace Funkmap.Mappers
                 Description = source.Description,
                 Styles = source.Styles,
                 SoundCloudLink = source.SoundCloudLink
-                
+
             };
         }
     }
