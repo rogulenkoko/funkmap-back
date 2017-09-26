@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -153,6 +154,24 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
         {
             await _updateService.UpdateEntity(model);
+            return Ok(new BaseResponse() { Success = true });
+        }
+
+        [HttpGet]
+        [Route("delete/{login}")]
+        [Authorize]
+        public async Task<IHttpActionResult> Delete(string login)
+        {
+            var array = new [] { login };
+            var musicianEntities = await _repository.GetSpecificAsync(array);
+            var musician = musicianEntities.FirstOrDefault();
+            if (musician == null) return BadRequest("entity doesn't exist");
+
+            var userLogin = Request.GetLogin();
+            if (musician.UserLogin != userLogin) return BadRequest("is not your entity");
+
+            await _repository.DeleteAsync(login);
+
             return Ok(new BaseResponse() { Success = true });
         }
 

@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Funkmap.Common.Filters;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Models;
 using Funkmap.Notifications.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -10,19 +13,25 @@ namespace Funkmap.Notifications.Hubs
     [ValidateRequestModel]
     public class NotificationsHub : Hub
     {
-        private readonly INotificationsService _notificationsService;
+        private readonly INotificationsConnectionService _connectionService;
 
-        public NotificationsHub(INotificationsService notificationsService)
+        public NotificationsHub(INotificationsConnectionService connectionService)
         {
-            _notificationsService = notificationsService;
+            _connectionService = connectionService;
         }
-
-
+        
         public override Task OnConnected()
         {
             var connectionId = Context.ConnectionId;
             var login = Context.QueryString["login"];
 
+            _connectionService.AddOnlineUser(connectionId, login);
+            Clients.All.onNotificationRecieved(new NotificationModel()
+            {
+                NotificationType = NotificationType.BandInvite,
+                Date = DateTime.MaxValue,
+                RecieverLogin = "asd"
+            });
 
             return base.OnConnected();
         }
@@ -33,6 +42,8 @@ namespace Funkmap.Notifications.Hubs
 
             var connectionId = Context.ConnectionId;
 
+            string login;
+            _connectionService.RemoveOnlineUser(connectionId, out login);
 
             return base.OnDisconnected(stopCalled);
         }

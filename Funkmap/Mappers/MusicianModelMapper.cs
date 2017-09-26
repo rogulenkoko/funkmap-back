@@ -32,7 +32,8 @@ namespace Funkmap.Mappers
                 Expirience = source.ExpirienceType,
                 SoundCloudLink = source.SoundCloudLink,
                 YoutubeLink = source.YouTubeLink,
-                Address = source.Address
+                Address = source.Address,
+                UserLogin = source.UserLogin
 
             };
         }
@@ -75,7 +76,9 @@ namespace Funkmap.Mappers
                 VkLink = source.VkLink,
                 YouTubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
-                SoundCloudLink = source.SoundCloudLink
+                SoundCloudLink = source.SoundCloudLink,
+                UserLogin = source.UserLogin
+
             };
         }
     }

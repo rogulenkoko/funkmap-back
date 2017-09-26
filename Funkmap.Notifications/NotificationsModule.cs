@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.RedisMq;
@@ -36,6 +37,8 @@ namespace Funkmap.Notifications
 
             builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
 
+            builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>().SingleInstance();
+
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => x.FullName.Contains("Funkmap"))
                 .SelectMany(s => s.GetTypes())
@@ -53,6 +56,7 @@ namespace Funkmap.Notifications
                     .WithParameter(new TypedParameter(typeof(NotificationType), instance.NotificationType));
             }
 
+            builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль уведомлений");
         }

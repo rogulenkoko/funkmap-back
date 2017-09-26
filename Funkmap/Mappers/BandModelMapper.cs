@@ -28,7 +28,8 @@ namespace Funkmap.Mappers
                 Description = source.Description,
                 Avatar = source.Photo?.Image?.AsByteArray,
                 Address = source.Address,
-                VideoInfos = source.VideoInfos
+                VideoInfos = source.VideoInfos,
+                UserLogin = source.UserLogin
             };
         }
 
@@ -67,8 +68,8 @@ namespace Funkmap.Mappers
                 DesiredInstruments = source.DesiredInstruments,
                 Description = source.Description,
                 Styles = source.Styles,
-                SoundCloudLink = source.SoundCloudLink
-
+                SoundCloudLink = source.SoundCloudLink,
+                UserLogin = source.UserLogin
             };
         }
     }

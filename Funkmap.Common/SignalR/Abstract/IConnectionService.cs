@@ -1,18 +1,17 @@
-﻿
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Funkmap.Messenger.Services
+namespace Funkmap.Common.SignalR.Abstract
 {
-    public interface IMessengerCacheService
+    public interface IConnectionService
     {
         void AddOnlineUser(string id, string login);
         void RemoveOnlineUser(string id, out string login);
 
         ICollection<string> GetConnectionIdsByLogins(ICollection<string> login);
         ICollection<string> GetOnlineUsersLogins();
-
-
-        bool CheckDialogIsOpened(string login, string dialogId);
-        bool SetOpenedDialog(string id, string dialogId);
     }
 }

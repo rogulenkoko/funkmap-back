@@ -20,17 +20,17 @@ namespace Funkmap.Messenger.Hubs
     [ValidateRequestModel]
     public class MessengerHub : Hub, IMessengerHub
     {
-        private readonly IMessengerCacheService _cacheService;
+        private readonly IMessengerConnectionService _connectionService;
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessageRepository _messageRepository;
         private readonly UserService _userService;
 
-        public MessengerHub(IMessengerCacheService cacheService,
+        public MessengerHub(IMessengerConnectionService connectionService,
                             IDialogRepository dialogRepository,
                             IMessageRepository messageRepository,
                             UserService userService)
         {
-            _cacheService = cacheService;
+            _connectionService = connectionService;
             _dialogRepository = dialogRepository;
             _userService = userService;
             _messageRepository = messageRepository;
@@ -46,7 +46,7 @@ namespace Funkmap.Messenger.Hubs
                 var dialogParticipants = await _dialogRepository.GetDialogMembers(message.DialogId);
                 var dialogParticipantsWithoutSender = dialogParticipants.Where(x => x != message.Sender).ToList();
                     
-                var participants = dialogParticipantsWithoutSender.Where(login=> !_cacheService.CheckDialogIsOpened(login, message.DialogId)).ToList();
+                var participants = dialogParticipantsWithoutSender.Where(login=> !_connectionService.CheckDialogIsOpened(login, message.DialogId)).ToList();
                 if (participants.Count == dialogParticipants.Count - 1)
                 {
                     message.IsNew = true;
@@ -64,7 +64,7 @@ namespace Funkmap.Messenger.Hubs
                     });
 
                 var members = await _dialogRepository.GetDialogMembers(message.DialogId);
-                var clientIds = _cacheService.GetConnectionIdsByLogins(members).ToList();
+                var clientIds = _connectionService.GetConnectionIdsByLogins(members).ToList();
 
                 Clients.Clients(clientIds).OnMessageSent(message);
                 response.Success = true;
@@ -82,12 +82,12 @@ namespace Funkmap.Messenger.Hubs
         {
             if (String.IsNullOrEmpty(dialogId)) return new BaseResponse() {Success = false};
             var connectionId = Context.ConnectionId;
-            var isSucces = _cacheService.SetOpenedDialog(connectionId, dialogId);
+            var isSucces = _connectionService.SetOpenedDialog(connectionId, dialogId);
 
             var dialogMembers = await _dialogRepository.GetDialogMembers(dialogId);
             var login = Context.QueryString["login"];
-            var userConnections = _cacheService.GetConnectionIdsByLogins(new List<string>() {login});
-            var connectionIds = _cacheService.GetConnectionIdsByLogins(dialogMembers).Except(userConnections).ToList();
+            var userConnections = _connectionService.GetConnectionIdsByLogins(new List<string>() {login});
+            var connectionIds = _connectionService.GetConnectionIdsByLogins(dialogMembers).Except(userConnections).ToList();
 
             Clients.Clients(connectionIds).onDialogRead(dialogId);
 
@@ -99,7 +99,7 @@ namespace Funkmap.Messenger.Hubs
             var connectionId = Context.ConnectionId;
             var login = Context.QueryString["login"];
 
-            _cacheService.AddOnlineUser(connectionId, login);
+            _connectionService.AddOnlineUser(connectionId, login);
             Clients.All.onUserConnected(login);
 
             return base.OnConnected();
@@ -111,7 +111,7 @@ namespace Funkmap.Messenger.Hubs
             
             var connectionId = Context.ConnectionId;
             string login;
-            _cacheService.RemoveOnlineUser(connectionId, out login);
+            _connectionService.RemoveOnlineUser(connectionId, out login);
             Clients.All.onUserDisconnected(login);
 
             _userService.UpdateLastVisitDate(new UserUpdateLastVisitDateRequest() { Login = login });

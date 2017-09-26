@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
@@ -14,13 +15,13 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BaseRepository : IBaseRepository
+    public class BaseRepository : MongoLoginRepository<BaseEntity>, IBaseRepository
     {
         private readonly IMongoCollection<BaseEntity> _collection;
         private readonly IFilterFactory _filterFactory;
 
         public BaseRepository(IMongoCollection<BaseEntity> collection,
-                              IFilterFactory filterFactory)
+                              IFilterFactory filterFactory) : base(collection)
         {
             _collection = collection;
             _filterFactory = filterFactory;
@@ -163,7 +164,7 @@ namespace Funkmap.Data.Repositories
             return filter;
         }
 
-        public async Task UpdateAsync(BaseEntity entity)
+        public override async Task UpdateAsync(BaseEntity entity)
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x=>x.EntityType, entity.EntityType);
 

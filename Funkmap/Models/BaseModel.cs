@@ -16,6 +16,8 @@ namespace Funkmap.Models
 
         [Required]
         public string Login { get; set; }
+
+        public string UserLogin { get; set; }
         
         public double Latitude { get; set; }
         

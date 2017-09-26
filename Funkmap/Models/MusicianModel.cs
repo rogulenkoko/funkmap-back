@@ -19,19 +19,10 @@ namespace Funkmap.Models
        
     }
 
-    public class MusicianPreviewModel
+    public class MusicianPreviewModel : BaseModel
     {
-        public string Login { get; set; }
-        public string Name { get; set; }
         public ExpirienceType Expirience { get; set; }
         public Styles[] Styles { get; set; } 
-
-        public byte[] Avatar { get; set; }
-
-        public string VkLink { get; set; }
         public string YouTubeLink { get; set; }
-        public string FacebookLink { get; set; }
-
-        public string SoundCloudLink { get; set; }
     }
 }

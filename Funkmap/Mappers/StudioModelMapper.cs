@@ -25,7 +25,8 @@ namespace Funkmap.Mappers
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
                 SoundCloudLink = source.SoundCloudLink,
-                VideoInfos = source.VideoInfos
+                VideoInfos = source.VideoInfos,
+                UserLogin = source.UserLogin
             };
         }
 
@@ -44,7 +45,8 @@ namespace Funkmap.Mappers
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
                 Address = source.Address,
-                SoundCloudLink = source.SoundCloudLink
+                SoundCloudLink = source.SoundCloudLink,
+                UserLogin = source.UserLogin
             };
         }
 

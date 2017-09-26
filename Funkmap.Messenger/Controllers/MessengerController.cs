@@ -25,16 +25,16 @@ namespace Funkmap.Messenger.Controllers
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessageRepository _messageRepository;
 
-        private readonly IMessengerCacheService _messengerCache;
+        private readonly IMessengerConnectionService _messengerConnection;
         private readonly UserService _userService;
 
         public MessengerController(IDialogRepository dialogRepository,
                                    IMessageRepository messageRepository,
-                                   IMessengerCacheService messengerCache,
+                                   IMessengerConnectionService messengerConnection,
                                    UserService userService)
         {
             _dialogRepository = dialogRepository;
-            _messengerCache = messengerCache;
+            _messengerConnection = messengerConnection;
             _userService = userService;
             _messageRepository = messageRepository;
         }
@@ -103,7 +103,7 @@ namespace Funkmap.Messenger.Controllers
         [Route("getOnlineUsers")]
         public IHttpActionResult GetDialogMessages()
         {
-            var logins = _messengerCache.GetOnlineUsersLogins();
+            var logins = _messengerConnection.GetOnlineUsersLogins();
             return Content(HttpStatusCode.OK, logins);
         }
 
