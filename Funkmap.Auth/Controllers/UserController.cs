@@ -23,6 +23,28 @@ namespace Funkmap.Module.Auth.Controllers
             _authRepository = authRepository;
         }
 
+        [HttpGet]
+        [Route("user/{login}")]
+        public async Task<IHttpActionResult> GetUser(string login)
+        {
+            if (String.IsNullOrEmpty(login)) return BadRequest("invalid login");
+            var userEntity = await _authRepository.GetAsync(login);
+
+            if (userEntity == null)
+            {
+                return Ok(new UserPreview() {IsExist = false});
+            }
+
+            var model = new UserPreview()
+            {
+                Login = userEntity.Login,
+                Avatar = userEntity.Avatar?.AsByteArray,
+                IsExist = true
+            };
+
+            return Ok(model);
+        }
+
 
         [HttpGet]
         [Authorize]

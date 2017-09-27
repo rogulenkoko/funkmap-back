@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
@@ -14,7 +15,7 @@ namespace Funkmap.Messenger.Mappers
             return new Dialog()
             {
                 DialogId = source.Id.ToString(),
-                Name = source.Participants.FirstOrDefault(x => x != userLogin),
+                Name = String.IsNullOrEmpty(source.Name) ? source.Participants.FirstOrDefault(x => x != userLogin) : source.Name,
                 LastMessage = lastMessage,
                 Participants = source.Participants
             };
@@ -35,7 +36,8 @@ namespace Funkmap.Messenger.Mappers
             if (source == null) return null;
             return new DialogEntity()
             {
-                Participants = source.Participants
+                Name = source.Name,
+                Participants = source.Participants,
             };
         }
     }

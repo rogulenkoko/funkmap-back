@@ -10,7 +10,7 @@ using ServiceStack.Redis;
 
 namespace Funkmap.Common.Modules
 {
-    public class RedisMqModule : IFunkmapModule
+    public class RedisModule : IFunkmapModule
     {
         public void Register(ContainerBuilder builder)
         {

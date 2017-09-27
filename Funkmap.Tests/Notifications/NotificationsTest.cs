@@ -26,7 +26,7 @@ namespace Funkmap.Tests.Notifications
         {
             AppDomain.CurrentDomain.GetAssemblies().Select(x => AppDomain.CurrentDomain.Load(x.GetName()));
             var builder = new ContainerBuilder();
-            var redisMqModule = new RedisMqModule();
+            var redisMqModule = new RedisModule();
             redisMqModule.Register(builder);
 
             var funkmapModule = new FunkmapModule();
