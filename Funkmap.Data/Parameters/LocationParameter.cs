@@ -19,5 +19,9 @@ namespace Funkmap.Data.Parameters
         /// Долгота объекта относительно которого надо искать
         /// </summary>
         public double? Longitude { get; set; }
+
+        public int Skip { get; set; }
+
+        public int Take { get; set; }
     }
 }

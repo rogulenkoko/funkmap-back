@@ -38,7 +38,7 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
-
+            //db.bases.find({ loc: {$within: {$center: [[50, 30], 0.2]} } }).limit(20)
             var center = new[] { parameter.Longitude, parameter.Latitude };
             var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
 
@@ -50,18 +50,18 @@ namespace Funkmap.Data.Repositories
             ICollection<BaseEntity> result;
             if (parameter.Longitude == null || parameter.Latitude == null)
             {
-                result = await _collection.Find(x => true).Project<BaseEntity>(projection).ToListAsync();
+                result = await _collection.Find(x => true).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
             }
             else
             {
                 var filter = new BsonDocument("loc", new BsonDocument("$within", new BsonDocument("$center", centerQueryArray)));
-                result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+                result = await _collection.Find(filter).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
             }
             return result;
 
         }
 
-        public async Task<ICollection<BaseEntity>> GetFullNearestAsync(FullLocationParameter parameter)
+        public async Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
         {
             var center = new[] { parameter.Longitude, parameter.Latitude };
             var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
