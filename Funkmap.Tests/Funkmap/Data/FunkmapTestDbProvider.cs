@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using Funkmap.Data.Entities.Abstract;
 using MongoDB.Driver;
 
 namespace Funkmap.Tests.Funkmap.Data
@@ -14,6 +16,16 @@ namespace Funkmap.Tests.Funkmap.Data
                 var mongoClient = new MongoClient(connectionString);
                 mongoClient.DropDatabase(databaseName);
                 var db = mongoClient.GetDatabase(databaseName);
+                var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+                var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));
+                var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
+                var collection = db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
+                collection.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>
+                {
+                    loginBaseIndexModel,
+                    entityTypeBaseIndexModel,
+                    geoBaseIndexModel,
+                }).GetAwaiter().GetResult();
                 new FunkmapDataSeeder(db).SeedData();
                 return db;
             }

@@ -12,6 +12,7 @@ using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services.Abstract;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Data.Repositories
 {
@@ -38,7 +39,7 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
-            //db.bases.find({ loc: {$within: {$center: [[50, 30], 0.2]} } }).limit(20)
+            //db.bases.find({ loc: { $nearSphere: [50, 30], $minDistance: 0, $maxDistance: 1 } }).limit(20)
             var center = new[] { parameter.Longitude, parameter.Latitude };
             var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
 
@@ -47,6 +48,7 @@ namespace Funkmap.Data.Repositories
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name);
 
+             
             ICollection<BaseEntity> result;
             if (parameter.Longitude == null || parameter.Latitude == null)
             {
@@ -54,7 +56,9 @@ namespace Funkmap.Data.Repositories
             }
             else
             {
-                var filter = new BsonDocument("loc", new BsonDocument("$within", new BsonDocument("$center", centerQueryArray)));
+                var centerPoint = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(parameter.Longitude.Value, parameter.Latitude.Value));
+                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, centerPoint, parameter.RadiusDeg, 0);
+
                 result = await _collection.Find(filter).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
             }
             return result;

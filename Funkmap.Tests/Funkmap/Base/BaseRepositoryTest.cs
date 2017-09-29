@@ -42,7 +42,9 @@ namespace Funkmap.Tests.Funkmap.Base
             {
                 Longitude = 30,
                 Latitude = 50,
-                RadiusDeg = 2
+                RadiusDeg = 2,
+                Take = 5,
+                Skip = 0
             };
             var nearest = _baseRepository.GetNearestAsync(parameter).Result;
             Assert.AreEqual(nearest.Count, 5);

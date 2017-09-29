@@ -17,6 +17,10 @@ namespace Funkmap.Common.Modules
             var redisHost = "localhost:6379";
             IRedisClientsManager redisClientManager = new PooledRedisClientManager(redisHost);
 
+            IRedisClient redisClient = redisClientManager.GetClient();
+
+            builder.RegisterInstance(redisClient).As<IRedisClient>().SingleInstance();
+
             IMessageFactory redisMqFactory = new RedisMessageFactory(redisClientManager);
             builder.RegisterInstance(redisMqFactory).As<IMessageFactory>().SingleInstance();
 
