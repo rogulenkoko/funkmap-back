@@ -1,4 +1,6 @@
-﻿using Funkmap.Auth.Data;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Tests.Funkmap.Data;
@@ -16,7 +18,10 @@ namespace Funkmap.Tests.Funkmap.Auth
         [TestInitialize]
         public void Initialize()
         {
-            _repository = new AuthRepository(AuthTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
+            _repository =
+                new AuthRepository(
+                    AuthTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider
+                        .UsersCollectionName));
         }
 
         [TestMethod]
@@ -42,7 +47,15 @@ namespace Funkmap.Tests.Funkmap.Auth
             _repository.SetFavourite("test", "razrab").Wait();
             favourites = _repository.GetFavouritesAsync("test").Result;
             Assert.AreEqual(favourites.Count, 1);
+        }
 
+        [TestMethod]
+        public void GetUserByEmailTest()
+        {
+            string path = @"${basedir}";
+            var der = Directory.GetDirectories(path);
+            UserEntity user = _repository.GetUserByEmail("timoshka_kirov@mail.ru").Result;
+            Assert.AreEqual(user.Password, "123");
         }
     }
 }

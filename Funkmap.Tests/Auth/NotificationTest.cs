@@ -20,7 +20,7 @@ namespace Funkmap.Tests.Funkmap.Auth
                 {
                     Subject = "Test",
                     Body = "test",
-                    Receiver = "rogulenkoko@gmail.com"
+                    Receiver = "timofey.milchakov@mail.ru"
                 };
                 var success = service.SendNotification(message).Result;
                 Assert.IsTrue(success);

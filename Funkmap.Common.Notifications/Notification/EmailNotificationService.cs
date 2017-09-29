@@ -41,7 +41,7 @@ namespace Funkmap.Common.Notifications.Notification
                 message.Subject = notification.Subject;
 
                 var smtpClient = new SmtpClient();
-                smtpClient.Host = "smtp.gmail.com";
+                smtpClient.Host = "smtp.mail.ru";
                 smtpClient.Port = 25;
                 smtpClient.EnableSsl = true;
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;

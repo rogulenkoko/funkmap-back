@@ -38,6 +38,7 @@ namespace Funkmap.Tests.Funkmap.Auth
             };
             u1.Avatar = ImageProvider.GetAvatar("avatar.jpg");
 
+
             var u2 = new UserEntity()
             {
                 Login = "test",
@@ -45,8 +46,17 @@ namespace Funkmap.Tests.Funkmap.Auth
                 Email = "test@mail.ru",
                 Favourites = new List<string>() { "madlib" }
             };
+
+            var u3 = new UserEntity()
+            {
+                Login = "timosha",
+                Password = "123",
+                Email = "timoshka_kirov@mail.ru"
+            };
+            
             repository.CreateAsync(u1).Wait();
             repository.CreateAsync(u2).Wait();
+            repository.CreateAsync(u3).Wait();
         }
     }
 }
