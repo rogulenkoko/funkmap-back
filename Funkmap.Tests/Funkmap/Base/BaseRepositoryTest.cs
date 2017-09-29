@@ -9,6 +9,7 @@ using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Tests.Funkmap.Data;
+using Funkmap.Tests.Funkmap.Stress;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Funkmap.Tests.Funkmap.Base
@@ -24,7 +25,8 @@ namespace Funkmap.Tests.Funkmap.Base
         {
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
-            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
+            //_baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
+            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
 
         }
 
@@ -40,14 +42,14 @@ namespace Funkmap.Tests.Funkmap.Base
         {
             var parameter = new LocationParameter()
             {
-                Longitude = 30,
-                Latitude = 50,
-                RadiusDeg = 2,
-                Take = 5,
+                Longitude = 30.1,
+                Latitude = 50.2,
+                RadiusDeg = 100000,
+                Take = 100,
                 Skip = 0
             };
             var nearest = _baseRepository.GetNearestAsync(parameter).Result;
-            Assert.AreEqual(nearest.Count, 5);
+            Assert.AreEqual(nearest.Count, 100);
         }
 
 

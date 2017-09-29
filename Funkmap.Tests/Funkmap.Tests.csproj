@@ -133,9 +133,11 @@
     <Compile Include="Auth\AuthRepositoryTest.cs" />
     <Compile Include="Auth\Data\AuthTestDbProvider.cs" />
     <Compile Include="Auth\NotificationTest.cs" />
+    <Compile Include="Funkmap\Base\BaseRepositoryStressTest.cs" />
     <Compile Include="Funkmap\BigData\FunkmapBigDataSeeder.cs" />
     <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
     <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
+    <Compile Include="Funkmap\Stress\FunkmapStressRandomSeeder.cs" />
     <Compile Include="Images\ImageProvider.cs" />
     <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
     <Compile Include="Messenger\Data\MessengerDataSeeder.cs" />

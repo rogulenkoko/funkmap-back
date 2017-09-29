@@ -40,9 +40,6 @@ namespace Funkmap.Data.Repositories
         public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
             //db.bases.find({ loc: { $nearSphere: [50, 30], $minDistance: 0, $maxDistance: 1 } }).limit(20)
-            var center = new[] { parameter.Longitude, parameter.Latitude };
-            var centerQueryArray = new BsonArray { new BsonArray(center), parameter.RadiusDeg };
-
 
             var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
                 .Exclude(x => x.Description)
@@ -56,10 +53,11 @@ namespace Funkmap.Data.Repositories
             }
             else
             {
-                var centerPoint = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(parameter.Longitude.Value, parameter.Latitude.Value));
-                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, centerPoint, parameter.RadiusDeg, 0);
-
-                result = await _collection.Find(filter).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
+                //todo разобраться почему драйвер не отрабатывает
+                //var centerPoint = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(parameter.Longitude.Value, parameter.Latitude.Value));
+                //var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, centerPoint, parameter.RadiusDeg, 0);
+                var filterString = $"{{loc: {{ $nearSphere: [{parameter.Longitude.Value.ToString().Replace(',','.')}, {parameter.Latitude.Value.ToString().Replace(',', '.')}], $minDistance: 0, $maxDistance: {parameter.RadiusDeg} }} }}";
+                result = await _collection.Find(filterString).Limit(parameter.Take).ToListAsync();
             }
             return result;
 
@@ -174,5 +172,7 @@ namespace Funkmap.Data.Repositories
 
             await _collection.ReplaceOneAsync(filter, entity);
         }
+
+        private string Get
     }
 }

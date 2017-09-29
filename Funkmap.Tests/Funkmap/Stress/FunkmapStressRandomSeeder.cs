@@ -25,11 +25,9 @@ namespace Funkmap.Tests.Funkmap.Stress
 
         public void SeedData()
         {
-            var entitiesCount = 400000;
+            var entitiesCount = 2000;
             var types = Enum.GetValues(typeof(EntityType));
             _random = new Random();
-
-            var tasks = new List<Task>();
 
             for (int i = 0; i < entitiesCount; i++)
             {
@@ -58,11 +56,9 @@ namespace Funkmap.Tests.Funkmap.Stress
                         break;
                 }
 
-                tasks.Add(_mongoCollection.InsertOneAsync(entity));
+                _mongoCollection.InsertOneAsync(entity).GetAwaiter().GetResult();
 
             }
-
-            Task.WaitAll(tasks.ToArray());
         }
 
         private MusicianEntity CreateMusician()
