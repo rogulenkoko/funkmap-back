@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
@@ -19,6 +20,7 @@ namespace Funkmap.Data.Caches
         {
             _redisStorage = redisStorage;
             _baseRepository = baseRepository;
+
         }
 
         #region Update
@@ -50,7 +52,7 @@ namespace Funkmap.Data.Caches
         {
             return _baseRepository.GetAsync(id);
         }
-        
+
         public Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin)
         {
             return _baseRepository.GetUserEntitiesCountInfo(userLogin);
@@ -91,9 +93,28 @@ namespace Funkmap.Data.Caches
             return _baseRepository.GetFilteredAsync(commonFilter, parameter);
         }
 
-        public Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
-            return _baseRepository.GetAllFilteredLoginsAsync(commonFilter, parameter);
+            var sb = new StringBuilder();
+            sb.Append(commonFilter);
+            if (parameter != null)
+            {
+                sb.Append(parameter);
+            }
+
+            var key = sb.ToString();
+            var lifeTime = TimeSpan.FromMinutes(2);
+
+            ICollection<string> logins = _redisStorage.Get<List<string>>(key);
+            if (logins == null)
+            {
+                var result = await _baseRepository.GetAllFilteredLoginsAsync(commonFilter, parameter);
+                _redisStorage.Add(key, result);
+                _redisStorage.ExpireEntryIn(key, lifeTime);
+                return result;
+            }
+            _redisStorage.ExpireEntryIn(key, lifeTime);
+            return logins;
         }
 
         public Task<bool> CheckIfLoginExistAsync(string login)

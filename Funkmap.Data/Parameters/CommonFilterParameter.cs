@@ -12,5 +12,10 @@ namespace Funkmap.Data.Parameters
         /// Максимальное количество доступных для чтение сущностей
         /// </summary>
         public int Limit { get; set; }
+
+        public override string ToString()
+        {
+            return $"{SearchText}|{EntityType}|{Limit}|{Latitude}|{Longitude}|{RadiusDeg}|";
+        }
     }
 }
