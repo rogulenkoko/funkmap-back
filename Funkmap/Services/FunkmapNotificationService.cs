@@ -39,7 +39,7 @@ namespace Funkmap.Services
                 return;
             }
 
-            var entity = await _repository.GetSpecificAsync(new[] { inviteRequest.BandLogin });
+            var entity = await _repository.GetSpecificNavigationAsync(new[] { inviteRequest.BandLogin });
             var band = entity.FirstOrDefault() as BandEntity;
             if (band == null) return;
 

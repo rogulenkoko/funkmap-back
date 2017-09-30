@@ -16,7 +16,9 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter);
 
-        Task<ICollection<BaseEntity>> GetSpecificAsync(string[] logins);
+        Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins);
+
+        Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins);
 
         Task<ICollection<string>> GetUserEntitiesLogins(string userLogin);
 

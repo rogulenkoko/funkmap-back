@@ -44,7 +44,6 @@ namespace Funkmap.Tests.Funkmap.Base
             {
                 Longitude = 30.1,
                 Latitude = 50.2,
-                RadiusDeg = 100000,
                 Take = 100,
                 Skip = 0
             };
@@ -57,11 +56,11 @@ namespace Funkmap.Tests.Funkmap.Base
         public void GetSpecificTest()
         {
             var logins = new List<string>() { "razrab" };
-            var result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
+            var result = _baseRepository.GetSpecificNavigationAsync(logins.ToArray()).Result;
             Assert.AreEqual(result.Count, 1);
 
             logins.Add("rogulenkoko");
-            result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
+            result = _baseRepository.GetSpecificNavigationAsync(logins.ToArray()).Result;
             Assert.AreEqual(result.Count, 2);
         }
 
@@ -90,7 +89,7 @@ namespace Funkmap.Tests.Funkmap.Base
             var entity = _baseRepository.GetAllAsyns().GetAwaiter().GetResult().First();
             (entity as MusicianEntity).Instrument = InstrumentType.Keyboard;
             _baseRepository.UpdateAsync(entity).GetAwaiter().GetResult();
-            var updatedEntity = _baseRepository.GetSpecificAsync(new[] { entity.Login }).GetAwaiter().GetResult();
+            var updatedEntity = _baseRepository.GetSpecificNavigationAsync(new[] { entity.Login }).GetAwaiter().GetResult();
         }
 
         [TestMethod]

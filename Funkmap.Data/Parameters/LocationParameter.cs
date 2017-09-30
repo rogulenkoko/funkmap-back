@@ -8,7 +8,7 @@ namespace Funkmap.Data.Parameters
 {
     public class LocationParameter
     {
-        public double RadiusDeg { get; set; }
+        public double? RadiusDeg { get; set; }
 
         /// <summary>
         /// Широта объекта относительно которого надо искать

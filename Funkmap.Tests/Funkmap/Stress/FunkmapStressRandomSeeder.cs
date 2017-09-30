@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Funkmap.Common;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
+using Funkmap.Tests.Images;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -25,7 +26,7 @@ namespace Funkmap.Tests.Funkmap.Stress
 
         public void SeedData()
         {
-            var entitiesCount = 2000;
+            var entitiesCount = 20000;
             var types = Enum.GetValues(typeof(EntityType));
             _random = new Random();
 
@@ -81,8 +82,9 @@ namespace Funkmap.Tests.Funkmap.Stress
                 UserLogin = RandomString(15),
                 SoundCloudLink = RandomString(15),
                 Sex = (Sex)Enum.GetValues(typeof(Sex)).GetValue(_random.Next(Enum.GetValues(typeof(Sex)).Length)),
-                Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) }
-            };
+                Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
+                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") }
+        };
         }
 
 

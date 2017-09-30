@@ -71,9 +71,14 @@ namespace Funkmap.Data.Caches
             return _baseRepository.GetFullNearestAsync(parameter);
         }
 
-        public Task<ICollection<BaseEntity>> GetSpecificAsync(string[] logins)
+        public Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins)
         {
-            return _baseRepository.GetSpecificAsync(logins);
+            return _baseRepository.GetSpecificNavigationAsync(logins);
+        }
+
+        public Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins)
+        {
+            return _baseRepository.GetSpecificFullAsync(logins);
         }
 
         public Task<ICollection<string>> GetUserEntitiesLogins(string userLogin)

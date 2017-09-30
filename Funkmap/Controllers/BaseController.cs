@@ -82,7 +82,7 @@ namespace Funkmap.Controllers
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificAsync(logins);
+            var baseEntities = await _repository.GetSpecificNavigationAsync(logins);
             var items = baseEntities.Select(x => x.ToSearchModel());
             return Ok(items);
         }
@@ -91,7 +91,7 @@ namespace Funkmap.Controllers
         [Route("specificmarkers")]
         public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificAsync(logins);
+            var baseEntities = await _repository.GetSpecificNavigationAsync(logins);
             var items = baseEntities.Select(x => x.ToMarkerModel());
             return Ok(items);
         }
@@ -126,7 +126,10 @@ namespace Funkmap.Controllers
                 EntityType = request.EntityType,
                 SearchText = request.SearchText,
                 Skip = request.Skip,
-                Take = request.Take
+                Take = request.Take,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                RadiusDeg = request.RadiusDeg
             };
             var paramter = _parameterFactory.CreateParameter(request);
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
@@ -166,7 +169,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> Delete(string login)
         {
             var array = new [] { login };
-            var musicianEntities = await _repository.GetSpecificAsync(array);
+            var musicianEntities = await _repository.GetSpecificNavigationAsync(array);
             var musician = musicianEntities.FirstOrDefault();
             if (musician == null) return BadRequest("entity doesn't exist");
 
