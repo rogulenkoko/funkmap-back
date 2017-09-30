@@ -18,12 +18,13 @@ namespace Funkmap.Module
     {
         private void RegisterDomainDependiences(ContainerBuilder builder)
         {
-            builder.RegisterType<BaseRepository>().As<IBaseRepository>().SingleInstance().Named<IBaseRepository>(nameof(IBaseRepository));
+            var baseRepositoryName = nameof(IBaseRepository);
+            builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName);
             builder.RegisterDecorator<IBaseRepository>((container, inner) =>
             {
                 var redisClient = container.Resolve<IRedisClient>();
                 return new BaseCacheRepository(redisClient, inner);
-            }, nameof(IBaseRepository));
+            }, fromKey: baseRepositoryName).As<IBaseRepository>();
 
 
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();

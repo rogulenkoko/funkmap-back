@@ -18,5 +18,10 @@ namespace Funkmap.Models.Requests
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
 
+        /// <summary>
+        /// Максимальное количество доступных для чтение сущностей
+        /// </summary>
+        public int Limit { get; set; }
+
     }
 }

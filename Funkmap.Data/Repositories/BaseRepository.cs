@@ -162,7 +162,7 @@ namespace Funkmap.Data.Repositories
                 filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
             }
 
-            var result = await _collection.Find(filter).Project<BaseEntity>(profection).ToListAsync();
+            var result = await _collection.Find(filter).Project<BaseEntity>(profection).Limit(commonFilter.Limit).ToListAsync();
             return result.Select(x=>x.Login).ToList();
         }
 

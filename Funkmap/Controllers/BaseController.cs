@@ -82,7 +82,7 @@ namespace Funkmap.Controllers
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificNavigationAsync(logins);
+            var baseEntities = await _repository.GetSpecificFullAsync(logins);
             var items = baseEntities.Select(x => x.ToSearchModel());
             return Ok(items);
         }
@@ -129,7 +129,8 @@ namespace Funkmap.Controllers
                 Take = request.Take,
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
-                RadiusDeg = request.RadiusDeg
+                RadiusDeg = request.RadiusDeg,
+                Limit = request.Limit
             };
             var paramter = _parameterFactory.CreateParameter(request);
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
