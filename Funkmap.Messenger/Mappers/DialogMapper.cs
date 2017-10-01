@@ -4,6 +4,7 @@ using System.Linq;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Models;
+using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Mappers
 {
@@ -37,7 +38,7 @@ namespace Funkmap.Messenger.Mappers
             return new DialogEntity()
             {
                 Name = source.Name,
-                Participants = source.Participants,
+                Participants = source.Participants
             };
         }
     }

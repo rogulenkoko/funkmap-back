@@ -143,7 +143,6 @@
     <Compile Include="Services\EntityUpdateService.cs" />
     <Compile Include="Services\FunkmapNotificationService.cs" />
     <Compile Include="Tools\Abstract\IParameterFactory.cs" />
-    <Compile Include="Tools\EntityUpdateExtension.cs" />
     <Compile Include="Tools\FunkmapModelBinder.cs" />
     <Compile Include="Tools\ParametersFactory.cs" />
   </ItemGroup>

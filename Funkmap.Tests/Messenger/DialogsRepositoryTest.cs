@@ -64,7 +64,7 @@ namespace Funkmap.Tests.Messenger
                 LastMessageDate = DateTime.Now,
                 Participants = new List<string>() { "qwert", "trewq"}
             };
-            var id = _dialogRepository.CreateAsync(dialog).GetAwaiter().GetResult();
+            var id = _dialogRepository.CreateAndGetIdAsync(dialog).GetAwaiter().GetResult();
             Assert.AreNotEqual(id.ToString(), ObjectId.Empty.ToString());
         }
     }

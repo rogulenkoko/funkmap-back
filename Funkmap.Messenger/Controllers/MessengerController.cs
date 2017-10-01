@@ -15,6 +15,7 @@ using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Models.Responses;
 using Funkmap.Messenger.Services;
+using Funkmap.Tools;
 
 namespace Funkmap.Messenger.Controllers
 {
@@ -26,16 +27,13 @@ namespace Funkmap.Messenger.Controllers
         private readonly IMessageRepository _messageRepository;
 
         private readonly IMessengerConnectionService _messengerConnection;
-        private readonly UserService _userService;
 
         public MessengerController(IDialogRepository dialogRepository,
                                    IMessageRepository messageRepository,
-                                   IMessengerConnectionService messengerConnection,
-                                   UserService userService)
+                                   IMessengerConnectionService messengerConnection)
         {
             _dialogRepository = dialogRepository;
             _messengerConnection = messengerConnection;
-            _userService = userService;
             _messageRepository = messageRepository;
         }
 
@@ -62,15 +60,38 @@ namespace Funkmap.Messenger.Controllers
         {
             if (dialog.Participants == null || dialog.Participants.Count < 2) return BadRequest("Invalid parameter");
 
-            var isExist = await _dialogRepository.IsDialogExist(dialog.Participants);
+            var isExist = await _dialogRepository.CheckDialogExist(dialog.Participants);
 
             if (isExist) return BadRequest("Dialog exists");
 
-            var id = await _dialogRepository.CreateAsync(dialog.ToEntity());
+            var id = await _dialogRepository.CreateAndGetIdAsync(dialog.ToEntity());
             var response = new CreateDialogResponse()
             {
                 Success = true,
                 DialogId = id.ToString()
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("updateDialog")]
+        public async Task<IHttpActionResult> UpdateDialog(Dialog dialog)
+        {
+
+            var exsitingDialog = await _dialogRepository.GetAsync(dialog.DialogId);
+
+            if (exsitingDialog == null) return BadRequest("Dialog not exists");
+
+            var neDialogEntity = dialog.ToEntity();
+
+            exsitingDialog = exsitingDialog.FillEntity(neDialogEntity);
+
+            await _dialogRepository.UpdateAsync(exsitingDialog);
+            var response = new CreateDialogResponse()
+            {
+                Success = true
             };
 
             return Ok(response);

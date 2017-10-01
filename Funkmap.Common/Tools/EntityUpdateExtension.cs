@@ -6,8 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualBasic.CompilerServices;
-using MongoDB.Bson;
-using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Tools
 {
@@ -19,42 +17,6 @@ namespace Funkmap.Tools
 
             foreach (var propertyInfo in entity.GetType().GetProperties())
             {
-                if (propertyInfo.GetValue(entity)?.GetType() == typeof(GeoJsonPoint<GeoJson2DGeographicCoordinates>))
-                {
-                    var value = propertyInfo.GetValue(entity) as GeoJsonPoint<GeoJson2DGeographicCoordinates>;
-                    var newValue = propertyInfo.GetValue(newEntity) as GeoJsonPoint<GeoJson2DGeographicCoordinates>;
-                    if (newValue == null)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        if (value.Coordinates.Longitude != newValue.Coordinates.Longitude &&
-                            value.Coordinates.Latitude != newValue.Coordinates.Latitude)
-                        {
-                            propertyInfo.SetValue(entity, propertyInfo.GetValue(newEntity));
-                        }
-                        continue;
-                    }
-
-                }
-
-                if (propertyInfo.GetValue(entity)?.GetType() == typeof(BsonBinaryData))
-                {
-                    var value = propertyInfo.GetValue(entity) as BsonBinaryData;
-                    var newValue = propertyInfo.GetValue(newEntity) as BsonBinaryData;
-
-                    if (newValue == null) continue;
-                    else
-                    {
-                        if (!CompareObjects(value?.AsByteArray, newValue?.AsByteArray))
-                        {
-                            propertyInfo.SetValue(entity, propertyInfo.GetValue(newEntity));
-                        }
-                    }
-                }
-
-
                 if (!CompareObjects(propertyInfo.GetValue(newEntity), propertyInfo.GetValue(emptyInstance)))
                 {
                     propertyInfo.SetValue(entity, propertyInfo.GetValue(newEntity));

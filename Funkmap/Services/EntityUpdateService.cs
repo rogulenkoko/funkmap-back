@@ -30,7 +30,7 @@ namespace Funkmap.Services
         public async Task UpdateEntity(BaseModel model)
         {
             BaseEntity resultEntity;
-            var existingEntityCollection = await _baseRepository.GetSpecificNavigationAsync(new[] {model.Login});
+            var existingEntityCollection = await _baseRepository.GetSpecificFullAsync(new[] {model.Login});
             var exictingEntity = existingEntityCollection.SingleOrDefault();
             if(exictingEntity == null) throw new InvalidOperationException("Entity doesn't exist");
 
