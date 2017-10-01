@@ -49,30 +49,7 @@ namespace Funkmap.Controllers
             return Content(HttpStatusCode.OK, band);
 
         }
-
-        [Authorize]
-        [HttpPost]
-        [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician(BandModel model)
-        {
-            var entity = model.ToBandEntity();
-            var response = new BaseResponse();
-
-            var existingBand = await _bandRepository.GetAsync(model.Login);
-            if (existingBand != null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            await _bandRepository.CreateAsync(entity);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
-        }
-
+        
         [HttpPost]
         [Authorize]
         [Route("getInviteInfo")]

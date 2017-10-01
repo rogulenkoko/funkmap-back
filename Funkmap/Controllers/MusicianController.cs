@@ -95,28 +95,5 @@ namespace Funkmap.Controllers
             var response = new BaseResponse() {Success = true};
             return Ok(response);
         }
-
-        [Authorize]
-        [HttpPost]
-        [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician(MusicianModel model)
-        {
-            var entity = model.ToMusicianEntity();
-            var response = new BaseResponse();
-
-            var existingMusician = await _musicianRepository.GetAsync(model.Login);
-            if (existingMusician != null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            await _musicianRepository.CreateAsync(entity);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
-        }
     }
 }

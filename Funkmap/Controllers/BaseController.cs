@@ -155,6 +155,16 @@ namespace Funkmap.Controllers
             return Ok(isExist);
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("save")]
+        public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
+        {
+            await _updateService.CreateEntity(model);
+            return Ok(new BaseResponse() { Success = true });
+
+        }
+
         [HttpPost]
         [Route("update")]
         [Authorize]

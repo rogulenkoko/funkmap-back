@@ -15,6 +15,7 @@ namespace Funkmap.Services
 {
     public interface IEntityUpdateService
     {
+        Task CreateEntity(BaseModel model);
         Task UpdateEntity(BaseModel model);
     }
 
@@ -25,6 +26,38 @@ namespace Funkmap.Services
         public EntityUpdateService(IBaseRepository baseRepository)
         {
             _baseRepository = baseRepository;
+        }
+
+        public async Task CreateEntity(BaseModel model)
+        {
+            BaseEntity resultEntity;
+
+            switch (model.EntityType)
+            {
+                case EntityType.Musician:
+                    resultEntity = (model as MusicianModel).ToMusicianEntity();
+                    break;
+
+                case EntityType.Band:
+                    resultEntity = (model as BandModel).ToBandEntity();
+                    break;
+
+                case EntityType.Shop:
+                    resultEntity = (model as ShopModel).ToShopEntity();
+                    break;
+
+                case EntityType.RehearsalPoint:
+                    resultEntity = (model as RehearsalPointModel).ToRehearsalPointEntity();
+                    break;
+
+                case EntityType.Studio:
+                    resultEntity = (model as StudioModel).ToStudioEntity();
+                    break;
+                default:
+                    throw new ArgumentNullException(nameof(model.EntityType));
+            }
+
+            await _baseRepository.CreateAsync(resultEntity);
         }
 
         public async Task UpdateEntity(BaseModel model)
@@ -65,8 +98,6 @@ namespace Funkmap.Services
             }
 
             await _baseRepository.UpdateAsync(resultEntity);
-
-
         }
     }
 }
