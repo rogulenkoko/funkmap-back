@@ -70,8 +70,8 @@ namespace Funkmap.Controllers
 
             var recieverLogin = musician.UserLogin;
 
-            var bandResult = await _baseRepository.GetSpecificNavigationAsync(new [] {request.BandLogin});
-            var band = bandResult.SingleOrDefault() as BandEntity;
+            var bandResult = await _baseRepository.GetAsync(request.BandLogin);
+            var band = bandResult as BandEntity;
             if (band == null) return BadRequest("no band");
 
             if (band.InvitedMusicians.Contains(musician.Login) || band.MusicianLogins.Contains(musician.Login))

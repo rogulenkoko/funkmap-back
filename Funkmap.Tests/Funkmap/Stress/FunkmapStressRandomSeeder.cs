@@ -41,19 +41,19 @@ namespace Funkmap.Tests.Funkmap.Stress
                         break;
 
                     case EntityType.Band:
-                        entity = CreateMusician();
+                        entity = CreateBand();
                         break;
 
                     case EntityType.Studio:
-                        entity = CreateMusician();
+                        entity = CreateStudio();
                         break;
 
                     case EntityType.Shop:
-                        entity = CreateMusician();
+                        entity = CreateShop();
                         break;
 
                     case EntityType.RehearsalPoint:
-                        entity = CreateMusician();
+                        entity = CreateRehearsal();
                         break;
                 }
 
@@ -79,12 +79,101 @@ namespace Funkmap.Tests.Funkmap.Stress
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(_random.Next(0, 90), _random.Next(0, 90))),
                 Login = RandomString(10),
                 Name = RandomString(15),
-                UserLogin = RandomString(15),
+                UserLogin = "test",
                 SoundCloudLink = RandomString(15),
                 Sex = (Sex)Enum.GetValues(typeof(Sex)).GetValue(_random.Next(Enum.GetValues(typeof(Sex)).Length)),
                 Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
-                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") }
-        };
+                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
+                IsActive = true,
+                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
+            };
+        }
+
+        private BandEntity CreateBand()
+        {
+            return new BandEntity()
+            {
+                Address = RandomString(10),
+                Description = RandomString(40),
+                EntityType = EntityType.Musician,
+                FacebookLink = RandomString(10),
+                YouTubeLink = RandomString(10),
+                VkLink = RandomString(10),
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(_random.Next(0, 90), _random.Next(0, 90))),
+                Login = RandomString(10),
+                Name = RandomString(15),
+                UserLogin = "test",
+                SoundCloudLink = RandomString(15),
+                Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
+                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
+                IsActive = true,
+                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
+            };
+        }
+
+        private ShopEntity CreateShop()
+        {
+            return new ShopEntity()
+            {
+                Address = RandomString(10),
+                Description = RandomString(40),
+                EntityType = EntityType.Musician,
+                FacebookLink = RandomString(10),
+                YouTubeLink = RandomString(10),
+                VkLink = RandomString(10),
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(_random.Next(0, 90), _random.Next(0, 90))),
+                Login = RandomString(10),
+                Name = RandomString(15),
+                UserLogin = "test",
+                SoundCloudLink = RandomString(15),
+                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
+                IsActive = true,
+                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } },
+                Website = "https://github.com/"
+            };
+        }
+
+        private StudioEntity CreateStudio()
+        {
+            return new StudioEntity()
+            {
+                Address = RandomString(10),
+                Description = RandomString(40),
+                EntityType = EntityType.Musician,
+                FacebookLink = RandomString(10),
+                YouTubeLink = RandomString(10),
+                VkLink = RandomString(10),
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(_random.Next(0, 90), _random.Next(0, 90))),
+                Login = RandomString(10),
+                Name = RandomString(15),
+                UserLogin = "test",
+                SoundCloudLink = RandomString(15),
+                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
+                IsActive = true,
+                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
+            };
+        }
+
+        private RehearsalPointEntity CreateRehearsal()
+        {
+            return new RehearsalPointEntity()
+            {
+                Address = RandomString(10),
+                Description = RandomString(40),
+                EntityType = EntityType.Musician,
+                FacebookLink = RandomString(10),
+                YouTubeLink = RandomString(10),
+                VkLink = RandomString(10),
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(_random.Next(0, 90), _random.Next(0, 90))),
+                Login = RandomString(10),
+                Name = RandomString(15),
+                UserLogin = "test",
+                SoundCloudLink = RandomString(15),
+                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
+                IsActive = true,
+                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } },
+
+            };
         }
 
 

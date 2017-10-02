@@ -27,7 +27,8 @@ namespace Funkmap.Mappers
                 Address = source.Address,
                 Avatar = source.Photo?.Image?.AsByteArray,
                 VideoInfos = source.VideoInfos,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
 
         }
@@ -47,7 +48,8 @@ namespace Funkmap.Mappers
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 WebSite = source.Website,
                 Address = source.Address,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
 
@@ -68,7 +70,9 @@ namespace Funkmap.Mappers
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Address = source.Address,
                 Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
-                VideoInfos = source.VideoInfos
+                VideoInfos = source.VideoInfos,
+                IsActive = source.IsActive,
+                UserLogin = source.UserLogin
             };
         }
     }

@@ -19,7 +19,6 @@ namespace Funkmap.Data.Entities.Abstract
         public BaseEntity()
         {
             VideoInfos = new List<VideoInfo>();
-            //Photo = new byte[] { };
         }
 
 
@@ -74,6 +73,9 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("gallery")]
         [BsonIgnoreIfDefault]
         public List<BsonBinaryData> Gallery { get; set; }
+
+        [BsonElement("ia")]
+        public bool? IsActive { get; set; }
 
     }
 

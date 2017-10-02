@@ -21,8 +21,6 @@ namespace Funkmap.Data.Repositories
         private readonly IMongoCollection<BaseEntity> _collection;
         private readonly IFilterFactory _filterFactory;
 
-        private const int Radius = 100;
-
         public BaseRepository(IMongoCollection<BaseEntity> collection,
                               IFilterFactory filterFactory) : base(collection)
         {
@@ -32,11 +30,13 @@ namespace Funkmap.Data.Repositories
 
         public async Task<ICollection<BaseEntity>> GetAllAsyns()
         {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
+
             var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name);
             
-            return await _collection.Find(x => true).Project<BaseEntity>(projection).ToListAsync();
+            return await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
         }
 
         public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
@@ -58,11 +58,13 @@ namespace Funkmap.Data.Repositories
             ICollection<BaseEntity> result;
             if (parameter.Longitude == null || parameter.Latitude == null)
             {
-                result = await _collection.Find(x => true).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
+                var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
+                result = await _collection.Find(filter).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
             }
             else
             {
-                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg);
+                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
+                    & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
                 result = await _collection.Find(filter).Limit(parameter.Take).ToListAsync();
             }
             return result;
@@ -78,7 +80,8 @@ namespace Funkmap.Data.Repositories
             }
             else
             {
-                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg);
+                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
+                             & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
                 result = await _collection.Find(filter).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
             }
 
@@ -176,6 +179,8 @@ namespace Funkmap.Data.Repositories
         private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             var filter = Builders<BaseEntity>.Filter.Empty;
+
+            filter = filter & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
 
             if (parameter != null)
             {

@@ -26,7 +26,8 @@ namespace Funkmap.Mappers
                 Latitude = source.Location.Coordinates.Latitude,
                 SoundCloudLink = source.SoundCloudLink,
                 VideoInfos = source.VideoInfos,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
 
@@ -46,7 +47,8 @@ namespace Funkmap.Mappers
                 Description = source.Description,
                 Address = source.Address,
                 SoundCloudLink = source.SoundCloudLink,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
 
@@ -66,7 +68,9 @@ namespace Funkmap.Mappers
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Address = source.Address,
                 Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
-                VideoInfos = source.VideoInfos
+                VideoInfos = source.VideoInfos,
+                IsActive = source.IsActive,
+                UserLogin = source.UserLogin
 
             };
         }

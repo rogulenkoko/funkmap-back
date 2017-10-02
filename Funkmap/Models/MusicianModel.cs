@@ -24,5 +24,6 @@ namespace Funkmap.Models
         public ExpirienceType Expirience { get; set; }
         public Styles[] Styles { get; set; } 
         public string YouTubeLink { get; set; }
+        public InstrumentType Instrument { get; set; }
     }
 }

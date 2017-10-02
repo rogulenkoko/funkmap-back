@@ -17,7 +17,6 @@ namespace Funkmap.Mappers
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
                 Name = source.Name,
-                VideoLinks = source.VideoLinks,
                 DesiredInstruments = source.DesiredInstruments,
                 Musicians = source.MusicianLogins,
                 FacebookLink = source.FacebookLink,
@@ -29,7 +28,8 @@ namespace Funkmap.Mappers
                 Avatar = source.Photo?.Image?.AsByteArray,
                 Address = source.Address,
                 VideoInfos = source.VideoInfos,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
 
@@ -50,7 +50,9 @@ namespace Funkmap.Mappers
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
                 Address = source.Address,
-                VideoInfos = source.VideoInfos
+                VideoInfos = source.VideoInfos,
+                IsActive = source.IsActive,
+                UserLogin = source.UserLogin
             };
         }
 
@@ -69,7 +71,8 @@ namespace Funkmap.Mappers
                 Description = source.Description,
                 Styles = source.Styles,
                 SoundCloudLink = source.SoundCloudLink,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
     }

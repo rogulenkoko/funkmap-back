@@ -57,6 +57,8 @@ namespace Funkmap.Services
                     throw new ArgumentNullException(nameof(model.EntityType));
             }
 
+            resultEntity.IsActive = true;
+
             await _baseRepository.CreateAsync(resultEntity);
         }
 

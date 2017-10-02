@@ -18,6 +18,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 mongoClient.DropDatabase(databaseName);
                 var db = mongoClient.GetDatabase(databaseName);
                 CreateIndexes(db);
+                new FunkmapDataSeeder(db).SeedData();
                 return db;
             }
         }

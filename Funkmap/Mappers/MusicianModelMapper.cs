@@ -33,7 +33,8 @@ namespace Funkmap.Mappers
                 SoundCloudLink = source.SoundCloudLink,
                 YoutubeLink = source.YouTubeLink,
                 Address = source.Address,
-                UserLogin = source.UserLogin
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
 
             };
         }
@@ -59,7 +60,9 @@ namespace Funkmap.Mappers
                 Instrument = source.Instrument,
                 ExpirienceType = source.Expirience,
                 SoundCloudLink = source.SoundCloudLink,
-                Address = source.Address
+                Address = source.Address,
+                IsActive = source.IsActive,
+                UserLogin = source.UserLogin
             };
         }
 
@@ -77,8 +80,9 @@ namespace Funkmap.Mappers
                 YouTubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
-                UserLogin = source.UserLogin
-
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive,
+                Instrument = source.Instrument
             };
         }
     }

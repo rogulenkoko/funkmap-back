@@ -7,7 +7,6 @@ namespace Funkmap.Models
     {
         public ICollection<Styles> Styles { get; set; }
         public ICollection<InstrumentType> DesiredInstruments { get; set; }
-        public ICollection<string> VideoLinks { get; set; }
         public ICollection<string> Musicians { get; set; }
     }
 

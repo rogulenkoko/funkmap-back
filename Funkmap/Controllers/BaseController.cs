@@ -160,6 +160,8 @@ namespace Funkmap.Controllers
         [Route("save")]
         public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
         {
+            var login = Request.GetLogin();
+            model.UserLogin = login;
             await _updateService.CreateEntity(model);
             return Ok(new BaseResponse() { Success = true });
 

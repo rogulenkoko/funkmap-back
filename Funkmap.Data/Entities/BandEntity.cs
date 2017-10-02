@@ -19,10 +19,6 @@ namespace Funkmap.Data.Entities
         [BsonIgnoreIfDefault]
         public List<InstrumentType> DesiredInstruments { get; set; }
 
-        [BsonElement("vl")]
-        [BsonIgnoreIfDefault]
-        public List<string> VideoLinks { get; set; }
-
         [BsonElement("mus")]
         [BsonIgnoreIfDefault]
         public List<string> MusicianLogins{ get; set; }
