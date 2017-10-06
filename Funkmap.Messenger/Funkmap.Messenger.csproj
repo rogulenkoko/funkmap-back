@@ -141,7 +141,7 @@
     <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Requests\DialogMessagesRequest.cs" />
-    <Compile Include="Models\Responses\CreateDialogResponse.cs" />
+    <Compile Include="Models\Responses\DialogResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstract\IMessengerConnectionService.cs" />
     <Compile Include="Services\MessengerConnectionService.cs" />

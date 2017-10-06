@@ -15,6 +15,7 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
         Task UpdateLastMessageDate(UpdateLastMessageDateParameter parameter);
 
         Task<bool> CheckDialogExist(List<string> particpants);
+        Task<bool> CheckDialogExist(string dialogId);
 
     }
 }

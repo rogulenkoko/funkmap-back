@@ -20,7 +20,7 @@ namespace Funkmap.Data.Entities
 
         [BsonElement("sex")]
         [BsonIgnoreIfDefault]
-        public Sex Sex { get; set; }
+        public Sex? Sex { get; set; }
 
         [BsonElement("bd")]
         [BsonIgnoreIfDefault]

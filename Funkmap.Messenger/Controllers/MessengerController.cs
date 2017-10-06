@@ -49,7 +49,7 @@ namespace Funkmap.Messenger.Controllers
             var dialogIds = dialogsEntities.Select(x => x.Id.ToString()).ToArray();
             var lastDialogMessage = await _messageRepository.GetLastDialogsMessages(dialogIds);
 
-            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y=>y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
+            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y => y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
             return Content(HttpStatusCode.OK, dialogs);
         }
 
@@ -58,18 +58,53 @@ namespace Funkmap.Messenger.Controllers
         [Route("createDialog")]
         public async Task<IHttpActionResult> CreateDialog(Dialog dialog)
         {
-            if (dialog.Participants == null || dialog.Participants.Count < 2) return BadRequest("Invalid parameter");
+            if (dialog.Participants == null || dialog.Participants.Count == 0) return BadRequest("Invalid parameter");
 
-            var isExist = await _dialogRepository.CheckDialogExist(dialog.Participants);
+            var login = Request.GetLogin();
+            if (!dialog.Participants.Contains(login))
+            {
+                dialog.Participants.Add(login);
+            }
 
-            if (isExist) return BadRequest("Dialog exists");
+            var now = DateTime.UtcNow;
 
-            var id = await _dialogRepository.CreateAndGetIdAsync(dialog.ToEntity());
-            var response = new CreateDialogResponse()
+
+
+            DialogEntity dialogEntity = dialog.ToEntity();
+            dialogEntity.LastMessageDate = now;
+
+
+            if (dialogEntity.Participants.Count == 2)
+            {
+                var isExist = await _dialogRepository.CheckDialogExist(dialogEntity.Participants);
+                if (isExist) return Ok(new DialogResponse() { Success = false });
+            }
+
+            var id = await _dialogRepository.CreateAndGetIdAsync(dialogEntity);
+
+            dialogEntity.Id = id;
+
+            var response = new DialogResponse()
             {
                 Success = true,
-                DialogId = id.ToString()
+                Dialog = dialogEntity.ToModel(login, null)
             };
+
+            if (dialog.Participants.Count > 2)
+            {
+                var message = new MessageEntity()
+                {
+                    DateTimeUtc = now,
+                    DialogId = id,
+                    Sender = "",
+                    IsRead = false,
+                    ToParticipants = dialog.Participants,
+                    Text =
+                        $"{login} создал беседу {dialog.Name} из {dialog.Participants.Count} участников" //todo подумать о локализации
+                };
+                await _messageRepository.AddMessage(message);
+                response.Dialog.LastMessage = message.ToModel();
+            }
 
             return Ok(response);
         }
@@ -79,20 +114,43 @@ namespace Funkmap.Messenger.Controllers
         [Route("updateDialog")]
         public async Task<IHttpActionResult> UpdateDialog(Dialog dialog)
         {
-
+            var login = Request.GetLogin();
             var exsitingDialog = await _dialogRepository.GetAsync(dialog.DialogId);
 
             if (exsitingDialog == null) return BadRequest("Dialog not exists");
 
-            var neDialogEntity = dialog.ToEntity();
+            var response = new DialogResponse()
+            {
+                Success = true,
+                Dialog = exsitingDialog.ToModel(login)
+            };
 
-            exsitingDialog = exsitingDialog.FillEntity(neDialogEntity);
+            var now = DateTime.UtcNow;
+            var newDialogEntity = dialog.ToEntity();
+
+            var addedParticipants = newDialogEntity.Participants.Except(exsitingDialog.Participants).ToList();
+            if (addedParticipants.Any())
+            {
+                exsitingDialog.LastMessageDate = now;
+                string addedParticipantsString = addedParticipants.Count == 1 ? addedParticipants.First() : String.Join(", ", addedParticipants);
+                var message = new MessageEntity()
+                {
+                    DateTimeUtc = now,
+                    DialogId = exsitingDialog.Id,
+                    Sender = "",
+                    IsRead = false,
+                    ToParticipants = exsitingDialog.Participants.Except(new List<string>() { login }).ToList(),
+                    Text = $"{login} пригласил {addedParticipantsString}"//todo подумать о локализации
+                };
+                await _messageRepository.AddMessage(message);
+                response.Dialog.LastMessage = message.ToModel();
+            }
+
+            exsitingDialog = exsitingDialog.FillEntity(newDialogEntity);
 
             await _dialogRepository.UpdateAsync(exsitingDialog);
-            var response = new CreateDialogResponse()
-            {
-                Success = true
-            };
+
+
 
             return Ok(response);
         }
@@ -103,7 +161,7 @@ namespace Funkmap.Messenger.Controllers
         public async Task<IHttpActionResult> GetDialogMessages(DialogMessagesRequest request)
         {
             var userLogin = Request.GetLogin();
-
+            if (String.IsNullOrEmpty(request.DialogId)) return BadRequest("dialogId is empty");
 
             //проверить является ли этот пользователем участником диалога
             var parameter = new DialogMessagesParameter()
@@ -113,6 +171,9 @@ namespace Funkmap.Messenger.Controllers
                 DialogId = request.DialogId,
                 UserLogin = userLogin
             };
+
+            var dialogExist = await _dialogRepository.CheckDialogExist(parameter.DialogId);
+            if (!dialogExist) return Content(HttpStatusCode.OK, new List<Message>());
 
             var messagesEntities = await _messageRepository.GetDialogMessagesAsync(parameter);
             var messages = messagesEntities.Select(x => x.ToModel()).ToList();
@@ -141,7 +202,7 @@ namespace Funkmap.Messenger.Controllers
             var messagesParameter = new DialogsNewMessagesParameter()
             {
                 Login = login,
-                DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
+                DialogIds = dialogs.Select(x => x.Id.ToString()).ToList()
             };
             var dialogsWithNewMessages = await _messageRepository.GetDialogsWithNewMessagesAsync(messagesParameter);
 
@@ -154,6 +215,8 @@ namespace Funkmap.Messenger.Controllers
         public async Task<IHttpActionResult> GetDialogsNewMessagesCount(string[] dialogIds)
         {
             var login = Request.GetLogin();
+
+            dialogIds = dialogIds.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             if (dialogIds.Length == 0) return Ok(new List<DialogsNewMessagesCountModel>());
             var parameter = new DialogsNewMessagesParameter()
             {

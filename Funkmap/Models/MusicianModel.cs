@@ -6,7 +6,7 @@ namespace Funkmap.Models
 {
     public class MusicianModel : BaseModel
     {
-        public Sex Sex { get; set; }
+        public Sex? Sex { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? Age { get; set; }
         public Styles[] Styles { get; set; }
