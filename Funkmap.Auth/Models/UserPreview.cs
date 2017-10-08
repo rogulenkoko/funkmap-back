@@ -6,7 +6,6 @@ namespace Funkmap.Module.Auth.Models
         public bool IsExist { get; set; }
         public string Login { get; set; }
         public byte[] Avatar { get; set; }
-
-        //todo Name
+        public string Name { get; set; }
     }
 }

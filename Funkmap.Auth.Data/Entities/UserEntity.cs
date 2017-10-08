@@ -19,6 +19,9 @@ namespace Funkmap.Auth.Data.Entities
         [BsonElement("log")]
         public string Login { get; set; }
 
+        [BsonElement("n")]
+        public string Name { get; set; }
+
         [BsonElement("pass")]
         public string Password { get; set; }
 

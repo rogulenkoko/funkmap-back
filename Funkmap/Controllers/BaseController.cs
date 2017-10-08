@@ -181,13 +181,11 @@ namespace Funkmap.Controllers
         [Authorize]
         public async Task<IHttpActionResult> Delete(string login)
         {
-            var array = new [] { login };
-            var musicianEntities = await _repository.GetSpecificNavigationAsync(array);
-            var musician = musicianEntities.FirstOrDefault();
-            if (musician == null) return BadRequest("entity doesn't exist");
+            var entity = await _repository.GetAsync(login);
+            if (entity == null) return BadRequest("entity doesn't exist");
 
             var userLogin = Request.GetLogin();
-            if (musician.UserLogin != userLogin) return BadRequest("is not your entity");
+            if (entity.UserLogin != userLogin) return BadRequest("is not your entity");
 
             await _repository.DeleteAsync(login);
 

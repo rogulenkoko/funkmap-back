@@ -32,6 +32,7 @@ namespace Funkmap.Tests.Funkmap.Auth
             var u1 = new UserEntity()
             {
                 Login = "rogulenkoko",
+                Name = "Кирилл Евгеньевич",
                 Password = "1",
                 Email = "rogulenkoko@gmail.com",
                 LastVisitDateUtc = DateTime.UtcNow.AddMinutes(-20)
@@ -42,6 +43,7 @@ namespace Funkmap.Tests.Funkmap.Auth
             var u2 = new UserEntity()
             {
                 Login = "test",
+                Name = "Тест",
                 Password = "1",
                 Email = "test@mail.ru",
                 Favourites = new List<string>() { "madlib" }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -68,17 +69,25 @@ namespace Funkmap.Controllers
             var musician = await _musicianRepository.GetAsync(request.MusicianLogin);
             if (musician == null) return BadRequest("musician doesn't exist");
 
-            var recieverLogin = musician.UserLogin;
+            var musicianOwnerLogin = musician.UserLogin;
 
             var bandResult = await _baseRepository.GetAsync(request.BandLogin);
             var band = bandResult as BandEntity;
             if (band == null) return BadRequest("no band");
 
-            if (band.InvitedMusicians.Contains(musician.Login) || band.MusicianLogins.Contains(musician.Login))
+            if ((band.InvitedMusicians != null && band.InvitedMusicians.Contains(musician.Login)) || (band.MusicianLogins != null && band.MusicianLogins.Contains(musician.Login)))
             {
                 return BadRequest("musician is already in band or invited");
             }
 
+            if (musicianOwnerLogin == login)
+            {
+                if (band.MusicianLogins == null) band.MusicianLogins = new List<string>();
+                band.MusicianLogins.Add(musician.Login);
+                await _baseRepository.UpdateAsync(band);
+                return Ok(new BaseResponse() { Success = true });
+            }
+            
             band.InvitedMusicians.Add(musician.Login);
             _baseRepository.UpdateAsync(band);
 
@@ -87,7 +96,7 @@ namespace Funkmap.Controllers
                 BandLogin = request.BandLogin,
                 InvitedMusicianLogin = request.MusicianLogin,
                 SenderLogin = login,
-                RecieverLogin = recieverLogin,
+                RecieverLogin = musicianOwnerLogin,
                 BandName = band.Name
             };
 

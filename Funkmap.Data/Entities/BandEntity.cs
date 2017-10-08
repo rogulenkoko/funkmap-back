@@ -10,9 +10,6 @@ namespace Funkmap.Data.Entities
         public BandEntity()
         {
             EntityType = EntityType.Band;
-            Styles = new List<Styles>();
-            MusicianLogins = new List<string>();
-            InvitedMusicians = new List<string>();
         }
 
         [BsonElement("dinstr")]
@@ -27,6 +24,8 @@ namespace Funkmap.Data.Entities
         [BsonIgnoreIfDefault]
         public List<Styles> Styles { get; set; }
 
+        [BsonElement("inv")]
+        [BsonIgnoreIfDefault]
         public List<string> InvitedMusicians { get; set; }
     }
 }

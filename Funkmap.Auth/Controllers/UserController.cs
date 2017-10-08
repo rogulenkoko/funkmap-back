@@ -39,6 +39,7 @@ namespace Funkmap.Module.Auth.Controllers
             {
                 Login = userEntity.Login,
                 Avatar = userEntity.Avatar?.AsByteArray,
+                Name = userEntity.Name,
                 IsExist = true
             };
 

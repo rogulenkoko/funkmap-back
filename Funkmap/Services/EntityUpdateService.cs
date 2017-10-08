@@ -65,8 +65,7 @@ namespace Funkmap.Services
         public async Task UpdateEntity(BaseModel model)
         {
             BaseEntity resultEntity;
-            var existingEntityCollection = await _baseRepository.GetSpecificFullAsync(new[] {model.Login});
-            var exictingEntity = existingEntityCollection.SingleOrDefault();
+            var exictingEntity = await _baseRepository.GetAsync(model.Login);
             if(exictingEntity == null) throw new InvalidOperationException("Entity doesn't exist");
 
             switch (model.EntityType)
