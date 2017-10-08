@@ -53,7 +53,7 @@ namespace Funkmap.Mappers
                 VideoInfos = source.VideoInfos,
                 IsActive = source.IsActive,
                 UserLogin = source.UserLogin,
-                MusicianLogins = source.Musicians.ToList()
+                MusicianLogins = source.Musicians?.ToList()
             };
         }
 

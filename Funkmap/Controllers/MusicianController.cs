@@ -77,7 +77,7 @@ namespace Funkmap.Controllers
 
             if ((band.InvitedMusicians != null && band.InvitedMusicians.Contains(musician.Login)) || (band.MusicianLogins != null && band.MusicianLogins.Contains(musician.Login)))
             {
-                return BadRequest("musician is already in band or invited");
+                return Ok(new BaseResponse() { Success = false, Error = "musician is already in band or invited" });
             }
 
             if (musicianOwnerLogin == login)
@@ -87,8 +87,10 @@ namespace Funkmap.Controllers
                 await _baseRepository.UpdateAsync(band);
                 return Ok(new BaseResponse() { Success = true });
             }
-            
+
+            if (band.InvitedMusicians == null) band.InvitedMusicians = new List<string>();
             band.InvitedMusicians.Add(musician.Login);
+
             _baseRepository.UpdateAsync(band);
 
             var requestMessage = new InviteToBandRequest()

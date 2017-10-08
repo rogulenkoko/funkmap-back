@@ -23,7 +23,7 @@ namespace Funkmap.Mappers
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
                 Age = age.Value == 0 ? null : age,
-                Styles = source.Styles.ToArray(),
+                Styles = source.Styles?.ToArray(),
                 Avatar = source.Photo?.Image?.Bytes,
                 VideoInfos = source.VideoInfos,
                 VkLink = source.VkLink,
