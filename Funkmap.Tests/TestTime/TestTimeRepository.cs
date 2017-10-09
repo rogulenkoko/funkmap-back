@@ -38,16 +38,16 @@ namespace Funkmap.Tests.TestTime
         [TestMethod]
         public void mainTest()
         {
-            _testBaseRepository.TimeCheckIfLoginExist();
-            _testBaseRepository.TimeGetAllFilteredLogins();
-            _testBaseRepository.TimeGetFiltered();
-            _testBaseRepository.TimeGetFullNearest();
-            _testBaseRepository.TimeGetNearest();
-            _testBaseRepository.TimeGetSpecific();
-            _testBaseRepository.TimeGetUserEntitiesCountInfo();
-            _testBaseRepository.TimeGetUserEntitiesLogins();
-            _testBaseRepository.TimeUpdate();
-            _testBaseRepository.TimeGetAll();
+            _testBaseRepository.CheckIfLoginExistAsync(null).GetAwaiter();
+            _testBaseRepository.GetAllAsyns().GetAwaiter();
+            _testBaseRepository.GetFilteredAsync(null, null).GetAwaiter();
+            _testBaseRepository.GetFullNearestAsync(null).GetAwaiter();
+            _testBaseRepository.GetNearestAsync(null).GetAwaiter();
+            _testBaseRepository.GetSpecificAsync(null).GetAwaiter();
+            _testBaseRepository.GetUserEntitiesCountInfo(null).GetAwaiter();
+            _testBaseRepository.GetUserEntitiesLogins(null).GetAwaiter();
+            _testBaseRepository.UpdateAsync(null).GetAwaiter();
+            _testBaseRepository.GetAllFilteredLoginsAsync(null,null).GetAwaiter();
         }
 
 
