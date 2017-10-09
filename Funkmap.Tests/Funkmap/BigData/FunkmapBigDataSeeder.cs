@@ -75,7 +75,7 @@ namespace Funkmap.Tests.Funkmap.BigData
                     var musician = new MusicianEntity()
                     {
                         Sex = Sex.Male,
-                        Login = _name[j].Substring(0, 1) + _surname[i],
+                        Login = i+_name[j].Substring(0, 1) + _surname[i]+j,
                         UserLogin = _name[j] + (i*_name.Count+j).ToString(),
                         BirthDate = DateTime.Now,
                         Description = "Описание",
