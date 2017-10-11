@@ -3,6 +3,7 @@ using System.Configuration;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Tests.Funkmap.Stress;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Funkmap.Data
 {
@@ -52,6 +53,13 @@ namespace Funkmap.Tests.Funkmap.Data
                 entityTypeBaseIndexModel,
                 geoBaseIndexModel,
             }).GetAwaiter().GetResult();
+        }
+
+        public static IGridFSBucket GetGridFsBucket(IMongoDatabase database)
+        {
+            database.CreateCollection("fs.files");
+            database.CreateCollection("fs.chunks");
+            return new GridFSBucket(database);
         }
     }
 }

@@ -96,6 +96,14 @@ namespace Funkmap.Controllers
             return Ok(items);
         }
 
+        [HttpPost]
+        [Route("images")]
+        public async Task<IHttpActionResult> GetImages(string[] ids)
+        {
+            var files = await _repository.GetFiles(ids);
+            return Ok(files);
+        }
+
         [HttpGet]
         [Authorize]
         [Route("users")]

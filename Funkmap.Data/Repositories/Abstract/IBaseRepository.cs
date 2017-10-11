@@ -5,6 +5,7 @@ using Funkmap.Common.Data.Mongo.Abstract;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Data.Repositories.Abstract
 {
@@ -31,5 +32,7 @@ namespace Funkmap.Data.Repositories.Abstract
         Task UpdateAsync(BaseEntity entity);
 
         Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin);
+
+        Task<ICollection<FileInfo>> GetFiles(string[] fileIds);
     }
 }

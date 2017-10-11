@@ -46,6 +46,10 @@
       <HintPath>..\packages\Autofac.WebApi2.Owin.4.0.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ImageProcessor, Version=2.5.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageProcessor.2.5.5\lib\net45\ImageProcessor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -63,6 +67,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -95,6 +100,7 @@
     <Compile Include="SignalR\ConnectionService.cs" />
     <Compile Include="SignalR\UserConnection.cs" />
     <Compile Include="Tools\EntityUpdateExtension.cs" />
+    <Compile Include="Tools\FunkmapImageProcessor.cs" />
     <Compile Include="Tools\ModulesLoader.cs" />
   </ItemGroup>
   <ItemGroup>

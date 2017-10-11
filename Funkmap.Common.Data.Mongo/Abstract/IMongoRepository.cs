@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Driver;
 
 namespace Funkmap.Common.Data.Mongo.Abstract
 {
@@ -9,7 +8,7 @@ namespace Funkmap.Common.Data.Mongo.Abstract
         Task<ICollection<T>> GetAllAsync();
         Task<T> GetAsync(string id);
         Task CreateAsync(T item);
-        Task<DeleteResult> DeleteAsync(string id);
+        Task DeleteAsync(string id);
         Task UpdateAsync(T entity);
     }
 }

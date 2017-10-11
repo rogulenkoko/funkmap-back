@@ -7,6 +7,7 @@ using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 using ServiceStack.Redis;
 
 namespace Funkmap.Data.Caches
@@ -30,7 +31,7 @@ namespace Funkmap.Data.Caches
             return _baseRepository.CreateAsync(item);
         }
 
-        public Task<DeleteResult> DeleteAsync(string id)
+        public Task DeleteAsync(string id)
         {
             return _baseRepository.DeleteAsync(id);
         }
@@ -56,6 +57,11 @@ namespace Funkmap.Data.Caches
         public Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin)
         {
             return _baseRepository.GetUserEntitiesCountInfo(userLogin);
+        }
+
+        public Task<ICollection<FileInfo>> GetFiles(string[] fileIds)
+        {
+            return _baseRepository.GetFiles(fileIds);
         }
 
         public Task<ICollection<BaseEntity>> GetAllAsyns()

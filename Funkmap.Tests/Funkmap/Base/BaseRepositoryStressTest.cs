@@ -20,7 +20,8 @@ namespace Funkmap.Tests.Funkmap.Base
         {
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
-            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
+            var db = FunkmapTestDbProvider.DropAndCreateDatabase;
+            _baseRepository = new BaseRepository(db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), FunkmapTestDbProvider.GetGridFsBucket(db), factory);
 
         }
 

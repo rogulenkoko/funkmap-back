@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common;
 using Funkmap.Common.Data.Mongo;
+using Funkmap.Common.Tools;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Data.Tools;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Data.Repositories
 {
@@ -20,12 +24,15 @@ namespace Funkmap.Data.Repositories
     {
         private readonly IMongoCollection<BaseEntity> _collection;
         private readonly IFilterFactory _filterFactory;
+        private readonly IGridFSBucket _bucket;
 
         public BaseRepository(IMongoCollection<BaseEntity> collection,
+                              IGridFSBucket bucket,
                               IFilterFactory filterFactory) : base(collection)
         {
             _collection = collection;
             _filterFactory = filterFactory;
+            _bucket = bucket;
         }
 
         public async Task<ICollection<BaseEntity>> GetAllAsyns()
@@ -44,7 +51,7 @@ namespace Funkmap.Data.Repositories
             //db.bases.find({ loc: { $nearSphere: [50, 30], $minDistance: 0, $maxDistance: 1 } }).limit(20)
 
             //todo придумать адекватную проекцию для геопозиции
-            var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
+            var projection = Builders<BaseEntity>.Projection
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name)
                 .Exclude(x => x.Address)
@@ -91,7 +98,7 @@ namespace Funkmap.Data.Repositories
         public async Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins)
         {
             //todo придумать адекватную проекцию для геопозиции
-            var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
+            var projection = Builders<BaseEntity>.Projection
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name)
                 .Exclude(x=>x.Address)
@@ -140,6 +147,18 @@ namespace Funkmap.Data.Repositories
                 }).ToListAsync();
 
             return countResult;
+        }
+
+        public async Task<ICollection<FileInfo>> GetFiles(string[] fileIds)
+        {
+            //todo оптимизация
+            var fileInfos = new List<FileInfo>(fileIds.Length); 
+            foreach (var id in fileIds)
+            {
+                var bytes = await _bucket.DownloadAsBytesAsync(new ObjectId(id));
+                fileInfos.Add(new FileInfo() { Id = id, Bytes = bytes });
+            }
+            return fileInfos;
         }
 
         public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
@@ -207,9 +226,33 @@ namespace Funkmap.Data.Repositories
 
         public override async Task UpdateAsync(BaseEntity entity)
         {
+            if(entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.Photo != null && entity.Photo.Image != null)
+            {
+                var fileName = ImageNameBuilder.BuildAvatarName(entity);
+                var imageBytes = entity.Photo.Image.AsByteArray;
+                var photoId = await _bucket.UploadFromBytesAsync(fileName, imageBytes);
+                entity.PhotoId = photoId;
+
+                var fileMiniName = ImageNameBuilder.BuildAvatarMiniName(entity);
+                var imageMiniBytes = FunkmapImageProcessor.MinifyImage(imageBytes);
+                var photoMiniId = await _bucket.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
+                entity.PhotoMiniId = photoMiniId;
+            }
+
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x=>x.EntityType, entity.EntityType);
 
             await _collection.ReplaceOneAsync(filter, entity);
+        }
+
+        public override async Task DeleteAsync(string id)
+        {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, id);
+            var entity = await _collection.FindOneAndDeleteAsync(filter);
+
+
+            _bucket.DeleteAsync(entity.PhotoId);
+            _bucket.DeleteAsync(entity.PhotoMiniId);
         }
     }
 }
