@@ -14,6 +14,7 @@ using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Services;
 using Funkmap.Tools.Abstract;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using ServiceStack;
 
 namespace Funkmap.Tests.TestTime
@@ -45,12 +46,13 @@ namespace Funkmap.Tests.TestTime
         {
             Start(() =>
             {
-                var result = _repository.GetAllAsyns().Result;
+                var result = _repository.GetAllAsyns().GetAwaiter().GetResult();
                 return "get " + result.Count + " Entities";
             }, "getAll");
             return null;
         }
 
+        
         public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
             
@@ -73,12 +75,12 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<ICollection<BaseEntity>> GetFullNearestAsync(FullLocationParameter parameter)
+        public async Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
         {
            
             if (parameter == null)
             {
-                parameter = new FullLocationParameter()
+                parameter = new LocationParameter()
                 {
                     Latitude = 40,
                     Longitude = 40,
@@ -96,7 +98,9 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<ICollection<BaseEntity>> GetSpecificAsync(string[] logins)
+        
+
+        public async Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins)
         {
             
             if (logins == null)
@@ -115,10 +119,35 @@ namespace Funkmap.Tests.TestTime
             }
             Start(() =>
             {
-                var result = _repository.GetSpecificAsync(logins).GetAwaiter().GetResult();
+                var result = _repository.GetSpecificNavigationAsync(logins).GetAwaiter().GetResult();
                 return $"all Entities {logins.Length} \n get {result.Count} Entities";
 
             }, "GetSpecific");
+            return null;
+        }
+
+        public async Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins)
+        {
+            if (logins == null)
+            {
+                logins = new string[]
+                {
+                    "0ASmirnov35",
+                    "17AVinogradov34",
+                    "17AVinogradov61",
+                    "243VBlokhin146",
+                    "243PBlokhin124",
+                    "243BBlokhin74",
+                    "monkey178",
+                    "IStudio141"
+                };
+            }
+            Start(() =>
+            {
+                var result = _repository.GetSpecificFullAsync(logins).GetAwaiter().GetResult();
+                return $"all Entities {logins.Length} \n get {result.Count} Entities";
+
+            }, "GetSpecificFullAsync");
             return null;
         }
 
@@ -199,6 +228,62 @@ namespace Funkmap.Tests.TestTime
                 return $"get {result}";
             }, "CheckIfLoginExist");
             return true;
+        }
+
+        public async Task<ICollection<BaseEntity>> GetAllAsync()
+        {
+            Start(() =>
+            {
+                var result =_repository.GetAllAsync().GetAwaiter().GetResult();
+                return $"get {result.Count}";
+            }, "GetAllAsync");
+            return null;
+        }
+
+        public async Task<BaseEntity> GetAsync(string id)
+        {
+            if (id == null)
+                id = "59d5597d6d6fd92e10b2526e";
+            Start(() =>
+            {
+                var result = _repository.GetAsync(id).GetAwaiter().GetResult();
+                return $"get {result}";
+            }, "GetAsync");
+            return null;
+        }
+
+        public async Task CreateAsync(BaseEntity item)
+        {
+            if (item == null)
+            {
+                item = new BaseEntity()
+                {
+                    Address = "sdwqeqwe",
+                    Description = "vbnm,.gfdsfdg",
+                    Login = "sdfdghtfh",
+                    Name = "dghfjgkkt",
+                    Id = new ObjectId()
+
+                };
+            }
+            Start(() =>
+            {
+                _repository.CreateAsync(item).GetAwaiter().GetResult();
+                return "goood";
+            }, "CreateAsync");
+            return;
+        }
+
+        public async Task<DeleteResult> DeleteAsync(string id)
+        {
+            if (id == null)
+                id = "123456789456asasas";
+            Start(() =>
+            {
+                _repository.DeleteAsync(id).GetAwaiter().GetResult();
+                return true;
+            }, "DeleteAsync");
+            return null;
         }
 
         public async Task UpdateAsync(BaseEntity entity)

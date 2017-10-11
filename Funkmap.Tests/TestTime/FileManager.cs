@@ -29,7 +29,12 @@ namespace Funkmap.Tests.TestTime
                 "getnearest",
                 "GetFullNearest",
                 "GetSpecific",
-                "GetUserEntitiesLogins"
+                "GetUserEntitiesLogins",
+                "GetAllAsync",
+                "GetAsync",
+                "CreateAsync",
+                "DeleteAsync",
+                "GetSpecificFullAsync"
             };
             foreach (string name in nameFile)
             {

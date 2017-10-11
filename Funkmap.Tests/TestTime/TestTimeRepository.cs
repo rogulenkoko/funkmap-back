@@ -42,12 +42,18 @@ namespace Funkmap.Tests.TestTime
             _testBaseRepository.GetAllAsyns().GetAwaiter();
             _testBaseRepository.GetFilteredAsync(null, null).GetAwaiter();
             _testBaseRepository.GetFullNearestAsync(null).GetAwaiter();
-            _testBaseRepository.GetNearestAsync(null).GetAwaiter();
-            _testBaseRepository.GetSpecificAsync(null).GetAwaiter();
             _testBaseRepository.GetUserEntitiesCountInfo(null).GetAwaiter();
             _testBaseRepository.GetUserEntitiesLogins(null).GetAwaiter();
             _testBaseRepository.UpdateAsync(null).GetAwaiter();
             _testBaseRepository.GetAllFilteredLoginsAsync(null,null).GetAwaiter();
+            _testBaseRepository.CreateAsync(null).GetAwaiter();
+            _testBaseRepository.DeleteAsync(null).GetAwaiter();
+            _testBaseRepository.GetAllAsync().GetAwaiter().GetResult();
+            _testBaseRepository.GetAsync(null).GetAwaiter();
+            _testBaseRepository.GetSpecificFullAsync(null).GetAwaiter();
+            _testBaseRepository.GetSpecificNavigationAsync(null).GetAwaiter();
+            _testBaseRepository.GetNearestAsync(null).GetAwaiter();
+            
         }
 
 
