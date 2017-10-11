@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
@@ -10,11 +12,11 @@ using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Messenger.Data.Repositories
 {
-    public class DialogRepository : IDialogRepository
+    public class DialogRepository : MongoRepository<DialogEntity>, IDialogRepository
     {
         private readonly IMongoCollection<DialogEntity> _collection;
 
-        public DialogRepository(IMongoCollection<DialogEntity> collection)
+        public DialogRepository(IMongoCollection<DialogEntity> collection): base(collection)
         {
             _collection = collection;
         }
@@ -51,7 +53,7 @@ namespace Funkmap.Messenger.Data.Repositories
             await _collection.UpdateOneAsync(x => x.Id == new ObjectId(parameter.DialogId), update);
         }
 
-        public async Task<ObjectId> CreateAsync(DialogEntity item)
+        public async Task<ObjectId> CreateAndGetIdAsync(DialogEntity item)
         {
             if(item == null || item.Participants.Count < 2) throw new ArgumentException(nameof(item));
             await _collection.InsertOneAsync(item);
@@ -60,13 +62,30 @@ namespace Funkmap.Messenger.Data.Repositories
 
         }
 
-        public async Task<bool> IsDialogExist(List<string> particpants)
+        public override async Task UpdateAsync(DialogEntity entity)
+        {
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, entity.Id);
+
+            await _collection.ReplaceOneAsync(filter, entity);
+        }
+
+        public async Task<bool> CheckDialogExist(List<string> particpants)
         {
             var filter = Builders<DialogEntity>.Filter.All(x => x.Participants, particpants);
             var projection = Builders<DialogEntity>.Projection.Include(x => x.Id);
             var existingDialog = await _collection.Find(filter).Project(projection).Limit(1).ToListAsync();
             if (existingDialog == null || existingDialog.Count == 0) return false;
             return true;
+        }
+
+        public async Task<bool> CheckDialogExist(string dialogId)
+        {
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, new ObjectId(dialogId));
+            var projection = Builders<DialogEntity>.Projection.Include(x => x.Id);
+            var existingDialog = await _collection.Find(filter).Project(projection).Limit(1).ToListAsync();
+            if (existingDialog == null || existingDialog.Count == 0) return false;
+            return true;
+
         }
     }
 

@@ -9,6 +9,7 @@ using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Tests.Funkmap.Data;
+using Funkmap.Tests.Funkmap.Stress;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Funkmap.Tests.Funkmap.Base
@@ -25,6 +26,7 @@ namespace Funkmap.Tests.Funkmap.Base
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
             _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
+            //_baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
 
         }
 
@@ -40,12 +42,13 @@ namespace Funkmap.Tests.Funkmap.Base
         {
             var parameter = new LocationParameter()
             {
-                Longitude = 30,
-                Latitude = 50,
-                RadiusDeg = 2
+                Longitude = 30.1,
+                Latitude = 50.2,
+                Take = 100,
+                Skip = 0
             };
             var nearest = _baseRepository.GetNearestAsync(parameter).Result;
-            Assert.AreEqual(nearest.Count, 5);
+            Assert.AreEqual(nearest.Count, 100);
         }
 
 
@@ -53,11 +56,11 @@ namespace Funkmap.Tests.Funkmap.Base
         public void GetSpecificTest()
         {
             var logins = new List<string>() { "razrab" };
-            var result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
+            var result = _baseRepository.GetSpecificNavigationAsync(logins.ToArray()).Result;
             Assert.AreEqual(result.Count, 1);
 
             logins.Add("rogulenkoko");
-            result = _baseRepository.GetSpecificAsync(logins.ToArray()).Result;
+            result = _baseRepository.GetSpecificNavigationAsync(logins.ToArray()).Result;
             Assert.AreEqual(result.Count, 2);
         }
 
@@ -86,7 +89,7 @@ namespace Funkmap.Tests.Funkmap.Base
             var entity = _baseRepository.GetAllAsyns().GetAwaiter().GetResult().First();
             (entity as MusicianEntity).Instrument = InstrumentType.Keyboard;
             _baseRepository.UpdateAsync(entity).GetAwaiter().GetResult();
-            var updatedEntity = _baseRepository.GetSpecificAsync(new[] { entity.Login }).GetAwaiter().GetResult();
+            var updatedEntity = _baseRepository.GetSpecificNavigationAsync(new[] { entity.Login }).GetAwaiter().GetResult();
         }
 
         [TestMethod]

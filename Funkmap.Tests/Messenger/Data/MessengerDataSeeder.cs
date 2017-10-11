@@ -60,7 +60,7 @@ namespace Funkmap.Tests.Messenger.Data
             
             foreach (var dialog in dialogs)
             {
-                dialogsRepository.CreateAsync(dialog).Wait();
+                dialogsRepository.CreateAndGetIdAsync(dialog).Wait();
             }
         }
     }

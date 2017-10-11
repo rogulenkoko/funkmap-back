@@ -10,12 +10,16 @@ using ServiceStack.Redis;
 
 namespace Funkmap.Common.Modules
 {
-    public class RedisMqModule : IFunkmapModule
+    public class RedisModule : IFunkmapModule
     {
         public void Register(ContainerBuilder builder)
         {
             var redisHost = "localhost:6379";
             IRedisClientsManager redisClientManager = new PooledRedisClientManager(redisHost);
+
+            IRedisClient redisClient = redisClientManager.GetClient();
+
+            builder.RegisterInstance(redisClient).As<IRedisClient>().SingleInstance();
 
             IMessageFactory redisMqFactory = new RedisMessageFactory(redisClientManager);
             builder.RegisterInstance(redisMqFactory).As<IMessageFactory>().SingleInstance();

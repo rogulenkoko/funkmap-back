@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Logger;
 using Funkmap.Common.RedisMq;
@@ -15,7 +16,7 @@ namespace Funkmap.Services
         private readonly IMessageService _messageService;
         private readonly IBaseRepository _repository;
         private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
-        public FunkmapNotificationService(IMessageFactory redisMqFactory, 
+        public FunkmapNotificationService(IMessageFactory redisMqFactory,
                                           IMessageService messageService,
                                           IBaseRepository repository,
                                           IFunkmapLogger<FunkmapNotificationService> logger) : base(redisMqFactory)
@@ -27,7 +28,7 @@ namespace Funkmap.Services
 
         public void InitHandlers()
         {
-            _messageService.RegisterHandler<InviteToBandBack>(request=> OnBandInviteAnswered(request?.GetBody()));
+            _messageService.RegisterHandler<InviteToBandBack>(request => OnBandInviteAnswered(request?.GetBody()));
         }
 
         private async Task OnBandInviteAnswered(InviteToBandBack request)
@@ -39,13 +40,14 @@ namespace Funkmap.Services
                 return;
             }
 
-            var entity = await _repository.GetSpecificAsync(new[] { inviteRequest.BandLogin });
-            var band = entity.FirstOrDefault() as BandEntity;
+            var entity = await _repository.GetAsync(inviteRequest.BandLogin);
+            var band = entity as BandEntity;
             if (band == null) return;
 
             if (request.Answer)
             {
                 if (band.MusicianLogins.Contains(inviteRequest.InvitedMusicianLogin)) return;
+                if (band.MusicianLogins == null) band.MusicianLogins = new List<string>();
                 band.MusicianLogins.Add(inviteRequest.InvitedMusicianLogin);
                 band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
             }

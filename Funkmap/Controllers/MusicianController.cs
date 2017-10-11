@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -59,22 +60,37 @@ namespace Funkmap.Controllers
         [Route("invite")]
         public async Task<IHttpActionResult> InviteMusician(BandInviteMusicianRequest request)
         {
+            if (String.IsNullOrEmpty(request.BandLogin) || String.IsNullOrEmpty(request.MusicianLogin))
+            {
+                return BadRequest("ivalid request parameter");
+            }
+
             var login = Request.GetLogin();
             var musician = await _musicianRepository.GetAsync(request.MusicianLogin);
             if (musician == null) return BadRequest("musician doesn't exist");
 
-            var recieverLogin = musician.UserLogin;
+            var musicianOwnerLogin = musician.UserLogin;
 
-            var bandResult = await _baseRepository.GetSpecificAsync(new [] {request.BandLogin});
-            var band = bandResult.SingleOrDefault() as BandEntity;
+            var bandResult = await _baseRepository.GetAsync(request.BandLogin);
+            var band = bandResult as BandEntity;
             if (band == null) return BadRequest("no band");
 
-            if (band.InvitedMusicians.Contains(musician.Login) || band.MusicianLogins.Contains(musician.Login))
+            if ((band.InvitedMusicians != null && band.InvitedMusicians.Contains(musician.Login)) || (band.MusicianLogins != null && band.MusicianLogins.Contains(musician.Login)))
             {
-                return BadRequest("musician is already in band or invited");
+                return Ok(new BaseResponse() { Success = false, Error = "musician is already in band or invited" });
             }
 
+            if (musicianOwnerLogin == login)
+            {
+                if (band.MusicianLogins == null) band.MusicianLogins = new List<string>();
+                band.MusicianLogins.Add(musician.Login);
+                await _baseRepository.UpdateAsync(band);
+                return Ok(new BaseResponse() { Success = true });
+            }
+
+            if (band.InvitedMusicians == null) band.InvitedMusicians = new List<string>();
             band.InvitedMusicians.Add(musician.Login);
+
             _baseRepository.UpdateAsync(band);
 
             var requestMessage = new InviteToBandRequest()
@@ -82,35 +98,13 @@ namespace Funkmap.Controllers
                 BandLogin = request.BandLogin,
                 InvitedMusicianLogin = request.MusicianLogin,
                 SenderLogin = login,
-                RecieverLogin = recieverLogin,
+                RecieverLogin = musicianOwnerLogin,
                 BandName = band.Name
             };
 
             _notificationService.InviteMusicianToGroup(requestMessage);
-            return Ok();
-        }
-
-        [Authorize]
-        [HttpPost]
-        [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician(MusicianModel model)
-        {
-            var entity = model.ToMusicianEntity();
-            var response = new BaseResponse();
-
-            var existingMusician = await _musicianRepository.GetAsync(model.Login);
-            if (existingMusician != null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            await _musicianRepository.CreateAsync(entity);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
+            var response = new BaseResponse() {Success = true};
+            return Ok(response);
         }
     }
 }

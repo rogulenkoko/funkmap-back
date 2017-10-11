@@ -4,6 +4,7 @@ using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Tests.Funkmap.Data;
 using Funkmap.Tests.Funkmap.Stress;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,7 +20,7 @@ namespace Funkmap.Tests.Funkmap.Base
         {
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
-            _baseRepository = new BaseRepository(FunkmapStressTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
+            _baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
 
         }
 

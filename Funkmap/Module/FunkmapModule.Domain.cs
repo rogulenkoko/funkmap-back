@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using Funkmap.Contracts.Notifications;
+using Funkmap.Data.Caches;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
@@ -11,6 +10,7 @@ using Funkmap.Services;
 using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
+using ServiceStack.Redis;
 
 namespace Funkmap.Module
 {
@@ -18,7 +18,15 @@ namespace Funkmap.Module
     {
         private void RegisterDomainDependiences(ContainerBuilder builder)
         {
-            builder.RegisterType<BaseRepository>().As<IBaseRepository>().SingleInstance();
+            var baseRepositoryName = nameof(IBaseRepository);
+            builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName);
+            builder.RegisterDecorator<IBaseRepository>((container, inner) =>
+            {
+                var redisClient = container.Resolve<IRedisClient>();
+                return new BaseCacheRepository(redisClient, inner);
+            }, fromKey: baseRepositoryName).As<IBaseRepository>();
+
+
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
             builder.RegisterType<BandRepository>().As<IBandRepository>().SingleInstance();
             builder.RegisterType<ShopRepository>().As<IShopRepository>().SingleInstance();

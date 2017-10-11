@@ -66,7 +66,7 @@ namespace Funkmap.Messenger
                 });
             });
 
-            builder.RegisterType<MessengerCacheService>().As<IMessengerCacheService>().SingleInstance();
+            builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance();
 
             builder.RegisterType<UserService>().AsSelf();
 

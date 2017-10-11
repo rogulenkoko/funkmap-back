@@ -6,7 +6,7 @@ namespace Funkmap.Models
 {
     public class MusicianModel : BaseModel
     {
-        public Sex Sex { get; set; }
+        public Sex? Sex { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? Age { get; set; }
         public Styles[] Styles { get; set; }
@@ -19,19 +19,11 @@ namespace Funkmap.Models
        
     }
 
-    public class MusicianPreviewModel
+    public class MusicianPreviewModel : BaseModel
     {
-        public string Login { get; set; }
-        public string Name { get; set; }
         public ExpirienceType Expirience { get; set; }
         public Styles[] Styles { get; set; } 
-
-        public byte[] Avatar { get; set; }
-
-        public string VkLink { get; set; }
         public string YouTubeLink { get; set; }
-        public string FacebookLink { get; set; }
-
-        public string SoundCloudLink { get; set; }
+        public InstrumentType Instrument { get; set; }
     }
 }

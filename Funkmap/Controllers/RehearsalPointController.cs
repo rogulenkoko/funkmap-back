@@ -41,28 +41,5 @@ namespace Funkmap.Controllers
             var rehearsal = rehearsalEntity.ToPreviewModel();
             return Content(HttpStatusCode.OK, rehearsal);
         }
-
-        [Authorize]
-        [HttpPost]
-        [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician(RehearsalPointModel model)
-        {
-            var entity = model.ToRehearsalPointEntity();
-            var response = new BaseResponse();
-
-            var existingRehearsal = await _rehearsalRepository.GetAsync(model.Login);
-            if (existingRehearsal != null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            await _rehearsalRepository.CreateAsync(entity);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
-        }
     }
 }

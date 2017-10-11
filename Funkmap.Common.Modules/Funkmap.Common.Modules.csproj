@@ -87,7 +87,7 @@
     <Compile Include="LoggerModule.cs" />
     <Compile Include="NotificationToolModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RedisMqModule.cs" />
+    <Compile Include="RedisModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">

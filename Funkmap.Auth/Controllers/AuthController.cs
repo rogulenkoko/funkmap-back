@@ -41,7 +41,7 @@ namespace Funkmap.Module.Auth.Controllers
             {
                 _usersConfirmationCache[creds.Login] = new UserConfirmationModel()
                 {
-                    User = new UserEntity() { Login = creds.Login, Password = creds.Password }
+                    User = new UserEntity() { Login = creds.Login, Password = creds.Password,  Name = creds.Name}
                 };
             }
 

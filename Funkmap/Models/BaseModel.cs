@@ -16,6 +16,8 @@ namespace Funkmap.Models
 
         [Required]
         public string Login { get; set; }
+
+        public string UserLogin { get; set; }
         
         public double Latitude { get; set; }
         
@@ -34,5 +36,7 @@ namespace Funkmap.Models
         public string YoutubeLink { get; set; }
         public string FacebookLink { get; set; }
         public string SoundCloudLink { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }

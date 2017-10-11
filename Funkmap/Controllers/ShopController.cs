@@ -39,28 +39,5 @@ namespace Funkmap.Controllers
             var shop = shopEntity.ToPreviewModel();
             return Content(HttpStatusCode.OK, shop);
         }
-
-        [Authorize]
-        [HttpPost]
-        [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician(ShopModel model)
-        {
-            var entity = model.ToShopEntity();
-            var response = new BaseResponse();
-
-            var existingShop = await _shopRepository.GetAsync(model.Login);
-            if (existingShop != null)
-            {
-                return Content(HttpStatusCode.OK, response);
-            }
-
-            var userLogin = Request.GetLogin();
-            entity.UserLogin = userLogin;
-
-            await _shopRepository.CreateAsync(entity);
-            response.Success = true;
-            return Content(HttpStatusCode.OK, response);
-
-        }
     }
 }

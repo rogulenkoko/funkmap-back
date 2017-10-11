@@ -163,6 +163,7 @@
     <Compile Include="Models\RegistrationResponse.cs" />
     <Compile Include="Models\SaveImageRequest.cs" />
     <Compile Include="Models\UserConfirmationModel.cs" />
+    <Compile Include="Models\UserPreview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UserMqService.cs" />
   </ItemGroup>

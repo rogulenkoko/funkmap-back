@@ -111,8 +111,10 @@
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\StudioController.cs" />
     <Compile Include="Mappers\UsersEntitiesCountMapper.cs" />
+    <Compile Include="Models\BandInviteInfo.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ChangeAvatarRequest.cs" />
+    <Compile Include="Models\Requests\BandInviteInfoRequest.cs" />
     <Compile Include="Models\Requests\BandInviteMusicianRequest.cs" />
     <Compile Include="Models\Responses\SearchResponse.cs" />
     <Compile Include="Models\UsersEntitiesCountModel.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Services\EntityUpdateService.cs" />
     <Compile Include="Services\FunkmapNotificationService.cs" />
     <Compile Include="Tools\Abstract\IParameterFactory.cs" />
-    <Compile Include="Tools\EntityUpdateExtension.cs" />
     <Compile Include="Tools\FunkmapModelBinder.cs" />
     <Compile Include="Tools\ParametersFactory.cs" />
   </ItemGroup>

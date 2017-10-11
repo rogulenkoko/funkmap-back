@@ -1,4 +1,5 @@
 ﻿using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -14,7 +15,7 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
@@ -24,7 +25,9 @@ namespace Funkmap.Mappers
                 SoundCloudLink = source.SoundCloudLink,
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
-                VideoInfos = source.VideoInfos
+                VideoInfos = source.VideoInfos,
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
 
@@ -35,13 +38,15 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                Avatar = source.Photo?.AsByteArray,
+                Avatar = source.Photo?.Image?.AsByteArray,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Description = source.Description,
-                Address = source.Address
+                Address = source.Address,
+                UserLogin = source.UserLogin,
+                IsActive = source.IsActive
             };
         }
 
@@ -59,9 +64,10 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 YouTubeLink = source.YoutubeLink,
                 Address = source.Address,
-                Photo = source.Avatar ?? new byte[] { },
-                VideoInfos = source.VideoInfos
-
+                Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
+                VideoInfos = source.VideoInfos,
+                IsActive = source.IsActive,
+                UserLogin = source.UserLogin
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -51,7 +52,8 @@ namespace Funkmap.Controllers
             {
                 Longitude = request.Longitude,
                 Latitude = request.Latitude,
-                RadiusDeg = request.RadiusDeg
+                RadiusDeg = request.RadiusDeg,
+                Take = request.Limit
             };
             var result = await _repository.GetNearestAsync(parameters);
             var markers = result.Select(x => x.ToMarkerModel()).ToList();
@@ -63,11 +65,13 @@ namespace Funkmap.Controllers
         [Route("fullnearest")]
         public async Task<IHttpActionResult> GetFullNearest(FullLocationRequest request)
         {
-            var parameters = new FullLocationParameter()
+            var parameters = new LocationParameter()
             {
                 Longitude = request.Longitude,
                 Latitude = request.Latitude,
-                RadiusDeg = request.RadiusDeg
+                RadiusDeg = request.RadiusDeg,
+                Take = request.Take,
+                Skip = request.Skip
             };
             var result = await _repository.GetFullNearestAsync(parameters);
             var searchModels = result.Select(x => x.ToSearchModel()).ToList();
@@ -78,7 +82,7 @@ namespace Funkmap.Controllers
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificAsync(logins);
+            var baseEntities = await _repository.GetSpecificFullAsync(logins);
             var items = baseEntities.Select(x => x.ToSearchModel());
             return Ok(items);
         }
@@ -87,7 +91,7 @@ namespace Funkmap.Controllers
         [Route("specificmarkers")]
         public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificAsync(logins);
+            var baseEntities = await _repository.GetSpecificNavigationAsync(logins);
             var items = baseEntities.Select(x => x.ToMarkerModel());
             return Ok(items);
         }
@@ -122,7 +126,11 @@ namespace Funkmap.Controllers
                 EntityType = request.EntityType,
                 SearchText = request.SearchText,
                 Skip = request.Skip,
-                Take = request.Take
+                Take = request.Take,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                RadiusDeg = request.RadiusDeg,
+                Limit = request.Limit
             };
             var paramter = _parameterFactory.CreateParameter(request);
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
@@ -147,12 +155,40 @@ namespace Funkmap.Controllers
             return Ok(isExist);
         }
 
+        [Authorize]
+        [HttpPost]
+        [Route("save")]
+        public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
+        {
+            var login = Request.GetLogin();
+            model.UserLogin = login;
+            await _updateService.CreateEntity(model);
+            return Ok(new BaseResponse() { Success = true });
+
+        }
+
         [HttpPost]
         [Route("update")]
         [Authorize]
         public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
         {
             await _updateService.UpdateEntity(model);
+            return Ok(new BaseResponse() { Success = true });
+        }
+
+        [HttpGet]
+        [Route("delete/{login}")]
+        [Authorize]
+        public async Task<IHttpActionResult> Delete(string login)
+        {
+            var entity = await _repository.GetAsync(login);
+            if (entity == null) return BadRequest("entity doesn't exist");
+
+            var userLogin = Request.GetLogin();
+            if (entity.UserLogin != userLogin) return BadRequest("is not your entity");
+
+            await _repository.DeleteAsync(login);
+
             return Ok(new BaseResponse() { Success = true });
         }
 

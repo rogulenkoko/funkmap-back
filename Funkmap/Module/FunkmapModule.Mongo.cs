@@ -22,7 +22,7 @@ namespace Funkmap.Module
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BaseEntity>>();
-
+            
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<MusicianEntity>>();
 

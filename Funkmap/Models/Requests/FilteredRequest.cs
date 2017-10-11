@@ -13,5 +13,15 @@ namespace Funkmap.Models.Requests
         public List<InstrumentType> Instruments { get; set; }
         public List<ExpirienceType> Expirience { get; set; }
         public List<Styles> Styles { get; set; }
+
+        public double? RadiusDeg { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+
+        /// <summary>
+        /// Максимальное количество доступных для чтение сущностей
+        /// </summary>
+        public int Limit { get; set; }
+
     }
 }

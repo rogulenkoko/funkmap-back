@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Common;
+﻿using Funkmap.Common;
 
 namespace Funkmap.Data.Parameters
 {
-    public class CommonFilterParameter
+    public class CommonFilterParameter : LocationParameter
     {
-        public int Skip { get; set; }
-        public int Take { get; set; }
         public string SearchText { get; set; }
         public EntityType EntityType { get; set; }
+        public string UserLogin { get; set; }
+        
+        /// <summary>
+        /// Максимальное количество доступных для чтение сущностей
+        /// </summary>
+        public int Limit { get; set; }
+
+        public override string ToString()
+        {
+            return $"{SearchText}|{EntityType}|{Limit}|{Latitude}|{Longitude}|{RadiusDeg}|";
+        }
     }
 }

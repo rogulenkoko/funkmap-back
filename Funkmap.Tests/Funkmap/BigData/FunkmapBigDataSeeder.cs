@@ -115,7 +115,6 @@ namespace Funkmap.Tests.Funkmap.BigData
                     },
                     Name = "testName" + i,
                     Login = "testLogin" + i,
-                    VideoLinks = new List<string>() {"firstVideo", "secondVideo"},
                     Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(
                         (double) new Random().Next(25000, 35000) / 1000,
                         (double) new Random().Next(45000, 55000) / 1000)),
