@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Funkmap.Contracts.Notifications;
 using Funkmap.Data.Caches;
+using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
@@ -18,12 +19,15 @@ namespace Funkmap.Module
     {
         private void RegisterDomainDependiences(ContainerBuilder builder)
         {
+            builder.RegisterType<FavoriteCacheService>().As<IFavoriteCacheService>();
+
             var baseRepositoryName = nameof(IBaseRepository);
             builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName);
             builder.RegisterDecorator<IBaseRepository>((container, inner) =>
             {
                 var redisClient = container.Resolve<IRedisClient>();
-                return new BaseCacheRepository(redisClient, inner);
+                var favoriteService = container.Resolve<IFavoriteCacheService>();
+                return new BaseCacheRepository(redisClient, favoriteService , inner);
             }, fromKey: baseRepositoryName).As<IBaseRepository>();
 
 

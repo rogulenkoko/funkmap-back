@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
-using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 using ServiceStack.Redis;
 
-namespace Funkmap.Data.Caches
+namespace Funkmap.Data.Caches.Base
 {
     public class BaseCacheRepository : IBaseRepository
     {
         private readonly IRedisClient _redisStorage;
         private readonly IBaseRepository _baseRepository;
+        private readonly IFavoriteCacheService _favoriteService;
 
-        public BaseCacheRepository(IRedisClient redisStorage, IBaseRepository baseRepository)
+        public BaseCacheRepository(IRedisClient redisStorage, IFavoriteCacheService favoriteCacheService, IBaseRepository baseRepository)
         {
             _redisStorage = redisStorage;
             _baseRepository = baseRepository;
+            _favoriteService = favoriteCacheService;
 
         }
 
@@ -33,6 +34,7 @@ namespace Funkmap.Data.Caches
 
         public Task<BaseEntity> DeleteAsync(string id)
         {
+            //todo решить как быть здесь с избранными
             return _baseRepository.DeleteAsync(id);
         }
 
@@ -64,14 +66,26 @@ namespace Funkmap.Data.Caches
             return _baseRepository.GetFilesAsync(fileIds);
         }
 
-        public Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
+        public async Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
         {
-            return _baseRepository.UpdateFavoriteAsync(parameter);
+            
+            await _baseRepository.UpdateFavoriteAsync(parameter);
+
+            var favorites = await _baseRepository.GetFavoritesLoginsAsync(parameter.UserLogin);
+            _favoriteService.SetFavorites(parameter.UserLogin, favorites.ToList());
+
         }
 
-        public Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
+        public async Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
         {
-            return _baseRepository.GetFavoritesLoginsAsync(userLogin);
+            ICollection<string> favorites = _favoriteService.GetFavoriteLogins(userLogin);
+            if (favorites == null)
+            {
+                favorites = await _baseRepository.GetFavoritesLoginsAsync(userLogin);
+                _favoriteService.SetFavorites(userLogin, favorites as List<string>);
+            }
+            return favorites;
+
         }
 
         public Task<ICollection<BaseEntity>> GetAllAsyns()
