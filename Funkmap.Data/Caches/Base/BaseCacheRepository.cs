@@ -7,21 +7,20 @@ using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
-using ServiceStack.Redis;
 
 namespace Funkmap.Data.Caches.Base
 {
     public class BaseCacheRepository : IBaseRepository
     {
-        private readonly IRedisClient _redisStorage;
         private readonly IBaseRepository _baseRepository;
         private readonly IFavoriteCacheService _favoriteService;
+        private readonly IFilteredCacheService _filteredService;
 
-        public BaseCacheRepository(IRedisClient redisStorage, IFavoriteCacheService favoriteCacheService, IBaseRepository baseRepository)
+        public BaseCacheRepository(IFavoriteCacheService favoriteCacheService, IFilteredCacheService filteredCacheService, IBaseRepository baseRepository)
         {
-            _redisStorage = redisStorage;
             _baseRepository = baseRepository;
             _favoriteService = favoriteCacheService;
+            _filteredService = filteredCacheService;
 
         }
 
@@ -125,25 +124,14 @@ namespace Funkmap.Data.Caches.Base
 
         public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
-            var sb = new StringBuilder();
-            sb.Append(commonFilter);
-            if (parameter != null)
-            {
-                sb.Append(parameter);
-            }
-
-            var key = sb.ToString();
-            var lifeTime = TimeSpan.FromMinutes(2);
-
-            ICollection<string> logins = _redisStorage.Get<List<string>>(key);
+            var logins = _filteredService.GetFilteredLogins(commonFilter, parameter);
             if (logins == null)
             {
                 var result = await _baseRepository.GetAllFilteredLoginsAsync(commonFilter, parameter);
-                _redisStorage.Add(key, result);
-                _redisStorage.ExpireEntryIn(key, lifeTime);
+                _filteredService.SetFilteredLogins(commonFilter, parameter, result as List<string>);
                 return result;
             }
-            _redisStorage.ExpireEntryIn(key, lifeTime);
+           
             return logins;
         }
 

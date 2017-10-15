@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="Caches\Base\BaseCacheRepository.cs" />
     <Compile Include="Caches\Base\FavoriteCacheService.cs" />
+    <Compile Include="Caches\Base\FilteredCacheService.cs" />
     <Compile Include="Entities\Abstract\EstablishmentEntity.cs" />
     <Compile Include="Entities\RehearsalPointEntity.cs" />
     <Compile Include="Entities\ShopEntity.cs" />

@@ -20,14 +20,15 @@ namespace Funkmap.Module
         private void RegisterDomainDependiences(ContainerBuilder builder)
         {
             builder.RegisterType<FavoriteCacheService>().As<IFavoriteCacheService>();
+            builder.RegisterType<FilteredCacheService>().As<IFilteredCacheService>();
 
             var baseRepositoryName = nameof(IBaseRepository);
             builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName);
             builder.RegisterDecorator<IBaseRepository>((container, inner) =>
-            {
-                var redisClient = container.Resolve<IRedisClient>();
-                var favoriteService = container.Resolve<IFavoriteCacheService>();
-                return new BaseCacheRepository(redisClient, favoriteService , inner);
+            { 
+                 var favoriteService = container.Resolve<IFavoriteCacheService>();
+                 var filteredService = container.Resolve<IFilteredCacheService>();
+                return new BaseCacheRepository(favoriteService, filteredService, inner);
             }, fromKey: baseRepositoryName).As<IBaseRepository>();
 
 
