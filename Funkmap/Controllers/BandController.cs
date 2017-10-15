@@ -66,7 +66,10 @@ namespace Funkmap.Controllers
                 Take = Int32.MaxValue
             };
             var bandEntities = await _baseRepository.GetFilteredAsync(parameter);
-            var availableBands = bandEntities.Cast<BandEntity>().Where(x=> x.InvitedMusicians == null || x.MusicianLogins == null || (!x.InvitedMusicians.Contains(request.InvitedMusician) && !x.MusicianLogins.Contains(request.InvitedMusician)))
+            var availableBands = bandEntities.Cast<BandEntity>()
+                .Where(x=>(x.MusicianLogins == null && x.InvitedMusicians == null) 
+                    || ((x.MusicianLogins == null || !x.MusicianLogins.Contains(request.InvitedMusician))) 
+                    && (x.InvitedMusicians == null || !x.InvitedMusicians.Contains(request.InvitedMusician)))
                 .Select(x=>x.ToModelPreview()).ToList();
 
             var info = new BandInviteInfo()

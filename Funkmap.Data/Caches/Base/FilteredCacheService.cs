@@ -44,6 +44,7 @@ namespace Funkmap.Data.Caches.Base
         private string BuildKey(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var sb = new StringBuilder();
+            sb.Append($"{FilteredKey}_");
             sb.Append(commonFilter);
             if (parameter != null)
             {
