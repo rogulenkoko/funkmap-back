@@ -34,11 +34,7 @@ namespace Funkmap.Data.Entities
 
         [BsonElement("band")]
         [BsonIgnoreIfDefault]
-        public ObjectId BandId { get; set; }
-
-        [BsonElement("bandlog")]
-        [BsonIgnoreIfDefault]
-        public string BandLogin { get; set; }
+        public List<string> BandLogins { get; set; }
     }
 
     public enum Sex

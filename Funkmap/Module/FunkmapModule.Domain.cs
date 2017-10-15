@@ -44,6 +44,9 @@ namespace Funkmap.Module
             builder.RegisterType<MusicianFilterService>().As<IFilterService>();
 
             builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
+            
+            builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
+            builder.RegisterType<BandUpdateService>().As<IDependenciesController>();
 
             builder.RegisterType<InviteToGroupNotifications>().As<INotificationTypes>();
         }

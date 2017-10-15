@@ -8,11 +8,6 @@ namespace Funkmap.Auth.Data.Entities
 {
     public class UserEntity
     {
-        public UserEntity()
-        {
-            Favourites = new List<string>();
-        }
-
         [BsonId]
         public ObjectId Id { get; set; }
 
@@ -31,10 +26,6 @@ namespace Funkmap.Auth.Data.Entities
         [BsonElement("av")]
         [BsonIgnoreIfDefault]
         public BsonBinaryData Avatar { get; set; }
-
-        [BsonElement("favs")]
-        [BsonIgnoreIfDefault]
-        public List<string> Favourites { get; set; }
 
         [BsonElement("date")]
         public DateTime LastVisitDateUtc { get; set; }

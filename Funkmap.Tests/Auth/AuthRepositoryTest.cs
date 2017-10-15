@@ -38,18 +38,6 @@ namespace Funkmap.Tests.Funkmap.Auth
         }
 
         [TestMethod]
-        public void FavouritesTest()
-        {
-            _repository.SetFavourite("test", "razrab").Wait();
-            var favourites = _repository.GetFavouritesAsync("test").Result;
-            Assert.AreEqual(favourites.Count, 2);
-
-            _repository.SetFavourite("test", "razrab").Wait();
-            favourites = _repository.GetFavouritesAsync("test").Result;
-            Assert.AreEqual(favourites.Count, 1);
-        }
-
-        [TestMethod]
         public void GetUserByEmailTest()
         {
             string path = @"${basedir}";

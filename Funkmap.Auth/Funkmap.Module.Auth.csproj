@@ -155,7 +155,6 @@
     <Compile Include="Confirmation\ConfirmationNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\FavouriteController.cs" />
     <Compile Include="FunkmapAuthProvider.cs" />
     <Compile Include="FunkmapRefreshTokenProvider.cs" />
     <Compile Include="Models\ConfirmationRequest.cs" />

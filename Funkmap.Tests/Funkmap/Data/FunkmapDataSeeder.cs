@@ -51,7 +51,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Instrument = InstrumentType.Brass,
                 VkLink = "https://vk.com/id30724049",
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
-                BandLogin = "funkmap",
+                BandLogins = new List<string>() { "funkmap" } ,
                 ExpirienceType = ExpirienceType.Advanced,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() {Id = "mpR5zbEXdW8" } , new VideoInfo() { Id = "GlreDCpb5t0" } },
                 IsActive = true
@@ -72,7 +72,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Styles = new List<Styles>() { Styles.Funk, Styles.Rock},
                 Instrument = InstrumentType.Drums,
                 FacebookLink = "https://ru-ru.facebook.com/",
-                BandLogin = "beatles",
+                BandLogins = new List<string>() { "beatles" } ,
                 ExpirienceType = ExpirienceType.Begginer,
                 IsActive = true
             };
@@ -87,7 +87,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 51)),
                 Styles = new List<Styles>() { Styles.HipHop},
                 Instrument = InstrumentType.Keyboard,
-                BandLogin = "metallica",
+                BandLogins = new List<string>() { "metallica" },
                 ExpirienceType = ExpirienceType.SuperStar,
                 IsActive = true
             };

@@ -31,9 +31,9 @@ namespace Funkmap.Common.Data.Mongo
             await _collection.InsertOneAsync(item);
         }
 
-        public virtual async Task DeleteAsync(string id)
+        public virtual async Task<T> DeleteAsync(string id)
         {
-            await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", new ObjectId(id)));
+            return await _collection.FindOneAndDeleteAsync(Builders<T>.Filter.Eq("Id", new ObjectId(id)));
         }
 
         public abstract Task UpdateAsync(T entity);
@@ -51,9 +51,9 @@ namespace Funkmap.Common.Data.Mongo
             return await _collection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public override async Task DeleteAsync(string id)
+        public override async Task<T> DeleteAsync(string id)
         {
-            await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("log", id));
+            return await _collection.FindOneAndDeleteAsync(Builders<T>.Filter.Eq("log", id));
         }
     }
 }

@@ -45,25 +45,6 @@ namespace Funkmap.Auth.Data
             await _collection.UpdateOneAsync(filter, update);
         }
 
-        public async Task<List<string>> GetFavouritesAsync(string login)
-        {
-            var projection = Builders<UserEntity>.Projection.Include(x => x.Favourites);
-            var user = await _collection.Find(x => x.Login == login).Project<UserEntity>(projection).SingleOrDefaultAsync();
-            return user?.Favourites;
-        }
-
-        public async Task SetFavourite(string login, string favouriteLogin)
-        {
-            var projection = Builders<UserEntity>.Projection.Include(x => x.Favourites);
-            var user = await _collection.Find(x => x.Login == login).Project<UserEntity>(projection).SingleOrDefaultAsync();
-            if (user == null) throw new InvalidOperationException(login);
-            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
-            var update = user.Favourites.Contains(favouriteLogin) 
-                         ? Builders<UserEntity>.Update.Pull(x => x.Favourites, favouriteLogin)
-                         : Builders<UserEntity>.Update.Push(x => x.Favourites, favouriteLogin);
-            await _collection.UpdateOneAsync(filter, update);
-        }
-
         public async Task UpdateLastVisitDateAsync(string login, DateTime date)
         {
             var update = Builders<UserEntity>.Update.Set(x => x.LastVisitDateUtc, date);

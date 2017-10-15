@@ -45,8 +45,7 @@ namespace Funkmap.Tests.Funkmap.Auth
                 Login = "test",
                 Name = "Тест",
                 Password = "1",
-                Email = "test@mail.ru",
-                Favourites = new List<string>() { "madlib" }
+                Email = "test@mail.ru"
             };
 
             var u3 = new UserEntity()

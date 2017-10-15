@@ -14,7 +14,6 @@ using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Services.Abstract;
-using Funkmap.Tools;
 
 namespace Funkmap.Controllers
 {
@@ -23,12 +22,14 @@ namespace Funkmap.Controllers
     {
         private readonly IBandRepository _bandRepository;
         private readonly IBaseRepository _baseRepository;
+        private readonly IDependenciesController _dependenciesController;
 
 
-        public BandController(IBandRepository bandRepository, IBaseRepository baseRepository)
+        public BandController(IBandRepository bandRepository, IBaseRepository baseRepository, IDependenciesController dependenciesController)
         {
             _bandRepository = bandRepository;
             _baseRepository = baseRepository;
+            _dependenciesController = dependenciesController;
         }
         
         [HttpGet]
@@ -73,6 +74,26 @@ namespace Funkmap.Controllers
                 AvailableBands = availableBands
             };
             return Ok(info);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("removeMusician")]
+        public async Task<IHttpActionResult> RemoveMusicianFromBand(UpdateBandMembersRequest membersRequest)
+        {
+            var userLogin = Request.GetLogin();
+            var band = await _bandRepository.GetAsync(membersRequest.BandLogin);
+            if (band.UserLogin != userLogin) return BadRequest("is not your band");
+
+            var parameter = new CleanDependenciesParameter()
+            {
+                EntityType = EntityType.Musician,
+                EntityLogin = membersRequest.MusicianLogin,
+                FromEntityLogin = membersRequest.BandLogin
+            };
+            await _dependenciesController.CleanDependencies(parameter);
+
+            return Ok(new BaseResponse() { Success = true });
         }
     }
 }

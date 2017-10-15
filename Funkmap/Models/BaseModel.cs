@@ -30,6 +30,8 @@ namespace Funkmap.Models
         public string Description { get; set; }
 
         public byte[] Avatar { get; set; }
+        public string AvatarId { get; set; }
+        public string AvatarMiniId { get; set; }
         public List<VideoInfo> VideoInfos { get; set; }
 
         public string VkLink { get; set; }

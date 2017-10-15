@@ -31,7 +31,7 @@ namespace Funkmap.Data.Caches
             return _baseRepository.CreateAsync(item);
         }
 
-        public Task DeleteAsync(string id)
+        public Task<BaseEntity> DeleteAsync(string id)
         {
             return _baseRepository.DeleteAsync(id);
         }
@@ -62,6 +62,16 @@ namespace Funkmap.Data.Caches
         public Task<ICollection<FileInfo>> GetFiles(string[] fileIds)
         {
             return _baseRepository.GetFiles(fileIds);
+        }
+
+        public Task UpdateFavorite(UpdateFavoriteParameter parameter)
+        {
+            return _baseRepository.UpdateFavorite(parameter);
+        }
+
+        public Task<ICollection<string>> GetFavorites(string userLogin)
+        {
+            return _baseRepository.GetFavorites(userLogin);
         }
 
         public Task<ICollection<BaseEntity>> GetAllAsyns()

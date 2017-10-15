@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Funkmap.Data.Entities;
 using Microsoft.Build.Framework;
 
@@ -15,6 +16,8 @@ namespace Funkmap.Models
         public InstrumentType Instrument { get; set; }
 
         public ExpirienceType Expirience { get; set; }
+
+        public ICollection<string> BandLogins { get; set; }
 
        
     }

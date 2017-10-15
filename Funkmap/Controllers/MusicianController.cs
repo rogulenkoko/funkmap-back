@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
@@ -13,6 +14,7 @@ using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
+using Funkmap.Models.Responses;
 using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 
@@ -24,15 +26,18 @@ namespace Funkmap.Controllers
     {
         private readonly IMusicianRepository _musicianRepository;
         private readonly IFunkmapNotificationService _notificationService;
-        private readonly IBaseRepository _baseRepository;
+        private readonly IBandUpdateService _bandUpdateService;
+        private readonly IDependenciesController _dependenciesController;
 
         public MusicianController(IMusicianRepository musicianRepository,
-                                  IBaseRepository baseRepository,
-                                  IFunkmapNotificationService notificationService)
+                                  IFunkmapNotificationService notificationService,
+                                  IBandUpdateService bandUpdateService,
+                                  IDependenciesController dependenciesController)
         {
             _musicianRepository = musicianRepository;
             _notificationService = notificationService;
-            _baseRepository = baseRepository;
+            _bandUpdateService = bandUpdateService;
+            _dependenciesController = dependenciesController;
         }
 
         [HttpGet]
@@ -58,53 +63,53 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("invite")]
-        public async Task<IHttpActionResult> InviteMusician(BandInviteMusicianRequest request)
+        public async Task<IHttpActionResult> InviteMusician(UpdateBandMembersRequest membersRequest)
         {
-            if (String.IsNullOrEmpty(request.BandLogin) || String.IsNullOrEmpty(request.MusicianLogin))
+            if (String.IsNullOrEmpty(membersRequest.BandLogin) || String.IsNullOrEmpty(membersRequest.MusicianLogin))
             {
-                return BadRequest("ivalid request parameter");
+                return BadRequest("ivalid membersRequest parameter");
             }
 
             var login = Request.GetLogin();
-            var musician = await _musicianRepository.GetAsync(request.MusicianLogin);
-            if (musician == null) return BadRequest("musician doesn't exist");
 
-            var musicianOwnerLogin = musician.UserLogin;
-
-            var bandResult = await _baseRepository.GetAsync(request.BandLogin);
-            var band = bandResult as BandEntity;
-            if (band == null) return BadRequest("no band");
-
-            if ((band.InvitedMusicians != null && band.InvitedMusicians.Contains(musician.Login)) || (band.MusicianLogins != null && band.MusicianLogins.Contains(musician.Login)))
+            InviteBandResponse inviteResponse = await _bandUpdateService.HandleInviteBandChanges(membersRequest, login);
+            
+            if (!inviteResponse.IsOwner)
             {
-                return Ok(new BaseResponse() { Success = false, Error = "musician is already in band or invited" });
+                var requestMessage = new InviteToBandRequest()
+                {
+                    BandLogin = membersRequest.BandLogin,
+                    InvitedMusicianLogin = membersRequest.MusicianLogin,
+                    SenderLogin = login,
+                    RecieverLogin = inviteResponse.OwnerLogin,
+                    BandName = inviteResponse.BandName
+                };
+
+                _notificationService.InviteMusicianToGroup(requestMessage);
             }
+            
+            return Ok(inviteResponse);
+        }
 
-            if (musicianOwnerLogin == login)
+        [Authorize]
+        [HttpPost]
+        [Route("leaveBand")]
+        public async Task<IHttpActionResult> LeaveBand(UpdateBandMembersRequest membersRequest)
+        {
+            var userLogin = Request.GetLogin();
+            var musician = await _musicianRepository.GetAsync(membersRequest.MusicianLogin);
+            if (musician.UserLogin != userLogin) return BadRequest("is not your musician");
+
+            var parameter = new CleanDependenciesParameter()
             {
-                if (band.MusicianLogins == null) band.MusicianLogins = new List<string>();
-                band.MusicianLogins.Add(musician.Login);
-                await _baseRepository.UpdateAsync(band);
-                return Ok(new BaseResponse() { Success = true });
-            }
-
-            if (band.InvitedMusicians == null) band.InvitedMusicians = new List<string>();
-            band.InvitedMusicians.Add(musician.Login);
-
-            _baseRepository.UpdateAsync(band);
-
-            var requestMessage = new InviteToBandRequest()
-            {
-                BandLogin = request.BandLogin,
-                InvitedMusicianLogin = request.MusicianLogin,
-                SenderLogin = login,
-                RecieverLogin = musicianOwnerLogin,
-                BandName = band.Name
+                EntityType = EntityType.Band,
+                EntityLogin = membersRequest.BandLogin,
+                FromEntityLogin = membersRequest.MusicianLogin
             };
 
-            _notificationService.InviteMusicianToGroup(requestMessage);
-            var response = new BaseResponse() {Success = true};
-            return Ok(response);
+            await _dependenciesController.CleanDependencies(parameter);
+
+            return Ok(new BaseResponse() {Success = true});
         }
     }
 }

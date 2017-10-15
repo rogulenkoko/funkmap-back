@@ -129,6 +129,7 @@
     <Compile Include="Parameters\ChangeAvatarParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
     <Compile Include="Parameters\MusicianFilterParameter.cs" />
+    <Compile Include="Parameters\UpdateFavoriteParameter.cs" />
     <Compile Include="Parameters\UpdateVideoParameter.cs" />
     <Compile Include="Repositories\Abstract\IRehearsalPointRepository.cs" />
     <Compile Include="Repositories\Abstract\IShopRepository.cs" />

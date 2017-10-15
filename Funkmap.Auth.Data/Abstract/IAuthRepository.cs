@@ -16,10 +16,6 @@ namespace Funkmap.Auth.Data.Abstract
         Task<ICollection<UserAvatarResult>> GetAvatarsAsync(string[] login);
         Task SaveAvatarAsync(string login, byte[] image);
 
-        Task<List<string>> GetFavouritesAsync(string login);
-
-        Task SetFavourite(string login, string favouriteLogin);
-
         Task UpdateLastVisitDateAsync(string login, DateTime date);
 
         Task<DateTime?> GetLastVisitDate(string login);

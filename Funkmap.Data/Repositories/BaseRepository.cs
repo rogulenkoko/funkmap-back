@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Common.Tools;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
@@ -15,7 +12,6 @@ using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Tools;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.GeoJsonObjectModel;
 using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Data.Repositories
@@ -39,10 +35,10 @@ namespace Funkmap.Data.Repositories
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
 
-            var projection = Builders<BaseEntity>.Projection.Exclude(x => x.Photo)
+            var projection = Builders<BaseEntity>.Projection
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name);
-            
+
             return await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
         }
 
@@ -101,12 +97,12 @@ namespace Funkmap.Data.Repositories
             var projection = Builders<BaseEntity>.Projection
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name)
-                .Exclude(x=>x.Address)
-                .Exclude(x=>x.VideoInfos)
-                .Exclude(x=>x.YouTubeLink)
-                .Exclude(x=>x.FacebookLink)
-                .Exclude(x=>x.SoundCloudLink)
-                .Exclude(x=>x.VkLink);
+                .Exclude(x => x.Address)
+                .Exclude(x => x.VideoInfos)
+                .Exclude(x => x.YouTubeLink)
+                .Exclude(x => x.FacebookLink)
+                .Exclude(x => x.SoundCloudLink)
+                .Exclude(x => x.VkLink);
 
             var filter = Builders<BaseEntity>.Filter.In(x => x.Login, logins);
             var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
@@ -139,11 +135,11 @@ namespace Funkmap.Data.Repositories
 
             var countResult = await _collection.Aggregate()
                 .Match(x => x.UserLogin == userLogin)
-                .Group(x=> x.EntityType, y=> new UserEntitiesCountInfo()
+                .Group(x => x.EntityType, y => new UserEntitiesCountInfo()
                 {
                     EntityType = y.Key,
                     Count = y.Count(),
-                    Logins = y.Select(x=>x.Login).ToList()
+                    Logins = y.Select(x => x.Login).ToList()
                 }).ToListAsync();
 
             return countResult;
@@ -152,7 +148,7 @@ namespace Funkmap.Data.Repositories
         public async Task<ICollection<FileInfo>> GetFiles(string[] fileIds)
         {
             //todo оптимизация
-            var fileInfos = new List<FileInfo>(fileIds.Length); 
+            var fileInfos = new List<FileInfo>(fileIds.Length);
             foreach (var id in fileIds)
             {
                 var bytes = await _bucket.DownloadAsBytesAsync(new ObjectId(id));
@@ -185,7 +181,7 @@ namespace Funkmap.Data.Repositories
             }
 
             var result = await _collection.Find(filter).Project<BaseEntity>(profection).Limit(commonFilter.Limit).ToListAsync();
-            return result.Select(x=>x.Login).ToList();
+            return result.Select(x => x.Login).ToList();
         }
 
         public async Task<bool> CheckIfLoginExistAsync(string login)
@@ -226,12 +222,14 @@ namespace Funkmap.Data.Repositories
 
         public override async Task UpdateAsync(BaseEntity entity)
         {
-            if(entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.Photo != null && entity.Photo.Image != null)
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.Photo != null && entity.Photo.Image != null && entity.Photo.Image.AsByteArray.Length != 0)
             {
-                var fileName = ImageNameBuilder.BuildAvatarName(entity);
                 var imageBytes = entity.Photo.Image.AsByteArray;
-                var photoId = await _bucket.UploadFromBytesAsync(fileName, imageBytes);
+
+                var fileName = ImageNameBuilder.BuildAvatarName(entity);
+                var imageBytesNormal = FunkmapImageProcessor.MinifyImage(imageBytes, 200);
+                var photoId = await _bucket.UploadFromBytesAsync(fileName, imageBytesNormal);
                 entity.PhotoId = photoId;
 
                 var fileMiniName = ImageNameBuilder.BuildAvatarMiniName(entity);
@@ -239,20 +237,67 @@ namespace Funkmap.Data.Repositories
                 var photoMiniId = await _bucket.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
                 entity.PhotoMiniId = photoMiniId;
             }
+            else if (entity.Photo != null && (entity.Photo.Image == null || entity.Photo.Image.AsByteArray.Length == 0))
+            {
+                entity.PhotoId = null;
+                entity.PhotoMiniId = null;
+            }
 
-            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x=>x.EntityType, entity.EntityType);
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, entity.EntityType);
 
             await _collection.ReplaceOneAsync(filter, entity);
         }
 
-        public override async Task DeleteAsync(string id)
+        public override async Task<BaseEntity> DeleteAsync(string id)
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, id);
             var entity = await _collection.FindOneAndDeleteAsync(filter);
+            if (entity == null) return null; //todo подумать как лучше, может просить эксепшен
 
+            if (entity.PhotoId.HasValue) _bucket.DeleteAsync(entity.PhotoId.Value);
+            if (entity.PhotoMiniId.HasValue) _bucket.DeleteAsync(entity.PhotoMiniId.Value);
 
-            _bucket.DeleteAsync(entity.PhotoId);
-            _bucket.DeleteAsync(entity.PhotoMiniId);
+            return entity;
+        }
+
+        public async Task UpdateFavorite(UpdateFavoriteParameter parameter)
+        {
+            if(String.IsNullOrEmpty(parameter?.EntityLogin) || String.IsNullOrEmpty(parameter?.UserLogin)) throw new ArgumentNullException(nameof(parameter));
+
+            FilterDefinition<BaseEntity> filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.UserLogin);
+            UpdateDefinition<BaseEntity> update;
+
+            if (parameter.IsFavorite)
+            {
+                filter = filter & Builders<BaseEntity>.Filter.AnyNe(x => x.FavoriteFor, parameter.UserLogin);
+                var favoriteProjection = Builders<BaseEntity>.Projection.Include(x => x.FavoriteFor);
+
+                //todo удалить как будет понятно как задать дефолтное значение для коллекции
+                var entity = await _collection.Find(filter).Project<BaseEntity>(favoriteProjection).SingleOrDefaultAsync();
+                if (entity?.FavoriteFor == null)
+                {
+                    var emptyArrayFilter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.EntityLogin);
+                    var emptyArrayUpdate = Builders<BaseEntity>.Update.Set(x=>x.FavoriteFor, new List<string>() {parameter.UserLogin});
+                    await _collection.UpdateOneAsync(emptyArrayFilter, emptyArrayUpdate);
+                }
+
+                update = Builders<BaseEntity>.Update.Push(x => x.FavoriteFor, parameter.UserLogin);
+            }
+            else
+            {
+                filter = filter & Builders<BaseEntity>.Filter.AnyEq(x => x.FavoriteFor, parameter.UserLogin);
+                update = Builders<BaseEntity>.Update.Pull(x => x.FavoriteFor, parameter.UserLogin);
+            }
+
+            await _collection.FindOneAndUpdateAsync(filter, update);
+        }
+
+        public async Task<ICollection<string>> GetFavorites(string userLogin)
+        {
+            var filter = Builders<BaseEntity>.Filter.AnyEq(x => x.FavoriteFor, userLogin);
+            var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
+            var favorites = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+            return favorites?.Select(x=>x.Login).ToList();
         }
     }
 }

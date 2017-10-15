@@ -29,10 +29,12 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task<bool> CheckIfLoginExistAsync(string login);
 
-        Task UpdateAsync(BaseEntity entity);
-
         Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin);
 
         Task<ICollection<FileInfo>> GetFiles(string[] fileIds);
+
+        Task UpdateFavorite(UpdateFavoriteParameter parameter);
+
+        Task<ICollection<string>> GetFavorites(string userLogin);
     }
 }

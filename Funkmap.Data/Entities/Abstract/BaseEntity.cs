@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Common;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Data.Entities.Abstract
@@ -16,6 +19,7 @@ namespace Funkmap.Data.Entities.Abstract
         typeof(RehearsalPointEntity))]
     public class BaseEntity
     {
+
         [BsonId]
         public ObjectId Id { get; set; }
 
@@ -39,14 +43,14 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
-        public ObjectId PhotoId { get; set; }
+        public ObjectId? PhotoId { get; set; }
         
         [BsonIgnore]
         public ImageInfo Photo { get; set; }
 
         [BsonElement("pm")]
         [BsonIgnoreIfDefault]
-        public ObjectId PhotoMiniId { get; set; }
+        public ObjectId? PhotoMiniId { get; set; }
 
         [BsonIgnore]
         public ImageInfo PhotoMini { get; set; }
@@ -81,6 +85,10 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("ia")]
         public bool? IsActive { get; set; }
+
+        [BsonElement("fav")]
+        [BsonIgnoreIfDefault]
+        public List<string> FavoriteFor { get; set; }
 
     }
 

@@ -8,7 +8,7 @@ namespace Funkmap.Common.Data.Mongo.Abstract
         Task<ICollection<T>> GetAllAsync();
         Task<T> GetAsync(string id);
         Task CreateAsync(T item);
-        Task DeleteAsync(string id);
+        Task<T> DeleteAsync(string id);
         Task UpdateAsync(T entity);
     }
 }

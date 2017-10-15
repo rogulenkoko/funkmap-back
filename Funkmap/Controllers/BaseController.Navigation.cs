@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Funkmap.Common.Auth;
+using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
@@ -13,36 +15,33 @@ using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
 using Funkmap.Services;
+using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 
 namespace Funkmap.Controllers
 {
     [RoutePrefix("api/base")]
-    public class BaseController : ApiController
+    [ValidateRequestModel]
+    public partial class BaseController : ApiController
     {
         private readonly IBaseRepository _repository;
         private readonly IParameterFactory _parameterFactory;
         private readonly IEntityUpdateService _updateService;
+        private readonly IDependenciesController _dependenciesController;
 
         public BaseController(IBaseRepository repository,
                               IParameterFactory parameterFactory,
-                              IEntityUpdateService updateService)
+                              IEntityUpdateService updateService,
+                              IDependenciesController dependenciesController)
         {
             _repository = repository;
             _parameterFactory = parameterFactory;
             _updateService = updateService;
+            _dependenciesController = dependenciesController;
         }
 
-        [HttpGet]
-        [Route("all")]
-        public async Task<IHttpActionResult> GetAll()
-        {
-            var result = await _repository.GetAllAsyns();
-            var markers = result.Select(x => x.ToMarkerModel()).ToList();
-            return Content(HttpStatusCode.OK, markers);
-
-        }
+       
 
         [HttpPost]
         [Route("nearest")]
@@ -78,14 +77,7 @@ namespace Funkmap.Controllers
             return Content(HttpStatusCode.OK, searchModels);
         }
 
-        [HttpPost]
-        [Route("specific")]
-        public async Task<IHttpActionResult> GetSpecific(string[] logins)
-        {
-            var baseEntities = await _repository.GetSpecificFullAsync(logins);
-            var items = baseEntities.Select(x => x.ToSearchModel());
-            return Ok(items);
-        }
+        
 
         [HttpPost]
         [Route("specificmarkers")]
@@ -95,36 +87,7 @@ namespace Funkmap.Controllers
             var items = baseEntities.Select(x => x.ToMarkerModel());
             return Ok(items);
         }
-
-        [HttpPost]
-        [Route("images")]
-        public async Task<IHttpActionResult> GetImages(string[] ids)
-        {
-            var files = await _repository.GetFiles(ids);
-            return Ok(files);
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("users")]
-        public async Task<IHttpActionResult> GetUserEntitiesLogins()
-        {
-            var userLogin = Request.GetLogin();
-            var logins = await _repository.GetUserEntitiesLogins(userLogin);
-            return Ok(logins);
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("userscount")]
-        public async Task<IHttpActionResult> GetUserEntitiesCountInfo()
-        {
-            var userLogin = Request.GetLogin();
-            var countResults = await _repository.GetUserEntitiesCountInfo(userLogin);
-            var result = countResults.ToCountModels();
-            return Ok(result);
-        }
-
+        
         [HttpPost]
         [Route("filtered")]
         public async Task<IHttpActionResult> GetFiltered(FilteredRequest request)
@@ -154,51 +117,5 @@ namespace Funkmap.Controllers
             };
             return Ok(reponse);
         }
-
-        [HttpGet]
-        [Route("checkLogin/{login}")]
-        public async Task<IHttpActionResult> CheckIfLoginExist(string login)
-        {
-            var isExist = await _repository.CheckIfLoginExistAsync(login);
-            return Ok(isExist);
-        }
-
-        [Authorize]
-        [HttpPost]
-        [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
-        {
-            var login = Request.GetLogin();
-            model.UserLogin = login;
-            await _updateService.CreateEntity(model);
-            return Ok(new BaseResponse() { Success = true });
-
-        }
-
-        [HttpPost]
-        [Route("update")]
-        [Authorize]
-        public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
-        {
-            await _updateService.UpdateEntity(model);
-            return Ok(new BaseResponse() { Success = true });
-        }
-
-        [HttpGet]
-        [Route("delete/{login}")]
-        [Authorize]
-        public async Task<IHttpActionResult> Delete(string login)
-        {
-            var entity = await _repository.GetAsync(login);
-            if (entity == null) return BadRequest("entity doesn't exist");
-
-            var userLogin = Request.GetLogin();
-            if (entity.UserLogin != userLogin) return BadRequest("is not your entity");
-
-            await _repository.DeleteAsync(login);
-
-            return Ok(new BaseResponse() { Success = true });
-        }
-
     }
 }

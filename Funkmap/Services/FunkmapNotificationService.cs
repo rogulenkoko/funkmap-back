@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Logger;
 using Funkmap.Common.RedisMq;
 using Funkmap.Contracts.Notifications;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Models.Requests;
 using Funkmap.Services.Abstract;
 using ServiceStack.Messaging;
 
@@ -14,16 +12,17 @@ namespace Funkmap.Services
     public class FunkmapNotificationService : RedisMqProducer, IRedisMqConsumer, IFunkmapNotificationService
     {
         private readonly IMessageService _messageService;
-        private readonly IBaseRepository _repository;
         private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
+        private readonly IDependenciesController _dependenciesController;
+
         public FunkmapNotificationService(IMessageFactory redisMqFactory,
                                           IMessageService messageService,
-                                          IBaseRepository repository,
+                                          IDependenciesController dependenciesController,
                                           IFunkmapLogger<FunkmapNotificationService> logger) : base(redisMqFactory)
         {
             _messageService = messageService;
-            _repository = repository;
             _logger = logger;
+            _dependenciesController = dependenciesController;
         }
 
         public void InitHandlers()
@@ -40,23 +39,12 @@ namespace Funkmap.Services
                 return;
             }
 
-            var entity = await _repository.GetAsync(inviteRequest.BandLogin);
-            var band = entity as BandEntity;
-            if (band == null) return;
-
-            if (request.Answer)
+            var updateRequest = new UpdateBandMembersRequest()
             {
-                if (band.MusicianLogins.Contains(inviteRequest.InvitedMusicianLogin)) return;
-                if (band.MusicianLogins == null) band.MusicianLogins = new List<string>();
-                band.MusicianLogins.Add(inviteRequest.InvitedMusicianLogin);
-                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
-            }
-            else
-            {
-                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
-            }
-
-            await _repository.UpdateAsync(band);
+                MusicianLogin = inviteRequest.InvitedMusicianLogin,
+                BandLogin = inviteRequest.BandLogin
+            };
+            await _dependenciesController.CreateDependencies(updateRequest, request.Answer);
         }
 
         public void InviteMusicianToGroup(InviteToBandRequest request)
