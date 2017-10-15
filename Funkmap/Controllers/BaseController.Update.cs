@@ -62,7 +62,7 @@ namespace Funkmap.Controllers
                 IsFavorite = request.IsFavorite,
                 UserLogin = login
             };
-            await _repository.UpdateFavorite(parameter);
+            await _repository.UpdateFavoriteAsync(parameter);
             return Ok(new BaseResponse() {Success = true});
         }
     }

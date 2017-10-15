@@ -54,24 +54,24 @@ namespace Funkmap.Data.Caches
             return _baseRepository.GetAsync(id);
         }
 
-        public Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin)
+        public Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin)
         {
-            return _baseRepository.GetUserEntitiesCountInfo(userLogin);
+            return _baseRepository.GetUserEntitiesCountInfoAsync(userLogin);
         }
 
-        public Task<ICollection<FileInfo>> GetFiles(string[] fileIds)
+        public Task<ICollection<FileInfo>> GetFilesAsync(string[] fileIds)
         {
-            return _baseRepository.GetFiles(fileIds);
+            return _baseRepository.GetFilesAsync(fileIds);
         }
 
-        public Task UpdateFavorite(UpdateFavoriteParameter parameter)
+        public Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
         {
-            return _baseRepository.UpdateFavorite(parameter);
+            return _baseRepository.UpdateFavoriteAsync(parameter);
         }
 
-        public Task<ICollection<string>> GetFavorites(string userLogin)
+        public Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
         {
-            return _baseRepository.GetFavorites(userLogin);
+            return _baseRepository.GetFavoritesLoginsAsync(userLogin);
         }
 
         public Task<ICollection<BaseEntity>> GetAllAsyns()
@@ -99,9 +99,9 @@ namespace Funkmap.Data.Caches
             return _baseRepository.GetSpecificFullAsync(logins);
         }
 
-        public Task<ICollection<string>> GetUserEntitiesLogins(string userLogin)
+        public Task<ICollection<string>> GetUserEntitiesLoginsAsync(string userLogin)
         {
-            return _baseRepository.GetUserEntitiesLogins(userLogin);
+            return _baseRepository.GetUserEntitiesLoginsAsync(userLogin);
         }
 
         public Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)

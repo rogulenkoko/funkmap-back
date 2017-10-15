@@ -96,7 +96,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestMethod]
         public void GetUsersEntitiesCount()
         {
-            var result = _baseRepository.GetUserEntitiesCountInfo("rogulenkoko").GetAwaiter().GetResult();
+            var result = _baseRepository.GetUserEntitiesCountInfoAsync("rogulenkoko").GetAwaiter().GetResult();
             Assert.AreEqual(result.Count, 3);
         }
     }

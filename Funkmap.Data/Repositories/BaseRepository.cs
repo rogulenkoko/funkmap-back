@@ -116,7 +116,7 @@ namespace Funkmap.Data.Repositories
             return result;
         }
 
-        public async Task<ICollection<string>> GetUserEntitiesLogins(string userLogin)
+        public async Task<ICollection<string>> GetUserEntitiesLoginsAsync(string userLogin)
         {
             //db.bases.find({"user":"rogulenkoko"},{"log":1})
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.UserLogin, userLogin);
@@ -126,7 +126,7 @@ namespace Funkmap.Data.Repositories
             return result;
         }
 
-        public async Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin)
+        public async Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin)
         {
             //db.bases.aggregate([
             //{ $match: { user: "rogulenkoko" } },
@@ -145,7 +145,7 @@ namespace Funkmap.Data.Repositories
             return countResult;
         }
 
-        public async Task<ICollection<FileInfo>> GetFiles(string[] fileIds)
+        public async Task<ICollection<FileInfo>> GetFilesAsync(string[] fileIds)
         {
             //todo оптимизация
             var fileInfos = new List<FileInfo>(fileIds.Length);
@@ -260,11 +260,11 @@ namespace Funkmap.Data.Repositories
             return entity;
         }
 
-        public async Task UpdateFavorite(UpdateFavoriteParameter parameter)
+        public async Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
         {
             if(String.IsNullOrEmpty(parameter?.EntityLogin) || String.IsNullOrEmpty(parameter?.UserLogin)) throw new ArgumentNullException(nameof(parameter));
 
-            FilterDefinition<BaseEntity> filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.UserLogin);
+            FilterDefinition<BaseEntity> filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.EntityLogin);
             UpdateDefinition<BaseEntity> update;
 
             if (parameter.IsFavorite)
@@ -292,7 +292,7 @@ namespace Funkmap.Data.Repositories
             await _collection.FindOneAndUpdateAsync(filter, update);
         }
 
-        public async Task<ICollection<string>> GetFavorites(string userLogin)
+        public async Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
         {
             var filter = Builders<BaseEntity>.Filter.AnyEq(x => x.FavoriteFor, userLogin);
             var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);

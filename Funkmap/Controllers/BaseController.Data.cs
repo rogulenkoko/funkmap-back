@@ -36,7 +36,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetImages(string[] ids)
         {
             var filteredIds = ids.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            var files = await _repository.GetFiles(filteredIds);
+            var files = await _repository.GetFilesAsync(filteredIds);
             return Ok(files);
         }
 
@@ -46,7 +46,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetUserEntitiesLogins()
         {
             var userLogin = Request.GetLogin();
-            var logins = await _repository.GetUserEntitiesLogins(userLogin);
+            var logins = await _repository.GetUserEntitiesLoginsAsync(userLogin);
             return Ok(logins);
         }
 
@@ -56,7 +56,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetUserEntitiesCountInfo()
         {
             var userLogin = Request.GetLogin();
-            var countResults = await _repository.GetUserEntitiesCountInfo(userLogin);
+            var countResults = await _repository.GetUserEntitiesCountInfoAsync(userLogin);
             var result = countResults.ToCountModels();
             return Ok(result);
         }
@@ -71,13 +71,23 @@ namespace Funkmap.Controllers
 
         [HttpGet]
         [Authorize]
+        [Route("favoritesLogins")]
+        public async Task<IHttpActionResult> GetFavoritesLogins()
+        {
+            var login = Request.GetLogin();
+            var favoritesLogins = await _repository.GetFavoritesLoginsAsync(login);
+            return Ok(favoritesLogins);
+        }
+
+        [HttpGet]
+        [Authorize]
         [Route("favorites")]
         public async Task<IHttpActionResult> GetFavorites()
         {
             var login = Request.GetLogin();
-            var favorites = await _repository.GetFavorites(login);
-            return Ok(favorites);
-
+            var favoritesLogins = await _repository.GetFavoritesLoginsAsync(login);
+            var favorites = await _repository.GetSpecificFullAsync(favoritesLogins.ToArray());
+            return Ok(favorites?.Select(x=>x.ToSearchModel()));
         }
     }
 }
