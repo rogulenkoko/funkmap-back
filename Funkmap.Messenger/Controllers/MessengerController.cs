@@ -7,6 +7,7 @@ using System.Web.Http;
 using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
+using Funkmap.Common.Tools;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
@@ -51,6 +52,27 @@ namespace Funkmap.Messenger.Controllers
 
             var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y => y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
             return Content(HttpStatusCode.OK, dialogs);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getDialogAvatar/{dialogId}")]
+        public async Task<IHttpActionResult> GetDialogAvatar(string dialogId)
+        {
+            var dialog = await _dialogRepository.GetDialogAvatarAsync(dialogId);
+            var avatarInfo = dialog.ToAvatarInfo();
+            return Ok(avatarInfo);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("getDialogsAvatars")]
+        public async Task<IHttpActionResult> GetDialogsAvatars(string[] dialogIds)
+        {
+            var distinctIds = dialogIds.Distinct().ToArray();
+            var dialogs = await _dialogRepository.GetDialogsAvatarsAsync(distinctIds);
+            var avatarsInfo = dialogs.Select(x => x.ToAvatarInfo()).ToArray();
+            return Ok(avatarsInfo);
         }
 
         [HttpPost]
@@ -126,11 +148,18 @@ namespace Funkmap.Messenger.Controllers
             };
 
             var now = DateTime.UtcNow;
+
             var newDialogEntity = dialog.ToEntity();
 
-            var addedParticipants = newDialogEntity.Participants.Except(exsitingDialog.Participants).ToList();
-            if (addedParticipants.Any())
+            if (newDialogEntity.Avatar != null)
             {
+                var cutted = FunkmapImageProcessor.MinifyImage(newDialogEntity.Avatar.Image.AsByteArray);
+                newDialogEntity.Avatar.Image = cutted;
+            }
+            
+            if (newDialogEntity.Participants != null && newDialogEntity.Participants.Except(exsitingDialog.Participants).Any())
+            {
+                var addedParticipants = newDialogEntity.Participants.Except(exsitingDialog.Participants).ToList();
                 exsitingDialog.LastMessageDate = now;
                 string addedParticipantsString = addedParticipants.Count == 1 ? addedParticipants.First() : String.Join(", ", addedParticipants);
                 var message = new MessageEntity()
@@ -147,6 +176,8 @@ namespace Funkmap.Messenger.Controllers
             }
 
             exsitingDialog = exsitingDialog.FillEntity(newDialogEntity);
+
+            
 
             await _dialogRepository.UpdateAsync(exsitingDialog);
 

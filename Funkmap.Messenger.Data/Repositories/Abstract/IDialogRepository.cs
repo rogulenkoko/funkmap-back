@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo.Abstract;
 using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using MongoDB.Bson;
 
@@ -16,6 +17,10 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
 
         Task<bool> CheckDialogExist(List<string> particpants);
         Task<bool> CheckDialogExist(string dialogId);
+
+        Task<ICollection<DialogEntity>> GetDialogsAvatarsAsync(string[] ids);
+
+        Task<DialogEntity> GetDialogAvatarAsync(string id);
 
     }
 }

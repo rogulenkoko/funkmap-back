@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Common;
+using Funkmap.Common.Data.Mongo.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
@@ -108,11 +109,7 @@ namespace Funkmap.Data.Entities.Abstract
 
     }
 
-    public class ImageInfo
-    {
-        [BsonElement("ab")]
-        public BsonBinaryData Image { get; set; }
-    }
+    
 
     public enum VideoType
     {

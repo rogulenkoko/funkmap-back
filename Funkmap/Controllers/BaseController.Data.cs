@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
+using Funkmap.Data.Objects;
 using Funkmap.Mappers;
 
 namespace Funkmap.Controllers
@@ -36,7 +37,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetImages(string[] ids)
         {
             var filteredIds = ids.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            var files = await _repository.GetFilesAsync(filteredIds);
+            ICollection<FileInfo> files = await _repository.GetFilesAsync(filteredIds);
             return Ok(files);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;

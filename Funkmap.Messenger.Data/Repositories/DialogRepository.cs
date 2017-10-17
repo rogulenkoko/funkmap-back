@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data.Entities;
+using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using MongoDB.Bson;
@@ -21,18 +23,44 @@ namespace Funkmap.Messenger.Data.Repositories
             _collection = collection;
         }
 
+        public override async Task<DialogEntity> GetAsync(string id)
+        {
+            var projection = Builders<DialogEntity>.Projection.Exclude(x => x.Avatar);
+            var dialog = await _collection.Find(x => x.Id == new ObjectId(id)).Project<DialogEntity>(projection).SingleOrDefaultAsync();
+            return dialog;
+
+        }
+
         public async Task<ICollection<DialogEntity>> GetUserDialogsAsync(string login)
         {
+            var projection = Builders<DialogEntity>.Projection.Exclude(x => x.Avatar);
             var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, login);
 
             var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
 
             var dialogs = await _collection
                 .Find(filter)
+                .Project<DialogEntity>(projection)
                 .Sort(sortFilter)
                 .ToListAsync();
 
             return dialogs;
+        }
+
+        public async Task<ICollection<DialogEntity>> GetDialogsAvatarsAsync(string[] ids)
+        {
+            var projection = Builders<DialogEntity>.Projection.Include(x => x.Avatar);
+            var filter = Builders<DialogEntity>.Filter.In(x => x.Id, ids.Select(x=>new ObjectId(x)));
+            var dialogs = await _collection.Find(filter).Project<DialogEntity>(projection).ToListAsync();
+            return dialogs;
+        }
+
+        public async Task<DialogEntity> GetDialogAvatarAsync(string id)
+        {
+            var projection = Builders<DialogEntity>.Projection.Include(x => x.Avatar);
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, new ObjectId(id));
+            var dialog = await _collection.Find(filter).Project<DialogEntity>(projection).SingleOrDefaultAsync();
+            return dialog;
         }
 
         public async Task<ICollection<string>> GetDialogMembers(string id)

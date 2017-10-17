@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Funkmap.Common.Data.Mongo.Abstract;
+using Funkmap.Common.Data.Mongo.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Messenger.Data.Entities
@@ -14,6 +15,8 @@ namespace Funkmap.Messenger.Data.Entities
 
         [BsonElement("n")]
         public string Name { get; set; }
+
+        public ImageInfo Avatar { get; set; }
 
         [BsonElement("prtcpnts")]
         public List<string> Participants { get; set; }

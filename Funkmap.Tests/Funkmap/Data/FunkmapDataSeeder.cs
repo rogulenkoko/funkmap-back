@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
