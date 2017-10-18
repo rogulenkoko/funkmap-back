@@ -7,6 +7,7 @@ using System.Web.Http;
 using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
+using Funkmap.Common.Models;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
@@ -102,6 +103,11 @@ namespace Funkmap.Messenger.Controllers
                 if (isExist) return Ok(new DialogResponse() { Success = false });
             }
 
+            if (dialog.Participants.Count > 2)
+            {
+                dialogEntity.CreatorLogin = login;
+            }
+
             var id = await _dialogRepository.CreateAndGetIdAsync(dialogEntity);
 
             dialogEntity.Id = id;
@@ -109,7 +115,7 @@ namespace Funkmap.Messenger.Controllers
             var response = new DialogResponse()
             {
                 Success = true,
-                Dialog = dialogEntity.ToModel(login, null)
+                Dialog = dialogEntity.ToModel(login)
             };
 
             if (dialog.Participants.Count > 2)
@@ -121,8 +127,7 @@ namespace Funkmap.Messenger.Controllers
                     Sender = "",
                     IsRead = false,
                     ToParticipants = dialog.Participants,
-                    Text =
-                        $"{login} создал беседу {dialog.Name} из {dialog.Participants.Count} участников" //todo подумать о локализации
+                    Text = $"{login} создал беседу {dialog.Name} из {dialog.Participants.Count} участников" //todo подумать о локализации
                 };
                 await _messageRepository.AddMessage(message);
                 response.Dialog.LastMessage = message.ToModel();
@@ -156,7 +161,7 @@ namespace Funkmap.Messenger.Controllers
                 var cutted = FunkmapImageProcessor.MinifyImage(newDialogEntity.Avatar.Image.AsByteArray);
                 newDialogEntity.Avatar.Image = cutted;
             }
-            
+
             if (newDialogEntity.Participants != null && newDialogEntity.Participants.Except(exsitingDialog.Participants).Any())
             {
                 var addedParticipants = newDialogEntity.Participants.Except(exsitingDialog.Participants).ToList();
@@ -177,13 +182,66 @@ namespace Funkmap.Messenger.Controllers
 
             exsitingDialog = exsitingDialog.FillEntity(newDialogEntity);
 
-            
-
             await _dialogRepository.UpdateAsync(exsitingDialog);
 
-
-
             return Ok(response);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("leaveDialog")]
+        public async Task<IHttpActionResult> LeaveDialog(LeaveDialogRequest request)
+        {
+            var userLogin = Request.GetLogin();
+
+            var dialog = await _dialogRepository.GetAsync(request.DialogId);
+
+            if (dialog.CreatorLogin != userLogin && userLogin != request.Login) return BadRequest("you can't do it");
+
+            if ((dialog.CreatorLogin == userLogin) || (userLogin == request.Login))
+            {
+                if (dialog.Participants.Any() && dialog.Participants.Contains(request.Login))
+                {
+                    dialog.Participants.Remove(request.Login);
+                    await _dialogRepository.UpdateAsync(dialog);
+
+                    var now = DateTime.UtcNow;
+
+                    MessageEntity message;
+
+                    if (dialog.CreatorLogin == userLogin && userLogin != request.Login)
+                    {
+                        message = new MessageEntity()
+                        {
+                            DateTimeUtc = now,
+                            DialogId = dialog.Id,
+                            ToParticipants = dialog.Participants,
+                            Sender = "",
+                            Text = $"{userLogin} исключил {request.Login} из беседы"
+                        };
+                    }
+                    else
+                    {
+                        message = new MessageEntity()
+                        {
+                            DateTimeUtc = now,
+                            DialogId = dialog.Id,
+                            ToParticipants = dialog.Participants,
+                            Sender = "",
+                            Text = $"{userLogin} покинул беседу"
+                        };
+                    }
+
+                    await _messageRepository.AddMessage(message);
+
+
+                    return Ok(new DialogResponse() { Success = true, Dialog = dialog.ToModel(userLogin, message.ToModel())});
+                }
+            }
+
+
+            return Ok(new DialogResponse() { Success = false });
+
         }
 
         [HttpPost]
