@@ -138,10 +138,6 @@
       <Project>{7100436d-3277-42bd-877e-0dd4504eec97}</Project>
       <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Modules\Funkmap.Common.Modules.csproj">
-      <Project>{0a159116-29ad-4ac1-909b-8eb8712922bd}</Project>
-      <Name>Funkmap.Common.Modules</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>

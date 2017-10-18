@@ -9,8 +9,8 @@ namespace Funkmap.Services.Abstract
     {
         void CleanDeletedDependencies(BaseEntity deletedEntity);
 
-        Task CleanDependencies(CleanDependenciesParameter parameter);
+        Task CleanDependenciesAsync(CleanDependenciesParameter parameter);
 
-        Task CreateDependencies(UpdateBandMembersRequest request, bool needToAdd = true);
+        Task CreateDependenciesAsync(UpdateBandMembersRequest request, bool needToAdd = true);
     }
 }

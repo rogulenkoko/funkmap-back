@@ -1,36 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Funkmap.Common.Logger;
-using Funkmap.Common.RedisMq;
+﻿using Funkmap.Common.Logger;
+using Funkmap.Common.Redis.Abstract;
 using Funkmap.Contracts.Notifications;
 using Funkmap.Models.Requests;
 using Funkmap.Services.Abstract;
-using ServiceStack.Messaging;
 
 namespace Funkmap.Services
 {
-    public class FunkmapNotificationService : RedisMqProducer, IRedisMqConsumer, IFunkmapNotificationService
+    public class FunkmapNotificationService : IFunkmapNotificationService
     {
-        private readonly IMessageService _messageService;
+        private readonly IMessageQueue _messageQueue;
         private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
         private readonly IDependenciesController _dependenciesController;
 
-        public FunkmapNotificationService(IMessageFactory redisMqFactory,
-                                          IMessageService messageService,
+        public FunkmapNotificationService(IMessageQueue messageQueue,
                                           IDependenciesController dependenciesController,
-                                          IFunkmapLogger<FunkmapNotificationService> logger) : base(redisMqFactory)
+                                          IFunkmapLogger<FunkmapNotificationService> logger)
         {
-            _messageService = messageService;
+            _messageQueue = messageQueue;
             _logger = logger;
             _dependenciesController = dependenciesController;
         }
 
         public void InitHandlers()
         {
-            _messageService.RegisterHandler<InviteToBandBack>(request => OnBandInviteAnswered(request?.GetBody()));
+            _messageQueue.Subscribe<InviteToBandBack>(OnBandInviteAnswered);
         }
 
-        private async Task OnBandInviteAnswered(InviteToBandBack request)
+        private void OnBandInviteAnswered(InviteToBandBack request)
         {
             var inviteRequest = request.Notification as InviteToBandRequest;
             if (inviteRequest == null)
@@ -44,12 +40,12 @@ namespace Funkmap.Services
                 MusicianLogin = inviteRequest.InvitedMusicianLogin,
                 BandLogin = inviteRequest.BandLogin
             };
-            await _dependenciesController.CreateDependencies(updateRequest, request.Answer);
+            _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
         }
 
         public void InviteMusicianToGroup(InviteToBandRequest request)
         {
-            Publish<InviteToBandRequest>(request);
+            _messageQueue.PublishAsync(request);
         }
     }
 }

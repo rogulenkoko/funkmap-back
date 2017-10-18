@@ -76,7 +76,7 @@ namespace Funkmap.Services
             return response;
         }
 
-        public async Task CreateDependencies(UpdateBandMembersRequest request, bool needToAdd = true)
+        public async Task CreateDependenciesAsync(UpdateBandMembersRequest request, bool needToAdd = true)
         {
             var band = await _bandRepository.GetAsync(request.BandLogin);
             if (band == null) return;
@@ -135,7 +135,7 @@ namespace Funkmap.Services
             }
         }
 
-        public async Task CleanDependencies(CleanDependenciesParameter parameter)
+        public async Task CleanDependenciesAsync(CleanDependenciesParameter parameter)
         {
             if (parameter == null) throw new ArgumentNullException(nameof(parameter));
 

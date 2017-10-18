@@ -154,9 +154,13 @@
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
       <Name>Funkmap.Module.Auth</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Modules\Funkmap.Common.Modules.csproj">
-      <Project>{0a159116-29ad-4ac1-909b-8eb8712922bd}</Project>
-      <Name>Funkmap.Common.Modules</Name>
+    <ProjectReference Include="..\Funkmap.Common.Redis.Autofac\Funkmap.Common.Redis.Autofac.csproj">
+      <Project>{8a50007a-b4a0-4e09-ac96-d1c64440609d}</Project>
+      <Name>Funkmap.Common.Redis.Autofac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
+      <Project>{d9a2e117-7cb0-4a3b-a401-4edef1e40732}</Project>
+      <Name>Funkmap.Common.Redis</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>

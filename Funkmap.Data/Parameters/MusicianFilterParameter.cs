@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Common;
 using Funkmap.Data.Entities;
-using ServiceStack;
 
 namespace Funkmap.Data.Parameters
 {
@@ -19,7 +19,8 @@ namespace Funkmap.Data.Parameters
 
         public override string ToString()
         {
-            return $"{Instruments?.Join(",")}|{Expirience?.Join(",")}|{Styles?.Join(",")}|";
+            var separator = ",";
+            return $"{ String.Join(separator, Instruments)}|{String.Join(separator, Expirience)}|{String.Join(separator, Styles)}|";
         }
     }
 
@@ -30,7 +31,8 @@ namespace Funkmap.Data.Parameters
 
         public override string ToString()
         {
-            return $"{Styles?.Join(",")}|";
+            var separator = ",";
+            return $"{String.Join(separator, Styles)}|";
         }
     }
 }

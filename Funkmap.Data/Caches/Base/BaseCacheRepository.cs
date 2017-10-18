@@ -77,7 +77,7 @@ namespace Funkmap.Data.Caches.Base
 
         public async Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
         {
-            ICollection<string> favorites = _favoriteService.GetFavoriteLogins(userLogin);
+            ICollection<string> favorites = await _favoriteService.GetFavoriteLogins(userLogin);
             if (favorites == null)
             {
                 favorites = await _baseRepository.GetFavoritesLoginsAsync(userLogin);
@@ -124,7 +124,7 @@ namespace Funkmap.Data.Caches.Base
 
         public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
-            var logins = _filteredService.GetFilteredLogins(commonFilter, parameter);
+            var logins = await _filteredService.GetFilteredLogins(commonFilter, parameter);
             if (logins == null)
             {
                 var result = await _baseRepository.GetAllFilteredLoginsAsync(commonFilter, parameter);

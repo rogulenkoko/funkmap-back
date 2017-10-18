@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
@@ -7,8 +6,7 @@ using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.RedisMq;
-using Funkmap.Contracts.Notifications;
+using Funkmap.Common.Redis.Abstract;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Data.Abstract;
@@ -52,7 +50,9 @@ namespace Funkmap.Notifications
                 var serviceType = typeof(NotificationsService<,>).MakeGenericType(new[] { instance.RequestType, instance.ResponseType});
                 builder.RegisterType(serviceType)
                     .As<INotificationsService>()
-                    .As<IRedisMqConsumer>()
+                    .As<IMessageHandler>()
+                    .OnActivated(x=> (x.Instance as IMessageHandler).InitHandlers())
+                    .AutoActivate()
                     .WithParameter(new TypedParameter(typeof(NotificationType), instance.NotificationType));
             }
 

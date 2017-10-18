@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Funkmap.Common.Redis.Abstract;
 using Funkmap.Notifications.Contracts;
 
 namespace Funkmap.Notifications.Services.Abstract
 {
-    public interface INotificationsService
+    public interface INotificationsService : IMessageHandler
     {
         NotificationType NotificationType { get; }
 

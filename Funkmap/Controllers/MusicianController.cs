@@ -107,7 +107,7 @@ namespace Funkmap.Controllers
                 FromEntityLogin = membersRequest.MusicianLogin
             };
 
-            await _dependenciesController.CleanDependencies(parameter);
+            await _dependenciesController.CleanDependenciesAsync(parameter);
 
             return Ok(new BaseResponse() {Success = true});
         }

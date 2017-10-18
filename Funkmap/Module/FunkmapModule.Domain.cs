@@ -1,6 +1,6 @@
 ﻿using Autofac;
+using Funkmap.Common.Redis.Abstract;
 using Funkmap.Contracts.Notifications;
-using Funkmap.Data.Caches;
 using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
@@ -11,7 +11,6 @@ using Funkmap.Services;
 using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
-using ServiceStack.Redis;
 
 namespace Funkmap.Module
 {
@@ -48,7 +47,11 @@ namespace Funkmap.Module
             builder.RegisterType<BandFilterService>().As<IFilterService>();
             builder.RegisterType<MusicianFilterService>().As<IFilterService>();
 
-            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
+            builder.RegisterType<FunkmapNotificationService>()
+                .As<IFunkmapNotificationService>()
+                .As<IMessageHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
             
             builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
             builder.RegisterType<BandUpdateService>().As<IDependenciesController>();

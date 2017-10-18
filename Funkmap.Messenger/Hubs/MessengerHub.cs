@@ -23,16 +23,13 @@ namespace Funkmap.Messenger.Hubs
         private readonly IMessengerConnectionService _connectionService;
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessageRepository _messageRepository;
-        private readonly UserService _userService;
 
         public MessengerHub(IMessengerConnectionService connectionService,
                             IDialogRepository dialogRepository,
-                            IMessageRepository messageRepository,
-                            UserService userService)
+                            IMessageRepository messageRepository)
         {
             _connectionService = connectionService;
             _dialogRepository = dialogRepository;
-            _userService = userService;
             _messageRepository = messageRepository;
         }
 
@@ -113,8 +110,6 @@ namespace Funkmap.Messenger.Hubs
             string login;
             _connectionService.RemoveOnlineUser(connectionId, out login);
             Clients.All.onUserDisconnected(login);
-
-            _userService.UpdateLastVisitDate(new UserUpdateLastVisitDateRequest() { Login = login });
 
             return base.OnDisconnected(stopCalled);
         }

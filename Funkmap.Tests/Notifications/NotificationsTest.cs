@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.Extras.Moq;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Modules;
+using Funkmap.Common.Redis.Autofac;
 using Funkmap.Contracts.Notifications;
 using Funkmap.Module;
 using Funkmap.Notifications;
@@ -26,8 +27,6 @@ namespace Funkmap.Tests.Notifications
         {
             AppDomain.CurrentDomain.GetAssemblies().Select(x => AppDomain.CurrentDomain.Load(x.GetName()));
             var builder = new ContainerBuilder();
-            var redisMqModule = new RedisModule();
-            redisMqModule.Register(builder);
 
             var funkmapModule = new FunkmapModule();
             funkmapModule.Register(builder);
@@ -46,7 +45,8 @@ namespace Funkmap.Tests.Notifications
         {
             var specificNotificationService = _container.Resolve<FunkmapNotificationService>();
 
-            var baseNotificationService = _container.Resolve<IEnumerable<INotificationsService>>().FirstOrDefault();
+            //todo
+            //var baseNotificationService = _container.Resolve<IEnumerable<INotificationsService>>().FirstOrDefault();
 
             var request = new InviteToBandRequest()
             {
@@ -56,7 +56,8 @@ namespace Funkmap.Tests.Notifications
                 
             };
             specificNotificationService.InviteMusicianToGroup(request);
-            baseNotificationService.PublishBackRequest(new InviteToBandBack() {Notification = request, Answer = true});
+            //todo
+            //baseNotificationService.PublishBackRequest(new InviteToBandBack() {Notification = request, Answer = true});
         }
     }
 }

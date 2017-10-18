@@ -68,11 +68,6 @@ namespace Funkmap.Messenger
 
             builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance();
 
-            builder.RegisterType<UserService>().AsSelf();
-
-            //раскоментить, когда модуль авторизации и месенджера будут под разными доменами
-            //builder.RegisterType<UserService>().As<IUserMqService>();
-
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

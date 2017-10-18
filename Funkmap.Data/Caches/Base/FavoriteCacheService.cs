@@ -1,40 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ServiceStack.Redis;
+using Funkmap.Common.Redis.Abstract;
 
 namespace Funkmap.Data.Caches.Base
 {
     public interface IFavoriteCacheService
     {
-        void SetFavorites(string userLogin, List<string> logins);
-        List<string> GetFavoriteLogins(string userLogin);
+        Task SetFavorites(string userLogin, List<string> logins);
+        Task<List<string>> GetFavoriteLogins(string userLogin);
 
     }
     public class FavoriteCacheService : IFavoriteCacheService
     {
         private static readonly string FavouriteKey = "Favorite";
 
-        private readonly IRedisClient _redisStorage;
+        private readonly IStorage _storage;
 
-        public FavoriteCacheService(IRedisClient redisStorage)
+        public FavoriteCacheService(IStorage storage)
         {
-            _redisStorage = redisStorage;
+            _storage = storage;
         }
 
-        public List<string> GetFavoriteLogins(string userLogin)
+        public async Task<List<string>> GetFavoriteLogins(string userLogin)
         {
             var key = BuildKey(userLogin);
-            var logins = _redisStorage.Get<List<string>>(key);
+            var logins = await _storage.GetAsync<List<string>>(key);
             return logins;
         }
 
-        public void SetFavorites(string userLogin, List<string> logins)
+        public async Task SetFavorites(string userLogin, List<string> logins)
         {
             var key = BuildKey(userLogin);
-            _redisStorage.Replace(key, logins);
+            await _storage.SetAsync(key, logins);
         }
 
         private string BuildKey(string userLogin)
