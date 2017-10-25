@@ -1,14 +1,12 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
-using Funkmap.Tests.Funkmap.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Auth.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Funkmap.Tests.Funkmap.Auth
+namespace Funkmap.Tests.Auth
 {
     [TestClass]
     public class AuthRepositoryTest

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Images;
 using MongoDB.Driver;
 
-namespace Funkmap.Tests.Funkmap.Auth
+namespace Funkmap.Tests.Auth.Data
 {
     public class AuthDataSeeder
     {

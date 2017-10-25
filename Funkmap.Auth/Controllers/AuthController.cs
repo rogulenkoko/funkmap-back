@@ -6,8 +6,8 @@ using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Notifications.Notification.Abstract;
-using Funkmap.Module.Auth.Confirmation;
 using Funkmap.Module.Auth.Models;
+using Funkmap.Module.Auth.Notifications;
 
 namespace Funkmap.Module.Auth.Controllers
 {
@@ -59,11 +59,7 @@ namespace Funkmap.Module.Auth.Controllers
 
             var code = new Random().Next(100000, 999999).ToString();
 
-            var notification = new ConfirmationNotification
-            {
-                Receiver = request.Email
-            };
-            notification.BuildMessageText(request.Login, code);
+            var notification = new ConfirmationNotification(request.Email, request.Name, code);
             var sendResult = await _notificationService.SendNotification(notification);
             _usersConfirmationCache[request.Login].Code = code;
             response.Success = sendResult;
@@ -92,13 +88,8 @@ namespace Funkmap.Module.Auth.Controllers
         {
             var response = new RegistrationResponse();
             UserEntity user = _authRepository.GetUserByEmail(email).Result;
-            if (user == null)
-                return Ok(response);
-            var notification = new ConfirmationNotification
-            {
-                Receiver = email
-            };
-            notification.BuildMessageText(user.Password);
+            if (user == null) return Ok(response);
+            var notification = new PasswordRecoverNotification(email, user.Name, user.Password);
             var sendResult = await _notificationService.SendNotification(notification);
             response.Success = sendResult;
             return Ok(response);

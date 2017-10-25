@@ -120,7 +120,8 @@
   <ItemGroup>
     <Compile Include="AuthFunkmapModule.cs" />
     <Compile Include="AuthCollectionNameProvider.cs" />
-    <Compile Include="Confirmation\ConfirmationNotification.cs" />
+    <Compile Include="Notifications\ConfirmationNotification.cs" />
+    <Compile Include="Notifications\PasswordRecoverNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="FunkmapAuthProvider.cs" />
