@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using Autofac;
-using Autofac.Extras.Moq;
-using Funkmap.Common.Logger;
-using Funkmap.Common.Modules;
-using Funkmap.Common.Redis.Autofac;
-using Funkmap.Contracts.Notifications;
 using Funkmap.Module;
 using Funkmap.Notifications;
-using Funkmap.Notifications.Services.Abstract;
 using Funkmap.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -48,14 +39,14 @@ namespace Funkmap.Tests.Notifications
             //todo
             //var baseNotificationService = _container.Resolve<IEnumerable<INotificationsService>>().FirstOrDefault();
 
-            var request = new InviteToBandRequest()
-            {
-                InvitedMusicianLogin = "test",
-                SenderLogin = "rogulenkoko",
-                BandLogin = "beatles",
+            //var request = new InviteToBandRequest()
+            //{
+            //    InvitedMusicianLogin = "test",
+            //    SenderLogin = "rogulenkoko",
+            //    BandLogin = "beatles",
                 
-            };
-            specificNotificationService.InviteMusicianToGroup(request);
+            //};
+            //specificNotificationService.NotifyBandInvite(request);
             //todo
             //baseNotificationService.PublishBackRequest(new InviteToBandBack() {Notification = request, Answer = true});
         }

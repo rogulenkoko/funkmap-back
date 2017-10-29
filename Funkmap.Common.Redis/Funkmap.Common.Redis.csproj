@@ -53,6 +53,7 @@
     <Compile Include="Abstract\IMessageQueue.cs" />
     <Compile Include="Abstract\ISerializer.cs" />
     <Compile Include="Abstract\IStorage.cs" />
+    <Compile Include="Options\MessageQueueOptions.cs" />
     <Compile Include="RedisMessageQueue.cs" />
     <Compile Include="NewtonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

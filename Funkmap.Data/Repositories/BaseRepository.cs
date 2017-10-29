@@ -18,7 +18,6 @@ namespace Funkmap.Data.Repositories
 {
     public class BaseRepository : MongoLoginRepository<BaseEntity>, IBaseRepository
     {
-        private readonly IMongoCollection<BaseEntity> _collection;
         private readonly IFilterFactory _filterFactory;
         private readonly IGridFSBucket _bucket;
 
@@ -26,7 +25,6 @@ namespace Funkmap.Data.Repositories
                               IGridFSBucket bucket,
                               IFilterFactory filterFactory) : base(collection)
         {
-            _collection = collection;
             _filterFactory = filterFactory;
             _bucket = bucket;
         }
@@ -151,8 +149,15 @@ namespace Funkmap.Data.Repositories
             var fileInfos = new List<FileInfo>(fileIds.Length);
             foreach (var id in fileIds)
             {
-                var bytes = await _bucket.DownloadAsBytesAsync(new ObjectId(id));
-                fileInfos.Add(new FileInfo() { Id = id, Bytes = bytes });
+                try
+                {
+                    var bytes = await _bucket.DownloadAsBytesAsync(new ObjectId(id));
+                    fileInfos.Add(new FileInfo() { Id = id, Bytes = bytes });
+                }
+                catch (GridFSFileNotFoundException e)
+                {
+                   continue;
+                }
             }
             return fileInfos;
         }

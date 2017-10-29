@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Funkmap.Common.SignalR;
+using Funkmap.Messenger.Services.Abstract;
 
 namespace Funkmap.Messenger.Services
 {

@@ -1,7 +1,9 @@
 ﻿using Funkmap.Common.Logger;
 using Funkmap.Common.Redis.Abstract;
-using Funkmap.Contracts.Notifications;
+using Funkmap.Common.Redis.Options;
 using Funkmap.Models.Requests;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Specific;
 using Funkmap.Services.Abstract;
 
 namespace Funkmap.Services
@@ -23,12 +25,12 @@ namespace Funkmap.Services
 
         public void InitHandlers()
         {
-            _messageQueue.Subscribe<InviteToBandBack>(OnBandInviteAnswered);
+            _messageQueue.Subscribe<NotificationAnswer>(OnBandInviteAnswered, new MessageQueueOptions() {SpecificKey = NotificationType.BandInvite });
         }
 
-        private void OnBandInviteAnswered(InviteToBandBack request)
+        private void OnBandInviteAnswered(NotificationAnswer request)
         {
-            var inviteRequest = request.Notification as InviteToBandRequest;
+            var inviteRequest = request.Notification as BandInviteNotification;
             if (inviteRequest == null)
             {
                 _logger.Info("Обратный запрос неопределен или не соответстует нужному типу. Ответ будет проигнорирован");
@@ -43,9 +45,9 @@ namespace Funkmap.Services
             _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
         }
 
-        public void InviteMusicianToGroup(InviteToBandRequest request)
+        public void NotifyBandInvite(BandInviteNotification notification)
         {
-            _messageQueue.PublishAsync(request);
+            _messageQueue.PublishAsync(notification);
         }
     }
 }

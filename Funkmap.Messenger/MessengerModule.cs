@@ -10,6 +10,7 @@ using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Services;
+using Funkmap.Messenger.Services.Abstract;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 
 namespace Funkmap.Notifications.Models
 {
@@ -11,6 +12,6 @@ namespace Funkmap.Notifications.Models
         public bool IsRead { get; set; }
         public string RecieverLogin { get; set; }
         public string SenderLogin { get; set; }
-        public Notification InnerNotification { get; set; }
+        public NotificationBase InnerNotification { get; set; }
     }
 }

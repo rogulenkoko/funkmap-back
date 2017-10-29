@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Funkmap.Common.Filters;
-using Funkmap.Notifications.Contracts;
-using Funkmap.Notifications.Models;
 using Funkmap.Notifications.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -26,12 +23,6 @@ namespace Funkmap.Notifications.Hubs
             var login = Context.QueryString["login"];
 
             _connectionService.AddOnlineUser(connectionId, login);
-            Clients.All.onNotificationRecieved(new NotificationModel()
-            {
-                NotificationType = NotificationType.BandInvite,
-                Date = DateTime.MaxValue,
-                RecieverLogin = "asd"
-            });
 
             return base.OnConnected();
         }

@@ -17,6 +17,7 @@ using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Models.Responses;
 using Funkmap.Messenger.Services;
+using Funkmap.Messenger.Services.Abstract;
 using Funkmap.Tools;
 
 namespace Funkmap.Messenger.Controllers

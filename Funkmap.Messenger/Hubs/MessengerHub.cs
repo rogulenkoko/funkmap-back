@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
+using Funkmap.Messenger.Hubs.Abstract;
 using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Services;
+using Funkmap.Messenger.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
@@ -18,7 +18,7 @@ namespace Funkmap.Messenger.Hubs
 {
     [HubName("messenger")]
     [ValidateRequestModel]
-    public class MessengerHub : Hub, IMessengerHub
+    public class MessengerHub : Hub<IMessengerHub>
     {
         private readonly IMessengerConnectionService _connectionService;
         private readonly IDialogRepository _dialogRepository;
@@ -86,7 +86,7 @@ namespace Funkmap.Messenger.Hubs
             var userConnections = _connectionService.GetConnectionIdsByLogins(new List<string>() {login});
             var connectionIds = _connectionService.GetConnectionIdsByLogins(dialogMembers).Except(userConnections).ToList();
 
-            Clients.Clients(connectionIds).onDialogRead(dialogId);
+            Clients.Clients(connectionIds).OnDialogRead(dialogId);
 
             return new BaseResponse() {Success = isSucces};
         }
@@ -97,7 +97,7 @@ namespace Funkmap.Messenger.Hubs
             var login = Context.QueryString["login"];
 
             _connectionService.AddOnlineUser(connectionId, login);
-            Clients.All.onUserConnected(login);
+            Clients.All.OnUserConnected(login);
 
             return base.OnConnected();
         }
@@ -109,7 +109,7 @@ namespace Funkmap.Messenger.Hubs
             var connectionId = Context.ConnectionId;
             string login;
             _connectionService.RemoveOnlineUser(connectionId, out login);
-            Clients.All.onUserDisconnected(login);
+            Clients.All.OnUserDisconnected(login);
 
             return base.OnDisconnected(stopCalled);
         }

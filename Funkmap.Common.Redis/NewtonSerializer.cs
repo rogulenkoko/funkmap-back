@@ -8,14 +8,20 @@ namespace Funkmap.Common.Redis
     {
         public string Serialize(object value)
         {
-            return JsonConvert.SerializeObject(value);
+            return JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
         }
 
         public T Deserialize<T>(string value) where T : class 
         {
             try
             {
-                return JsonConvert.DeserializeObject<T>(value);
+                return JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
             }
             catch (ArgumentNullException e)
             {

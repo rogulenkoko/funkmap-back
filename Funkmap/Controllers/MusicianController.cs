@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -8,15 +6,13 @@ using Funkmap.Common;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Contracts.Notifications;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
+using Funkmap.Notifications.Contracts.Specific;
 using Funkmap.Services.Abstract;
-using Funkmap.Tools;
 
 namespace Funkmap.Controllers
 {
@@ -76,7 +72,7 @@ namespace Funkmap.Controllers
             
             if (!inviteResponse.IsOwner)
             {
-                var requestMessage = new InviteToBandRequest()
+                var requestMessage = new BandInviteNotification()
                 {
                     BandLogin = membersRequest.BandLogin,
                     InvitedMusicianLogin = membersRequest.MusicianLogin,
@@ -85,7 +81,7 @@ namespace Funkmap.Controllers
                     BandName = inviteResponse.BandName
                 };
 
-                _notificationService.InviteMusicianToGroup(requestMessage);
+                _notificationService.NotifyBandInvite(requestMessage);
             }
             
             return Ok(inviteResponse);

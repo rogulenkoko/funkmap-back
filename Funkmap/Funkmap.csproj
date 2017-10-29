@@ -117,6 +117,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ChangeAvatarRequest.cs" />
     <Compile Include="Models\CleanDependenciesParameter.cs" />
+    <Compile Include="Models\Notifications\BandInviteNotificationAnswer.cs" />
     <Compile Include="Models\Requests\BandInviteInfoRequest.cs" />
     <Compile Include="Models\Requests\UpdateBandMembersRequest.cs" />
     <Compile Include="Models\Requests\UpdateFavoriteRequest.cs" />
@@ -171,10 +172,6 @@
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
-      <Project>{a1fd61d0-88ec-4e53-a5fc-197071b214c6}</Project>
-      <Name>Funkmap.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>

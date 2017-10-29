@@ -1,12 +1,10 @@
 ﻿using Autofac;
 using Funkmap.Common.Redis.Abstract;
-using Funkmap.Contracts.Notifications;
 using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
-using Funkmap.Notifications.Contracts;
 using Funkmap.Services;
 using Funkmap.Services.Abstract;
 using Funkmap.Tools;
@@ -55,8 +53,6 @@ namespace Funkmap.Module
             
             builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
             builder.RegisterType<BandUpdateService>().As<IDependenciesController>();
-
-            builder.RegisterType<InviteToGroupNotifications>().As<INotificationTypes>();
         }
     }
 }

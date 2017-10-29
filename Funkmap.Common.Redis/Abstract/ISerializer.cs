@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Funkmap.Common.Redis.Abstract
 {
     public interface ISerializer

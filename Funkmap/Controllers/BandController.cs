@@ -6,7 +6,6 @@ using System.Web.Http;
 using Funkmap.Common;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
-using Funkmap.Contracts.Notifications;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;

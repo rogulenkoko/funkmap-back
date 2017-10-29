@@ -1,11 +1,14 @@
 ﻿using System.Threading.Tasks;
-using Funkmap.Common.Models;
 using Funkmap.Messenger.Models;
 
-namespace Funkmap.Messenger.Hubs
+namespace Funkmap.Messenger.Hubs.Abstract
 {
     public interface IMessengerHub
     {
-        Task<BaseResponse> SendMessage(Message message);
+        Task OnUserConnected(string userLogin);
+        Task OnUserDisconnected(string userLogin);
+        Task OnMessageSent(Message message);
+
+        Task OnDialogRead(string dialogId);
     }
 }

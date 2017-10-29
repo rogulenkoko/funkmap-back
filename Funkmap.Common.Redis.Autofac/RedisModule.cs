@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Redis.Abstract;
 using StackExchange.Redis;
@@ -34,29 +33,6 @@ namespace Funkmap.Common.Redis.Autofac
                 .SingleInstance();
 
             builder.RegisterType<RedisMessageQueue>().As<IMessageQueue>();
-
-            //builder.RegisterType<HandlersActivator>()
-            //    .OnActivated(x => x.Instance.RegisterAllHandlers())
-            //    .AutoActivate();
-        }
-    }
-
-    public class HandlersActivator
-    {
-
-        private readonly IEnumerable<IMessageHandler> _handlers;
-
-        public HandlersActivator(IEnumerable<IMessageHandler> handlers)
-        {
-            _handlers = handlers;
-        }
-
-        public void RegisterAllHandlers()
-        {
-            foreach (var service in _handlers)
-            {
-                service.InitHandlers();
-            }
         }
     }
 }
