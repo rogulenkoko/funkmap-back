@@ -1,27 +1,36 @@
 ﻿using System;
 using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Redis.Options;
 using Newtonsoft.Json;
 
 namespace Funkmap.Common.Redis
 {
     public class NewtonSerializer : ISerializer
     {
-        public string Serialize(object value)
+        public string Serialize(object value, SerializerOptions options = null)
         {
-            return JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
+            var newtonOptions = new JsonSerializerSettings();
+
+            if (options != null && options.HasAbstractMember)
             {
-                TypeNameHandling = TypeNameHandling.All
-            });
+                newtonOptions.TypeNameHandling = TypeNameHandling.All;
+            }
+
+            return JsonConvert.SerializeObject(value, newtonOptions);
         }
 
-        public T Deserialize<T>(string value) where T : class 
+        public T Deserialize<T>(string value, SerializerOptions options = null) where T : class 
         {
             try
             {
-                return JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings
+                var newtonOptions = new JsonSerializerSettings();
+
+                if (options != null && options.HasAbstractMember)
                 {
-                    TypeNameHandling = TypeNameHandling.All
-                });
+                    newtonOptions.TypeNameHandling = TypeNameHandling.All;
+                }
+                
+                return JsonConvert.DeserializeObject<T>(value, newtonOptions);
             }
             catch (ArgumentNullException e)
             {

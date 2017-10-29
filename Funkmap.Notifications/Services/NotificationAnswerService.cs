@@ -18,7 +18,12 @@ namespace Funkmap.Notifications.Services
         public void PublishNotificationAnswer(NotificationAnswer answer)
         {
             if(answer?.Notification == null) throw new ArgumentNullException();
-            _messageQueue.PublishAsync(answer, new MessageQueueOptions() {SpecificKey = answer.Notification.Type });
+            var options = new MessageQueueOptions()
+            {
+                SpecificKey = answer.Notification.Type,
+                SerializerOptions = new SerializerOptions() {HasAbstractMember = true}
+            };
+            _messageQueue.PublishAsync(answer, options);
         }
     }
 }

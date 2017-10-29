@@ -1,5 +1,6 @@
 ﻿using System;
 using Funkmap.Common.Redis;
+using Funkmap.Common.Redis.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Funkmap.Common.Tests
@@ -15,19 +16,21 @@ namespace Funkmap.Common.Tests
             var one = new ConcreteOne() {Property = "one", ValueInt = 1};
             var second = new ConcreteSecond() {Property = "second", ValueDate = DateTime.Now};
 
-            var jsonOne = serializer.Serialize(one);
-            var jsonSecond = serializer.Serialize(second);
+            var options = new SerializerOptions() {HasAbstractMember = true};
 
-            var abstractOne = serializer.Deserialize<Abstract>(jsonOne);
-            var abstractSecond = serializer.Deserialize<Abstract>(jsonSecond);
+            var jsonOne = serializer.Serialize(one, options);
+            var jsonSecond = serializer.Serialize(second, options);
+
+            var abstractOne = serializer.Deserialize<Abstract>(jsonOne, options);
+            var abstractSecond = serializer.Deserialize<Abstract>(jsonSecond, options);
 
             Assert.AreEqual(one.Property, abstractOne.Property);
             Assert.AreEqual(second.Property, abstractSecond.Property);
 
             var concreteWithInnerAbstract = new ConcreteWithInnerAbstract() {Result = true, Abstract = one};
 
-            var jsonConcreteWithInnerAbstract = serializer.Serialize(concreteWithInnerAbstract);
-            var newConcreteWithInnerAbstract = serializer.Deserialize<ConcreteWithInnerAbstract>(jsonConcreteWithInnerAbstract);
+            var jsonConcreteWithInnerAbstract = serializer.Serialize(concreteWithInnerAbstract, options);
+            var newConcreteWithInnerAbstract = serializer.Deserialize<ConcreteWithInnerAbstract>(jsonConcreteWithInnerAbstract, options);
 
             Assert.AreEqual(newConcreteWithInnerAbstract.Abstract.Property, concreteWithInnerAbstract.Abstract.Property);
 

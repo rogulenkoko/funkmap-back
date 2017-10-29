@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json.Serialization;
 
 namespace Funkmap.Common.Redis.Options
 {
@@ -10,10 +9,9 @@ namespace Funkmap.Common.Redis.Options
         /// </summary>
         public object SpecificKey { get; set; }
 
-
         /// <summary>
-        /// Тип в который надо сериализовать по возвращению
+        /// Настройки сериализации
         /// </summary>
-        public Type MessageType { get; set; }
+        public SerializerOptions SerializerOptions { get; set; }
     }
 }

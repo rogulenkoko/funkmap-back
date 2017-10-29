@@ -25,7 +25,12 @@ namespace Funkmap.Services
 
         public void InitHandlers()
         {
-            _messageQueue.Subscribe<NotificationAnswer>(OnBandInviteAnswered, new MessageQueueOptions() {SpecificKey = NotificationType.BandInvite });
+            var options = new MessageQueueOptions()
+            {
+                SpecificKey = NotificationType.BandInvite,
+                SerializerOptions = new SerializerOptions() { HasAbstractMember = true }
+            };
+            _messageQueue.Subscribe<NotificationAnswer>(OnBandInviteAnswered, options);
         }
 
         private void OnBandInviteAnswered(NotificationAnswer request)
