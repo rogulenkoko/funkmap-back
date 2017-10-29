@@ -1,12 +1,11 @@
 ﻿using System;
 using Autofac;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Logger;
 using Funkmap.Common.Settings;
 using NLog;
 using NLog.Config;
 
-namespace Funkmap.Common.Modules
+namespace Funkmap.Common.Logger
 {
     public class LoggerModule : IFunkmapModule
     {

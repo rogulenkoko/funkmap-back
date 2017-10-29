@@ -9,7 +9,7 @@ namespace Funkmap.Common.Modules
     {
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterType<EmailNotificationService>().As<INotificationService>();
+            builder.RegisterType<EmailNotificationService>().As<IExternalNotificationService>();
         }
     }
 }

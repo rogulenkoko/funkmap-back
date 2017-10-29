@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NotificationToolModule.cs" />
-    <Compile Include="Notification\Abstract\INotificationService.cs" />
+    <Compile Include="Notification\Abstract\IExternalNotificationService.cs" />
     <Compile Include="Notification\EmailNotificationService.cs" />
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

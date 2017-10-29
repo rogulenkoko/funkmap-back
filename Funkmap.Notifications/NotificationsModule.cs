@@ -11,7 +11,6 @@ using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
 using Funkmap.Notifications.Services;
 using Funkmap.Notifications.Services.Abstract;
-using Funkmap.Notifications.Services.Specific;
 using MongoDB.Driver;
 
 namespace Funkmap.Notifications
@@ -33,7 +32,7 @@ namespace Funkmap.Notifications
                 .As<IMongoCollection<NotificationEntity>>();
 
             builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
-            builder.RegisterType<NotificationAnswerService>().As<INotificationAnswerService>();
+            builder.RegisterType<NotificationAnswerService>().As<INotificationService>();
             builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>();
 
             builder.RegisterType<NotificationService>()

@@ -18,13 +18,13 @@ namespace Funkmap.Notifications.Controllers
     public class NotificationsController : ApiController
     {
         private readonly INotificationRepository _notificationRepository;
-        private readonly INotificationAnswerService _notificationAnswerService;
+        private readonly INotificationService _notificationService;
 
         public NotificationsController(INotificationRepository notificationRepository,
-                                        INotificationAnswerService notificationAnswerService)
+                                        INotificationService notificationService)
         {
             _notificationRepository = notificationRepository;
-            _notificationAnswerService = notificationAnswerService;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
@@ -46,7 +46,7 @@ namespace Funkmap.Notifications.Controllers
         {
             var login = Request.GetLogin();
 
-            var notificationsCount = await _notificationRepository.GetNewNotificationsCount(login);
+            var notificationsCount = await _notificationRepository.GetNewNotificationsCountAsync(login);
             return Content(HttpStatusCode.OK, notificationsCount);
         }
 
@@ -65,7 +65,7 @@ namespace Funkmap.Notifications.Controllers
                 Notification = notification.InnerNotification,
                 Answer = answer.Answer
             };
-            _notificationAnswerService.PublishNotificationAnswer(back);
+            _notificationService.PublishNotificationAnswer(back);
 
             var response = new BaseResponse() {Success = true};
             return Content(HttpStatusCode.OK, response);

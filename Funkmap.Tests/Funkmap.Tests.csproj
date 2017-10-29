@@ -113,7 +113,6 @@
     <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
     <Compile Include="Messenger\DialogsRepositoryTest.cs" />
     <Compile Include="Messenger\MessageRepositoryTest.cs" />
-    <Compile Include="Notifications\NotificationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +144,10 @@
       <Project>{8A50007A-B4A0-4E09-AC96-D1C64440609D}</Project>
       <Name>Funkmap.Common.Redis.Autofac</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
+      <Project>{D9A2E117-7CB0-4A3B-A401-4EDEF1E40732}</Project>
+      <Name>Funkmap.Common.Redis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
@@ -168,6 +171,10 @@
     <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
       <Project>{7086848c-bd30-4677-b267-67163f296244}</Project>
       <Name>Funkmap.Notifications.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
+      <Project>{6A86C558-8133-4F9F-857A-60DF8496CEB4}</Project>
+      <Name>Funkmap.Notifications.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
       <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>

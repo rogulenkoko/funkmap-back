@@ -34,10 +34,10 @@ namespace Funkmap.Common.Redis
         {
             if (options?.SpecificKey != null)
             {
-                var specificKeyString = _serializer.Serialize(options.SpecificKey);
+                var specificKeyString = _serializer.Serialize(options.SpecificKey, options?.SerializerOptions);
                 key = $"{key}_{specificKeyString}";
             }
-            string serialized = _serializer.Serialize(value);
+            string serialized = _serializer.Serialize(value, options?.SerializerOptions);
             await _subscriber.PublishAsync(key, serialized);
         }
 
@@ -61,13 +61,13 @@ namespace Funkmap.Common.Redis
         {
             if (options?.SpecificKey != null)
             {
-                var specificKeyString = _serializer.Serialize(options.SpecificKey);
+                var specificKeyString = _serializer.Serialize(options.SpecificKey, options?.SerializerOptions);
                 key = $"{key}_{specificKeyString}";
             }
 
             _subscriber.Subscribe(key, (channel, value) =>
             {
-                var deserialized = _serializer.Deserialize<T>(value);
+                var deserialized = _serializer.Deserialize<T>(value, options?.SerializerOptions);
                 handler.Invoke(deserialized);
             });
         }

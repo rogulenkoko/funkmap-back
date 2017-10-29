@@ -1,13 +1,16 @@
 ﻿using System;
 using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Redis.Options;
+using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Notifications.Contracts.Specific;
 using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
+using Funkmap.Notifications.Services.Abstract;
 
-namespace Funkmap.Notifications.Services.Specific
+namespace Funkmap.Notifications.Services
 {
-    public class NotificationService : IMessageHandler
+    public class NotificationService : INotificationService
     {
         private readonly IMessageQueue _messageQueue;
         private readonly INotificationRepository _notificationRepository;
@@ -38,6 +41,17 @@ namespace Funkmap.Notifications.Services.Specific
             //уведомление по сигнал р
 
             _notificationRepository.CreateAsync(notificatinEntity);
+        }
+
+        public void PublishNotificationAnswer(NotificationAnswer answer)
+        {
+            if (answer?.Notification == null) throw new ArgumentNullException();
+            var options = new MessageQueueOptions()
+            {
+                SpecificKey = answer.Notification.Type,
+                SerializerOptions = new SerializerOptions() { HasAbstractMember = true }
+            };
+            _messageQueue.PublishAsync(answer, options);
         }
     }
 }

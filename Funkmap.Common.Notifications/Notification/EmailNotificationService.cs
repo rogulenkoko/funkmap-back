@@ -13,7 +13,7 @@ using Funkmap.Common.Settings;
 
 namespace Funkmap.Common.Notifications.Notification
 {
-    public class EmailNotificationService : INotificationService
+    public class EmailNotificationService : IExternalNotificationService
     {
         private readonly string _appEmail;
         private readonly string _appEmailPassword;
