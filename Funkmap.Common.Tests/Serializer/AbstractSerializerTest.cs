@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Funkmap.Common.Tests
 {
     [TestClass]
-    public class SerializerTest
+    public class AbstractSerializerTest
     {
         [TestMethod]
         public void SerializeAbstract()
