@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac.Extras.Moq;
 using Funkmap.Data.Caches;
+using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Tests.Funkmap.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver.GridFS;
 using ServiceStack.Redis;
 
 namespace Funkmap.Tests.TestTime
@@ -26,19 +29,24 @@ namespace Funkmap.Tests.TestTime
             var redisClientManager = new PooledRedisClientManager();
             RedisClient redisClient = (RedisClient) redisClientManager.GetClient();
             redisClient.SendTimeout = 2000;
+
+            using (var mock = AutoMock.GetLoose())
+            {
+                var bucket = mock.Mock<IGridFSBucket>();
+                var favCacheService = mock.Mock<IFavoriteCacheService>();
+                var filterCacheService = mock.Mock<IFilteredCacheService>();
+
+                var filterServices = new List<IFilterService>() { new MusicianFilterService() };
+                IFilterFactory factory = new FilterFactory(filterServices);
+
+                var baseRepository = new BaseRepository(
+                    FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName),
+                    bucket.Object, factory);
+
+                var baseCacheRepository = new BaseCacheRepository(favCacheService.Object, filterCacheService.Object, baseRepository);
+                _testBaseRepository = new TestBaseRepository(baseCacheRepository);
+            }
             
-           
-            
-            var filterServices = new List<IFilterService>() { new MusicianFilterService() };
-            IFilterFactory factory = new FilterFactory(filterServices);
-            
-            _testBaseRepository = new TestBaseRepository(
-                new BaseCacheRepository(redisClient,
-                new BaseRepository(
-                    FunkmapTestDbProvider
-                        .DropAndCreateDatabase
-                        .GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName),
-                    factory)));
         }
 
         [TestMethod]
@@ -48,8 +56,6 @@ namespace Funkmap.Tests.TestTime
             _testBaseRepository.GetAllAsyns().GetAwaiter();
             _testBaseRepository.GetFilteredAsync(null, null).GetAwaiter();
             _testBaseRepository.GetFullNearestAsync(null).GetAwaiter();
-            _testBaseRepository.GetUserEntitiesCountInfo(null).GetAwaiter();
-            _testBaseRepository.GetUserEntitiesLogins(null).GetAwaiter();
             _testBaseRepository.UpdateAsync(null).GetAwaiter();
             _testBaseRepository.GetAllFilteredLoginsAsync(null, null).GetAwaiter();
             _testBaseRepository.CreateAsync(null).GetAwaiter();

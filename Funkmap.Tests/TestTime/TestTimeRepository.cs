@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Common;
+using Autofac.Extras.Moq;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
@@ -15,6 +16,7 @@ using Funkmap.Tests.Funkmap.BigData;
 using Funkmap.Tests.Funkmap.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.TestTime
 {
@@ -23,27 +25,32 @@ namespace Funkmap.Tests.TestTime
     {
         private TestBaseRepository _testBaseRepository;
         [TestInitialize]
-        public void init()
+        public void Init()
         {
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
-            IFilterFactory factory = new FilterFactory(filterServices);
-            _testBaseRepository=new TestBaseRepository(
-                new BaseRepository(
-                    FunkmapTestDbProvider
-                    .DropAndCreateDatabase
-                    .GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName),
-                    factory));
+
+            using (var mock = AutoMock.GetLoose())
+            {
+                var bucket = mock.Mock<IGridFSBucket>();
+                IFilterFactory factory = new FilterFactory(filterServices);
+                _testBaseRepository = new TestBaseRepository(
+                    new BaseRepository(
+                        FunkmapTestDbProvider
+                            .DropAndCreateDatabase
+                            .GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName),
+                        bucket.Object, factory));
+            }
+
+            
         }
 
         [TestMethod]
-        public void mainTest()
+        public void MainTest()
         {
             _testBaseRepository.CheckIfLoginExistAsync(null).GetAwaiter();
             _testBaseRepository.GetAllAsyns().GetAwaiter();
             _testBaseRepository.GetFilteredAsync(null, null).GetAwaiter();
             _testBaseRepository.GetFullNearestAsync(null).GetAwaiter();
-            _testBaseRepository.GetUserEntitiesCountInfo(null).GetAwaiter();
-            _testBaseRepository.GetUserEntitiesLogins(null).GetAwaiter();
             _testBaseRepository.UpdateAsync(null).GetAwaiter();
             _testBaseRepository.GetAllFilteredLoginsAsync(null,null).GetAwaiter();
             _testBaseRepository.CreateAsync(null).GetAwaiter();
@@ -55,11 +62,5 @@ namespace Funkmap.Tests.TestTime
             _testBaseRepository.GetNearestAsync(null).GetAwaiter();
             
         }
-
-
-
-        
-
-        
     }
 }

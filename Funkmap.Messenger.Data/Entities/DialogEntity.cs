@@ -14,9 +14,6 @@ namespace Funkmap.Messenger.Data.Entities
 
         public ImageInfo Avatar { get; set; }
 
-        [BsonElement("n")]
-        public string Name { get; set; }
-
         [BsonElement("prtcpnts")]
         public List<string> Participants { get; set; }
 

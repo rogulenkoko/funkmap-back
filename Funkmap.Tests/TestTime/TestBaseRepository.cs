@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common;
+using Funkmap.Common.Data.Mongo.Abstract;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
@@ -17,6 +18,7 @@ using Funkmap.Tools.Abstract;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using ServiceStack;
+using FileInfo = Funkmap.Data.Objects.FileInfo;
 
 namespace Funkmap.Tests.TestTime
 {
@@ -54,7 +56,7 @@ namespace Funkmap.Tests.TestTime
         }
 
         
-        public async Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
+        public Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
             
             if (parameter == null)
@@ -70,7 +72,7 @@ namespace Funkmap.Tests.TestTime
             Start(() =>
             {
 
-                var result = _repository.GetNearestAsync(parameter).Result;
+                var result = _repository.GetNearestAsync(parameter).GetAwaiter().GetResult();
                 return "get " + result.Count + " Entities";
             }, "getnearest");
             return null;
@@ -152,17 +154,9 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<ICollection<string>> GetUserEntitiesLogins(string userLogin)
+        public Task<ICollection<string>> GetUserEntitiesLoginsAsync(string userLogin)
         {
-           
-            if (userLogin == null)
-                userLogin = "243VBlokhin148";
-           Start(() =>
-            {
-                var result = _repository.GetUserEntitiesLogins(userLogin).GetAwaiter().GetResult();
-                return $"get {result.Count}";
-            }, "GetUserEntitiesLogins");
-            return null;
+            throw new NotImplementedException();
         }
 
         public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
@@ -234,6 +228,26 @@ namespace Funkmap.Tests.TestTime
             return true;
         }
 
+        public Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<FileInfo>> GetFilesAsync(string[] fileIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ICollection<BaseEntity>> GetAllAsync()
         {
             Start(() =>
@@ -278,6 +292,11 @@ namespace Funkmap.Tests.TestTime
             return;
         }
 
+        Task<BaseEntity> IMongoRepository<BaseEntity>.DeleteAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<DeleteResult> DeleteAsync(string id)
         {
             if (id == null)
@@ -307,20 +326,6 @@ namespace Funkmap.Tests.TestTime
                 _repository.UpdateAsync(entity).GetAwaiter().GetResult();
                 return "";
             }, "Update");
-        }
-
-        public async Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfo(string userLogin)
-        {
-            if (userLogin == null)
-            {
-                userLogin = "243VBlokhin153";
-            }
-            Start(() =>
-            {
-                var result = _repository.GetUserEntitiesCountInfo(userLogin).GetAwaiter().GetResult();
-                return $"get {result.Count}";
-            }, "GetUserEntitiesCountInfo");
-            return null;
         }
     }
 }
