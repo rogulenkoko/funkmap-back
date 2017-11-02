@@ -45,7 +45,7 @@ namespace Funkmap.Tests.TestTime
 
        
 
-        public async Task<ICollection<BaseEntity>> GetAllAsyns()
+        public Task<ICollection<BaseEntity>> GetAllAsyns()
         {
             Start(() =>
             {
@@ -78,7 +78,7 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
+        public Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
         {
            
             if (parameter == null)
@@ -103,7 +103,7 @@ namespace Funkmap.Tests.TestTime
 
         
 
-        public async Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins)
+        public Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins)
         {
             
             if (logins == null)
@@ -129,7 +129,7 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins)
+        public Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins)
         {
             if (logins == null)
             {
@@ -159,7 +159,7 @@ namespace Funkmap.Tests.TestTime
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             if (commonFilter == null)
             {
@@ -185,7 +185,7 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             if (commonFilter == null)
             {
@@ -217,6 +217,7 @@ namespace Funkmap.Tests.TestTime
 
         public async Task<bool> CheckIfLoginExistAsync(string login)
         {
+            await Task.Yield();
             if (login == null)
                 login = "243YBlokhin159";
             Start(() =>
@@ -248,7 +249,7 @@ namespace Funkmap.Tests.TestTime
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<BaseEntity>> GetAllAsync()
+        public Task<ICollection<BaseEntity>> GetAllAsync()
         {
             Start(() =>
             {
@@ -258,7 +259,7 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task<BaseEntity> GetAsync(string id)
+        public Task<BaseEntity> GetAsync(string id)
         {
             if (id == null)
                 id = "59d5597d6d6fd92e10b2526e";
@@ -270,7 +271,7 @@ namespace Funkmap.Tests.TestTime
             return null;
         }
 
-        public async Task CreateAsync(BaseEntity item)
+        public Task CreateAsync(BaseEntity item)
         {
             if (item == null)
             {
@@ -289,7 +290,7 @@ namespace Funkmap.Tests.TestTime
                 _repository.CreateAsync(item).GetAwaiter().GetResult();
                 return "goood";
             }, "CreateAsync");
-            return;
+            return null;
         }
 
         Task<BaseEntity> IMongoRepository<BaseEntity>.DeleteAsync(string id)
@@ -297,7 +298,7 @@ namespace Funkmap.Tests.TestTime
             throw new NotImplementedException();
         }
 
-        public async Task<DeleteResult> DeleteAsync(string id)
+        public Task<DeleteResult> DeleteAsync(string id)
         {
             if (id == null)
                 id = "123456789456asasas";
@@ -311,6 +312,7 @@ namespace Funkmap.Tests.TestTime
 
         public async Task UpdateAsync(BaseEntity entity)
         {
+            await Task.Yield();
             if (entity == null)
             {
                 entity = new BaseEntity()

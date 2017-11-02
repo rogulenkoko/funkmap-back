@@ -22,7 +22,7 @@ namespace Funkmap.Tests.TestTime
     {
         private TestBaseRepository _testBaseRepository;
         [TestInitialize]
-        public void init()
+        public void Init()
         {
             var redisHost = "localhost:6379";
             //IRedisClientsManager redisClientManager = new PooledRedisClientManager(redisHost);
@@ -50,7 +50,7 @@ namespace Funkmap.Tests.TestTime
         }
 
         [TestMethod]
-        public void mainTestCache()
+        public void MainTestCache()
         {
             _testBaseRepository.CheckIfLoginExistAsync(null).GetAwaiter();
             _testBaseRepository.GetAllAsyns().GetAwaiter();
