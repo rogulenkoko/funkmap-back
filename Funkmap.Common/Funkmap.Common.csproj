@@ -90,7 +90,6 @@
   <ItemGroup>
     <Compile Include="Abstract\IFunkmapModule.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
-    <Compile Include="EntityType.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

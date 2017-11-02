@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Common;
 using Funkmap.Common.Data.Mongo.Entities;
@@ -35,6 +36,9 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("t")]
         public EntityType EntityType { get; set; }
+
+        [BsonElement("cd")]
+        public DateTime CreationDate { get; set; }
 
         [BsonElement("loc")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; }

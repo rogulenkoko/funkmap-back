@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Funkmap.Contracts")]
+[assembly: AssemblyTitle("Funkmap.Statistics.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Funkmap.Contracts")]
+[assembly: AssemblyProduct("Funkmap.Statistics.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5863156a-0e14-4319-8536-b719dbebe433")]
+[assembly: Guid("168d36e8-a28b-41fd-a83c-78cb99998d4b")]
 
 // Version information for an assembly consists of the following four values:
 //

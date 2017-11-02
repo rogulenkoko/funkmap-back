@@ -32,7 +32,6 @@ namespace Funkmap.Notifications
                 .As<IMongoCollection<NotificationEntity>>();
 
             builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
-            builder.RegisterType<NotificationAnswerService>().As<INotificationService>();
             builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>();
 
             builder.RegisterType<NotificationService>()

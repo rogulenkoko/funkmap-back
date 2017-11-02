@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{164CD98E-9837-4A5F-B388-9823CD58EC3E}</ProjectGuid>
+    <ProjectGuid>{168D36E8-A28B-41FD-A83C-78CB99998D4B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Funkmap.Tests</RootNamespace>
-    <AssemblyName>Funkmap.Tests</AssemblyName>
+    <RootNamespace>Funkmap.Statistics.Tests</RootNamespace>
+    <AssemblyName>Funkmap.Statistics.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -68,19 +68,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Web.Http.Common.4.0.20126.16343\lib\net40\System.Web.Http.Common.dll</HintPath>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -97,109 +87,36 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Auth\Data\AuthDataSeeder.cs" />
-    <Compile Include="Auth\AuthRepositoryTest.cs" />
-    <Compile Include="Auth\Data\AuthTestDbProvider.cs" />
-    <Compile Include="Auth\NotificationTest.cs" />
-    <Compile Include="Funkmap\Base\BaseRepositoryStressTest.cs" />
-    <Compile Include="Funkmap\BigData\FunkmapBigDataSeeder.cs" />
-    <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
-    <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
-    <Compile Include="Funkmap\Stress\FunkmapStressRandomSeeder.cs" />
-    <Compile Include="Images\ImageProvider.cs" />
-    <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
-    <Compile Include="Messenger\Data\MessengerDataSeeder.cs" />
-    <Compile Include="Messenger\Data\MessengerDbProvider.cs" />
-    <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
-    <Compile Include="Messenger\DialogsRepositoryTest.cs" />
-    <Compile Include="Messenger\MessageRepositoryTest.cs" />
+    <Compile Include="Data\FunkmapStatisticsTestDbProvider.cs" />
+    <Compile Include="EntityTypeStatisticsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
-      <Project>{02251e80-52a1-4b3e-824b-3da229dd9ea6}</Project>
-      <Name>Funkmap.Auth.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
-      <Project>{a1388a76-7550-4c06-9486-2fe5a4ad6ed5}</Project>
-      <Name>Funkmap.Auth.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
-      <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
-      <Name>Funkmap.Module.Auth</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
-      <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
-      <Name>Funkmap.Common.Data.Mongo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
-      <Project>{7100436d-3277-42bd-877e-0dd4504eec97}</Project>
-      <Name>Funkmap.Common.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
-      <Project>{cc5b36a9-d49f-4583-b74c-d2f3a17087a4}</Project>
-      <Name>Funkmap.Common.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Redis.Autofac\Funkmap.Common.Redis.Autofac.csproj">
-      <Project>{8A50007A-B4A0-4E09-AC96-D1C64440609D}</Project>
-      <Name>Funkmap.Common.Redis.Autofac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
-      <Project>{D9A2E117-7CB0-4A3B-A401-4EDEF1E40732}</Project>
-      <Name>Funkmap.Common.Redis</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
-      <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
-      <Name>Funkmap.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
-      <Project>{5863156A-0E14-4319-8536-B719DBEBE433}</Project>
-      <Name>Funkmap.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
-      <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
-      <Name>Funkmap.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger.Data\Funkmap.Messenger.Data.csproj">
-      <Project>{592d2c7a-ff06-45e5-b9ab-bf25f83815d0}</Project>
-      <Name>Funkmap.Messenger.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
-      <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
-      <Name>Funkmap.Messenger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Middleware\Funkmap.Middleware.csproj">
-      <Project>{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}</Project>
-      <Name>Funkmap.Middleware</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
-      <Project>{7086848c-bd30-4677-b267-67163f296244}</Project>
-      <Name>Funkmap.Notifications.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
-      <Project>{6A86C558-8133-4F9F-857A-60DF8496CEB4}</Project>
-      <Name>Funkmap.Notifications.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
-      <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
-      <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap\Funkmap.csproj">
-      <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
-      <Name>Funkmap</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\avatar.jpg" />
+    <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
+      <Project>{7D0761C4-DD1A-4AC0-AB3E-4078A00208CD}</Project>
+      <Name>Funkmap.Common.Data.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
+      <Project>{5863156A-0E14-4319-8536-B719DBEBE433}</Project>
+      <Name>Funkmap.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
+      <Project>{F0A4E106-3CDE-4CDD-B4A5-D441EFA9D07F}</Project>
+      <Name>Funkmap.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Statistics.Data\Funkmap.Statistics.Data.csproj">
+      <Project>{F6396FB7-546E-4ED1-87FE-BBC7CA9E8CD0}</Project>
+      <Name>Funkmap.Statistics.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap\Funkmap.csproj">
+      <Project>{27669BFD-E68A-436D-833F-1167C244BD59}</Project>
+      <Name>Funkmap</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\beatles-avatar.jpg" />
-  </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
