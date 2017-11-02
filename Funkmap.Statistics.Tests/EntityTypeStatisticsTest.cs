@@ -68,7 +68,7 @@ namespace Funkmap.Statistics.Tests
 
             var newEntity = new BandEntity()
             {
-                Login = "zxcvbn",
+                Login = Guid.NewGuid().ToString(),
                 Name = "qweqwe",
                 CreationDate = DateTime.UtcNow
             };

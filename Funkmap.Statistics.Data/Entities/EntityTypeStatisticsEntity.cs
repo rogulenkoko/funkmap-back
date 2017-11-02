@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Common;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Statistics.Data.Entities
 {
@@ -10,6 +11,8 @@ namespace Funkmap.Statistics.Data.Entities
             CountStatistics = new List<CountStatisticsEntity<EntityType>>();
             StatisticsType = StatisticsType.EntityType;
         }
+
+        [BsonElement("cs")]
         public List<CountStatisticsEntity<EntityType>> CountStatistics { get; set; }
     }
 }
