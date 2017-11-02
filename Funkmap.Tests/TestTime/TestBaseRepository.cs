@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common;
@@ -197,14 +198,15 @@ namespace Funkmap.Tests.TestTime
                 commonFilter = new CommonFilterParameter()
                 {
                     EntityType = EntityType.Musician
+
                 };
             }
             if (parameter == null)
             {
                 parameter = new MusicianFilterParameter()
                 {
-                    Styles = new List<Styles>() { Styles.HipHop },
-                    Instruments = new List<InstrumentType>() { InstrumentType.Bass }
+                   Styles = new List<Styles>() { Styles.HipHop },
+                    //Instruments = new List<InstrumentType>() { InstrumentType.Bass }
                 };
             }
             Start(() =>
@@ -212,6 +214,8 @@ namespace Funkmap.Tests.TestTime
 
                 var result = _repository.GetAllFilteredLoginsAsync(commonFilter, parameter).
                     GetAwaiter().GetResult();
+                if (result == null)
+                    return "get null";
                 return $"get {result.Count}";
             }, "GetAllFilteredLogins");
             return null;

@@ -109,8 +109,10 @@ namespace Funkmap.Data.Caches
             if (logins == null)
             {
                 var result = await _baseRepository.GetAllFilteredLoginsAsync(commonFilter, parameter);
-                _redisStorage.Add(key, result);
-                _redisStorage.ExpireEntryIn(key, lifeTime);
+                if (result.Count == 0)
+                    return null;
+                _redisStorage.Set(key, result,lifeTime);
+                //_redisStorage.ExpireEntryIn(key, lifeTime);
                 return result;
             }
             _redisStorage.ExpireEntryIn(key, lifeTime);

@@ -76,7 +76,7 @@ namespace Funkmap.Tests.TestTime
                 while (sr.Peek() != -1)
                 {
                     string text = sr.ReadLine();
-                    if (text.Length > 8 && text.Substring(0, 7).Equals("time = "))
+                    if (text.Length > 7 && text.Substring(0, 7).Equals("time = "))
                     {
                         int time = text.Substring(7, text.Length - 7).ToInt();
                         if (time < minTime)

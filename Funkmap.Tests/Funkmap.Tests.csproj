@@ -172,6 +172,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestTime\FileManager.cs" />
     <Compile Include="TestTime\TestBaseRepository.cs" />
+    <Compile Include="TestTime\TestTimeCacheRepository.cs" />
     <Compile Include="TestTime\TestTimeRepository.cs" />
     <Compile Include="web\HttpProxy.cs" />
     <Compile Include="web\TestServerBase.cs" />
