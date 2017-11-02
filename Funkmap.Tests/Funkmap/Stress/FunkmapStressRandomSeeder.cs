@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common;
+using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Tests.Images;
@@ -67,7 +68,6 @@ namespace Funkmap.Tests.Funkmap.Stress
             return new MusicianEntity()
             {
                 Address = RandomString(10),
-                BandLogin = RandomString(10),
                 BirthDate = DateTime.UtcNow,
                 Description = RandomString(40),
                 EntityType = EntityType.Musician,
@@ -95,7 +95,7 @@ namespace Funkmap.Tests.Funkmap.Stress
             {
                 Address = RandomString(10),
                 Description = RandomString(40),
-                EntityType = EntityType.Musician,
+                EntityType = EntityType.Band,
                 FacebookLink = RandomString(10),
                 YouTubeLink = RandomString(10),
                 VkLink = RandomString(10),
@@ -117,7 +117,7 @@ namespace Funkmap.Tests.Funkmap.Stress
             {
                 Address = RandomString(10),
                 Description = RandomString(40),
-                EntityType = EntityType.Musician,
+                EntityType = EntityType.Shop,
                 FacebookLink = RandomString(10),
                 YouTubeLink = RandomString(10),
                 VkLink = RandomString(10),
@@ -139,7 +139,7 @@ namespace Funkmap.Tests.Funkmap.Stress
             {
                 Address = RandomString(10),
                 Description = RandomString(40),
-                EntityType = EntityType.Musician,
+                EntityType = EntityType.Studio,
                 FacebookLink = RandomString(10),
                 YouTubeLink = RandomString(10),
                 VkLink = RandomString(10),
@@ -160,7 +160,7 @@ namespace Funkmap.Tests.Funkmap.Stress
             {
                 Address = RandomString(10),
                 Description = RandomString(40),
-                EntityType = EntityType.Musician,
+                EntityType = EntityType.RehearsalPoint,
                 FacebookLink = RandomString(10),
                 YouTubeLink = RandomString(10),
                 VkLink = RandomString(10),

@@ -10,6 +10,7 @@ using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Services;
+using Funkmap.Messenger.Services.Abstract;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -67,11 +68,6 @@ namespace Funkmap.Messenger
             });
 
             builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance();
-
-            builder.RegisterType<UserService>().AsSelf();
-
-            //раскоментить, когда модуль авторизации и месенджера будут под разными доменами
-            //builder.RegisterType<UserService>().As<IUserMqService>();
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

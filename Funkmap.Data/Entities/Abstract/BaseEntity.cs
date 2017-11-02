@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Common;
+using Funkmap.Common.Data.Mongo.Entities;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Data.Entities.Abstract
@@ -16,6 +21,7 @@ namespace Funkmap.Data.Entities.Abstract
         typeof(RehearsalPointEntity))]
     public class BaseEntity
     {
+
         [BsonId]
         public ObjectId Id { get; set; }
 
@@ -31,6 +37,9 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("t")]
         public EntityType EntityType { get; set; }
 
+        [BsonElement("cd")]
+        public DateTime CreationDate { get; set; }
+
         [BsonElement("loc")]
         public GeoJsonPoint<GeoJson2DGeographicCoordinates> Location { get; set; }
 
@@ -39,7 +48,18 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
+        public ObjectId? PhotoId { get; set; }
+        
+        [BsonIgnore]
         public ImageInfo Photo { get; set; }
+
+        [BsonElement("pm")]
+        [BsonIgnoreIfDefault]
+        public ObjectId? PhotoMiniId { get; set; }
+
+        [BsonIgnore]
+        public ImageInfo PhotoMini { get; set; }
+
 
         [BsonElement("ytv")]
         public List<VideoInfo> VideoInfos { get; set; }
@@ -71,6 +91,10 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("ia")]
         public bool? IsActive { get; set; }
 
+        [BsonElement("fav")]
+        [BsonIgnoreIfDefault]
+        public List<string> FavoriteFor { get; set; }
+
     }
 
     public class VideoInfo
@@ -89,11 +113,7 @@ namespace Funkmap.Data.Entities.Abstract
 
     }
 
-    public class ImageInfo
-    {
-        [BsonElement("ab")]
-        public BsonBinaryData Image { get; set; }
-    }
+    
 
     public enum VideoType
     {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
@@ -21,13 +18,13 @@ namespace Funkmap.Notifications.Controllers
     public class NotificationsController : ApiController
     {
         private readonly INotificationRepository _notificationRepository;
-        private readonly IEnumerable<INotificationsService> _notificationsServices;
+        private readonly INotificationService _notificationService;
 
         public NotificationsController(INotificationRepository notificationRepository,
-                                        IEnumerable<INotificationsService> notificationsServices)
+                                        INotificationService notificationService)
         {
             _notificationRepository = notificationRepository;
-            _notificationsServices = notificationsServices;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
@@ -49,7 +46,7 @@ namespace Funkmap.Notifications.Controllers
         {
             var login = Request.GetLogin();
 
-            var notificationsCount = await _notificationRepository.GetNewNotificationsCount(login);
+            var notificationsCount = await _notificationRepository.GetNewNotificationsCountAsync(login);
             return Content(HttpStatusCode.OK, notificationsCount);
         }
 
@@ -57,21 +54,18 @@ namespace Funkmap.Notifications.Controllers
         [HttpPost]
         [Authorize]
         [Route("answer")]
-        public async Task<IHttpActionResult> AnswerNotification(NotificationAnswer answer)
+        public async Task<IHttpActionResult> AnswerNotification(NotificationAnswerModel answer)
         {
 
             var notification = await _notificationRepository.GetAsync(answer.NotificationId);
             await _notificationRepository.DeleteAsync(answer.NotificationId);
-
-            var notificationService = _notificationsServices.SingleOrDefault(x=>x.NotificationType == notification.NotificationType);
-            if (notificationService == null) return BadRequest("notification handler not found");
-
-            var back = new NotificationBack()
+            
+            var back = new NotificationAnswer()
             {
-                Notification = notification.ToNotification(),
+                Notification = notification.InnerNotification,
                 Answer = answer.Answer
             };
-            notificationService.PublishBackRequest(back);
+            _notificationService.PublishNotificationAnswer(back);
 
             var response = new BaseResponse() {Success = true};
             return Content(HttpStatusCode.OK, response);

@@ -1,67 +1,58 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Funkmap.Common.Logger;
-using Funkmap.Common.RedisMq;
-using Funkmap.Contracts.Notifications;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Repositories.Abstract;
+﻿using Funkmap.Common.Logger;
+using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Redis.Options;
+using Funkmap.Models.Requests;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Specific;
 using Funkmap.Services.Abstract;
-using ServiceStack.Messaging;
 
 namespace Funkmap.Services
 {
-    public class FunkmapNotificationService : RedisMqProducer, IRedisMqConsumer, IFunkmapNotificationService
+    public class FunkmapNotificationService : IFunkmapNotificationService
     {
-        private readonly IMessageService _messageService;
-        private readonly IBaseRepository _repository;
+        private readonly IMessageQueue _messageQueue;
         private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
-        public FunkmapNotificationService(IMessageFactory redisMqFactory,
-                                          IMessageService messageService,
-                                          IBaseRepository repository,
-                                          IFunkmapLogger<FunkmapNotificationService> logger) : base(redisMqFactory)
+        private readonly IDependenciesController _dependenciesController;
+
+        public FunkmapNotificationService(IMessageQueue messageQueue,
+                                          IDependenciesController dependenciesController,
+                                          IFunkmapLogger<FunkmapNotificationService> logger)
         {
-            _messageService = messageService;
-            _repository = repository;
+            _messageQueue = messageQueue;
             _logger = logger;
+            _dependenciesController = dependenciesController;
         }
 
         public void InitHandlers()
         {
-            _messageService.RegisterHandler<InviteToBandBack>(request => OnBandInviteAnswered(request?.GetBody()));
+            var options = new MessageQueueOptions()
+            {
+                SpecificKey = NotificationType.BandInvite,
+                SerializerOptions = new SerializerOptions() { HasAbstractMember = true }
+            };
+            _messageQueue.Subscribe<NotificationAnswer>(OnBandInviteAnswered, options);
         }
 
-        private async Task OnBandInviteAnswered(InviteToBandBack request)
+        private void OnBandInviteAnswered(NotificationAnswer request)
         {
-            var inviteRequest = request.Notification as InviteToBandRequest;
+            var inviteRequest = request.Notification as BandInviteNotification;
             if (inviteRequest == null)
             {
                 _logger.Info("Обратный запрос неопределен или не соответстует нужному типу. Ответ будет проигнорирован");
                 return;
             }
 
-            var entity = await _repository.GetAsync(inviteRequest.BandLogin);
-            var band = entity as BandEntity;
-            if (band == null) return;
-
-            if (request.Answer)
+            var updateRequest = new UpdateBandMembersRequest()
             {
-                if (band.MusicianLogins.Contains(inviteRequest.InvitedMusicianLogin)) return;
-                if (band.MusicianLogins == null) band.MusicianLogins = new List<string>();
-                band.MusicianLogins.Add(inviteRequest.InvitedMusicianLogin);
-                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
-            }
-            else
-            {
-                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
-            }
-
-            await _repository.UpdateAsync(band);
+                MusicianLogin = inviteRequest.InvitedMusicianLogin,
+                BandLogin = inviteRequest.BandLogin
+            };
+            _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
         }
 
-        public void InviteMusicianToGroup(InviteToBandRequest request)
+        public void NotifyBandInvite(BandInviteNotification notification)
         {
-            Publish<InviteToBandRequest>(request);
+            _messageQueue.PublishAsync(notification);
         }
     }
 }

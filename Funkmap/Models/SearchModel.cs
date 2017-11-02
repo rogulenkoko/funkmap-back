@@ -10,7 +10,7 @@ namespace Funkmap.Models
         public string Title { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public byte[] Avatar { get; set; }
+        public string AvatarId { get; set; }
 
         public EntityType Type { get; set; }
 

@@ -1,16 +1,14 @@
 ﻿using Autofac;
-using Funkmap.Contracts.Notifications;
-using Funkmap.Data.Caches;
+using Funkmap.Common.Redis.Abstract;
+using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
-using Funkmap.Notifications.Contracts;
 using Funkmap.Services;
 using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
-using ServiceStack.Redis;
 
 namespace Funkmap.Module
 {
@@ -18,12 +16,16 @@ namespace Funkmap.Module
     {
         private void RegisterDomainDependiences(ContainerBuilder builder)
         {
+            builder.RegisterType<FavoriteCacheService>().As<IFavoriteCacheService>();
+            builder.RegisterType<FilteredCacheService>().As<IFilteredCacheService>();
+
             var baseRepositoryName = nameof(IBaseRepository);
             builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName);
             builder.RegisterDecorator<IBaseRepository>((container, inner) =>
-            {
-                var redisClient = container.Resolve<IRedisClient>();
-                return new BaseCacheRepository(redisClient, inner);
+            { 
+                 var favoriteService = container.Resolve<IFavoriteCacheService>();
+                 var filteredService = container.Resolve<IFilteredCacheService>();
+                return new BaseCacheRepository(favoriteService, filteredService, inner);
             }, fromKey: baseRepositoryName).As<IBaseRepository>();
 
 
@@ -43,9 +45,14 @@ namespace Funkmap.Module
             builder.RegisterType<BandFilterService>().As<IFilterService>();
             builder.RegisterType<MusicianFilterService>().As<IFilterService>();
 
-            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
-
-            builder.RegisterType<InviteToGroupNotifications>().As<INotificationTypes>();
+            builder.RegisterType<FunkmapNotificationService>()
+                .As<IFunkmapNotificationService>()
+                .As<IMessageHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+            
+            builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
+            builder.RegisterType<BandUpdateService>().As<IDependenciesController>();
         }
     }
 }

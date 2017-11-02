@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Images;
 using MongoDB.Driver;
 
-namespace Funkmap.Tests.Funkmap.Auth
+namespace Funkmap.Tests.Auth.Data
 {
     public class AuthDataSeeder
     {
@@ -45,8 +41,7 @@ namespace Funkmap.Tests.Funkmap.Auth
                 Login = "test",
                 Name = "Тест",
                 Password = "1",
-                Email = "test@mail.ru",
-                Favourites = new List<string>() { "madlib" }
+                Email = "test@mail.ru"
             };
 
             var u3 = new UserEntity()

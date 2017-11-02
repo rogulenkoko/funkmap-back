@@ -1,9 +1,10 @@
-﻿using Funkmap.Contracts.Notifications;
+﻿using Funkmap.Common.Redis.Abstract;
+using Funkmap.Notifications.Contracts.Specific;
 
 namespace Funkmap.Services.Abstract
 {
-    public interface IFunkmapNotificationService
+    public interface IFunkmapNotificationService : IMessageHandler
     {
-        void InviteMusicianToGroup(InviteToBandRequest request);
+        void NotifyBandInvite(BandInviteNotification notification);
     }
 }

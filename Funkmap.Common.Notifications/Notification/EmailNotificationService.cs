@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Notifications.Notification.Abstract;
 using Funkmap.Common.Settings;
 
 namespace Funkmap.Common.Notifications.Notification
 {
-    public class EmailNotificationService : INotificationService
+    public class EmailNotificationService : IExternalNotificationService
     {
         private readonly string _appEmail;
         private readonly string _appEmailPassword;
@@ -32,13 +34,26 @@ namespace Funkmap.Common.Notifications.Notification
             await Task.Yield();
             try
             {
-                _logger.Info($"ОТправка email по адресу {notification.Receiver}");
+                _logger.Info($"Отправка email по адресу {notification.Receiver}");
 
-                var message = new MailMessage();
-                message.From = new MailAddress(_appEmail);
-                message.To.Add(new MailAddress(notification.Receiver));
-                message.Body = notification.Body;
-                message.Subject = notification.Subject;
+
+                var body = File.ReadAllText("Templates/base-template.html");
+
+                var mailDefenition = new MailDefinition
+                {
+                    From = _appEmail,
+                    Subject = notification.Subject,
+                    IsBodyHtml = true
+                };
+
+                var replacements = new Dictionary<string, string>()
+                {
+                    {"title", notification.Title },
+                    {"main", notification.MainContent },
+                    {"footer", notification.Footer }
+                };
+
+                var message = mailDefenition.CreateMailMessage(notification.Receiver, replacements, body, new System.Web.UI.Control());
 
                 var smtpClient = new SmtpClient();
                 smtpClient.Host = "smtp.mail.ru";

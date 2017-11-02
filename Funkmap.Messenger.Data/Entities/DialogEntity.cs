@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using Funkmap.Common.Data.Mongo.Abstract;
+using Funkmap.Common.Data.Mongo.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Messenger.Data.Entities
 {
     public class DialogEntity : MongoEntity
     {
-        public DialogEntity()
-        {
-            Participants = new List<string>();
-        }
+
+        [BsonElement("n")]
+        public string Name { get; set; }
+
+        public ImageInfo Avatar { get; set; }
 
         [BsonElement("n")]
         public string Name { get; set; }
@@ -20,6 +22,9 @@ namespace Funkmap.Messenger.Data.Entities
 
         [BsonElement("lmd")]
         public DateTime LastMessageDate { get; set; }
+
+        [BsonElement("c")]
+        public string CreatorLogin { get; set; }
 
     }
 }

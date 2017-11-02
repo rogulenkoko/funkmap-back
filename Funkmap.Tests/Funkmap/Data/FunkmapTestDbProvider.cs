@@ -3,6 +3,7 @@ using System.Configuration;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Tests.Funkmap.Stress;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Funkmap.Data
 {
@@ -37,21 +38,6 @@ namespace Funkmap.Tests.Funkmap.Data
                 new FunkmapStressRandomSeeder(db).SeedData();
                 return db;
             }
-        }
-
-        private static void CreateIndexes(IMongoDatabase db)
-        {
-            var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
-            var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));
-            var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
-
-            var collection = db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
-            collection.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>
-            {
-                loginBaseIndexModel,
-                entityTypeBaseIndexModel,
-                geoBaseIndexModel,
-            }).GetAwaiter().GetResult();
         }
     }
 }

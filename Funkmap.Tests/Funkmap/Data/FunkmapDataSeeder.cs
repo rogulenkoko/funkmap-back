@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
@@ -43,7 +44,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Sex = Sex.Male,
                 Login = "rogulenkoko",
                 UserLogin = "test",
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.UtcNow,
                 Description = "Описание",
                 Name = "Кирилл Рогуленко",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(30,50)),
@@ -51,10 +52,11 @@ namespace Funkmap.Tests.Funkmap.Data
                 Instrument = InstrumentType.Brass,
                 VkLink = "https://vk.com/id30724049",
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
-                BandLogin = "funkmap",
+                BandLogins = new List<string>() { "funkmap" } ,
                 ExpirienceType = ExpirienceType.Advanced,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() {Id = "mpR5zbEXdW8" } , new VideoInfo() { Id = "GlreDCpb5t0" } },
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-12)
             };
 
 
@@ -64,7 +66,7 @@ namespace Funkmap.Tests.Funkmap.Data
             {
                 Sex = Sex.Female,
                 Login = "madlib",
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.UtcNow,
                 UserLogin = "rogulenkoko",
                 Description = "Большое описание музыканта, тудым сюдым. Как дела братва?",
                 Name = "Madlib",
@@ -72,24 +74,26 @@ namespace Funkmap.Tests.Funkmap.Data
                 Styles = new List<Styles>() { Styles.Funk, Styles.Rock},
                 Instrument = InstrumentType.Drums,
                 FacebookLink = "https://ru-ru.facebook.com/",
-                BandLogin = "beatles",
+                BandLogins = new List<string>() { "beatles" } ,
                 ExpirienceType = ExpirienceType.Begginer,
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-11)
             };
 
             var m3 = new MusicianEntity()
             {
                 Sex = Sex.Male,
                 Login = "razrab",
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.UtcNow,
                 Description = "Razrab описание!!!",
                 Name = "Razrab Razrab",
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(31, 51)),
                 Styles = new List<Styles>() { Styles.HipHop},
                 Instrument = InstrumentType.Keyboard,
-                BandLogin = "metallica",
+                BandLogins = new List<string>() { "metallica" },
                 ExpirienceType = ExpirienceType.SuperStar,
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-10)
             };
 
             repository.CreateAsync(m1).Wait();
@@ -112,7 +116,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Styles = new List<Styles>() { Styles.Funk, Styles.HipHop},
                 Description = "Даже не буду ничего говорить",
                 VkLink = "vk",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-9)
             };
 
             b1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("beatles-avatar.jpg")};
@@ -127,7 +132,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Styles = new List<Styles>() { Styles.Funk, Styles.Rock },
                 Description = "Мы жгучие перцы из солнечной калифорнии и этим все сказано",
                 YouTubeLink = "yt",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-8)
             };
 
             var b3 = new BandEntity()
@@ -140,7 +146,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Description = "Мы грустная группа которая играет холодно",
                 FacebookLink = "asda",
                 VkLink = "aaa",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-7)
             };
 
             repository.CreateAsync(b1).Wait();
@@ -161,7 +168,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Description = "Небольшой магазин с гитарами и прочим барахлом",
                 VkLink = "qwe",
                 Address = "пр-т Независимости 12",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-6)
             };
 
             var s2 = new ShopEntity()
@@ -171,7 +179,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(33, 51)),
                 Website = "http://online-simpsons.ru",
                 VkLink = "qwe",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-5)
             };
 
             var s3 = new ShopEntity()
@@ -183,7 +192,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Description = "Большой магазин с гитарами и прочим барахлом",
                 YouTubeLink = "asdasda",
                 Address = "пр-т Каменоостровский 11",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-4)
             };
             var s4 = new ShopEntity()
             {
@@ -194,7 +204,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 YouTubeLink = "asdasda",
                 FacebookLink = "asdasda",
                 Address = "пр-т Невский 5",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-3)
             };
 
             repository.CreateAsync(s1).Wait();
@@ -215,7 +226,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(25, 24)),
                 UserLogin = "rogulenkoko",
                 Address = "ул. Мовчанского 12",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-2)
             };
 
             var s2 = new StudioEntity()
@@ -227,7 +239,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 UserLogin = "test",
                 Address = "ул. Торжковская 15",
                 Description = "Супер клевая студия на которой записываются суперклевые пацаны",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-1)
             };
 
             repository.CreateAsync(s1).Wait();
@@ -246,7 +259,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 UserLogin = "test",
                 YouTubeLink = "yout",
                 Description = "Точка при магазине, супер оборудование и все такое еу еу",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow
             };
             
 
@@ -257,7 +271,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(29, 27)),
                 UserLogin = "test",
                 YouTubeLink = "yout",
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-8)
             };
 
             repository.CreateAsync(r1).Wait();

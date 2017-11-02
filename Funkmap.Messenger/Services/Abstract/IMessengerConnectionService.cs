@@ -1,7 +1,7 @@
 ﻿
 using Funkmap.Common.SignalR.Abstract;
 
-namespace Funkmap.Messenger.Services
+namespace Funkmap.Messenger.Services.Abstract
 {
     public interface IMessengerConnectionService : IConnectionService
     {

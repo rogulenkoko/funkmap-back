@@ -1,5 +1,6 @@
 ﻿using System;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -26,11 +27,7 @@ namespace Funkmap.Notifications.Data.Entities
         [BsonElement("nsl")]
         public string SenderLogin { get; set; }
 
-
-        /// <summary>
-        /// Сериализованное уведомление
-        /// </summary>
         [BsonElement("inn")]
-        public string InnerNotificationJson { get; set; }
+        public NotificationBase InnerNotification { get; set; }
     }
 }

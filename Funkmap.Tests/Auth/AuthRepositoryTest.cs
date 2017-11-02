@@ -1,14 +1,12 @@
 ﻿using System.IO;
-using System.Threading.Tasks;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
-using Funkmap.Tests.Funkmap.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Auth.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Funkmap.Tests.Funkmap.Auth
+namespace Funkmap.Tests.Auth
 {
     [TestClass]
     public class AuthRepositoryTest
@@ -35,18 +33,6 @@ namespace Funkmap.Tests.Funkmap.Auth
 
             result = _repository.Login("test", "2").Result;
             Assert.IsNull(result);
-        }
-
-        [TestMethod]
-        public void FavouritesTest()
-        {
-            _repository.SetFavourite("test", "razrab").Wait();
-            var favourites = _repository.GetFavouritesAsync("test").Result;
-            Assert.AreEqual(favourites.Count, 2);
-
-            _repository.SetFavourite("test", "razrab").Wait();
-            favourites = _repository.GetFavouritesAsync("test").Result;
-            Assert.AreEqual(favourites.Count, 1);
         }
 
         [TestMethod]

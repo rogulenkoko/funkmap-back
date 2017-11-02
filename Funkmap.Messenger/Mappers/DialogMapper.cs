@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Models;
@@ -18,7 +19,8 @@ namespace Funkmap.Messenger.Mappers
                 DialogId = source.Id.ToString(),
                 Name = source.Name,
                 LastMessage = lastMessage,
-                Participants = source.Participants
+                Participants = source.Participants,
+                CreatorLogin = source.CreatorLogin
             };
         }
 
@@ -38,7 +40,8 @@ namespace Funkmap.Messenger.Mappers
             return new DialogEntity()
             {
                 Name = source.Name,
-                Participants = source.Participants
+                Participants = source.Participants,
+                Avatar = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar }
             };
         }
     }

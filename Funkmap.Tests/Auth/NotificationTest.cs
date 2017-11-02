@@ -2,35 +2,38 @@
 using Funkmap.Common.Notifications.Notification;
 using Funkmap.Common.Settings;
 using Funkmap.Middleware.Settings;
+using Funkmap.Module.Auth.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Funkmap.Tests.Funkmap.Auth
+namespace Funkmap.Tests.Auth
 {
     [TestClass]
     public class NotificationTest
     {
         [TestMethod]
-        public void SendEmailTest()
+        public void SendConfirmationTest()
         {
             using (var mock = AutoMock.GetLoose())
             {
                 mock.Provide<ISettingsService>(new MonolithSettingsService());
                 var service = mock.Create<EmailNotificationService>();
-                var message = new ConfirmationNotification()
-                {
-                    Subject = "Test",
-                    Body = "test",
-                    Receiver = "timofey.milchakov@mail.ru"
-                };
+                var message = new ConfirmationNotification("rogulenkoko@gmail.com", "Кирилл Рогуленко", "123321");
                 var success = service.SendNotification(message).Result;
                 Assert.IsTrue(success);
             }
-            
         }
-    }
 
-    public class ConfirmationNotification : Notification
-    {
-        
+        [TestMethod]
+        public void SendRecoveryPasswordTest()
+        {
+            using (var mock = AutoMock.GetLoose())
+            {
+                mock.Provide<ISettingsService>(new MonolithSettingsService());
+                var service = mock.Create<EmailNotificationService>();
+                var message = new PasswordRecoverNotification("rogulenkoko@gmail.com", "Кирилл Рогуленко", "123321");
+                var success = service.SendNotification(message).Result;
+                Assert.IsTrue(success);
+            }
+        }
     }
 }

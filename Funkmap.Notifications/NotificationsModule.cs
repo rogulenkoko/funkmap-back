@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.RedisMq;
-using Funkmap.Contracts.Notifications;
-using Funkmap.Notifications.Contracts;
+using Funkmap.Common.Redis.Abstract;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
@@ -36,25 +32,12 @@ namespace Funkmap.Notifications
                 .As<IMongoCollection<NotificationEntity>>();
 
             builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
+            builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>();
 
-            builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>().SingleInstance();
-
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.FullName.Contains("Funkmap"))
-                .SelectMany(s => s.GetTypes())
-                .Where(x => x.GetInterfaces().Contains(typeof(INotificationTypes)))
-                .Distinct()
-                .ToList();
-
-            var instances = types.Select(x => Activator.CreateInstance(x) as INotificationTypes).ToList();
-            foreach (var instance in instances)
-            {
-                var serviceType = typeof(NotificationsService<,>).MakeGenericType(new[] { instance.RequestType, instance.ResponseType});
-                builder.RegisterType(serviceType)
-                    .As<INotificationsService>()
-                    .As<IRedisMqConsumer>()
-                    .WithParameter(new TypedParameter(typeof(NotificationType), instance.NotificationType));
-            }
+            builder.RegisterType<NotificationService>()
+                .As<IMessageHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

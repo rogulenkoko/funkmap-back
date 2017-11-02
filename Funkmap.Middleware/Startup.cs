@@ -75,11 +75,12 @@ namespace Funkmap.Middleware
 
         private void LoadAssemblies()
         {
+            //todo
             Assembly.Load("Funkmap");
             Assembly.Load("Funkmap.Module.Auth");
-            Assembly.Load("Funkmap.Messenger");
+            Assembly.Load("Funkmap.Messenger"); 
             Assembly.Load("Funkmap.Notifications");
-            Assembly.Load("Funkmap.Common.Modules");
+            Assembly.Load("Funkmap.Common.Redis.Autofac");
         }
 
         private void RegisterModules(ContainerBuilder builder)

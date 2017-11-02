@@ -8,6 +8,7 @@ using Funkmap.Auth.Data.Objects;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Common.Tools;
 using Funkmap.Module.Auth.Models;
 
 namespace Funkmap.Module.Auth.Controllers
@@ -83,7 +84,8 @@ namespace Funkmap.Module.Auth.Controllers
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
         {
             var response = new BaseResponse();
-            await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
+            var minified = FunkmapImageProcessor.MinifyImage(request.Avatar, 200);
+            await _authRepository.SaveAvatarAsync(request.Login, minified);
             response.Success = true;
            
             return Ok(response);

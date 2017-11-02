@@ -62,6 +62,10 @@
       <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Driver.GridFS, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.GridFS.2.4.4\lib\net45\MongoDB.Driver.GridFS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -115,15 +119,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caches\BaseCacheRepository.cs" />
+    <Compile Include="Caches\Base\BaseCacheRepository.cs" />
+    <Compile Include="Caches\Base\FavoriteCacheService.cs" />
+    <Compile Include="Caches\Base\FilteredCacheService.cs" />
     <Compile Include="Entities\Abstract\EstablishmentEntity.cs" />
     <Compile Include="Entities\RehearsalPointEntity.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Entities\StudioEntity.cs" />
+    <Compile Include="Objects\FileInfo.cs" />
     <Compile Include="Objects\UserEntitiesCountInfo.cs" />
     <Compile Include="Parameters\ChangeAvatarParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
     <Compile Include="Parameters\MusicianFilterParameter.cs" />
+    <Compile Include="Parameters\UpdateFavoriteParameter.cs" />
     <Compile Include="Parameters\UpdateVideoParameter.cs" />
     <Compile Include="Repositories\Abstract\IRehearsalPointRepository.cs" />
     <Compile Include="Repositories\Abstract\IShopRepository.cs" />
@@ -147,15 +155,24 @@
     <Compile Include="Services\BandFilterService.cs" />
     <Compile Include="Services\MusicianFilterService.cs" />
     <Compile Include="Services\FilterFactory.cs" />
+    <Compile Include="Tools\ImageNameBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
+      <Project>{d9a2e117-7cb0-4a3b-a401-4edef1e40732}</Project>
+      <Name>Funkmap.Common.Redis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
+      <Project>{5863156A-0E14-4319-8536-B719DBEBE433}</Project>
+      <Name>Funkmap.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

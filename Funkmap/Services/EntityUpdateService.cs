@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common;
 using Funkmap.Data.Entities;
@@ -9,16 +6,11 @@ using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;
+using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 
 namespace Funkmap.Services
 {
-    public interface IEntityUpdateService
-    {
-        Task CreateEntity(BaseModel model);
-        Task UpdateEntity(BaseModel model);
-    }
-
     public class EntityUpdateService : IEntityUpdateService
     {
         private readonly IBaseRepository _baseRepository;

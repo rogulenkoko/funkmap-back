@@ -6,8 +6,8 @@ using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Notifications.Notification.Abstract;
-using Funkmap.Module.Auth.Confirmation;
 using Funkmap.Module.Auth.Models;
+using Funkmap.Module.Auth.Notifications;
 
 namespace Funkmap.Module.Auth.Controllers
 {
@@ -16,13 +16,13 @@ namespace Funkmap.Module.Auth.Controllers
     public class AuthController : ApiController
     {
         private readonly IAuthRepository _authRepository;
-        private readonly INotificationService _notificationService;
+        private readonly IExternalNotificationService _externalNotificationService;
 
         private static readonly ConcurrentDictionary<string, UserConfirmationModel> _usersConfirmationCache = new ConcurrentDictionary<string, UserConfirmationModel>();
-        public AuthController(IAuthRepository authRepository, INotificationService notificationService)
+        public AuthController(IAuthRepository authRepository, IExternalNotificationService externalNotificationService)
         {
             _authRepository = authRepository;
-            _notificationService = notificationService;
+            _externalNotificationService = externalNotificationService;
         }
 
         [HttpPost]
@@ -59,12 +59,8 @@ namespace Funkmap.Module.Auth.Controllers
 
             var code = new Random().Next(100000, 999999).ToString();
 
-            var notification = new ConfirmationNotification
-            {
-                Receiver = request.Email
-            };
-            notification.BuildMessageText(request.Login, code);
-            var sendResult = await _notificationService.SendNotification(notification);
+            var notification = new ConfirmationNotification(request.Email, request.Name, code);
+            var sendResult = await _externalNotificationService.SendNotification(notification);
             _usersConfirmationCache[request.Login].Code = code;
             response.Success = sendResult;
 
@@ -92,14 +88,9 @@ namespace Funkmap.Module.Auth.Controllers
         {
             var response = new RegistrationResponse();
             UserEntity user = _authRepository.GetUserByEmail(email).Result;
-            if (user == null)
-                return Ok(response);
-            var notification = new ConfirmationNotification
-            {
-                Receiver = email
-            };
-            notification.BuildMessageText(user.Password);
-            var sendResult = await _notificationService.SendNotification(notification);
+            if (user == null) return Ok(response);
+            var notification = new PasswordRecoverNotification(email, user.Name, user.Password);
+            var sendResult = await _externalNotificationService.SendNotification(notification);
             response.Success = sendResult;
             return Ok(response);
         }

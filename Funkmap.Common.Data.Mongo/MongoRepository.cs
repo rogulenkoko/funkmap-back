@@ -31,9 +31,9 @@ namespace Funkmap.Common.Data.Mongo
             await _collection.InsertOneAsync(item);
         }
 
-        public virtual async Task<DeleteResult> DeleteAsync(string id)
+        public virtual async Task<T> DeleteAsync(string id)
         {
-            return await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("Id", new ObjectId(id)));
+            return await _collection.FindOneAndDeleteAsync(Builders<T>.Filter.Eq("Id", new ObjectId(id)));
         }
 
         public abstract Task UpdateAsync(T entity);
@@ -41,19 +41,19 @@ namespace Funkmap.Common.Data.Mongo
 
     public abstract class MongoLoginRepository<T> : MongoRepository<T> where T: class 
     {
-        public MongoLoginRepository(IMongoCollection<T> collection) : base(collection)
+        protected MongoLoginRepository(IMongoCollection<T> collection) : base(collection)
         {
         }
 
-        public async override Task<T> GetAsync(string login)
+        public override async Task<T> GetAsync(string login)
         {
             var filter = Builders<T>.Filter.Eq("log", login);
             return await _collection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public override async Task<DeleteResult> DeleteAsync(string id)
+        public override async Task<T> DeleteAsync(string id)
         {
-            return await _collection.DeleteOneAsync(Builders<T>.Filter.Eq("log", id));
+            return await _collection.FindOneAndDeleteAsync(Builders<T>.Filter.Eq("log", id));
         }
     }
 }

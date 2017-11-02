@@ -3,7 +3,9 @@ using System.Configuration;
 using Autofac;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Module
 {
@@ -37,6 +39,15 @@ namespace Funkmap.Module
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<StudioEntity>>();
+
+            builder.Register(container =>
+            {
+                var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+                //database.CreateCollection("fs.files");
+                //database.CreateCollection("fs.chunks");
+                return new GridFSBucket(database);
+
+            }).As<IGridFSBucket>();
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));

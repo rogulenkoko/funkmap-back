@@ -2,6 +2,7 @@
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Models;
+using MongoDB.Bson;
 
 namespace Funkmap.Mappers
 {
@@ -30,7 +31,7 @@ namespace Funkmap.Mappers
 
             return new SearchModel()
             {
-                Avatar = source.Photo?.Image?.AsByteArray,
+                AvatarId = source.PhotoMiniId == ObjectId.Empty ? null : source.PhotoMiniId.ToString(),
                 Login = source.Login,
                 UserLogin = source.UserLogin,
                 Title = source.Name,
