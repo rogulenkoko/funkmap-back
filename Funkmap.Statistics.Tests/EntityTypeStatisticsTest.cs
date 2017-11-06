@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac.Extras.Moq;
 using Funkmap.Data.Entities;
@@ -7,6 +8,8 @@ using Funkmap.Data.Repositories;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories;
+using Funkmap.Statistics.Data.Repositories.Abstract;
+using Funkmap.Statistics.Data.Services;
 using Funkmap.Statistics.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver.GridFS;
@@ -21,6 +24,8 @@ namespace Funkmap.Statistics.Tests
 
         private BaseRepository _profilesRepository;
 
+        private StatisticsMerger _merger;
+
 
         [TestInitialize]
         public void Initialize()
@@ -30,7 +35,9 @@ namespace Funkmap.Statistics.Tests
 
 
             var profilesCollection = db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
-            _repository = new EntityTypeStatisticsRepository(db.GetCollection<EntityTypeStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName), profilesCollection);
+            var typeStatisticsCollection = db.GetCollection<EntityTypeStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+
+            _repository = new EntityTypeStatisticsRepository(typeStatisticsCollection, profilesCollection);
 
             using (var mock = AutoMock.GetLoose())
             {
@@ -40,13 +47,20 @@ namespace Funkmap.Statistics.Tests
                 _profilesRepository = new BaseRepository(profilesCollection, gridFs.Object, filterFactory.Object);
             }
 
-            
+            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+
+            var statisticsRepositories = new List<IStatisticsRepository>() {_repository};
+
+            _merger = new StatisticsMerger(statisticsCollection, statisticsRepositories);
+
+
+
         }
 
         [TestMethod]
         public void GetFullStatistics()
         {
-            var fullStatistics = _repository.BuildFullStatisticsAsync().GetAwaiter().GetResult();
+            var fullStatistics = _repository.BuildFullStatisticsAsync().GetAwaiter().GetResult() as EntityTypeStatisticsEntity;
             _repository.UpdateAsync(fullStatistics).GetAwaiter().GetResult();
 
             var savedStatistic = _repository.GetAsync(fullStatistics.Id.ToString()).GetAwaiter().GetResult();
@@ -60,7 +74,7 @@ namespace Funkmap.Statistics.Tests
             var periodStatistics = _repository.BuildStatisticsAsync(begin, end).GetAwaiter().GetResult();
             Assert.IsNotNull(periodStatistics);
 
-            _repository.MergeStatistics().GetAwaiter().GetResult();
+            _merger.MergeStatistics().GetAwaiter().GetResult();
             var mergedStatistics = _repository.GetAsync(fullStatistics.Id.ToString()).GetAwaiter().GetResult();
 
             Assert.IsTrue(CompareStatistics(mergedStatistics, fullStatistics));
@@ -74,7 +88,7 @@ namespace Funkmap.Statistics.Tests
             };
             _profilesRepository.CreateAsync(newEntity).GetAwaiter().GetResult();
 
-            _repository.MergeStatistics().GetAwaiter().GetResult();
+            _merger.MergeStatistics().GetAwaiter().GetResult();
             var newMergedStatistics = _repository.GetAsync(fullStatistics.Id.ToString()).GetAwaiter().GetResult();
             Assert.AreNotEqual(mergedStatistics, newMergedStatistics);
 
