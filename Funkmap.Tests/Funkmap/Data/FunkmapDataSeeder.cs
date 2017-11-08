@@ -56,7 +56,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 ExpirienceType = ExpirienceType.Advanced,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() {Id = "mpR5zbEXdW8" } , new VideoInfo() { Id = "GlreDCpb5t0" } },
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-12)
+                CreationDate = DateTime.UtcNow.AddMonths(-12),
+                FavoriteFor = new List<string>() { "qwe","wewe","dfsdf"}
             };
 
 
@@ -77,7 +78,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 BandLogins = new List<string>() { "beatles" } ,
                 ExpirienceType = ExpirienceType.Begginer,
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-11)
+                CreationDate = DateTime.UtcNow.AddMonths(-11),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             var m3 = new MusicianEntity()
@@ -93,7 +95,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 BandLogins = new List<string>() { "metallica" },
                 ExpirienceType = ExpirienceType.SuperStar,
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-10)
+                CreationDate = DateTime.UtcNow.AddMonths(-10),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             repository.CreateAsync(m1).Wait();
@@ -117,7 +120,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Description = "Даже не буду ничего говорить",
                 VkLink = "vk",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-9)
+                CreationDate = DateTime.UtcNow.AddMonths(-9),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             b1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("beatles-avatar.jpg")};
@@ -133,7 +137,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Description = "Мы жгучие перцы из солнечной калифорнии и этим все сказано",
                 YouTubeLink = "yt",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-8)
+                CreationDate = DateTime.UtcNow.AddMonths(-8),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             var b3 = new BandEntity()
@@ -147,7 +152,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 FacebookLink = "asda",
                 VkLink = "aaa",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-7)
+                CreationDate = DateTime.UtcNow.AddMonths(-7),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             repository.CreateAsync(b1).Wait();
@@ -169,7 +175,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 VkLink = "qwe",
                 Address = "пр-т Независимости 12",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-6)
+                CreationDate = DateTime.UtcNow.AddMonths(-6),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             var s2 = new ShopEntity()
@@ -180,7 +187,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 Website = "http://online-simpsons.ru",
                 VkLink = "qwe",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-5)
+                CreationDate = DateTime.UtcNow.AddMonths(-5),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             var s3 = new ShopEntity()
@@ -193,7 +201,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 YouTubeLink = "asdasda",
                 Address = "пр-т Каменоостровский 11",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-4)
+                CreationDate = DateTime.UtcNow.AddMonths(-4),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
             var s4 = new ShopEntity()
             {
@@ -205,7 +214,8 @@ namespace Funkmap.Tests.Funkmap.Data
                 FacebookLink = "asdasda",
                 Address = "пр-т Невский 5",
                 IsActive = true,
-                CreationDate = DateTime.UtcNow.AddMonths(-3)
+                CreationDate = DateTime.UtcNow.AddMonths(-3),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
             repository.CreateAsync(s1).Wait();

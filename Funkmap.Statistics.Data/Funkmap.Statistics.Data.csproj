@@ -59,10 +59,19 @@
     <Compile Include="Entities\BaseStatisticsEntity.cs" />
     <Compile Include="Entities\CountStatisticsEntity.cs" />
     <Compile Include="Entities\EntityTypeStatisticsEntity.cs" />
+    <Compile Include="Entities\InstrumentStatisticsEntity.cs" />
+    <Compile Include="Entities\SexStatisticsEntity.cs" />
     <Compile Include="Entities\StatisticsType.cs" />
+    <Compile Include="Entities\TopEntityStatisticsEntity.cs" />
+    <Compile Include="Entities\TopStylesStatisticsEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstract\IStatisticsRepository.cs" />
+    <Compile Include="Repositories\CityStatisticsRepository.cs" />
     <Compile Include="Repositories\EntityTypeStatisticsRepository.cs" />
+    <Compile Include="Repositories\InstrumentStatisticsRepository.cs" />
+    <Compile Include="Repositories\SexStatisticsRepository.cs" />
+    <Compile Include="Repositories\TopEntityStatisticsRepository.cs" />
+    <Compile Include="Repositories\TopStylesStatisticsRepository.cs" />
     <Compile Include="Services\StatisticsMerger.cs" />
   </ItemGroup>
   <ItemGroup>

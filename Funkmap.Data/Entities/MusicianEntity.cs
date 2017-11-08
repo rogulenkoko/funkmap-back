@@ -15,6 +15,7 @@ namespace Funkmap.Data.Entities
         }
 
         [BsonElement("intsr")]
+        
         public InstrumentType Instrument { get; set; }
 
         [BsonElement("sex")]
