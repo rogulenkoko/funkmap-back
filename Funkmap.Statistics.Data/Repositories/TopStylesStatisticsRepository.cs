@@ -53,14 +53,20 @@ namespace Funkmap.Statistics.Data.Repositories
                          Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end)
                          & Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
 
+            var projection = Builders<MusicianEntity>.Projection.Include(x => x.Styles);
+
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)
-                .Group(x => x, entities => new CountStatisticsEntity<EntityType>()
+                .Project<MusicianEntity>(projection)
+                .Unwind<MusicianEntity, UnwindStyles>(x => x.Styles)
+                .Group(x => x.Style, unwinded => new CountStatisticsEntity<Styles>()
                 {
-                    Key = entities.Key.EntityType,
-                    Count = entities.Key.FavoriteFor.Count
-                }).ToListAsync();
-            var statistic = new TopEntityStatisticsEntity()
+                    Key = unwinded.Key,
+                    Count = unwinded.Count()
+                })
+                .ToListAsync();
+
+            var statistic = new TopStylesStatisticsEntity()
             {
                 CountStatistics = statistics
             };

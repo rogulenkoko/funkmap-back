@@ -51,6 +51,13 @@ namespace Funkmap.Statistics.Tests
         public void GetFullStatisticsTest()
         {
             var fullStatistics = _repository.BuildFullStatisticsAsync().GetAwaiter().GetResult();
+            Assert.IsNotNull(fullStatistics);
+
+
+            var begin = DateTime.UtcNow.AddMonths(-12);
+            var end = DateTime.UtcNow.AddMonths(-10);
+            var periodStatistics = _repository.BuildStatisticsAsync(begin, end).GetAwaiter().GetResult();
+            Assert.IsNotNull(periodStatistics);
         }
     }
 }
