@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Funkmap.Common;
 using Funkmap.Data.Entities;
 
@@ -20,7 +21,12 @@ namespace Funkmap.Data.Parameters
         public override string ToString()
         {
             var separator = ",";
-            return $"{ String.Join(separator, Instruments)}|{String.Join(separator, Expirience)}|{String.Join(separator, Styles)}|";
+            var sb = new StringBuilder();
+            if (Instruments != null) sb.Append($"{String.Join(separator, Instruments)}|");
+            if (Expirience != null) sb.Append($"{String.Join(separator, Expirience)}|");
+            if (Styles != null) sb.Append($"{String.Join(separator, Styles)}");
+
+            return sb.ToString();
         }
     }
 

@@ -39,6 +39,8 @@ namespace Funkmap.Notifications
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
 
+            builder.RegisterType<NotificationService>().As<INotificationService>();
+
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль уведомлений");
