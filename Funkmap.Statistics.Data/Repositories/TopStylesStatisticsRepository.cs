@@ -8,24 +8,39 @@ using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
+using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopStylesStatisticsRepository : MongoRepository<TopStylesStatisticsEntity>, IStatisticsRepository
+    public class TopStylesStatisticsRepository : MongoRepository<TopStylesStatisticsEntity>, IMusicianStatisticsRepository
     {
         private readonly IMongoCollection<MusicianEntity> _profileCollection;
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
+            //db.bases.aggregate(
+            //{$unwind: "$stls"},
+            //{$project: { stls: 1} },
+            //{$group: { _id: "$stls", count: {$sum: 1} } }
+            //)
+
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
+
+            var projection = Builders<MusicianEntity>.Projection.Include(x => x.Styles);
+
             var statistics = await _profileCollection.Aggregate()
-                
-                .Group(x => x.Styles, entities => new CountStatisticsEntity<Styles>()
+                .Match(filter)
+                .Project<MusicianEntity>(projection)
+                .Unwind<MusicianEntity, UnwindStyles>(x => x.Styles)
+                .Group(x => x.Style, unwinded => new CountStatisticsEntity<Styles>()
                 {
-                    Key = entities.Key,
-                    Count = entities.GetEnumerator().Current.FavoriteFor.Count
-                }).ToListAsync();
-            var statistic = new TopEntityStatisticsEntity()
+                    Key =  unwinded.Key,
+                    Count = unwinded.Count()
+                })
+                .ToListAsync();
+
+            var statistic = new TopStylesStatisticsEntity()
             {
                 CountStatistics = statistics
             };
@@ -34,8 +49,9 @@ namespace Funkmap.Statistics.Data.Repositories
 
         public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var filter = Builders<BaseEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<BaseEntity>.Filter.Lte(x => x.CreationDate, end);
+            var filter = Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
+                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end)
+                         & Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
 
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)

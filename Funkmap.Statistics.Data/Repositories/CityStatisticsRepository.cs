@@ -12,7 +12,7 @@ using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class CityStatisticsRepository : MongoRepository<EntityTypeStatisticsEntity>, IStatisticsRepository
+    public class CityStatisticsRepository : MongoRepository<EntityTypeStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
         public StatisticsType StatisticsType => StatisticsType.City;

@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Data.Entities;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Statistics.Data.Entities
 {
-    public class TopStylesStatisticsEntity:BaseStatisticsEntity
+    public class TopStylesStatisticsEntity : BaseStatisticsEntity
     {
         public TopStylesStatisticsEntity()
         {
-            CountStatistics = new List<CountStatisticsEntity<MusicianEntity>>();
+            CountStatistics = new List<CountStatisticsEntity<Styles>>();
             StatisticsType = StatisticsType.TopStylesEntity;
         }
 
         [BsonElement("cs")]
-        public List<CountStatisticsEntity<MusicianEntity>> CountStatistics { get; set; }
+        public List<CountStatisticsEntity<Styles>> CountStatistics { get; set; }
 
         public override BaseStatisticsEntity Merge(BaseStatisticsEntity second)
         {

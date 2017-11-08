@@ -13,7 +13,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopEntityStatisticsRepository : MongoRepository<TopEntityStatisticsEntity>, IStatisticsRepository
+    public class TopEntityStatisticsRepository : MongoRepository<TopEntityStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()

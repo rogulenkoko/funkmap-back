@@ -13,7 +13,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class InstrumentStatisticsRepository : MongoRepository<InstrumentStatisticsEntity>, IStatisticsRepository
+    public class InstrumentStatisticsRepository : MongoRepository<InstrumentStatisticsEntity>, IMusicianStatisticsRepository
     {
         public StatisticsType StatisticsType => StatisticsType.InstrumentType;
         private readonly IMongoCollection<MusicianEntity> _profileCollection;

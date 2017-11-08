@@ -10,7 +10,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class EntityTypeStatisticsRepository : MongoRepository<EntityTypeStatisticsEntity>, IStatisticsRepository
+    public class EntityTypeStatisticsRepository : MongoRepository<EntityTypeStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
         public EntityTypeStatisticsRepository(IMongoCollection<EntityTypeStatisticsEntity> collection,
