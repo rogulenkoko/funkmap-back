@@ -39,13 +39,9 @@ namespace Funkmap.Statistics.Tests
 
             _repository = new InstrumentStatisticsRepository(typeStatisticsCollection, profilesCollection);
 
-            using (var mock = AutoMock.GetLoose())
-            {
-                var gridFs = mock.Mock<IGridFSBucket>();
-                var filterFactory = mock.Mock<IFilterFactory>();
-
-                _profilesRepository = new MusicianRepository(profilesCollection);
-            }
+            
+            _profilesRepository = new MusicianRepository(profilesCollection);
+            
 
             var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
 
