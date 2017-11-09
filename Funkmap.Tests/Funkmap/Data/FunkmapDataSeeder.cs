@@ -121,7 +121,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 VkLink = "vk",
                 IsActive = true,
                 CreationDate = DateTime.UtcNow.AddMonths(-9),
-                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
+                FavoriteFor = new List<string>() { "qwe", "wewe" }
             };
 
             b1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("beatles-avatar.jpg")};

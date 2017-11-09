@@ -8,6 +8,7 @@ using Funkmap.Common;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
+using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using MongoDB.Driver;
 
@@ -18,13 +19,22 @@ namespace Funkmap.Statistics.Data.Repositories
         private readonly IMongoCollection<BaseEntity> _profileCollection;
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
+
+            //db.bases.aggregate(
+            //{$project: { login: "$log", type: "$t", count: { "$ifNull":["$fav", []]} }},
+            //{$limit:5}
+            //)
+
             var statistics = await _profileCollection.Aggregate()
-              
-              .Group(x => x.EntityType, entities => new CountStatisticsEntity<EntityType>()
-              {//todo нужно написать нозмальный запрос db.bases.aggregate({$group: { _id: "$t", count:{ $sum: "$fav".length-1} } })
-                  Key = entities.Key,
-                    Count = entities.GetEnumerator().Current.FavoriteFor.Count
-                }).ToListAsync();
+                .Project(entity => new TopEntityStatistic()
+                {
+                    Login = entity.Login,
+                    Id = entity.Id,
+                    EntityType = entity.EntityType,
+                    Count = entity.FavoriteFor == null ? 0 : entity.FavoriteFor.Count
+                })
+                .Limit(5)
+                .ToListAsync();
             var statistic = new TopEntityStatisticsEntity()
             {
                 CountStatistics = statistics
@@ -36,15 +46,19 @@ namespace Funkmap.Statistics.Data.Repositories
         {
             var filter = Builders<BaseEntity>.Filter.Gte(x => x.CreationDate, begin) &
                          Builders<BaseEntity>.Filter.Lte(x => x.CreationDate, end);
-                         
+
 
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)
-                .Group(x => x, entities => new CountStatisticsEntity<EntityType>()
+                .Project(entity => new TopEntityStatistic()
                 {
-                    Key = entities.Key.EntityType,
-                    Count = entities.Key.FavoriteFor.Count
-                }).ToListAsync();
+                    Login = entity.Login,
+                    Id = entity.Id,
+                    EntityType = entity.EntityType,
+                    Count = entity.FavoriteFor == null ? 0 : entity.FavoriteFor.Count
+                })
+                .Limit(5)
+                .ToListAsync();
             var statistic = new TopEntityStatisticsEntity()
             {
                 CountStatistics = statistics
