@@ -3,28 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Statistics.Data.Entities
 {
-    public class TopEntityStatisticsEntity : BaseStatisticsEntity
+    public class CityStatisticsEntity: BaseStatisticsEntity
+
     {
-        public TopEntityStatisticsEntity()
+        public CityStatisticsEntity()
         {
-            CountStatistics = new List<CountStatisticsEntity<Styles>>();
-            StatisticsType = StatisticsType.TopEntity;
+            CountStatistics = new List<CountStatisticsEntity<string>>();
+            StatisticsType = StatisticsType.City;
         }
 
         [BsonElement("cs")]
-        public List<CountStatisticsEntity<Styles>> CountStatistics { get; set; }
+        public List<CountStatisticsEntity<string>> CountStatistics { get; set; }
 
         public override BaseStatisticsEntity Merge(BaseStatisticsEntity second)
         {
             var firstCurrent = this;
-            var secondCurrent = second as TopEntityStatisticsEntity;
+            var secondCurrent = second as CityStatisticsEntity;
             if (firstCurrent == null || secondCurrent == null) throw new InvalidOperationException("invalid parameter types");
 
             var newStatisticsDictionary = secondCurrent.CountStatistics.ToDictionary(x => x.Key);
@@ -39,3 +37,4 @@ namespace Funkmap.Statistics.Data.Entities
         }
     }
 }
+

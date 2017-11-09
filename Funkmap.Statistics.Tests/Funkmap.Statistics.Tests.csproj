@@ -89,7 +89,25 @@
   <ItemGroup>
     <Compile Include="Data\FunkmapStatisticsTestDbProvider.cs" />
     <Compile Include="EntityTypeStatisticsTest.cs" />
+    <Compile Include="InstrumentStatisticsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <Compile Include="SexStatisticsTest.cs" />
+=======
+    <Compile Include="TopStylesStatisticsTest.cs" />
+>>>>>>> 81c1e22dafdddcbd97ab7a4b6564d8ab68c4759d
+=======
+    <Compile Include="TopStylesStatisticsTest.cs" />
+>>>>>>> 81c1e22dafdddcbd97ab7a4b6564d8ab68c4759d
+=======
+    <Compile Include="TopStylesStatisticsTest.cs" />
+>>>>>>> 81c1e22dafdddcbd97ab7a4b6564d8ab68c4759d
+=======
+    <Compile Include="TopStylesStatisticsTest.cs" />
+>>>>>>> 81c1e22dafdddcbd97ab7a4b6564d8ab68c4759d
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

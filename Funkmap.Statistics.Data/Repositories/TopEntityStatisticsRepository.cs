@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Funkmap.Common;
 using Funkmap.Common.Data.Mongo;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories.Abstract;
@@ -13,16 +14,16 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopEntityStatisticsRepository : MongoRepository<TopEntityStatisticsEntity>, IStatisticsRepository
+    public class TopEntityStatisticsRepository : MongoRepository<TopEntityStatisticsEntity>, IProfileStatisticsRepository
     {
-        private readonly IMongoCollection<BaseEntity> _profileCollection;
+        private readonly IMongoCollection<MusicianEntity> _profileCollection;
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
             var statistics = await _profileCollection.Aggregate()
               
-              .Group(x => x.EntityType, entities => new CountStatisticsEntity<EntityType>()
-              {//todo нужно написать нозмальный запрос db.bases.aggregate({$group: { _id: "$t", count:{ $sum: "$fav".length-1} } })
-                  Key = entities.Key,
+              .Group(x => x, entities => new CountStatisticsEntity<Styles>()
+              {
+                  //Key = entities.,
                     Count = entities.GetEnumerator().Current.FavoriteFor.Count
                 }).ToListAsync();
             var statistic = new TopEntityStatisticsEntity()
@@ -34,15 +35,15 @@ namespace Funkmap.Statistics.Data.Repositories
 
         public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var filter = Builders<BaseEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<BaseEntity>.Filter.Lte(x => x.CreationDate, end);
+            var filter = Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
+                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end);
                          
 
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)
-                .Group(x => x, entities => new CountStatisticsEntity<EntityType>()
+                .Group(x => x, entities => new CountStatisticsEntity<Styles>()
                 {
-                    Key = entities.Key.EntityType,
+                    //Key = entities.Key.EntityType,
                     Count = entities.Key.FavoriteFor.Count
                 }).ToListAsync();
             var statistic = new TopEntityStatisticsEntity()
@@ -55,7 +56,7 @@ namespace Funkmap.Statistics.Data.Repositories
         public StatisticsType StatisticsType => StatisticsType.TopEntity;
 
         public TopEntityStatisticsRepository(IMongoCollection<TopEntityStatisticsEntity> collection,
-            IMongoCollection<BaseEntity> profileCollection) : base(collection)
+            IMongoCollection<MusicianEntity> profileCollection) : base(collection)
         {
             _profileCollection = profileCollection;
         }
