@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Funkmap.Common;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
@@ -17,6 +12,13 @@ namespace Funkmap.Statistics.Data.Repositories
     public class TopEntityStatisticsRepository : MongoRepository<TopEntityStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
+
+        public TopEntityStatisticsRepository(IMongoCollection<TopEntityStatisticsEntity> collection,
+                                             IMongoCollection<BaseEntity> profileCollection) : base(collection)
+        {
+            _profileCollection = profileCollection;
+        }
+
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
 
@@ -42,37 +44,14 @@ namespace Funkmap.Statistics.Data.Repositories
             return statistic;
         }
 
-        public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
+        public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var filter = Builders<BaseEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<BaseEntity>.Filter.Lte(x => x.CreationDate, end);
-
-
-            var statistics = await _profileCollection.Aggregate()
-                .Match(filter)
-                .Project(entity => new TopEntityStatistic()
-                {
-                    Login = entity.Login,
-                    Id = entity.Id,
-                    EntityType = entity.EntityType,
-                    Count = entity.FavoriteFor == null ? 0 : entity.FavoriteFor.Count
-                })
-                .Limit(5)
-                .ToListAsync();
-            var statistic = new TopEntityStatisticsEntity()
-            {
-                CountStatistics = statistics
-            };
-            return statistic;
+            //тут не уместна выборка по дате поэтому отдаем независимо от даты
+            return BuildFullStatisticsAsync();
         }
 
         public StatisticsType StatisticsType => StatisticsType.TopEntity;
-
-        public TopEntityStatisticsRepository(IMongoCollection<TopEntityStatisticsEntity> collection,
-            IMongoCollection<BaseEntity> profileCollection) : base(collection)
-        {
-            _profileCollection = profileCollection;
-        }
+        
 
         public override async Task UpdateAsync(TopEntityStatisticsEntity entity)
         {
