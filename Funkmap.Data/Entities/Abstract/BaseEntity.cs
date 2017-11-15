@@ -31,7 +31,7 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("user")]
         public string UserLogin { get; set; }
 
-        [BsonElement("n")]
+       [BsonElement("n")]
         public string Name { get; set; }
 
         [BsonElement("t")]

@@ -65,6 +65,7 @@
     <Compile Include="Entities\StatisticsType.cs" />
     <Compile Include="Entities\TopEntityStatisticsEntity.cs" />
     <Compile Include="Entities\TopStylesStatisticsEntity.cs" />
+    <Compile Include="Objects\CityStatistic.cs" />
     <Compile Include="Objects\TopEntityStatistic.cs" />
     <Compile Include="Objects\UnwindStyles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
