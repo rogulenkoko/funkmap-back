@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Common;
 using Funkmap.Data.Entities;
 using Funkmap.Statistics.Data.Entities;
+using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using MongoDB.Driver;
 
@@ -18,14 +21,34 @@ namespace Funkmap.Statistics.Data.Repositories
             _profileCollection = profileCollection;
         }
 
-        public Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
+        public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
-            throw new NotImplementedException();
+            var filter = Builders<MusicianEntity>.Filter.Ne(x => x.BandLogins, null) & Builders<MusicianEntity>.Filter.
         }
 
-        public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
+        public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            throw new NotImplementedException();
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) &
+                         Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
+                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end)&
+                         Builders<MusicianEntity>.Filter.Ne(x => x.BandLogins, null);
+
+
+
+            var statistics = await _profileCollection.Aggregate()
+                .Match(filter)
+                .Group(x => x.BandLogins.Count > 0, unwinded => new CountStatisticsEntity<bool>()
+                {
+                    Key = unwinded.Key,
+                    Count = unwinded.Count()
+                })
+                .ToListAsync();
+
+            var statistic = new InBandStatisticsEntity()
+            {
+                CountStatistics = statistics
+            };
+            return statistic;
         }
 
        

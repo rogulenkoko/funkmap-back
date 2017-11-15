@@ -52,7 +52,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 Instrument = InstrumentType.Brass,
                 VkLink = "https://vk.com/id30724049",
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
-                BandLogins = new List<string>() { "funkmap" } ,
+                BandLogins = new List<string>() { "funkmap", "Kirill'sMother" } ,
                 ExpirienceType = ExpirienceType.Advanced,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() {Id = "mpR5zbEXdW8" } , new VideoInfo() { Id = "GlreDCpb5t0" } },
                 IsActive = true,
@@ -99,9 +99,27 @@ namespace Funkmap.Tests.Funkmap.Data
                 FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
             };
 
+            var m4 = new MusicianEntity()
+            {
+                Sex = Sex.Male,
+                Login = "norazrab",
+                BirthDate = DateTime.UtcNow,
+                Description = "Razrab описание!!!",
+                Name = "tim tim",
+                Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(34, 51)),
+                Styles = new List<Styles>() { Styles.HipHop },
+                Instrument = InstrumentType.Keyboard,
+                BandLogins = new List<string>() ,
+                ExpirienceType = ExpirienceType.SuperStar,
+                IsActive = true,
+                CreationDate = DateTime.UtcNow.AddMonths(-10),
+                FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf", "rtyu" }
+            };
+
             repository.CreateAsync(m1).Wait();
             repository.CreateAsync(m2).Wait();
             repository.CreateAsync(m3).Wait();
+            repository.CreateAsync(m4).Wait();
         }
 
         private void SeedBands()
