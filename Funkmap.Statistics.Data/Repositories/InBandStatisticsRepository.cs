@@ -20,7 +20,7 @@ namespace Funkmap.Statistics.Data.Repositories
 
         public Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
-            var filter = Builders<MusicianEntity>.Filter.Ne(x => x.BandLogins, null) & Builders<MusicianEntity>.Filter.
+            throw new NotImplementedException();
         }
 
         public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)

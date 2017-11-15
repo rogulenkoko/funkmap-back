@@ -38,7 +38,8 @@ namespace Funkmap.Statistics.Tests
             var profilesCollection = db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
             var typeStatisticsCollection = db.GetCollection<CityStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
 
-            _repository = new CityStatisticsRepository(typeStatisticsCollection, profilesCollection);
+            var citiesProvider = new CitiesInfoProvider();
+            _repository = new CityStatisticsRepository(typeStatisticsCollection, profilesCollection, citiesProvider);
 
             using (var mock = AutoMock.GetLoose())
             {

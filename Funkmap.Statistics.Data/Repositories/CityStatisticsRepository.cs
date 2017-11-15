@@ -8,6 +8,8 @@ using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;
+using Funkmap.Statistics.Data.Services;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 
@@ -16,100 +18,123 @@ namespace Funkmap.Statistics.Data.Repositories
     public class CityStatisticsRepository : StatisticsMongoRepository<CityStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
-        private string _map;
-        private string _reduce;
-        private string _finalize;
+        private readonly ICitiesInfoProvider _citiesInfoProvider;
+
         public StatisticsType StatisticsType => StatisticsType.City;
+
         public CityStatisticsRepository(IMongoCollection<CityStatisticsEntity> collection,
-            IMongoCollection<BaseEntity> profileCollection) : base(collection)
+            IMongoCollection<BaseEntity> profileCollection,
+            ICitiesInfoProvider citiesInfoProvider) : base(collection)
         {
             _profileCollection = profileCollection;
-            InitFunction();
-        }
-        private void InitFunction()
-        {
-            string other = "\"other\"";
-            _map = @"
-                function() {
-                    var baseEntity = this;
-                    var nameCity = 'other';
-                    if(Math.abs(baseEntity.loc.coordinates[0]-55.755814)<=0.16&&
-                       Math.abs(baseEntity.loc.coordinates[1]-37.617635)<=0.24){
-                        nameCity = 'Moscow';
-                    }
-                    if(Math.abs(baseEntity.loc.coordinates[0]-59.948272)<=0.13&&
-                       Math.abs(baseEntity.loc.coordinates[1]-30.317846)<=0.24){
-                        nameCity = 'Saint-Petersburg';
-                    }
-                    if(Math.abs(baseEntity.loc.coordinates[0]-53.894548)<=0.10&&
-                       Math.abs(baseEntity.loc.coordinates[1]-30.330654)<=0.13){
-                        nameCity = 'Mogilev';
-                    }
-                    if(Math.abs(baseEntity.loc.coordinates[0]-58.570410)<=0.12&&
-                       Math.abs(baseEntity.loc.coordinates[1]-49.559553)<=0.15){
-                        nameCity = 'KirovEpta';
-                    }
-                    if(Math.abs(baseEntity.loc.coordinates[0]-53.902496)<=0.08&&
-                       Math.abs(baseEntity.loc.coordinates[1]-27.561481)<=0.21){
-                        nameCity = 'Minsk';
-                    }
-                    emit(nameCity, { count: 1 });
-                }";
-            _reduce = @"        
-                function(key, values) {
-                    var sum = 0;
-                    for(var i in values) {
-		                sum += values[i];
-	                }
-                    return sum;                    
-                }";
-            _finalize = @"
-                function(key, value){
-                   
-                }";
+            _citiesInfoProvider = citiesInfoProvider;
         }
 
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
-            var options = new MapReduceOptions<BaseEntity, CityStatistic>();
-            
-            var statistics = await _profileCollection.MapReduceAsync(_map, _reduce, options);
-            List<CountStatisticsEntity<string>> countStatistics=new List<CountStatisticsEntity<string>>();
-            foreach (var itemStatistic in statistics.Current)
+
+            //var mapFunc = function(){
+
+            //    var cities = [
+            //    { name: "Санкт-Петербург", center: { lat: 50, lon: 30}, radius: 2 },
+            //    { name: "Минск", center: { lat: 55, lon: 29}, radius: 2 }
+            //    ]
+
+            //    for (var i = 0; i < cities.length; i++)
+            //    {
+            //        if ((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)
+            //            && (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius))
+            //        {
+            //            emit(cities[i].name, this.log);
+            //        }
+            //    }
+            //}
+
+            //var reduceFunc = function(key, values){
+            //    var statistics = values.length;
+            //    return statistics;
+            //}
+
+            //var finalizeFunc = function(key, reduced){
+            //    if (typeof reduced === 'string') return 1;
+            //    return reduced;
+            //}
+
+            //db.bases.mapReduce(
+            //    mapFunc,
+            //    reduceFunc,
+            //{
+            //    finalize: finalizeFunc,
+            //        out: { inline: 1 }
+            //}
+            //)
+
+            var mapFunc = GetMapFunction();
+            var reduceFunc = GetReduseFunction();
+            var finalizeFunc = GetFinalizeFunction();
+
+            var options = new MapReduceOptions<BaseEntity, CityStatistic>()
             {
-                var temp = new CountStatisticsEntity<string>();
-                {
-                    temp.Key = itemStatistic.NameCity;
-                    temp.Count = (int)itemStatistic.Count;
-                }
-                countStatistics.Add(temp);
-            }
-            var statistic = new CityStatisticsEntity()
-            {
-                CountStatistics = countStatistics
+                Finalize = finalizeFunc
             };
-            return statistic;
+
+            var statistics = await _profileCollection.MapReduce(mapFunc, reduceFunc, options).ToListAsync();
+
+            var countStatistics = statistics.Select(x => new CountStatisticsEntity<string>()
+            {
+                Count = x.Count,
+                Key = x.City
+            }).ToList();
+
+            return new CityStatisticsEntity() {CountStatistics = countStatistics };
         }
 
         public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var filter = Builders<BaseEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<BaseEntity>.Filter.Lte(x => x.CreationDate, end);
-            var options = new MapReduceOptions<BaseEntity, CountStatisticsEntity<string>>();
-            options.Filter = filter;
-            var statistics = _profileCollection.MapReduce(_map, _reduce, options).Current;
-            List<CountStatisticsEntity<string>> countStatistics = new List<CountStatisticsEntity<string>>();
-            foreach (var itemStatistic in statistics)
-            {
-                countStatistics.Add(itemStatistic);
-            }
-            var statistic = new CityStatisticsEntity()
-            {
-                CountStatistics = countStatistics
-            };
-            return statistic;
+            throw new NotImplementedException();
         }
 
-        
+        private string GetMapFunction()
+        {
+            var sb = new StringBuilder();
+            var cities = _citiesInfoProvider.CityInfos;
+            sb.Append("var cities = [");
+            foreach (var city in cities)
+            {
+                sb.Append($"{{name:\"{city.Name}\", center: {{lat: {city.CenterLatitude}, lon: {city.CenterLongitude}}}, radius:{city.Radius}}},");
+            }
+            sb.Append("];");
+
+            sb.Append("for(var i = 0; i < cities.length; i++){if((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)&& (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius)){emit(cities[i].name, this.log);}}");
+
+            return WrapWithJsFunction(sb.ToString());
+        }
+
+        private string GetReduseFunction()
+        {
+            var functionBody = "var statistics = values.length;return statistics;";
+            return WrapWithJsFunction(functionBody, new[] { "key", "values" });
+        }
+
+        private string GetFinalizeFunction()
+        {
+            var functionBody = "if(typeof reduced === \'string\') return 1;return reduced;";
+            return WrapWithJsFunction(functionBody, new[] { "key", "reduced" });
+        }
+
+        private string WrapWithJsFunction(string body, string[] parameters = null)
+        {
+
+            var parametersString = String.Empty;
+
+            if (parameters != null)
+            {
+                parametersString = String.Join(",", parameters);
+            }
+
+            return $"function({parametersString}){{{body}}}";
+        }
+
+
     }
 }

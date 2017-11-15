@@ -66,6 +66,7 @@
     <Compile Include="Entities\StatisticsType.cs" />
     <Compile Include="Entities\TopEntityStatisticsEntity.cs" />
     <Compile Include="Entities\TopStylesStatisticsEntity.cs" />
+    <Compile Include="Objects\CityInfo.cs" />
     <Compile Include="Objects\CityStatistic.cs" />
     <Compile Include="Objects\TopEntityStatistic.cs" />
     <Compile Include="Objects\UnwindStyles.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Repositories\SexStatisticsRepository.cs" />
     <Compile Include="Repositories\TopEntityStatisticsRepository.cs" />
     <Compile Include="Repositories\TopStylesStatisticsRepository.cs" />
+    <Compile Include="Services\CitiesInfoProvider.cs" />
     <Compile Include="Services\StatisticsMerger.cs" />
   </ItemGroup>
   <ItemGroup>
