@@ -114,7 +114,6 @@
     <Compile Include="Messenger\DialogsRepositoryTest.cs" />
     <Compile Include="Messenger\MessageRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statistics\StatisticsRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">

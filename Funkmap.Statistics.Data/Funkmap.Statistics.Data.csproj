@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\BaseStatisticsEntity.cs" />
+    <Compile Include="Entities\CityStatisticsEntity.cs" />
     <Compile Include="Entities\CountStatisticsEntity.cs" />
     <Compile Include="Entities\EntityTypeStatisticsEntity.cs" />
     <Compile Include="Entities\InstrumentStatisticsEntity.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Entities\StatisticsType.cs" />
     <Compile Include="Entities\TopEntityStatisticsEntity.cs" />
     <Compile Include="Entities\TopStylesStatisticsEntity.cs" />
+    <Compile Include="Objects\CityStatistic.cs" />
     <Compile Include="Objects\TopEntityStatistic.cs" />
     <Compile Include="Objects\UnwindStyles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

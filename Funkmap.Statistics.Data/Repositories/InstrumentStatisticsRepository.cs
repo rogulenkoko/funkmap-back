@@ -60,6 +60,7 @@ namespace Funkmap.Statistics.Data.Repositories
                          Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end);
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter )
+                .Match(x => x.Instrument != null)
                 .Group(x => x.Instrument, entities => new CountStatisticsEntity<InstrumentType>()
                     {
                         Key = entities.Key,
