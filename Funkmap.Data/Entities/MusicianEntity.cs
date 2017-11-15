@@ -11,6 +11,8 @@ namespace Funkmap.Data.Entities
         public MusicianEntity()
         {
             EntityType = EntityType.Musician;
+            Sex = Sex.None;
+            Instrument = InstrumentType.None;
         }
 
         [BsonElement("intsr")]
@@ -18,7 +20,6 @@ namespace Funkmap.Data.Entities
         public InstrumentType Instrument { get; set; }
 
         [BsonElement("sex")]
-        [BsonIgnoreIfDefault]
         public Sex Sex { get; set; }
 
         [BsonElement("bd")]

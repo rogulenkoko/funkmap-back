@@ -9,14 +9,14 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopEntityStatisticsRepository : StatisticsMongoRepository<TopEntityStatisticsEntity>, IProfileStatisticsRepository
+    public class TopEntityStatisticsRepository : StatisticsMongoRepository<TopProfileStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
 
         public StatisticsType StatisticsType => StatisticsType.TopEntity;
 
 
-        public TopEntityStatisticsRepository(IMongoCollection<TopEntityStatisticsEntity> collection,
+        public TopEntityStatisticsRepository(IMongoCollection<TopProfileStatisticsEntity> collection,
                                              IMongoCollection<BaseEntity> profileCollection) : base(collection)
         {
             _profileCollection = profileCollection;
@@ -44,7 +44,7 @@ namespace Funkmap.Statistics.Data.Repositories
                 .Sort(sort)
                 .Limit(5)
                 .ToListAsync();
-            var statistic = new TopEntityStatisticsEntity()
+            var statistic = new TopProfileStatisticsEntity()
             {
                 CountStatistics = statistics
             };

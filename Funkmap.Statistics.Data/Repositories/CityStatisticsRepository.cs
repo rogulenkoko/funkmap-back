@@ -60,7 +60,7 @@ namespace Funkmap.Statistics.Data.Repositories
             //    mapFunc,
             //    reduceFunc,
             //{
-            //    finalize: finalizeFunc,
+            //    finalize: finalizeFunc,ну 
             //        out: { inline: 1 }
             //}
             //)
@@ -125,7 +125,7 @@ namespace Funkmap.Statistics.Data.Repositories
             else
             {
                 if(!end.HasValue) end = DateTime.UtcNow;
-                sb.Append($"var begin = new Date({begin.Value.Year}, {begin.Value.Month}, {begin.Value.Day}); var end = new Date({end.Value.Year}, {end.Value.Month}, {end.Value.Day}); for(var i = 0; i < cities.length; i++){{if((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)&& (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius)){{if(this.cd >= begin && this.cd <= end){{emit(cities[i].name, this.log);}}}}}}");
+                sb.Append($"var begin = new Date({begin.Value.Year}, {begin.Value.Month - 1}, {begin.Value.Day}, {begin.Value.Hour}, {begin.Value.Minute}, {begin.Value.Second}); var end = new Date({end.Value.Year}, {end.Value.Month - 1}, {end.Value.Day}, {end.Value.Hour}, {end.Value.Minute}, {end.Value.Second}); for(var i = 0; i < cities.length; i++){{if((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)&& (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius)){{if(this.cd >= begin && this.cd <= end){{emit(cities[i].name, this.log);}}}}}}");
             }
 
             

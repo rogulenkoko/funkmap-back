@@ -8,7 +8,12 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Services
 {
-    public class StatisticsMerger : MongoRepository<BaseStatisticsEntity>
+    public interface IStatisticsMerger
+    {
+        Task MergeStatistics();
+    }
+
+    public class StatisticsMerger : MongoRepository<BaseStatisticsEntity>, IStatisticsMerger
     {
         private readonly IEnumerable<IStatisticsRepository> _statisticsRepositories;
 
@@ -30,15 +35,19 @@ namespace Funkmap.Statistics.Data.Services
                 if (saved == null)
                 {
                     saved = await statisticsRepository.BuildFullStatisticsAsync();
+                    saved.LastUpdate = end;
+                    await  _collection.InsertOneAsync(saved);
                 }
                 else
                 {
                     var begin = saved.LastUpdate;
                     var newStatistics = await statisticsRepository.BuildStatisticsAsync(begin, end);
                     saved.Merge(newStatistics);
+                    saved.LastUpdate = end;
+                    await _collection.ReplaceOneAsync(typeFilter, saved);
                 }
 
-                await _collection.ReplaceOneAsync(typeFilter, saved);
+                
             }
         }
         

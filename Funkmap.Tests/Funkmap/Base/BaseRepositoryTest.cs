@@ -27,7 +27,7 @@ namespace Funkmap.Tests.Funkmap.Base
             IFilterFactory factory = new FilterFactory(filterServices);
             var db = FunkmapTestDbProvider.DropAndCreateDatabase;
             _baseRepository = new BaseRepository(db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), FunkmapTestDbProvider.GetGridFsBucket(db), factory);
-            //_baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), factory);
+            //_baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(StatisticsCollectionNameProvider.BaseCollectionName), factory);
 
         }
 

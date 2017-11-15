@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Models;
+using Funkmap.Statistics.Data.Services;
 using Funkmap.Statistics.Models;
 using Funkmap.Statistics.Services;
 
@@ -9,10 +11,12 @@ namespace Funkmap.Statistics.Controllers
     public class StatisticsController : ApiController
     {
         private readonly IStatisticsBuilder _statisticsBuilder;
+        private readonly IStatisticsMerger _merger;
 
-        public StatisticsController(IStatisticsBuilder statisticsBuilder)
+        public StatisticsController(IStatisticsBuilder statisticsBuilder, IStatisticsMerger merger)
         {
             _statisticsBuilder = statisticsBuilder;
+            _merger = merger;
         }
 
         [HttpGet]
@@ -31,6 +35,14 @@ namespace Funkmap.Statistics.Controllers
             MusicianStatistics response = await _statisticsBuilder.BuildMusicianStatisticsAsync();
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("buildStatistics")]
+        public async Task<IHttpActionResult> BuildStatistics()
+        {
+            await _merger.MergeStatistics();
+            return Ok(new BaseResponse() {Success = true});
         }
     }
 }

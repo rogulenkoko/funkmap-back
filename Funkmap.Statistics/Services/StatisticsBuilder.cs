@@ -53,8 +53,8 @@ namespace Funkmap.Statistics.Services
 
             return new ProfileStatistics()
             {
-                CityStatistics = null, //todo
-                TopProfileStatistics = statisticsDictionary.ContainsKey(StatisticsType.TopEntity) ? (statisticsDictionary[StatisticsType.TopEntity] as TopEntityStatisticsEntity).ToModel() : null,
+                CityStatistics = statisticsDictionary.ContainsKey(StatisticsType.City) ? (statisticsDictionary[StatisticsType.City] as CityStatisticsEntity).ToModel() : null,
+                TopProfileStatistics = statisticsDictionary.ContainsKey(StatisticsType.TopEntity) ? (statisticsDictionary[StatisticsType.TopEntity] as TopProfileStatisticsEntity).ToModel() : null,
                 ProfileTypeStatistics = statisticsDictionary.ContainsKey(StatisticsType.EntityType) ? (statisticsDictionary[StatisticsType.EntityType] as EntityTypeStatisticsEntity).ToModel() : null,
              };
         }

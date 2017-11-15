@@ -50,6 +50,7 @@ namespace Funkmap.Services
             }
 
             resultEntity.IsActive = true;
+            resultEntity.CreationDate = DateTime.UtcNow;
 
             await _baseRepository.CreateAsync(resultEntity);
         }

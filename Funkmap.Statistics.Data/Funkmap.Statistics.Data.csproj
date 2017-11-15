@@ -64,7 +64,7 @@
     <Compile Include="Entities\InstrumentStatisticsEntity.cs" />
     <Compile Include="Entities\SexStatisticsEntity.cs" />
     <Compile Include="Entities\StatisticsType.cs" />
-    <Compile Include="Entities\TopEntityStatisticsEntity.cs" />
+    <Compile Include="Entities\TopProfileStatisticsEntity.cs" />
     <Compile Include="Entities\TopStylesStatisticsEntity.cs" />
     <Compile Include="Objects\CityInfo.cs" />
     <Compile Include="Objects\CityStatistic.cs" />

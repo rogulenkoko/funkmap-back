@@ -24,16 +24,16 @@ namespace Funkmap.Statistics.Tests
         public void Initialize()
         {
             var db = FunkmapStatisticsTestDbProvider.Database;
-            db.DropCollection(CollectionNameProvider.StatisticsCollectionName);
+            db.DropCollection(StatisticsCollectionNameProvider.StatisticsCollectionName);
             
             var profilesCollection = db.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName);
-            var typeStatisticsCollection = db.GetCollection<TopStylesStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var typeStatisticsCollection = db.GetCollection<TopStylesStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             _repository = new TopStylesStatisticsRepository(typeStatisticsCollection, profilesCollection);
 
             _profilesRepository = new MusicianRepository(profilesCollection);
 
-            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             var statisticsRepositories = new List<IStatisticsRepository>() { _repository };
 

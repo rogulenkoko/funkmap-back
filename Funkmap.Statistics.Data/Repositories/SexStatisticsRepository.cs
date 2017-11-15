@@ -28,7 +28,10 @@ namespace Funkmap.Statistics.Data.Repositories
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
             //db.bases.aggregate({$group: { _id: "$sex", count:{ $sum: 1} } })
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
+
             var statistics = await _profileCollection.Aggregate()
+                .Match(filter)
                 .Group(x => x.Sex, entities => new CountStatisticsEntity<Sex>()
                     {
                         Key = entities.Key,
@@ -45,7 +48,8 @@ namespace Funkmap.Statistics.Data.Repositories
         public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
             var filter = Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end);
+                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end) &
+                         Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)
                 .Group(x => x.Sex, entities => new CountStatisticsEntity<Sex>()
