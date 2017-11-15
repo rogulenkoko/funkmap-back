@@ -71,8 +71,8 @@ namespace Funkmap.Statistics.Tests
 
             Assert.IsTrue(CompareStatistics(savedStatistic, fullStatistics));
 
-            var begin = DateTime.UtcNow.AddMonths(-8);
-            var end = DateTime.UtcNow.AddMonths(-3);
+            var begin = new DateTime(2016, 11, 9);
+            var end = new DateTime(2017, 11, 9);
             var periodStatistics = _repository.BuildStatisticsAsync(begin, end).GetAwaiter().GetResult();
             Assert.IsNotNull(periodStatistics);
 

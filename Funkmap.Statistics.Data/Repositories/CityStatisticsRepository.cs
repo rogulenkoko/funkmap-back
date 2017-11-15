@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using Funkmap.Statistics.Data.Services;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
@@ -91,10 +87,27 @@ namespace Funkmap.Statistics.Data.Repositories
 
         public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            throw new NotImplementedException();
+            var mapFunc = GetMapFunction(begin, end);
+            var reduceFunc = GetReduseFunction();
+            var finalizeFunc = GetFinalizeFunction();
+
+            var options = new MapReduceOptions<BaseEntity, CityStatistic>()
+            {
+                Finalize = finalizeFunc
+            };
+
+            var statistics = await _profileCollection.MapReduce(mapFunc, reduceFunc, options).ToListAsync();
+
+            var countStatistics = statistics.Select(x => new CountStatisticsEntity<string>()
+            {
+                Count = x.Count,
+                Key = x.City
+            }).ToList();
+
+            return new CityStatisticsEntity() { CountStatistics = countStatistics };
         }
 
-        private string GetMapFunction()
+        private string GetMapFunction(DateTime? begin = null, DateTime? end = null)
         {
             var sb = new StringBuilder();
             var cities = _citiesInfoProvider.CityInfos;
@@ -105,7 +118,17 @@ namespace Funkmap.Statistics.Data.Repositories
             }
             sb.Append("];");
 
-            sb.Append("for(var i = 0; i < cities.length; i++){if((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)&& (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius)){emit(cities[i].name, this.log);}}");
+            if (!begin.HasValue)
+            {
+                sb.Append("for(var i = 0; i < cities.length; i++){if((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)&& (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius)){emit(cities[i].name, this.log);}}");
+            }
+            else
+            {
+                if(!end.HasValue) end = DateTime.UtcNow;
+                sb.Append($"var begin = new Date({begin.Value.Year}, {begin.Value.Month}, {begin.Value.Day}); var end = new Date({end.Value.Year}, {end.Value.Month}, {end.Value.Day}); for(var i = 0; i < cities.length; i++){{if((cities[i].center.lon - cities[i].radius <= this.loc.coordinates[0] && this.loc.coordinates[0] <= cities[i].center.lon + cities[i].radius)&& (cities[i].center.lat - cities[i].radius <= this.loc.coordinates[1] && this.loc.coordinates[1] <= cities[i].center.lat + cities[i].radius)){{if(this.cd >= begin && this.cd <= end){{emit(cities[i].name, this.log);}}}}}}");
+            }
+
+            
 
             return WrapWithJsFunction(sb.ToString());
         }
