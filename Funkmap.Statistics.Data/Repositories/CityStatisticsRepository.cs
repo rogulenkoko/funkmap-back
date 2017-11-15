@@ -13,7 +13,7 @@ using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class CityStatisticsRepository : MongoRepository<CityStatisticsEntity>, IProfileStatisticsRepository
+    public class CityStatisticsRepository : StatisticsMongoRepository<CityStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
         private string _map;
@@ -67,13 +67,6 @@ namespace Funkmap.Statistics.Data.Repositories
                 function(key, value){
                    
                 }";
-        }
-        public override async Task UpdateAsync(CityStatisticsEntity entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.LastUpdate = DateTime.UtcNow;
-            var result = await _collection.FindOneAndReplaceAsync(x => x.Id == entity.Id, entity);
-            if (result == null) await CreateAsync(entity);
         }
 
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()

@@ -60,6 +60,7 @@
     <Compile Include="Entities\CityStatisticsEntity.cs" />
     <Compile Include="Entities\CountStatisticsEntity.cs" />
     <Compile Include="Entities\EntityTypeStatisticsEntity.cs" />
+    <Compile Include="Entities\InBandStatisticsEntity.cs" />
     <Compile Include="Entities\InstrumentStatisticsEntity.cs" />
     <Compile Include="Entities\SexStatisticsEntity.cs" />
     <Compile Include="Entities\StatisticsType.cs" />
@@ -73,9 +74,11 @@
     <Compile Include="Repositories\Abstract\IMusicianStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IProfileStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IStatisticsRepository.cs" />
+    <Compile Include="Repositories\Abstract\StatisticsMongoRepository.cs" />
     <Compile Include="Repositories\BaseStatisticsRepository.cs" />
     <Compile Include="Repositories\CityStatisticsRepository.cs" />
     <Compile Include="Repositories\EntityTypeStatisticsRepository.cs" />
+    <Compile Include="Repositories\InBandStatisticsRepository.cs" />
     <Compile Include="Repositories\InstrumentStatisticsRepository.cs" />
     <Compile Include="Repositories\SexStatisticsRepository.cs" />
     <Compile Include="Repositories\TopEntityStatisticsRepository.cs" />

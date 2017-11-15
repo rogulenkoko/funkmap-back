@@ -90,8 +90,10 @@
     <Compile Include="CityStatisticsTest.cs" />
     <Compile Include="Data\FunkmapStatisticsTestDbProvider.cs" />
     <Compile Include="EntityTypeStatisticsTest.cs" />
+    <Compile Include="InBandStatisticsTest.cs" />
     <Compile Include="InstrumentStatisticsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SexStatisticsTest.cs" />
     <Compile Include="TopStylesStatisticsTest.cs" />
   </ItemGroup>
   <ItemGroup>

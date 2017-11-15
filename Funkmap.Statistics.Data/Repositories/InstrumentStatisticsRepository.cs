@@ -13,22 +13,16 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class InstrumentStatisticsRepository : MongoRepository<InstrumentStatisticsEntity>, IMusicianStatisticsRepository
+    public class InstrumentStatisticsRepository : StatisticsMongoRepository<InstrumentStatisticsEntity>, IMusicianStatisticsRepository
     {
         public StatisticsType StatisticsType => StatisticsType.InstrumentType;
+
         private readonly IMongoCollection<MusicianEntity> _profileCollection;
+
         public InstrumentStatisticsRepository(IMongoCollection<InstrumentStatisticsEntity> collection,
             IMongoCollection<MusicianEntity> profileCollection) : base(collection)
         {
             _profileCollection = profileCollection;
-        }
-
-        public override async Task UpdateAsync(InstrumentStatisticsEntity entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.LastUpdate = DateTime.UtcNow;
-            var result = await _collection.FindOneAndReplaceAsync(x => x.Id == entity.Id, entity);
-            if (result == null) await CreateAsync(entity);
         }
 
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()

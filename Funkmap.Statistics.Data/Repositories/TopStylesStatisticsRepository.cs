@@ -14,9 +14,18 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopStylesStatisticsRepository : MongoRepository<TopStylesStatisticsEntity>, IMusicianStatisticsRepository
+    public class TopStylesStatisticsRepository : StatisticsMongoRepository<TopStylesStatisticsEntity>, IMusicianStatisticsRepository
     {
         private readonly IMongoCollection<MusicianEntity> _profileCollection;
+
+        public StatisticsType StatisticsType => StatisticsType.TopEntity;
+
+        public TopStylesStatisticsRepository(IMongoCollection<TopStylesStatisticsEntity> collection,
+            IMongoCollection<MusicianEntity> profileCollection) : base(collection)
+        {
+            _profileCollection = profileCollection;
+        }
+
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
             //db.bases.aggregate(
@@ -73,20 +82,8 @@ namespace Funkmap.Statistics.Data.Repositories
             return statistic;
         }
 
-        public StatisticsType StatisticsType => StatisticsType.TopEntity;
+       
 
-        public TopStylesStatisticsRepository(IMongoCollection<TopStylesStatisticsEntity> collection,
-            IMongoCollection<MusicianEntity> profileCollection) : base(collection)
-        {
-            _profileCollection = profileCollection;
-        }
-
-        public override async Task UpdateAsync(TopStylesStatisticsEntity entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.LastUpdate = DateTime.UtcNow;
-            var result = await _collection.FindOneAndReplaceAsync(x => x.Id == entity.Id, entity);
-            if (result == null) await CreateAsync(entity);
-        }
+        
     }
 }

@@ -9,9 +9,12 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopEntityStatisticsRepository : MongoRepository<TopEntityStatisticsEntity>, IProfileStatisticsRepository
+    public class TopEntityStatisticsRepository : StatisticsMongoRepository<TopEntityStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
+
+        public StatisticsType StatisticsType => StatisticsType.TopEntity;
+
 
         public TopEntityStatisticsRepository(IMongoCollection<TopEntityStatisticsEntity> collection,
                                              IMongoCollection<BaseEntity> profileCollection) : base(collection)
@@ -54,15 +57,6 @@ namespace Funkmap.Statistics.Data.Repositories
             return BuildFullStatisticsAsync();
         }
 
-        public StatisticsType StatisticsType => StatisticsType.TopEntity;
-        
-
-        public override async Task UpdateAsync(TopEntityStatisticsEntity entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.LastUpdate = DateTime.UtcNow;
-            var result = await _collection.FindOneAndReplaceAsync(x => x.Id == entity.Id, entity);
-            if (result == null) await CreateAsync(entity);
-        }
+       
     }
 }

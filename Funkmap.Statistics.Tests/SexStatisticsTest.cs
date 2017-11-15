@@ -5,16 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac.Extras.Moq;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
-using Funkmap.Data.Services.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using Funkmap.Statistics.Data.Services;
 using Funkmap.Statistics.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Statistics.Tests
 {
@@ -40,13 +37,9 @@ namespace Funkmap.Statistics.Tests
 
             _repository = new SexStatisticsRepository(typeStatisticsCollection, profilesCollection);
 
-            using (var mock = AutoMock.GetLoose())
-            {
-                var gridFs = mock.Mock<IGridFSBucket>();
-                var filterFactory = mock.Mock<IFilterFactory>();
-
-                _profilesRepository = new MusicianRepository(profilesCollection);
-            }
+           
+            _profilesRepository = new MusicianRepository(profilesCollection);
+            
 
             var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
 

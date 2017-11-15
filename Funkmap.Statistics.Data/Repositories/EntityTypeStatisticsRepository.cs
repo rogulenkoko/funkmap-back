@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories.Abstract;
@@ -10,9 +9,12 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class EntityTypeStatisticsRepository : MongoRepository<EntityTypeStatisticsEntity>, IProfileStatisticsRepository
+    public class EntityTypeStatisticsRepository : StatisticsMongoRepository<EntityTypeStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
+
+        public StatisticsType StatisticsType => StatisticsType.EntityType;
+
         public EntityTypeStatisticsRepository(IMongoCollection<EntityTypeStatisticsEntity> collection,
                                                IMongoCollection<BaseEntity> profileCollection) : base(collection)
         {
@@ -58,16 +60,7 @@ namespace Funkmap.Statistics.Data.Repositories
             return statistic;
         }
 
-       
 
-        public override async Task UpdateAsync(EntityTypeStatisticsEntity entity)
-        {
-            if(entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.LastUpdate = DateTime.UtcNow;
-            var result = await _collection.FindOneAndReplaceAsync(x => x.Id == entity.Id, entity);
-            if (result == null) await CreateAsync(entity);
-        }
-
-        public StatisticsType StatisticsType => StatisticsType.EntityType;
+        
     }
 }

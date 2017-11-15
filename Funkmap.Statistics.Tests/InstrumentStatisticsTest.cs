@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Extras.Moq;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories;
-using Funkmap.Data.Services.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using Funkmap.Statistics.Data.Services;
 using Funkmap.Statistics.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Statistics.Tests
 {

@@ -13,21 +13,16 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class SexStatisticsRepository : MongoRepository<SexStatisticsEntity>, IMusicianStatisticsRepository
+    public class SexStatisticsRepository : StatisticsMongoRepository<SexStatisticsEntity>, IMusicianStatisticsRepository
     {
         private readonly IMongoCollection<MusicianEntity> _profileCollection;
+
+        public StatisticsType StatisticsType => StatisticsType.SexType;
+
         public SexStatisticsRepository(IMongoCollection<SexStatisticsEntity> collection,
             IMongoCollection<MusicianEntity> profileCollection) : base(collection)
         {
             _profileCollection = profileCollection;
-        }
-
-        public override async Task UpdateAsync(SexStatisticsEntity entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.LastUpdate = DateTime.UtcNow;
-            var result = await _collection.FindOneAndReplaceAsync(x => x.Id == entity.Id, entity);
-            if (result == null) await CreateAsync(entity);
         }
 
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
@@ -66,6 +61,6 @@ namespace Funkmap.Statistics.Data.Repositories
             return statistic;
         }
 
-        public StatisticsType StatisticsType { get; }
+       
     }
 }
