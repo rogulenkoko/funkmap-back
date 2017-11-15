@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Funkmap.Common;
 using Funkmap.Data.Entities.Abstract;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Data.Entities
@@ -20,7 +19,7 @@ namespace Funkmap.Data.Entities
 
         [BsonElement("sex")]
         [BsonIgnoreIfDefault]
-        public Sex? Sex { get; set; }
+        public Sex Sex { get; set; }
 
         [BsonElement("bd")]
         [BsonIgnoreIfDefault]

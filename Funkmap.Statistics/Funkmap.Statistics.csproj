@@ -61,6 +61,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Mappers\MusicianStatisticsMapper.cs" />
+    <Compile Include="Mappers\ProfileStatisticsMapper.cs" />
+    <Compile Include="Models\AgeStatistics.cs" />
+    <Compile Include="Models\CityStatistics.cs" />
+    <Compile Include="Models\InBandStatistics.cs" />
+    <Compile Include="Models\InstrumentStatistics.cs" />
+    <Compile Include="Models\IStatistics.cs" />
+    <Compile Include="Models\MusicianStatistics.cs" />
+    <Compile Include="Models\ProfileStatistics.cs" />
+    <Compile Include="Models\ProfileTypeStatistics.cs" />
+    <Compile Include="Models\SexStatistics.cs" />
+    <Compile Include="Models\StyleStatistics.cs" />
+    <Compile Include="Models\TopProfileStatistics.cs" />
+    <Compile Include="Services\StatisticsBuilder.cs" />
     <Compile Include="StatisticsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +82,14 @@
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
+      <Project>{5863156A-0E14-4319-8536-B719DBEBE433}</Project>
+      <Name>Funkmap.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
+      <Project>{F0A4E106-3CDE-4CDD-B4A5-D441EFA9D07F}</Project>
+      <Name>Funkmap.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Statistics.Data\Funkmap.Statistics.Data.csproj">
       <Project>{F6396FB7-546E-4ED1-87FE-BBC7CA9E8CD0}</Project>

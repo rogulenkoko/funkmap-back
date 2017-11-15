@@ -11,7 +11,7 @@ namespace Funkmap.Statistics.Data.Entities
         public TopStylesStatisticsEntity()
         {
             CountStatistics = new List<CountStatisticsEntity<Styles>>();
-            StatisticsType = StatisticsType.TopStylesEntity;
+            StatisticsType = StatisticsType.TopStyles;
         }
 
         [BsonElement("cs")]

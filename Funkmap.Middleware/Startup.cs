@@ -14,6 +14,8 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Owin;
 
 namespace Funkmap.Middleware
@@ -26,7 +28,7 @@ namespace Funkmap.Middleware
 
 
             appBuilder.UseCors(CorsOptions.AllowAll);
-            
+
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             var containerBuilder = new ContainerBuilder();
@@ -36,8 +38,8 @@ namespace Funkmap.Middleware
             RegisterModules(containerBuilder);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();
-            
-            
+
+
 
             var container = containerBuilder.Build();
 
@@ -59,16 +61,19 @@ namespace Funkmap.Middleware
                 Provider = container.Resolve<FunkmapAuthProvider>(),
                 RefreshTokenProvider = new FunkmapRefreshTokenProvider()
             };
-            
+
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
             appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-            
+
 
             config.MapHttpAttributeRoutes();
             appBuilder.UseWebApi(config);
 
             var signalRConfig = new HubConfiguration();
+
+           
+
             signalRConfig.Resolver = new AutofacDependencyResolver(container);
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
@@ -78,7 +83,7 @@ namespace Funkmap.Middleware
             //todo
             Assembly.Load("Funkmap");
             Assembly.Load("Funkmap.Module.Auth");
-            Assembly.Load("Funkmap.Messenger"); 
+            Assembly.Load("Funkmap.Messenger");
             Assembly.Load("Funkmap.Notifications");
             Assembly.Load("Funkmap.Common.Redis.Autofac");
         }

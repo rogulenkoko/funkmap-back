@@ -67,9 +67,11 @@
     <Compile Include="Objects\TopEntityStatistic.cs" />
     <Compile Include="Objects\UnwindStyles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Abstract\IBaseStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IMusicianStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IProfileStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IStatisticsRepository.cs" />
+    <Compile Include="Repositories\BaseStatisticsRepository.cs" />
     <Compile Include="Repositories\CityStatisticsRepository.cs" />
     <Compile Include="Repositories\EntityTypeStatisticsRepository.cs" />
     <Compile Include="Repositories\InstrumentStatisticsRepository.cs" />

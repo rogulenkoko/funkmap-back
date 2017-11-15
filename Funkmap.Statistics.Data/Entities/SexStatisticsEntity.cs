@@ -15,12 +15,12 @@ namespace Funkmap.Statistics.Data.Entities
 
         public SexStatisticsEntity()
         {
-            CountStatistics = new List<CountStatisticsEntity<Sex?>>();
+            CountStatistics = new List<CountStatisticsEntity<Sex>>();
             StatisticsType = StatisticsType.SexType;
         }
 
         [BsonElement("cs")]
-        public List<CountStatisticsEntity<Sex?>> CountStatistics { get; set; }
+        public List<CountStatisticsEntity<Sex>> CountStatistics { get; set; }
         public override BaseStatisticsEntity Merge(BaseStatisticsEntity second)
         {
             var firstCurrent = this;

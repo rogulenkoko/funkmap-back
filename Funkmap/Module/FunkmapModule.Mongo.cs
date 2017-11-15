@@ -3,7 +3,6 @@ using System.Configuration;
 using Autofac;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 

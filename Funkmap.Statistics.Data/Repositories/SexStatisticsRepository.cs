@@ -34,7 +34,7 @@ namespace Funkmap.Statistics.Data.Repositories
         {
             //db.bases.aggregate({$group: { _id: "$sex", count:{ $sum: 1} } })
             var statistics = await _profileCollection.Aggregate()
-                .Group(x => x.Sex, entities => new CountStatisticsEntity<Sex?>()
+                .Group(x => x.Sex, entities => new CountStatisticsEntity<Sex>()
                     {
                         Key = entities.Key,
                         Count = entities.Count()
@@ -53,9 +53,9 @@ namespace Funkmap.Statistics.Data.Repositories
                          Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end);
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)
-                .Group(x => x.Sex, entities => new CountStatisticsEntity<Sex?>()
+                .Group(x => x.Sex, entities => new CountStatisticsEntity<Sex>()
                     {
-                        Key = entities.Key.Value,
+                        Key = entities.Key,
                         Count = entities.Count()
                     }
                 ).ToListAsync();

@@ -21,20 +21,24 @@ namespace Funkmap.Statistics.Data.Repositories
 
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
-
             //db.bases.aggregate(
-            //{$project: { login: "$log", type: "$t", count: { "$ifNull":["$fav", []]} }},
+            //{$project: { login: "$log", type: "$t", count: { "$ifNull":["$fav", 0]}}},
+            //{$sort: {count: 1}},
             //{$limit:5}
             //)
 
+            var sort = Builders<TopEntityStatistic>.Sort.Descending(x => x.Count);
+            var filter = Builders<BaseEntity>.Filter.Ne(x => x.FavoriteFor, null);
             var statistics = await _profileCollection.Aggregate()
+                .Match(filter)
                 .Project(entity => new TopEntityStatistic()
                 {
                     Login = entity.Login,
                     Id = entity.Id,
                     EntityType = entity.EntityType,
-                    Count = entity.FavoriteFor == null ? 0 : entity.FavoriteFor.Count
+                    Count = entity.FavoriteFor.Count
                 })
+                .Sort(sort)
                 .Limit(5)
                 .ToListAsync();
             var statistic = new TopEntityStatisticsEntity()
