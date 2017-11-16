@@ -24,6 +24,7 @@ namespace Funkmap.Statistics.Data.Repositories
         {
 
             //var mapFunc = function(){
+            //    if(this.t != 1) return;
             //    if (this.band == null || this.band.length == 0) emit(false, this.log);
             //    else emit(true, this.log)
             //}
@@ -63,25 +64,9 @@ namespace Funkmap.Statistics.Data.Repositories
 
         }
 
-        public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
+        public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var mapFunc = GetMapFunction(begin, end);
-            var reduceFunc = GetReduseFunction();
-            var options = new MapReduceOptions<MusicianEntity, InBandStatistics>();
-
-            var statistics = await _profileCollection.MapReduce(mapFunc, reduceFunc, options).ToListAsync();
-
-            var countStatistics = statistics.Select(x => new CountStatisticsEntity<bool>()
-                {
-                    Count = x.Count,
-                    Key = x.IsInBand
-                })
-                .ToList();
-
-            return new InBandStatisticsEntity()
-            {
-                CountStatistics = countStatistics
-            };
+            return BuildFullStatisticsAsync();
         }
 
 
@@ -92,11 +77,11 @@ namespace Funkmap.Statistics.Data.Repositories
             if (begin.HasValue)
             {
                 if(!end.HasValue) end = DateTime.UtcNow;
-                functionBody = $"var begin = new Date({begin.Value.Year}, {begin.Value.Month - 1}, {begin.Value.Day}, {begin.Value.Hour}, {begin.Value.Minute}, {begin.Value.Second}); var end = new Date({end.Value.Year}, {end.Value.Month - 1}, {end.Value.Day}, {end.Value.Hour}, {end.Value.Minute}, {end.Value.Second});if(this.cd < begin || this.cd > end) return;if(this.band == null || this.band.length == 0) emit(false, this.log);else emit(true, this.log)";
+                functionBody = $"if(this.t != 1) return; var begin = new Date({begin.Value.Year}, {begin.Value.Month - 1}, {begin.Value.Day}, {begin.Value.Hour}, {begin.Value.Minute}, {begin.Value.Second}); var end = new Date({end.Value.Year}, {end.Value.Month - 1}, {end.Value.Day}, {end.Value.Hour}, {end.Value.Minute}, {end.Value.Second});if(this.cd < begin || this.cd > end) return;if(this.band == null || this.band.length == 0) emit(false, this.log);else emit(true, this.log)";
             }
             else
             {
-                functionBody = "if(this.band == null || this.band.length == 0) emit(false, this.log); else emit(true, this.log);";
+                functionBody = "if(this.t != 1) return; if(this.band == null || this.band.length == 0) emit(false, this.log); else emit(true, this.log);";
             }
             
             return WrapWithJsFunction(functionBody);

@@ -24,11 +24,13 @@ namespace Funkmap.Statistics
             builder.RegisterType<InstrumentStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
             builder.RegisterType<SexStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
             builder.RegisterType<InBandStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
+            builder.RegisterType<AgeStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
 
             builder.RegisterType<BaseStatisticsRepository>().As<IBaseStatisticsRepository>();
             builder.RegisterType<StatisticsBuilder>().As<IStatisticsBuilder>();
             builder.RegisterType<StatisticsMerger>().As<IStatisticsMerger>();
             builder.RegisterType<CitiesInfoProvider>().As<ICitiesInfoProvider>();
+            builder.RegisterType<AgeInfoProvider>().As<IAgeInfoProvider>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль статистик");

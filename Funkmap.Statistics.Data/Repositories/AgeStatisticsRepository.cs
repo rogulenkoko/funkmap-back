@@ -13,7 +13,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class AgeStatisticsRepository: StatisticsMongoRepository<AgeStatisticsEntity>, IProfileStatisticsRepository
+    public class AgeStatisticsRepository: StatisticsMongoRepository<AgeStatisticsEntity>, IMusicianStatisticsRepository
     {
         public StatisticsType StatisticsType => StatisticsType.Age;
 
@@ -73,25 +73,10 @@ namespace Funkmap.Statistics.Data.Repositories
             return new AgeStatisticsEntity() { CountStatistics = countStatistics };
         }
 
-        public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
+        public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var mapFunc = GetMapFunction(begin,end);
-            var reduceFunc = GetReduseFunction();
-            var finalizeFunc = GetFinalizeFunction();
-
-            var options = new MapReduceOptions<MusicianEntity, AgeStatistic>()
-            {
-                Finalize = finalizeFunc
-            };
-
-            var statistics = await _profileCollection.MapReduce(mapFunc, reduceFunc, options).ToListAsync();
-
-            var countStatistics = statistics.Select(x => new CountStatisticsEntity<string>()
-            {
-                Count = x.Count,
-                Key = x.Desc
-            }).ToList();
-            return new AgeStatisticsEntity() { CountStatistics = countStatistics };
+            //не уместна фильтрация по дате
+            return BuildFullStatisticsAsync();
         }
 
         
@@ -106,7 +91,7 @@ namespace Funkmap.Statistics.Data.Repositories
             sb.Append("var ages = [");
             foreach (var age in ages)
             {
-                sb.Append($"{{start:{age.Start},finish:{age.Finish},des:'{age.Descr}'}},");
+                sb.Append($"{{start:{age.Start},finish:{age.Finish},des:'{age.AgePeriod}'}},");
                 //sb.Append($"{{name:\"{city.Name}\", center: {{lat: {city.CenterLatitude}, lon: {city.CenterLongitude}}}, radius:{city.Radius}}},");
             }
             sb.Append("];");

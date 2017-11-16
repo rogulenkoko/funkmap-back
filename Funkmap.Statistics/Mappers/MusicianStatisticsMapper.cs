@@ -48,5 +48,15 @@ namespace Funkmap.Statistics.Mappers
                 Count = x.Count
             }).ToList();
         }
+
+        public static ICollection<AgeStatistics> ToModel(this AgeStatisticsEntity source)
+        {
+            if (source?.CountStatistics == null) return null;
+            return source.CountStatistics.Select(x => new AgeStatistics()
+            {
+                Type = x.Key,
+                Count = x.Count
+            }).ToList();
+        }
     }
 }

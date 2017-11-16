@@ -48,6 +48,9 @@ namespace Funkmap.Statistics
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<TopStylesStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName))
                 .As<IMongoCollection<TopStylesStatisticsEntity>>();
+
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<AgeStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName))
+                .As<IMongoCollection<AgeStatisticsEntity>>();
         }
     }
 }

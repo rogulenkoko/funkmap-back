@@ -2,7 +2,7 @@
 {
     public class AgeStatistics : IStatistics
     {
-        public AgeType Type { get; set; }
+        public string Type { get; set; }
 
         public int Count { get; set; }
     }

@@ -14,7 +14,7 @@ namespace Funkmap.Statistics.Data.Repositories
     {
         private readonly IMongoCollection<MusicianEntity> _profileCollection;
 
-        public StatisticsType StatisticsType => StatisticsType.TopEntity;
+        public StatisticsType StatisticsType => StatisticsType.TopStyles;
 
         public TopStylesStatisticsRepository(IMongoCollection<TopStylesStatisticsEntity> collection,
             IMongoCollection<MusicianEntity> profileCollection) : base(collection)
@@ -52,30 +52,10 @@ namespace Funkmap.Statistics.Data.Repositories
             return statistic;
         }
 
-        public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
+        public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var filter = Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end)
-                         & Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
-
-            var projection = Builders<MusicianEntity>.Projection.Include(x => x.Styles);
-
-            var statistics = await _profileCollection.Aggregate()
-                .Match(filter)
-                .Project<MusicianEntity>(projection)
-                .Unwind<MusicianEntity, UnwindStyles>(x => x.Styles)
-                .Group(x => x.Style, unwinded => new CountStatisticsEntity<Styles>()
-                {
-                    Key = unwinded.Key,
-                    Count = unwinded.Count()
-                })
-                .ToListAsync();
-
-            var statistic = new TopStylesStatisticsEntity()
-            {
-                CountStatistics = statistics
-            };
-            return statistic;
+            //запрос по дате не уместен
+            return BuildFullStatisticsAsync();
         }
 
        
