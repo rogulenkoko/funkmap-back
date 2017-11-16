@@ -15,15 +15,17 @@ namespace Funkmap.Statistics.Data.Repositories
 {
     public class AgeStatisticsRepository: StatisticsMongoRepository<AgeStatisticsEntity>, IProfileStatisticsRepository
     {
+        public StatisticsType StatisticsType => StatisticsType.Age;
+
         private readonly IMongoCollection<MusicianEntity> _profileCollection;
-        private IAgeInfoProvider _ageInfoProvider;
+
+        private readonly IAgeInfoProvider _ageInfoProvider;
 
         public AgeStatisticsRepository(IMongoCollection<AgeStatisticsEntity> collection,
             IMongoCollection<MusicianEntity> profileCollection,
             IAgeInfoProvider ageInfoProvider) : base(collection)
         {
             _ageInfoProvider = ageInfoProvider;
-            StatisticsType = StatisticsType.Age;
             _profileCollection = profileCollection;
         }
 
@@ -92,7 +94,7 @@ namespace Funkmap.Statistics.Data.Repositories
             return new AgeStatisticsEntity() { CountStatistics = countStatistics };
         }
 
-        public StatisticsType StatisticsType { get; }
+        
         private string GetMapFunction(DateTime? begin = null, DateTime? end = null)
         {
             var sb = new StringBuilder();
