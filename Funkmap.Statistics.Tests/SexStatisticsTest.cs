@@ -1,9 +1,8 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Extras.Moq;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories;
 using Funkmap.Statistics.Data.Entities;
@@ -29,11 +28,11 @@ namespace Funkmap.Statistics.Tests
         public void Initialize()
         {
             var db = FunkmapStatisticsTestDbProvider.Database;
-            db.DropCollection(CollectionNameProvider.StatisticsCollectionName);
+            db.DropCollection(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
 
             var profilesCollection = db.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName);
-            var typeStatisticsCollection = db.GetCollection<SexStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var typeStatisticsCollection = db.GetCollection<SexStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             _repository = new SexStatisticsRepository(typeStatisticsCollection, profilesCollection);
 
@@ -41,7 +40,7 @@ namespace Funkmap.Statistics.Tests
             _profilesRepository = new MusicianRepository(profilesCollection);
             
 
-            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             var statisticsRepositories = new List<IStatisticsRepository>() { _repository };
 

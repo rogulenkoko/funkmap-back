@@ -118,6 +118,10 @@
       <Project>{F6396FB7-546E-4ED1-87FE-BBC7CA9E8CD0}</Project>
       <Name>Funkmap.Statistics.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Statistics\Funkmap.Statistics.csproj">
+      <Project>{3CF25728-25D4-4962-861E-1DC38FE40066}</Project>
+      <Name>Funkmap.Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669BFD-E68A-436D-833F-1167C244BD59}</Project>
       <Name>Funkmap</Name>

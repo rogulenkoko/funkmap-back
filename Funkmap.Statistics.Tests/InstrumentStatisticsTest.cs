@@ -26,11 +26,11 @@ namespace Funkmap.Statistics.Tests
         public void Initialize()
         {
             var db = FunkmapStatisticsTestDbProvider.Database;
-            db.DropCollection(CollectionNameProvider.StatisticsCollectionName);
+            db.DropCollection(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
 
             var profilesCollection = db.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName);
-            var typeStatisticsCollection = db.GetCollection<InstrumentStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var typeStatisticsCollection = db.GetCollection<InstrumentStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             _repository = new InstrumentStatisticsRepository(typeStatisticsCollection, profilesCollection);
 
@@ -38,7 +38,7 @@ namespace Funkmap.Statistics.Tests
             _profilesRepository = new MusicianRepository(profilesCollection);
             
 
-            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             var statisticsRepositories = new List<IStatisticsRepository>() { _repository };
 

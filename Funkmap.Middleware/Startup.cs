@@ -86,6 +86,7 @@ namespace Funkmap.Middleware
             Assembly.Load("Funkmap.Messenger");
             Assembly.Load("Funkmap.Notifications");
             Assembly.Load("Funkmap.Common.Redis.Autofac");
+            Assembly.Load("Funkmap.Statistics");
         }
 
         private void RegisterModules(ContainerBuilder builder)

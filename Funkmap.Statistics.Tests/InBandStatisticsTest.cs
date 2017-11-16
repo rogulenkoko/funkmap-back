@@ -27,13 +27,13 @@ namespace Funkmap.Statistics.Tests
         public void Initialize()
         {
             var db = FunkmapStatisticsTestDbProvider.Database;
-            db.DropCollection(CollectionNameProvider.StatisticsCollectionName);
+            db.DropCollection(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             var profilesCollection = db.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName);
-            var typeStatisticsCollection = db.GetCollection<InBandStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var typeStatisticsCollection = db.GetCollection<InBandStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
             _profilesRepository = new MusicianRepository(profilesCollection);
             _repository = new InBandStatisticsRepository(typeStatisticsCollection, profilesCollection);
-            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(CollectionNameProvider.StatisticsCollectionName);
+            var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
             var statisticsRepositories = new List<IStatisticsRepository>() { _repository };
             _merger = new StatisticsMerger(statisticsCollection, statisticsRepositories);

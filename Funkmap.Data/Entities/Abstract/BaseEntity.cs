@@ -21,6 +21,7 @@ namespace Funkmap.Data.Entities.Abstract
         typeof(RehearsalPointEntity))]
     public class BaseEntity
     {
+
         [BsonId]
         public ObjectId Id { get; set; }
 
