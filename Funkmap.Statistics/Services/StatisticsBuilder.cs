@@ -6,6 +6,7 @@ using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using Funkmap.Statistics.Mappers;
 using Funkmap.Statistics.Models;
+using Funkmap.Statistics.Models.Requests;
 
 namespace Funkmap.Statistics.Services
 {
@@ -13,6 +14,10 @@ namespace Funkmap.Statistics.Services
     {
         Task<ProfileStatistics> BuildProfileStatisticsAsync();
         Task<MusicianStatistics> BuildMusicianStatisticsAsync();
+
+        Task<ProfileStatistics> BuildProfileStatisticsAsync(DateRequest request);
+        Task<MusicianStatistics> BuildMusicianStatisticsAsync(DateRequest request);
+
     }
 
     public class StatisticsBuilder : IStatisticsBuilder
@@ -59,6 +64,27 @@ namespace Funkmap.Statistics.Services
              };
         }
 
+        public async Task<ProfileStatistics> BuildProfileStatisticsAsync(DateRequest request)
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            var statisticsDictionary = new Dictionary<StatisticsType, BaseStatisticsEntity>();
+            
+            foreach (var repository in _profileStatisticsRepositories)
+            {
+                var buildedStatistics = await repository.BuildStatisticsAsync(request.Begin, request.End);
+
+                statisticsDictionary.Add(buildedStatistics.StatisticsType, buildedStatistics);
+            }
+
+            return new ProfileStatistics()
+            {
+                CityStatistics = statisticsDictionary.ContainsKey(StatisticsType.City) ? (statisticsDictionary[StatisticsType.City] as CityStatisticsEntity).ToModel() : null,
+                TopProfileStatistics = statisticsDictionary.ContainsKey(StatisticsType.TopEntity) ? (statisticsDictionary[StatisticsType.TopEntity] as TopProfileStatisticsEntity).ToModel() : null,
+                ProfileTypeStatistics = statisticsDictionary.ContainsKey(StatisticsType.EntityType) ? (statisticsDictionary[StatisticsType.EntityType] as EntityTypeStatisticsEntity).ToModel() : null,
+            };
+        }
+
         public async Task<MusicianStatistics> BuildMusicianStatisticsAsync()
         {
             var statisticsDictionary = new Dictionary<StatisticsType, BaseStatisticsEntity>();
@@ -75,6 +101,29 @@ namespace Funkmap.Statistics.Services
                 var lastStatistics = await repository.BuildStatisticsAsync(statistic.LastUpdate, now);
 
                 var buildedStatistics = statistic.Merge(lastStatistics);
+
+                statisticsDictionary.Add(buildedStatistics.StatisticsType, buildedStatistics);
+            }
+
+            return new MusicianStatistics()
+            {
+                AgeStatistics = null,
+                StyleStatistics = statisticsDictionary.ContainsKey(StatisticsType.TopStyles) ? (statisticsDictionary[StatisticsType.TopStyles] as TopStylesStatisticsEntity).ToModel() : null,
+                SexStatistics = statisticsDictionary.ContainsKey(StatisticsType.SexType) ? (statisticsDictionary[StatisticsType.SexType] as SexStatisticsEntity).ToModel() : null,
+                InstrumentStatistics = statisticsDictionary.ContainsKey(StatisticsType.InstrumentType) ? (statisticsDictionary[StatisticsType.InstrumentType] as InstrumentStatisticsEntity).ToModel() : null,
+                BandStatistics = null,
+            };
+        }
+
+        public async Task<MusicianStatistics> BuildMusicianStatisticsAsync(DateRequest request)
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            var statisticsDictionary = new Dictionary<StatisticsType, BaseStatisticsEntity>();
+
+            foreach (var repository in _musicianStatisticsRepositories)
+            {
+                var buildedStatistics = await repository.BuildStatisticsAsync(request.Begin, request.End);
 
                 statisticsDictionary.Add(buildedStatistics.StatisticsType, buildedStatistics);
             }

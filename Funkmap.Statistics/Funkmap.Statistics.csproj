@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Requests\DateRequest.cs" />
     <Compile Include="StatisticsCollectionNameProvider.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Mappers\MusicianStatisticsMapper.cs" />
