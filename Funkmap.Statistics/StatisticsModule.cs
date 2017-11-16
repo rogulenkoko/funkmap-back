@@ -23,6 +23,7 @@ namespace Funkmap.Statistics
             builder.RegisterType<TopStylesStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
             builder.RegisterType<InstrumentStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
             builder.RegisterType<SexStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
+            builder.RegisterType<InBandStatisticsRepository>().As<IMusicianStatisticsRepository>().As<IStatisticsRepository>();
 
             builder.RegisterType<BaseStatisticsRepository>().As<IBaseStatisticsRepository>();
             builder.RegisterType<StatisticsBuilder>().As<IStatisticsBuilder>();

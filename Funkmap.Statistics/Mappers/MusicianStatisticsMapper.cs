@@ -27,6 +27,7 @@ namespace Funkmap.Statistics.Mappers
                 Count = x.Count
             }).ToList();
         }
+        
 
         public static ICollection<InstrumentStatistics> ToModel(this InstrumentStatisticsEntity source)
         {
@@ -34,6 +35,16 @@ namespace Funkmap.Statistics.Mappers
             return source.CountStatistics.Select(x => new InstrumentStatistics()
             {
                 Instrument = x.Key,
+                Count = x.Count
+            }).ToList();
+        }
+
+        public static ICollection<InBandStatistics> ToModel(this InBandStatisticsEntity source)
+        {
+            if (source?.CountStatistics == null) return null;
+            return source.CountStatistics.Select(x => new InBandStatistics()
+            {
+                IsInBand = x.Key,
                 Count = x.Count
             }).ToList();
         }

@@ -111,7 +111,7 @@ namespace Funkmap.Statistics.Services
                 StyleStatistics = statisticsDictionary.ContainsKey(StatisticsType.TopStyles) ? (statisticsDictionary[StatisticsType.TopStyles] as TopStylesStatisticsEntity).ToModel() : null,
                 SexStatistics = statisticsDictionary.ContainsKey(StatisticsType.SexType) ? (statisticsDictionary[StatisticsType.SexType] as SexStatisticsEntity).ToModel() : null,
                 InstrumentStatistics = statisticsDictionary.ContainsKey(StatisticsType.InstrumentType) ? (statisticsDictionary[StatisticsType.InstrumentType] as InstrumentStatisticsEntity).ToModel() : null,
-                BandStatistics = null,
+                BandStatistics = statisticsDictionary.ContainsKey(StatisticsType.InBand) ? (statisticsDictionary[StatisticsType.InBand] as InBandStatisticsEntity).ToModel() : null,
             };
         }
 
