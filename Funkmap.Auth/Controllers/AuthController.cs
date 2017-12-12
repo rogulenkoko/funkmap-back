@@ -16,13 +16,13 @@ namespace Funkmap.Module.Auth.Controllers
     public class AuthController : ApiController
     {
         private readonly IAuthRepository _authRepository;
-        private readonly IExternalNotificationService _externalNotificationService;
+        private readonly INotificationService _notificationService;
 
         private static readonly ConcurrentDictionary<string, UserConfirmationModel> _usersConfirmationCache = new ConcurrentDictionary<string, UserConfirmationModel>();
-        public AuthController(IAuthRepository authRepository, IExternalNotificationService externalNotificationService)
+        public AuthController(IAuthRepository authRepository, INotificationService notificationService)
         {
             _authRepository = authRepository;
-            _externalNotificationService = externalNotificationService;
+            _notificationService = notificationService;
         }
 
         [HttpPost]
@@ -60,7 +60,7 @@ namespace Funkmap.Module.Auth.Controllers
             var code = new Random().Next(100000, 999999).ToString();
 
             var notification = new ConfirmationNotification(request.Email, request.Name, code);
-            var sendResult = await _externalNotificationService.SendNotification(notification);
+            var sendResult = await _notificationService.SendNotification(notification);
             _usersConfirmationCache[request.Login].Code = code;
             response.Success = sendResult;
 
@@ -90,7 +90,7 @@ namespace Funkmap.Module.Auth.Controllers
             UserEntity user = _authRepository.GetUserByEmail(email).Result;
             if (user == null) return Ok(response);
             var notification = new PasswordRecoverNotification(email, user.Name, user.Password);
-            var sendResult = await _externalNotificationService.SendNotification(notification);
+            var sendResult = await _notificationService.SendNotification(notification);
             response.Success = sendResult;
             return Ok(response);
         }

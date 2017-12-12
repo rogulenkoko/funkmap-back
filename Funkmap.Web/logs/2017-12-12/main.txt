@@ -1,0 +1,2 @@
+15:39:24 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /
+15:39:34 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /api/base/all

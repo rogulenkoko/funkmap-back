@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using Funkmap.Middleware;
 using Microsoft.Owin.Hosting;
 using NLog;
