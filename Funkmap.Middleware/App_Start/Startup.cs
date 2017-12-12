@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -14,9 +13,8 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Owin;
+using Swashbuckle.Application;
 
 namespace Funkmap.Middleware
 {
@@ -25,8 +23,7 @@ namespace Funkmap.Middleware
         public void Configuration(IAppBuilder appBuilder)
         {
             HttpConfiguration config = new HttpConfiguration();
-
-
+            
             appBuilder.UseCors(CorsOptions.AllowAll);
 
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
@@ -36,6 +33,7 @@ namespace Funkmap.Middleware
 
             LoadAssemblies();
             RegisterModules(containerBuilder);
+            InitializeSwagger(config);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();
 
@@ -72,9 +70,12 @@ namespace Funkmap.Middleware
 
             var signalRConfig = new HubConfiguration();
 
-           
 
-            signalRConfig.Resolver = new AutofacDependencyResolver(container);
+            var dependencyResolver = new AutofacDependencyResolver(container);
+
+            signalRConfig.Resolver = dependencyResolver;
+            GlobalHost.DependencyResolver = dependencyResolver;
+
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
 
@@ -93,6 +94,26 @@ namespace Funkmap.Middleware
         {
             var loader = new ModulesLoader();
             loader.LoadAllModules(builder);
+        }
+
+        private void InitializeSwagger(HttpConfiguration httpConfiguration)
+        {
+            // Swagger
+            //../swagger/ui/index
+            httpConfiguration.EnableSwagger(x =>
+            {
+                x.SingleApiVersion("v1", "Funkmap");
+
+                SwaggerConfig.SetCommentsPath(x);
+
+                //x.ApiKey("Token")
+                //    .Description("Bearer token")
+                //    .Name("Authorization")
+                //    .In("header");
+
+                //x.DocumentFilter<AuthTokenDocumentFilter>();
+
+            }).EnableSwaggerUi(x => x.EnableApiKeySupport("Authorization", "header"));
         }
     }
 
