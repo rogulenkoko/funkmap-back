@@ -32,7 +32,7 @@ namespace Funkmap.Statistics.Data.Repositories
         public async Task<BaseStatisticsEntity> BuildFullStatisticsAsync()
         {
             /*var mapFunc = function(){
-                if(this._t[1]!='MusicianEntity'){
+                if(this.t!=1){
                     return;}
                 if(this.bd==null){
                     emit('other',this.log)
@@ -89,9 +89,9 @@ namespace Funkmap.Statistics.Data.Repositories
         {
             var sb = new StringBuilder();
             var ages = _ageInfoProvider.AgeInfos;
-            sb.Append("if(this._t[1]!='MusicianEntity'){return;}");
+            sb.Append("if(this.t!=1){return;}");
             sb.Append(" if(this.bd==null){"+
-           "emit('Не указано', this.log)}");
+           "emit('не указанно', this.log)}");
             sb.Append("var currentDate = new Date();");
             sb.Append("var timeDiff = Math.abs(currentDate.getTime() - this.bd);"+
                       "var year = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365));");
