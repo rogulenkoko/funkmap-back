@@ -21,8 +21,7 @@ namespace Funkmap.Common.Logger
                 var settings = settingsService.GetSettings();
 
 
-
-                var root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().FullName);
+                string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
                 var emailConfig = Path.Combine(root, "NLogEmail.config");
                 var fileConfig = Path.Combine(root, "NLog.config");
 

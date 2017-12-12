@@ -50,7 +50,7 @@ namespace Funkmap.Messenger.Controllers
             if (dialogsEntities == null || dialogsEntities.Count == 0) return Ok(new List<Dialog>());
 
             var dialogIds = dialogsEntities.Select(x => x.Id.ToString()).ToArray();
-            var lastDialogMessage = await _messageRepository.GetLastDialogsMessages(dialogIds);
+            var lastDialogMessage = await _dialogRepository.GetLastDialogsMessages(dialogIds);
 
             var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y => y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
             return Content(HttpStatusCode.OK, dialogs);

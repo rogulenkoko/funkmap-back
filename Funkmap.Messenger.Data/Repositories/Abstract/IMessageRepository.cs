@@ -16,6 +16,5 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
         Task<ICollection<DialogEntity>> GetDialogsWithNewMessagesAsync(DialogsNewMessagesParameter paramete);
         Task<ICollection<DialogsNewMessagesCountResult>> GetDialogNewMessagesCount(DialogsNewMessagesParameter parameter);
         Task AddMessage(MessageEntity message);
-        Task<ICollection<MessageEntity>> GetLastDialogsMessages(string[] dialogId);
     }
 }

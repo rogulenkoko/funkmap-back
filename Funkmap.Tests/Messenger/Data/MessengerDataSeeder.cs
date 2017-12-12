@@ -25,8 +25,9 @@ namespace Funkmap.Tests.Messenger.Data
 
         private void SeedDialogs()
         {
-            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
-            var messagesRepository = new MessageRepository(_database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName), new GridFSBucket(_database));
+            var messagesCollection = _database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
+            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
+            var messagesRepository = new MessageRepository(messagesCollection, new GridFSBucket(_database));
 
             var dialogId = ObjectId.GenerateNewId();
             var participants = new List<string>() {"test", "rogulenkoko"};

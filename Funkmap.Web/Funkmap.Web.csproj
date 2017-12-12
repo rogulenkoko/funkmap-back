@@ -148,6 +148,7 @@
     <Content Include="NLogEmail.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\file.pubxml" />
     <None Include="Properties\PublishProfiles\FunkmapWeb.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -166,6 +167,10 @@
     <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
       <Name>Funkmap.Module.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
+      <Project>{cc5b36a9-d49f-4583-b74c-d2f3a17087a4}</Project>
+      <Name>Funkmap.Common.Notifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Redis.Autofac\Funkmap.Common.Redis.Autofac.csproj">
       <Project>{8a50007a-b4a0-4e09-ac96-d1c64440609d}</Project>

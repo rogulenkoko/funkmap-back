@@ -64,6 +64,7 @@ namespace Funkmap.Data.Repositories
             }
             else
             {
+                if(parameter.RadiusDeg == null) parameter.RadiusDeg = Int32.MaxValue;
                 var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
                     & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
                 result = await _collection.Find(filter).Limit(parameter.Take).ToListAsync();
@@ -81,6 +82,7 @@ namespace Funkmap.Data.Repositories
             }
             else
             {
+                if (parameter.RadiusDeg == null) parameter.RadiusDeg = Int32.MaxValue;
                 var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
                              & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
                 result = await _collection.Find(filter).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
@@ -168,6 +170,7 @@ namespace Funkmap.Data.Repositories
 
             if (commonFilter.Longitude.HasValue && commonFilter.Latitude.HasValue)
             {
+                if (commonFilter.RadiusDeg == null) commonFilter.RadiusDeg = Int32.MaxValue;
                 filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
             }
 
@@ -182,6 +185,7 @@ namespace Funkmap.Data.Repositories
 
             if (commonFilter.Longitude.HasValue && commonFilter.Latitude.HasValue)
             {
+                if (commonFilter.RadiusDeg == null) commonFilter.RadiusDeg = Int32.MaxValue;
                 filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
             }
 

@@ -19,11 +19,18 @@ namespace Funkmap.Tests.Messenger
     {
         private IDialogRepository _dialogRepository;
 
+        private IMessageRepository _messageRepository;
+
         [TestInitialize]
         public void Initialize()
         {
             var db = MessengerDbProvider.DropAndCreateDatabase;
-            _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
+
+            var messagesCollection = db.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
+
+            _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
+
+            _messageRepository = new MessageRepository(messagesCollection, MessengerDbProvider.GetGridFsBucket(db));
         }
 
         [TestMethod]
@@ -66,6 +73,29 @@ namespace Funkmap.Tests.Messenger
             };
             var id = _dialogRepository.CreateAndGetIdAsync(dialog).GetAwaiter().GetResult();
             Assert.AreNotEqual(id.ToString(), ObjectId.Empty.ToString());
+        }
+
+        [TestMethod]
+        public void GetLastDialogMessage()
+        {
+            var login = "rogulenkoko";
+            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
+            var dialog = dialogs.First();
+
+            var parameter = new DialogMessagesParameter()
+            {
+                DialogId = dialog.Id.ToString(),
+                Take = Int32.MaxValue,
+                Skip = 0,
+                UserLogin = login
+            };
+
+            var allMessages = _messageRepository.GetDialogMessagesAsync(parameter).GetAwaiter().GetResult();
+            var trueLastMessage = allMessages.Last();
+
+            var lastMessages = _dialogRepository.GetLastDialogsMessages(new [] { dialog.Id.ToString() }).GetAwaiter().GetResult();
+            var lastMessage = lastMessages.First();
+            Assert.AreEqual(lastMessage.Id.ToString(), trueLastMessage.Id.ToString());
         }
     }
 }

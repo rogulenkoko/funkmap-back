@@ -26,9 +26,11 @@ namespace Funkmap.Tests.Messenger
         public void Initialize()
         {
             var db = MessengerDbProvider.DropAndCreateDatabase;
-            _messageRepository = new MessageRepository(db.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName),
-                MessengerDbProvider.GetGridFsBucket(db));
-            _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName));
+            var messagesCollection = db.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
+
+            _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
+
+            _messageRepository = new MessageRepository(messagesCollection, MessengerDbProvider.GetGridFsBucket(db));
         }
 
         [TestMethod]
@@ -162,28 +164,7 @@ namespace Funkmap.Tests.Messenger
             Assert.AreEqual(file.FileBytes.Length, image.Length);
         }
 
-        [TestMethod]
-        public void GetLastDialogMessage()
-        {
-            var login = "rogulenkoko";
-            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
-            var dialog = dialogs.First();
-
-            var parameter = new DialogMessagesParameter()
-            {
-                DialogId = dialog.Id.ToString(),
-                Take = Int32.MaxValue,
-                Skip = 0,
-                UserLogin = login
-            };
-
-            var allMessages = _messageRepository.GetDialogMessagesAsync(parameter).GetAwaiter().GetResult();
-            var trueLastMessage = allMessages.Last();
-
-            var lastMessages = _messageRepository.GetLastDialogsMessages(new string[] { dialog.Id.ToString()}).GetAwaiter().GetResult();
-            var lastMessage = lastMessages.First();
-            Assert.AreEqual(lastMessage.Id.ToString(), trueLastMessage.Id.ToString());
-        }
+        
 
     }
 }

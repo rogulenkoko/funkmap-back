@@ -43,34 +43,7 @@ namespace Funkmap.Messenger.Data.Repositories
             await _collection.InsertOneAsync(message);
         }
 
-        public async Task<ICollection<MessageEntity>> GetLastDialogsMessages(string[] dialogIds)
-        {
-            //db.messages.aggregate([
-            //{$match: { d: ObjectId("599f49c5208c1127f4f2dde4")} },
-            //{$sort: { _id: -1} },
-            //{$group: { _id: "$d",m: {$first: "$$ROOT"} } }
-            //])
-
-
-            if (dialogIds == null || dialogIds.Length == 0) throw new ArgumentException(nameof(dialogIds));
-
-            var sort = Builders<MessageEntity>.Sort.Descending(x => x.Id);
-
-            var dialogsFilter = Builders<MessageEntity>.Filter.In(x => x.DialogId, dialogIds.Select(x=>new ObjectId(x)));
-
-            var messages = await _collection.Aggregate()
-                .Match(dialogsFilter)
-                .Sort(sort)
-                .Group(x => x.DialogId, y => new LastDialogMessageResult()
-                {
-                    DialogId = y.Key,
-                    LastMessage = new BsonDocument("$first", "$$ROOT") 
-                }).ToListAsync();
-
-            if(messages == null) return new List<MessageEntity>();
-
-            return messages.Select(x => BsonSerializer.Deserialize<MessageEntity>(x.LastMessage)).ToList();
-        }
+        
 
         public async Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter)
         {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -36,8 +37,8 @@ namespace Funkmap.Common.Notifications.Notification
             {
                 _logger.Info($"Отправка email по адресу {notification.Receiver}");
 
-
-                var body = File.ReadAllText("Templates/base-template.html");
+                string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+                var body = File.ReadAllText(new Uri(Path.Combine(root, "Templates/base-template.html")).LocalPath);
 
                 var mailDefenition = new MailDefinition
                 {
