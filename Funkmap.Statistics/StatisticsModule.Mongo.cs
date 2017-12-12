@@ -1,14 +1,6 @@
-﻿using System;
-using System.Configuration;
-using System.Reflection;
+﻿using System.Configuration;
 using Autofac;
-using Autofac.Integration.WebApi;
-using Funkmap.Common.Abstract;
 using Funkmap.Statistics.Data.Entities;
-using Funkmap.Statistics.Data.Repositories;
-using Funkmap.Statistics.Data.Repositories.Abstract;
-using Funkmap.Statistics.Data.Services;
-using Funkmap.Statistics.Services;
 using MongoDB.Driver;
 
 namespace Funkmap.Statistics

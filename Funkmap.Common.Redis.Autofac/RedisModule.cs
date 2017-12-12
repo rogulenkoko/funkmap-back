@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Configuration;
+using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Redis.Abstract;
 using StackExchange.Redis;
@@ -9,7 +10,13 @@ namespace Funkmap.Common.Redis.Autofac
     {
         public void Register(ContainerBuilder builder)
         {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost:6379");
+            //var configurationOptions = new ConfigurationOptions()
+            //{
+                
+            //    Password = 
+            //};
+
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["redis-primary"]);
 
             builder.RegisterInstance(redis).As<ConnectionMultiplexer>().SingleInstance().OnRelease(x => x.Dispose());
             builder.Register(container =>

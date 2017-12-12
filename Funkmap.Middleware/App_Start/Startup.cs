@@ -66,28 +66,35 @@ namespace Funkmap.Middleware
 
 
             config.MapHttpAttributeRoutes();
+            config.Routes.MapHttpRoute("Swagger UI", "", null, null, new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
+
+
             appBuilder.UseWebApi(config);
+            
 
+
+            //SignalR
             var signalRConfig = new HubConfiguration();
-
-
             var dependencyResolver = new AutofacDependencyResolver(container);
-
             signalRConfig.Resolver = dependencyResolver;
             GlobalHost.DependencyResolver = dependencyResolver;
-
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
 
         private void LoadAssemblies()
         {
-            //todo
-            Assembly.Load("Funkmap");
-            Assembly.Load("Funkmap.Module.Auth");
-            Assembly.Load("Funkmap.Messenger");
-            Assembly.Load("Funkmap.Notifications");
-            Assembly.Load("Funkmap.Common.Redis.Autofac");
-            //Assembly.Load("Funkmap.Statistics");
+            Assembly.Load(typeof(Module.FunkmapModule).Assembly.FullName);
+            Assembly.Load(typeof(AuthFunkmapModule).Assembly.FullName);
+            Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName);
+            Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
+            Assembly.Load(typeof(Statistics.StatisticsModule).Assembly.FullName);
+
+            
+            Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
+            Assembly.Load(typeof(LoggerModule).Assembly.FullName);
+            Assembly.Load(typeof(Common.Notifications.NotificationToolModule).Assembly.FullName);
+
+
         }
 
         private void RegisterModules(ContainerBuilder builder)
@@ -99,7 +106,7 @@ namespace Funkmap.Middleware
         private void InitializeSwagger(HttpConfiguration httpConfiguration)
         {
             // Swagger
-            //../swagger/ui/index
+            //http://.../swagger/ui/index
             httpConfiguration.EnableSwagger(x =>
             {
                 x.SingleApiVersion("v1", "Funkmap");

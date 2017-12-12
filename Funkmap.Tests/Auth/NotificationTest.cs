@@ -16,7 +16,7 @@ namespace Funkmap.Tests.Auth
             using (var mock = AutoMock.GetLoose())
             {
                 mock.Provide<ISettingsService>(new MonolithSettingsService());
-                var service = mock.Create<EmailNotificationService>();
+                var service = mock.Create<EmailExternalNotificationService>();
                 var message = new ConfirmationNotification("rogulenkoko@gmail.com", "Кирилл Рогуленко", "123321");
                 var success = service.SendNotification(message).Result;
                 Assert.IsTrue(success);
@@ -29,7 +29,7 @@ namespace Funkmap.Tests.Auth
             using (var mock = AutoMock.GetLoose())
             {
                 mock.Provide<ISettingsService>(new MonolithSettingsService());
-                var service = mock.Create<EmailNotificationService>();
+                var service = mock.Create<EmailExternalNotificationService>();
                 var message = new PasswordRecoverNotification("rogulenkoko@gmail.com", "Кирилл Рогуленко", "123321");
                 var success = service.SendNotification(message).Result;
                 Assert.IsTrue(success);

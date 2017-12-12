@@ -62,14 +62,13 @@ namespace Funkmap.Console
             appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
 
-
             config.MapHttpAttributeRoutes();
             appBuilder.UseWebApi(config);
         }
 
         private void LoadAssemblies()
         {
-            Assembly.Load("Funkmap");
+            Assembly.Load(typeof(Module.FunkmapModule).Assembly.FullName);
             Assembly.Load("Funkmap.Common.Modules");
         }
 

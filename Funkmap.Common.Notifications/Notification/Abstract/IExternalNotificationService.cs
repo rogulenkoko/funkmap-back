@@ -2,7 +2,7 @@
 
 namespace Funkmap.Common.Notifications.Notification.Abstract
 {
-    public interface INotificationService
+    public interface IExternalNotificationService
     {
         Task<bool> SendNotification(Notification notification);
     }

@@ -1,4 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Web;
+using System.Web.Hosting;
 using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Settings;
@@ -16,27 +20,36 @@ namespace Funkmap.Common.Logger
                 var settingsService = container.Resolve<ISettingsService>();
                 var settings = settingsService.GetSettings();
 
-                var logConfig = "NLog.config";
+
+
+                var root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().FullName);
+                var emailConfig = Path.Combine(root, "NLogEmail.config");
+                var fileConfig = Path.Combine(root, "NLog.config");
+
+                string logConfig;
 
                 switch (settings.LoggingType)
                 {
-                        case LoggingType.Empty:
-                            logConfig = "";
+                    case LoggingType.Empty:
+                        logConfig = "";
                         break;
 
-                        case LoggingType.File:
-                            
+                    case LoggingType.File:
+                        logConfig = fileConfig;
                         break;
 
-                        case LoggingType.Email:
-                            logConfig = "NLogEmail.config";
+                    case LoggingType.Email:
+                        logConfig = emailConfig;
+                        break;
+                    default:
+                        logConfig = fileConfig;
                         break;
                 }
 
-                if(!String.IsNullOrEmpty(logConfig)) LogManager.Configuration = new XmlLoggingConfiguration(logConfig);
+                if (!String.IsNullOrEmpty(logConfig)) LogManager.Configuration = new XmlLoggingConfiguration(logConfig);
                 var logger = LogManager.GetCurrentClassLogger();
                 return logger;
-            }).As<ILogger>();
+            }).SingleInstance().As<ILogger>();
 
             builder.RegisterGeneric(typeof(FunkmapLogger<>)).As(typeof(IFunkmapLogger<>));
         }

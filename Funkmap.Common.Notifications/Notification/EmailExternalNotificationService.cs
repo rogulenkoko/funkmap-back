@@ -13,14 +13,14 @@ using Funkmap.Common.Settings;
 
 namespace Funkmap.Common.Notifications.Notification
 {
-    public class EmailNotificationService : INotificationService
+    public class EmailExternalNotificationService : IExternalNotificationService
     {
         private readonly string _appEmail;
         private readonly string _appEmailPassword;
-        private readonly IFunkmapLogger<EmailNotificationService> _logger;
+        private readonly IFunkmapLogger<EmailExternalNotificationService> _logger;
 
 
-        public EmailNotificationService(ISettingsService settingsService, IFunkmapLogger<EmailNotificationService> logger)
+        public EmailExternalNotificationService(ISettingsService settingsService, IFunkmapLogger<EmailExternalNotificationService> logger)
         {
             var settings = settingsService.GetSettings();
             if (settings == null) throw new ArgumentNullException(nameof(settings), "Необходим сервис настроек и настройки");
