@@ -91,7 +91,7 @@ namespace Funkmap.Statistics.Data.Repositories
             var ages = _ageInfoProvider.AgeInfos;
             sb.Append("if(this._t[1]!='MusicianEntity'){return;}");
             sb.Append(" if(this.bd==null){"+
-           "emit('other', this.log)}");
+           "emit('Не указано', this.log)}");
             sb.Append("var currentDate = new Date();");
             sb.Append("var timeDiff = Math.abs(currentDate.getTime() - this.bd);"+
                       "var year = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365));");

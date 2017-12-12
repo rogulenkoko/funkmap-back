@@ -33,8 +33,11 @@ namespace Funkmap.Statistics.Data.Repositories
                 { _id: "$intsr", count: {$sum: 1} }
             }
             )*/
+
+            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
+
             var statistics = await _profileCollection.Aggregate()
-                .Match(x=>x.Instrument!=null)
+                .Match(filter)
                 .Group(x => x.Instrument, entities => new CountStatisticsEntity<InstrumentType>()
                     {
                         Key = entities.Key,
@@ -48,24 +51,9 @@ namespace Funkmap.Statistics.Data.Repositories
             return statistic;
         }
 
-        public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
+        public Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
-            var filter = Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
-                         Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end);
-            var statistics = await _profileCollection.Aggregate()
-                .Match(filter )
-                .Match(x => x.Instrument != null)
-                .Group(x => x.Instrument, entities => new CountStatisticsEntity<InstrumentType>()
-                    {
-                        Key = entities.Key,
-                        Count = entities.Count()
-                    }
-                ).ToListAsync();
-            var statistic = new InstrumentStatisticsEntity()
-            {
-                CountStatistics = statistics
-            };
-            return statistic;
+            return BuildFullStatisticsAsync();
         }
 
         

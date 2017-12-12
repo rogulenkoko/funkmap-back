@@ -60,7 +60,7 @@ namespace Funkmap.Statistics.Data.Repositories
             //    mapFunc,
             //    reduceFunc,
             //{
-            //    finalize: finalizeFunc,ну
+            //    finalize: finalizeFunc,
             //        out: { inline: 1 }
             //}
             //)

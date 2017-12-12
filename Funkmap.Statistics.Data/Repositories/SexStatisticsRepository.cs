@@ -47,6 +47,7 @@ namespace Funkmap.Statistics.Data.Repositories
 
         public async Task<BaseStatisticsEntity> BuildStatisticsAsync(DateTime begin, DateTime end)
         {
+            return await BuildFullStatisticsAsync();
             var filter = Builders<MusicianEntity>.Filter.Gte(x => x.CreationDate, begin) &
                          Builders<MusicianEntity>.Filter.Lte(x => x.CreationDate, end) &
                          Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);

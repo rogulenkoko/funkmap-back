@@ -24,7 +24,7 @@ namespace Funkmap.Statistics.Data.Repositories
         {
 
             //var mapFunc = function(){
-            //    if(this.t != 1) return;
+            //    if (this.t != 1) return;
             //    if (this.band == null || this.band.length == 0) emit(false, this.log);
             //    else emit(true, this.log)
             //}
@@ -44,8 +44,12 @@ namespace Funkmap.Statistics.Data.Repositories
 
             var mapFunc = GetMapFunction();
             var reduceFunc = GetReduseFunction();
+            var finalizeFunc = GetFinalizeFunction();
 
-            var options = new MapReduceOptions<MusicianEntity, InBandStatistics>();
+            var options = new MapReduceOptions<MusicianEntity, InBandStatistics>()
+            {
+                Finalize = finalizeFunc
+            };
 
             var statistics = await _profileCollection.MapReduce(mapFunc, reduceFunc, options).ToListAsync();
 
@@ -91,6 +95,12 @@ namespace Funkmap.Statistics.Data.Repositories
         {
             var functionBody = "var statistics = values.length;return statistics;";
             return WrapWithJsFunction(functionBody, new[] { "key", "values" });
+        }
+
+        private string GetFinalizeFunction()
+        {
+            var functionBody = "if(typeof reduced === \'string\') return 1;return reduced;";
+            return WrapWithJsFunction(functionBody, new[] { "key", "reduced" });
         }
 
         private string WrapWithJsFunction(string body, string[] parameters = null)

@@ -22,6 +22,7 @@ namespace Funkmap.Statistics.Data.Entities
 
         public override BaseStatisticsEntity Merge(BaseStatisticsEntity second)
         {
+            return second;
             var firstCurrent = this;
             var secondCurrent = second as InstrumentStatisticsEntity;
             if (firstCurrent == null || secondCurrent == null) throw new InvalidOperationException("invalid parameter types");
