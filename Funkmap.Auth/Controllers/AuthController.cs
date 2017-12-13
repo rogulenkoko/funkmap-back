@@ -75,6 +75,8 @@ namespace Funkmap.Module.Auth.Controllers
             if (!(_usersConfirmationCache.ContainsKey(request.Login) && _usersConfirmationCache[request.Login].Code == request.Code)) return Ok(response);
 
             var userConfirm = _usersConfirmationCache[request.Login];
+            userConfirm.User.LastVisitDateUtc = DateTime.UtcNow;
+
             await _authRepository.CreateAsync(userConfirm.User);
             response.Success = true;
 

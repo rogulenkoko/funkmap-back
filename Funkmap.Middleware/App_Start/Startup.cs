@@ -90,9 +90,15 @@ namespace Funkmap.Middleware
             appBuilder.UseFileServer(options);
 
             //SignalR
-            var signalRConfig = new HubConfiguration();
+
             var dependencyResolver = new AutofacDependencyResolver(container);
-            signalRConfig.Resolver = dependencyResolver;
+            var signalRConfig = new HubConfiguration()
+            {
+                EnableJavaScriptProxies = false,
+                EnableDetailedErrors = false,
+                Resolver = dependencyResolver
+            };
+           
             GlobalHost.DependencyResolver = dependencyResolver;
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
@@ -105,7 +111,7 @@ namespace Funkmap.Middleware
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(Statistics.StatisticsModule).Assembly.FullName);
 
-            
+
             Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
             Assembly.Load(typeof(LoggerModule).Assembly.FullName);
             Assembly.Load(typeof(Common.Notifications.NotificationToolModule).Assembly.FullName);

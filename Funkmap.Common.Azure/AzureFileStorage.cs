@@ -19,7 +19,7 @@ namespace Funkmap.Common.Azure
         {
             _container = blobClient.GetContainerReference(containerName);
 
-            if(!_container.Exists()) _container.Create(BlobContainerPublicAccessType.Container);
+            //if(!_container.Exists()) _container.Create(BlobContainerPublicAccessType.Container);
         }
 
         public async Task<string> UploadFromBytesAsync(string fileName, byte[] bytes)

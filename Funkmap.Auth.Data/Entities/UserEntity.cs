@@ -28,6 +28,7 @@ namespace Funkmap.Auth.Data.Entities
         public BsonBinaryData Avatar { get; set; }
 
         [BsonElement("date")]
+        [BsonIgnoreIfDefault]
         public DateTime LastVisitDateUtc { get; set; }
     }
 }

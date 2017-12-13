@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
@@ -20,7 +19,24 @@ namespace Funkmap.Controllers
             var result = await _repository.GetAllAsyns();
             var markers = result.Select(x => x.ToMarkerModel()).ToList();
             return Content(HttpStatusCode.OK, markers);
+        }
 
+
+        [HttpGet]
+        [Route("getFull/{id}")]
+        public async Task<IHttpActionResult> GetFullBand(string id)
+        {
+            var entity = await _repository.GetAsync(id);
+            return Content(HttpStatusCode.OK, entity.ToSpecificModel());
+
+        }
+
+        [HttpGet]
+        [Route("get/{id}")]
+        public async Task<IHttpActionResult> GetRehearsalPoint(string id)
+        {
+            var entity = await _repository.GetAsync(id);
+            return Content(HttpStatusCode.OK, entity.ToSpecificPreviewModel());
         }
 
         [HttpPost]

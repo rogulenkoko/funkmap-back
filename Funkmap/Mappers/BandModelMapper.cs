@@ -60,7 +60,7 @@ namespace Funkmap.Mappers
             };
         }
 
-        public static BandModelPreview ToModelPreview(this BandEntity source)
+        public static BandModelPreview ToPreviewModel(this BandEntity source)
         {
             if (source == null) return null;
             return new BandModelPreview()

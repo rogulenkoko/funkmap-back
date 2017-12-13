@@ -11,7 +11,6 @@ using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Tools;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -157,7 +156,7 @@ namespace Funkmap.Data.Repositories
                     var bytes = await _fileStorage.DownloadAsBytesAsync(id);
                     fileInfos.Add(new FileInfo() { Id = id, Bytes = bytes });
                 }
-                catch (GridFSFileNotFoundException e)
+                catch (Exception e)
                 {
                    continue;
                 }

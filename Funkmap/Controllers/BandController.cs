@@ -31,25 +31,6 @@ namespace Funkmap.Controllers
             _dependenciesController = dependenciesController;
         }
         
-        [HttpGet]
-        [Route("get/{id}")]
-        public async Task<IHttpActionResult> GetBand(string id)
-        {
-            var bandEntity = await _bandRepository.GetAsync(id);
-            var band = bandEntity.ToModelPreview();
-            return Content(HttpStatusCode.OK, band);
-        }
-
-        [HttpGet]
-        [Route("getFull/{id}")]
-        public async Task<IHttpActionResult> GetFullBand(string id)
-        {
-            var bandEntity = await _bandRepository.GetAsync(id);
-            BandModel band = bandEntity.ToModel();
-            return Content(HttpStatusCode.OK, band);
-
-        }
-        
         [HttpPost]
         [Authorize]
         [Route("getInviteInfo")]
@@ -69,7 +50,7 @@ namespace Funkmap.Controllers
                 .Where(x=>(x.MusicianLogins == null && x.InvitedMusicians == null) 
                     || ((x.MusicianLogins == null || !x.MusicianLogins.Contains(request.InvitedMusician))) 
                     && (x.InvitedMusicians == null || !x.InvitedMusicians.Contains(request.InvitedMusician)))
-                .Select(x=>x.ToModelPreview()).ToList();
+                .Select(x=>x.ToPreviewModel()).ToList();
 
             var info = new BandInviteInfo()
             {

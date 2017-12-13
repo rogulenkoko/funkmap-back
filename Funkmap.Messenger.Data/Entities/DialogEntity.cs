@@ -10,8 +10,10 @@ namespace Funkmap.Messenger.Data.Entities
     {
 
         [BsonElement("n")]
+        [BsonIgnoreIfDefault]
         public string Name { get; set; }
 
+        [BsonIgnore]
         public ImageInfo Avatar { get; set; }
 
         [BsonElement("prtcpnts")]
@@ -21,6 +23,7 @@ namespace Funkmap.Messenger.Data.Entities
         public DateTime LastMessageDate { get; set; }
 
         [BsonElement("c")]
+        [BsonIgnoreIfDefault]
         public string CreatorLogin { get; set; }
 
     }

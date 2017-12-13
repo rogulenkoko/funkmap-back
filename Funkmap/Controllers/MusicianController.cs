@@ -36,26 +36,6 @@ namespace Funkmap.Controllers
             _dependenciesController = dependenciesController;
         }
 
-        [HttpGet]
-        [Route("get/{id}")]
-        public async Task<IHttpActionResult> GetMusician(string id)
-        {
-            var musicianEntity = await _musicianRepository.GetAsync(id);
-            MusicianPreviewModel musican = musicianEntity.ToPreviewModel();
-            return Content(HttpStatusCode.OK, musican);
-
-        }
-
-        [HttpGet]
-        [Route("getFull/{id}")]
-        public async Task<IHttpActionResult> GetFullMusician(string id)
-        {
-            var musicianEntity = await _musicianRepository.GetAsync(id);
-            MusicianModel musican = musicianEntity.ToMusicianModel();
-            return Content(HttpStatusCode.OK, musican);
-
-        }
-
         [Authorize]
         [HttpPost]
         [Route("invite")]

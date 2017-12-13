@@ -3,6 +3,7 @@ using System.Configuration;
 using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Microsoft.Azure;
@@ -47,30 +48,40 @@ namespace Funkmap.Module
 
             var storageName = "funkmapstorage";
 
+            //builder.Register(container =>
+            //{
+            //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+            //    //database.CreateCollection("fs.files");
+            //    //database.CreateCollection("fs.chunks");
+            //    return new GridFSBucket(database);
+
+            //}).As<IGridFSBucket>().Named<IGridFSBucket>(storageName);
+
+            //builder.Register(container =>
+            //{
+            //    var gridFs = container.ResolveNamed<IGridFSBucket>(storageName);
+            //    return new GridFsFileStorage(gridFs);
+            //}).Named<GridFsFileStorage>(storageName);
+            //builder.Register(context => context.ResolveNamed<GridFsFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
+
+
             builder.Register(container =>
-            {
-                var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
-                database.CreateCollection("fs.files");
-                database.CreateCollection("fs.chunks");
-                return new GridFSBucket(database);
-
-            }).As<IGridFSBucket>().Named<IGridFSBucket>(storageName);
-
-            builder.Register<AzureFileStorage>(container =>
             {
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 return new AzureFileStorage(blobClient, storageName);
             }).Named<AzureFileStorage>(storageName).InstancePerDependency();
 
+
+
             builder.Register(context => context.ResolveNamed<AzureFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
-            //builder.Register(context => context.ResolveNamed<IGridFSBucket>(storageName)).As<IFileStorage>().InstancePerDependency();
+            
 
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));
             var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
-            
+
 
             builder.RegisterBuildCallback(async c =>
             {
