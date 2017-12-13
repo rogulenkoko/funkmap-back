@@ -31,7 +31,7 @@ namespace Funkmap.Mappers
 
             return new SearchModel()
             {
-                AvatarId = source.PhotoMiniId == ObjectId.Empty ? null : source.PhotoMiniId.ToString(),
+                AvatarId = source.PhotoMiniId,
                 Login = source.Login,
                 UserLogin = source.UserLogin,
                 Title = source.Name,

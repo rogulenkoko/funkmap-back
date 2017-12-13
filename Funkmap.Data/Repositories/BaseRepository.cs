@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Common.Tools;
 using Funkmap.Data.Entities.Abstract;
@@ -19,14 +20,14 @@ namespace Funkmap.Data.Repositories
     public class BaseRepository : MongoLoginRepository<BaseEntity>, IBaseRepository
     {
         private readonly IFilterFactory _filterFactory;
-        private readonly IGridFSBucket _bucket;
+        private readonly IFileStorage _fileStorage;
 
         public BaseRepository(IMongoCollection<BaseEntity> collection,
-                              IGridFSBucket bucket,
+                              IFileStorage fileStorage,
                               IFilterFactory filterFactory) : base(collection)
         {
             _filterFactory = filterFactory;
-            _bucket = bucket;
+            _fileStorage = fileStorage;
         }
 
         public async Task<ICollection<BaseEntity>> GetAllAsyns()
@@ -153,7 +154,7 @@ namespace Funkmap.Data.Repositories
             {
                 try
                 {
-                    var bytes = await _bucket.DownloadAsBytesAsync(new ObjectId(id));
+                    var bytes = await _fileStorage.DownloadAsBytesAsync(id);
                     fileInfos.Add(new FileInfo() { Id = id, Bytes = bytes });
                 }
                 catch (GridFSFileNotFoundException e)
@@ -238,12 +239,12 @@ namespace Funkmap.Data.Repositories
 
                 var fileName = ImageNameBuilder.BuildAvatarName(entity);
                 var imageBytesNormal = FunkmapImageProcessor.MinifyImage(imageBytes, 200);
-                var photoId = await _bucket.UploadFromBytesAsync(fileName, imageBytesNormal);
+                var photoId = await _fileStorage.UploadFromBytesAsync(fileName, imageBytesNormal);
                 entity.PhotoId = photoId;
 
                 var fileMiniName = ImageNameBuilder.BuildAvatarMiniName(entity);
                 var imageMiniBytes = FunkmapImageProcessor.MinifyImage(imageBytes);
-                var photoMiniId = await _bucket.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
+                var photoMiniId = await _fileStorage.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
                 entity.PhotoMiniId = photoMiniId;
             }
             else if (entity.Photo != null && (entity.Photo.Image == null || entity.Photo.Image.AsByteArray.Length == 0))
@@ -263,8 +264,8 @@ namespace Funkmap.Data.Repositories
             var entity = await _collection.FindOneAndDeleteAsync(filter);
             if (entity == null) return null; //todo подумать как лучше, может просить эксепшен
 
-            if (entity.PhotoId.HasValue) _bucket.DeleteAsync(entity.PhotoId.Value);
-            if (entity.PhotoMiniId.HasValue) _bucket.DeleteAsync(entity.PhotoMiniId.Value);
+            if (!String.IsNullOrEmpty(entity.PhotoId)) _fileStorage.DeleteAsync(entity.PhotoId);
+            if (!String.IsNullOrEmpty(entity.PhotoMiniId)) _fileStorage.DeleteAsync(entity.PhotoMiniId);
 
             return entity;
         }

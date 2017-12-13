@@ -25,6 +25,11 @@ namespace Funkmap.Common.Data.Mongo
             return await _bucket.DownloadAsBytesAsync(new ObjectId(fileName));
         }
 
+        public async Task DeleteAsync(string fullFilePath)
+        {
+            await _bucket.DeleteAsync(new ObjectId(fullFilePath));
+        }
+
 
     }
 }

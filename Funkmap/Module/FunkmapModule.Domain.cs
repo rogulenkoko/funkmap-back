@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Funkmap.Common.Abstract;
+using Funkmap.Common.Azure;
 using Funkmap.Common.Redis.Abstract;
 using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Repositories;
@@ -9,6 +11,8 @@ using Funkmap.Services;
 using Funkmap.Services.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
+using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Module
 {
@@ -53,6 +57,7 @@ namespace Funkmap.Module
             
             builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
             builder.RegisterType<BandUpdateService>().As<IDependenciesController>();
+            
         }
     }
 }

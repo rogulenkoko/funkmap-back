@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Common.Abstract;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
@@ -7,6 +8,7 @@ using Funkmap.Data.Services.Abstract;
 using Funkmap.Tests.Funkmap.Data;
 using Funkmap.Tests.Funkmap.Stress;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Funkmap.Tests.Funkmap.Base
 {
@@ -21,7 +23,8 @@ namespace Funkmap.Tests.Funkmap.Base
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
             var db = FunkmapTestDbProvider.DropAndCreateStressDatabase;
-            _baseRepository = new BaseRepository(db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), FunkmapTestDbProvider.GetGridFsBucket(db), factory);
+            var fileStorage = new Mock<IFileStorage>();
+            _baseRepository = new BaseRepository(db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), fileStorage.Object, factory);
 
         }
 

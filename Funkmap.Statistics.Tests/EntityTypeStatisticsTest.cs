@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac.Extras.Moq;
+using Funkmap.Common.Abstract;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
@@ -41,10 +42,10 @@ namespace Funkmap.Statistics.Tests
 
             using (var mock = AutoMock.GetLoose())
             {
-                var gridFs = mock.Mock<IGridFSBucket>();
+                var storage = mock.Mock<IFileStorage>();
                 var filterFactory = mock.Mock<IFilterFactory>();
 
-                _profilesRepository = new BaseRepository(profilesCollection, gridFs.Object, filterFactory.Object);
+                _profilesRepository = new BaseRepository(profilesCollection, storage.Object, filterFactory.Object);
             }
 
             var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Common;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;
@@ -26,7 +27,10 @@ namespace Funkmap.Tests.Funkmap.Base
             var filterServices = new List<IFilterService>() { new MusicianFilterService() };
             IFilterFactory factory = new FilterFactory(filterServices);
             var db = FunkmapTestDbProvider.DropAndCreateDatabase;
-            _baseRepository = new BaseRepository(db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), FunkmapTestDbProvider.GetGridFsBucket(db), factory);
+
+            var storage = new GridFsFileStorage(FunkmapTestDbProvider.GetGridFsBucket(db));
+
+            _baseRepository = new BaseRepository(db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName), storage, factory);
             //_baseRepository = new BaseRepository(FunkmapTestDbProvider.DropAndCreateStressDatabase.GetCollection<BaseEntity>(StatisticsCollectionNameProvider.BaseCollectionName), factory);
 
         }

@@ -13,6 +13,8 @@ namespace Funkmap.Common.Azure
     {
         private readonly CloudBlobContainer _container;
 
+        private readonly string _extension = "png";
+
         public AzureFileStorage(CloudBlobClient blobClient, string containerName)
         {
             _container = blobClient.GetContainerReference(containerName);
@@ -22,17 +24,17 @@ namespace Funkmap.Common.Azure
 
         public async Task<string> UploadFromBytesAsync(string fileName, byte[] bytes)
         {
-            var blob = _container.GetBlockBlobReference(fileName);
+            var blob = _container.GetBlockBlobReference($"{fileName}.{_extension}");
             await blob.UploadFromByteArrayAsync(bytes,0, bytes.Length);
-            return $"{_container.Uri}/{fileName}";
+            return $"{_container.Uri}/{fileName}.{_extension}";
         }
 
-        public async Task<byte[]> DownloadAsBytesAsync(string fileName)
+        public async Task<byte[]> DownloadAsBytesAsync(string fullFilePath)
         {
-            CloudBlockBlob blob = _container.ListBlobs().Select(x => x as CloudBlockBlob).FirstOrDefault(x => x.Name == fileName);
+            var name = fullFilePath.Replace($"{_container.Uri}/", "");
+            CloudBlockBlob blob = _container.ListBlobs().Select(x => x as CloudBlockBlob).FirstOrDefault(x => x.Name == name);
             if (blob == null) return null;
-
-
+            
             byte[] result;
 
             using (var memoryStream = new MemoryStream())
@@ -41,6 +43,13 @@ namespace Funkmap.Common.Azure
                 result = memoryStream.ToArray();
             }
             return result;
+        }
+
+        public async Task DeleteAsync(string fullFilePath)
+        {
+            var name = fullFilePath.Replace(_container.Uri.ToString(), "");
+            CloudBlockBlob blob = _container.GetBlockBlobReference(name);
+            await blob.DeleteAsync();
         }
     }
 }

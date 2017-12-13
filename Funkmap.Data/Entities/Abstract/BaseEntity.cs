@@ -48,14 +48,14 @@ namespace Funkmap.Data.Entities.Abstract
 
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
-        public ObjectId? PhotoId { get; set; }
+        public string PhotoId { get; set; }
         
         [BsonIgnore]
         public ImageInfo Photo { get; set; }
 
         [BsonElement("pm")]
         [BsonIgnoreIfDefault]
-        public ObjectId? PhotoMiniId { get; set; }
+        public string PhotoMiniId { get; set; }
 
         [BsonIgnore]
         public ImageInfo PhotoMini { get; set; }

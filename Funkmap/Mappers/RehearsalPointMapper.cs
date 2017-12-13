@@ -17,8 +17,8 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                AvatarId = source.PhotoId == ObjectId.Empty ? null : source.PhotoId.ToString(),
-                AvatarMiniId = source.PhotoMiniId == ObjectId.Empty ? null : source.PhotoMiniId.ToString(),
+                AvatarId = source.PhotoId,
+                AvatarMiniId = source.PhotoMiniId,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
@@ -41,8 +41,8 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                AvatarId = source.PhotoId == ObjectId.Empty ? null : source.PhotoId.ToString(),
-                AvatarMiniId = source.PhotoMiniId == ObjectId.Empty ? null : source.PhotoMiniId.ToString(),
+                AvatarId = source.PhotoId,
+                AvatarMiniId = source.PhotoMiniId,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,

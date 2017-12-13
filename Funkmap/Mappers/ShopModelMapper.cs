@@ -27,8 +27,8 @@ namespace Funkmap.Mappers
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
                 Address = source.Address,
-                AvatarId = source.PhotoId == ObjectId.Empty ? null : source.PhotoId.ToString(),
-                AvatarMiniId = source.PhotoMiniId == ObjectId.Empty ? null : source.PhotoMiniId.ToString(),
+                AvatarId = source.PhotoId,
+                AvatarMiniId = source.PhotoMiniId,
                 VideoInfos = source.VideoInfos,
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive
@@ -43,8 +43,8 @@ namespace Funkmap.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                AvatarId = source.PhotoId == ObjectId.Empty ? null : source.PhotoId.ToString(),
-                AvatarMiniId = source.PhotoMiniId == ObjectId.Empty ? null : source.PhotoMiniId.ToString(),
+                AvatarId = source.PhotoId,
+                AvatarMiniId = source.PhotoMiniId,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,
