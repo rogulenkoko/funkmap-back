@@ -10,10 +10,12 @@ using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Data.Mongo;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Module.Auth
 {
@@ -39,23 +41,16 @@ namespace Funkmap.Module.Auth
                 .As<IMongoCollection<UserEntity>>();
 
 
-            
-
             //builder.Register(container =>
             //{
             //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
-            //    //database.CreateCollection("fs.files");
-            //    //database.CreateCollection("fs.chunks");
-            //    return new GridFSBucket(database);
-
-            //}).As<IGridFSBucket>().Named<IGridFSBucket>(storageName);
-
-            //builder.Register(container =>
-            //{
-            //    var gridFs = container.ResolveNamed<IGridFSBucket>(storageName);
+            //    var gridFs = new GridFSBucket(database);
             //    return new GridFsFileStorage(gridFs);
-            //}).Named<GridFsFileStorage>(storageName);
-            //builder.Register(context => context.ResolveNamed<GridFsFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
+            //}).Named<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName);
+
+            //builder.Register(context => context.ResolveKeyed<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName))
+            //    .Keyed<IFileStorage>(AuthCollectionNameProvider.AuthStorageName)
+            //    .InstancePerDependency();
 
 
             builder.Register(container =>

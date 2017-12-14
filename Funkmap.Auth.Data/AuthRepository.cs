@@ -40,9 +40,16 @@ namespace Funkmap.Auth.Data
             var user = await _collection.Find(filter).Project<UserEntity>(projection).SingleOrDefaultAsync();
 
             if (String.IsNullOrEmpty(user?.AvatarId)) return null;
-
-            var bytes = await _fileStorage.DownloadAsBytesAsync(user.AvatarId);
-            return bytes;
+            
+            try
+            {
+                var bytes = await _fileStorage.DownloadAsBytesAsync(user.AvatarId);
+                return bytes;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task SaveAvatarAsync(string login, byte[] image)
