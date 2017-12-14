@@ -145,23 +145,18 @@ namespace Funkmap.Data.Repositories
             return countResult;
         }
 
-        public async Task<ICollection<FileInfo>> GetFilesAsync(string[] fileIds)
+        public async Task<byte[]> GetFileAsync(string fileId)
         {
-            //todo оптимизация
-            var fileInfos = new List<FileInfo>(fileIds.Length);
-            foreach (var id in fileIds)
+            try
             {
-                try
-                {
-                    var bytes = await _fileStorage.DownloadAsBytesAsync(id);
-                    fileInfos.Add(new FileInfo() { Id = id, Bytes = bytes });
-                }
-                catch (Exception e)
-                {
-                   continue;
-                }
+                var fileInfos = await _fileStorage.DownloadAsBytesAsync(fileId);
+                return fileInfos;
             }
-            return fileInfos;
+            catch (Exception)
+            {
+                return null;
+            }
+           
         }
 
         public async Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)

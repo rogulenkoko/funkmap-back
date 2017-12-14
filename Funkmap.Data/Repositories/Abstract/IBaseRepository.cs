@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Common.Data.Mongo.Abstract;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Data.Repositories.Abstract
 {
@@ -31,7 +29,7 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin);
 
-        Task<ICollection<FileInfo>> GetFilesAsync(string[] fileIds);
+        Task<byte[]> GetFileAsync(string fileId);
 
         Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter);
 

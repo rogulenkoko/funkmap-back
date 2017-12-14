@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
-using Funkmap.Data.Objects;
 using Funkmap.Mappers;
 
 namespace Funkmap.Controllers
@@ -49,12 +46,11 @@ namespace Funkmap.Controllers
         }
 
         [HttpPost]
-        [Route("images")]
-        public async Task<IHttpActionResult> GetImages(string[] ids)
+        [Route("getimage")]
+        public async Task<IHttpActionResult> GetImage(string id)
         {
-            var filteredIds = ids.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            ICollection<FileInfo> files = await _repository.GetFilesAsync(filteredIds);
-            return Ok(files);
+            var file = await _repository.GetFileAsync(id);
+            return Ok(file);
         }
 
         [HttpGet]

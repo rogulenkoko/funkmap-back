@@ -60,9 +60,9 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.GetUserEntitiesCountInfoAsync(userLogin);
         }
 
-        public Task<ICollection<FileInfo>> GetFilesAsync(string[] fileIds)
+        public Task<byte[]> GetFileAsync(string fileId)
         {
-            return _baseRepository.GetFilesAsync(fileIds);
+            return _baseRepository.GetFileAsync(fileId);
         }
 
         public async Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
