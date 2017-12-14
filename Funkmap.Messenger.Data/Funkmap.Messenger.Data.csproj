@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
       <Private>True</Private>
@@ -56,10 +60,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,6 +79,7 @@
     <Compile Include="Entities\DialogEntity.cs" />
     <Compile Include="Entities\MessageEntity.cs" />
     <Compile Include="Entities\MessageUnwinded.cs" />
+    <Compile Include="MessengerCollectionNameProvider.cs" />
     <Compile Include="Objects\DialogsNewMessagesCountResult.cs" />
     <Compile Include="Objects\LastDialogMessageResult.cs" />
     <Compile Include="Parameters\DialogMessagesParameter.cs" />
@@ -91,6 +100,10 @@
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
+      <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
+      <Name>Funkmap.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

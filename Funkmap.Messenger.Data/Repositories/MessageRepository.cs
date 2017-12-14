@@ -2,29 +2,28 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
+using Autofac.Features.AttributeFilters;
+using Funkmap.Common.Abstract;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Messenger.Data.Repositories
 {
     public class MessageRepository :IMessageRepository
     {
         private readonly IMongoCollection<MessageEntity> _collection;
-        private readonly IGridFSBucket _gridFs;
+        private readonly IFileStorage _fileStorage;
 
-        public MessageRepository(IMongoCollection<MessageEntity> collection, IGridFSBucket gridFs)
+        public MessageRepository(IMongoCollection<MessageEntity> collection,
+            [KeyFilter(MessengerCollectionNameProvider.MessengerStorage)]IFileStorage fileStorage)
         {
             _collection = collection;
-            _gridFs = gridFs;
+            _fileStorage = fileStorage;
         }
 
         public async Task AddMessage(MessageEntity message)
@@ -36,7 +35,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
             Parallel.ForEach(message.Content, item =>
             {
-                var fileId = _gridFs.UploadFromBytes(item.FileName, item.FileBytes);
+                var fileId = _fileStorage.UploadFromBytesAsync(item.FileName, item.FileBytes).GetAwaiter().GetResult();
                 item.FileId = fileId;
             });
 
@@ -89,8 +88,8 @@ namespace Funkmap.Messenger.Data.Repositories
             {
                 var item = new ContentItem()
                 {
-                    FileId = new ObjectId(id),
-                    FileBytes = _gridFs.DownloadAsBytes(new ObjectId(id))
+                    FileId = id,
+                    FileBytes = _fileStorage.DownloadAsBytesAsync(id).GetAwaiter().GetResult()
                 };
                 results.TryAdd(id, item);
             });

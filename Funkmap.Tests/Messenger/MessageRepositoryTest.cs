@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger;
+using Funkmap.Messenger.Data;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
@@ -30,7 +32,9 @@ namespace Funkmap.Tests.Messenger
 
             _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
 
-            _messageRepository = new MessageRepository(messagesCollection, MessengerDbProvider.GetGridFsBucket(db));
+            var fileStorage = new GridFsFileStorage(MessengerDbProvider.GetGridFsBucket(db));
+
+            _messageRepository = new MessageRepository(messagesCollection, fileStorage);
         }
 
         [TestMethod]

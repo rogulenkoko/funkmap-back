@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger;
+using Funkmap.Messenger.Data;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Tests.Messenger.Data
 {
@@ -27,7 +28,9 @@ namespace Funkmap.Tests.Messenger.Data
         {
             var messagesCollection = _database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
             var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
-            var messagesRepository = new MessageRepository(messagesCollection, new GridFSBucket(_database));
+
+            var fileStorage = new GridFsFileStorage(MessengerDbProvider.GetGridFsBucket(_database));
+            var messagesRepository = new MessageRepository(messagesCollection, fileStorage);
 
             var dialogId = ObjectId.GenerateNewId();
             var participants = new List<string>() {"test", "rogulenkoko"};

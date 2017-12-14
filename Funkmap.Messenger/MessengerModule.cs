@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
 using Autofac;
+using Autofac.Features.AttributeFilters;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Azure;
+using Funkmap.Messenger.Data;
 using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Services;
 using Funkmap.Messenger.Services.Abstract;
+using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -38,17 +44,36 @@ namespace Funkmap.Messenger
             var dialogLastMessageDateIndexModel = new CreateIndexModel<DialogEntity>(Builders<DialogEntity>.IndexKeys.Descending(x => x.LastMessageDate));
             var messageDialogIdIndexModel = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Ascending(x => x.DialogId));
 
+            //builder.Register(container =>
+            //{
+            //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+            //    //database.CreateCollection("fs.files");
+            //    //database.CreateCollection("fs.chunks");
+            //    return new GridFSBucket(database);
+
+            //}).As<IGridFSBucket>().Named<IGridFSBucket>(storageName);
+
+            //builder.Register(container =>
+            //{
+            //    var gridFs = container.ResolveNamed<IGridFSBucket>(storageName);
+            //    return new GridFsFileStorage(gridFs);
+            //}).Named<GridFsFileStorage>(storageName);
+            //builder.Register(context => context.ResolveNamed<GridFsFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
+
+
             builder.Register(container =>
             {
-                var database = container.Resolve<IMongoDatabase>();
-                //database.CreateCollection("fs.files");
-                //database.CreateCollection("fs.chunks");
-                return new GridFSBucket(database);
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                return new AzureFileStorage(blobClient, MessengerCollectionNameProvider.MessengerStorage);
+            }).Keyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage).InstancePerDependency();
 
-            }).As<IGridFSBucket>();
-            
+            builder.Register(context => context.ResolveKeyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage))
+                .Keyed<IFileStorage>(MessengerCollectionNameProvider.MessengerStorage)
+                .InstancePerDependency();
+
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
-            builder.RegisterType<MessageRepository>().As<IMessageRepository>();
+            builder.RegisterType<MessageRepository>().As<IMessageRepository>().WithAttributeFiltering();
 
             builder.RegisterBuildCallback(async c =>
             {

@@ -47,7 +47,7 @@ namespace Funkmap.Messenger.Data.Entities
         public string FileName { get; set; }
 
         [BsonElement("bts")]
-        public ObjectId FileId { get; set; }
+        public string FileId { get; set; }
 
         [BsonIgnore]
         public byte[] FileBytes { get; set; } 
