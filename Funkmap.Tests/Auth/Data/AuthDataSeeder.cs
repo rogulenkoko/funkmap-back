@@ -1,9 +1,11 @@
 ﻿using System;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Common.Abstract;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Images;
 using MongoDB.Driver;
+using Moq;
 
 namespace Funkmap.Tests.Auth.Data
 {
@@ -24,7 +26,10 @@ namespace Funkmap.Tests.Auth.Data
 
         private void SeedUsers()
         {
-            var repository = new AuthRepository(_database.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName));
+
+            var fileStorage = new Mock<IFileStorage>();
+
+            var repository = new AuthRepository(_database.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName), fileStorage.Object);
             var u1 = new UserEntity()
             {
                 Login = "rogulenkoko",
@@ -33,7 +38,6 @@ namespace Funkmap.Tests.Auth.Data
                 Email = "rogulenkoko@gmail.com",
                 LastVisitDateUtc = DateTime.UtcNow.AddMinutes(-20)
             };
-            u1.Avatar = ImageProvider.GetAvatar("avatar.jpg");
 
 
             var u2 = new UserEntity()

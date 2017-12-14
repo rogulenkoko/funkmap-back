@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using Funkmap.Data;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Tests.Funkmap.Stress;
 using MongoDB.Driver;

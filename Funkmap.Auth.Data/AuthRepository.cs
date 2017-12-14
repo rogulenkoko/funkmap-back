@@ -1,19 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
-using Funkmap.Auth.Data.Objects;
+using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using MongoDB.Driver;
+using Autofac.Features.AttributeFilters;
 
 namespace Funkmap.Auth.Data
 {
     public class AuthRepository : MongoLoginRepository<UserEntity>, IAuthRepository
     {
-        public AuthRepository(IMongoCollection<UserEntity> collection) : base(collection)
+        private readonly IFileStorage _fileStorage;
+
+        public AuthRepository(IMongoCollection<UserEntity> collection,
+                              [KeyFilter(AuthCollectionNameProvider.AuthStorageName)] IFileStorage fileStorage) : base(collection)
         {
+            _fileStorage = fileStorage;
         }
 
         public async Task<UserEntity> Login(string login, string password)
@@ -30,18 +33,25 @@ namespace Funkmap.Auth.Data
             return isExist;
         }
 
-        public async Task<ICollection<UserAvatarResult>> GetAvatarsAsync(string[] logins)
+        public async Task<byte[]> GetAvatarAsync(string login)
         {
-            var projection = Builders<UserEntity>.Projection.Include(x => x.Avatar).Include(x=>x.Login);
-            var filter = Builders<UserEntity>.Filter.In(x => x.Login, logins);
-            var avatars = await _collection.Find(filter).Project<UserEntity>(projection).ToListAsync();
-            return avatars.Select(x=> new UserAvatarResult() {Login = x.Login, Avatar = x.Avatar?.AsByteArray}).ToList();
+            var projection = Builders<UserEntity>.Projection.Include(x => x.AvatarId).Include(x=>x.Login);
+            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
+            var user = await _collection.Find(filter).Project<UserEntity>(projection).SingleOrDefaultAsync();
+
+            if (String.IsNullOrEmpty(user?.AvatarId)) return null;
+
+            var bytes = await _fileStorage.DownloadAsBytesAsync(user.AvatarId);
+            return bytes;
         }
 
         public async Task SaveAvatarAsync(string login, byte[] image)
         {
+            var filename = $"avatar_{login}";
+            var fullPath = await _fileStorage.UploadFromBytesAsync(filename, image);
+
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
-            var update = Builders<UserEntity>.Update.Set(x => x.Avatar, image);
+            var update = Builders<UserEntity>.Update.Set(x => x.AvatarId, fullPath);
             await _collection.UpdateOneAsync(filter, update);
         }
 

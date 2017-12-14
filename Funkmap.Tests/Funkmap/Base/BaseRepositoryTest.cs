@@ -2,6 +2,7 @@
 using System.Linq;
 using Funkmap.Common;
 using Funkmap.Common.Data.Mongo;
+using Funkmap.Data;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Parameters;

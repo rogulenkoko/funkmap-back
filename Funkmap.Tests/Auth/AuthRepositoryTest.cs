@@ -2,9 +2,11 @@
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Common.Abstract;
 using Funkmap.Module.Auth;
 using Funkmap.Tests.Auth.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Funkmap.Tests.Auth
 {
@@ -16,10 +18,13 @@ namespace Funkmap.Tests.Auth
         [TestInitialize]
         public void Initialize()
         {
+
+            var fileStorage = new Mock<IFileStorage>();
+
             _repository =
                 new AuthRepository(
                     AuthTestDbProvider.DropAndCreateDatabase.GetCollection<UserEntity>(AuthCollectionNameProvider
-                        .UsersCollectionName));
+                        .UsersCollectionName), fileStorage.Object);
         }
 
         [TestMethod]

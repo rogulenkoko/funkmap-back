@@ -25,7 +25,7 @@ namespace Funkmap.Auth.Data.Entities
 
         [BsonElement("av")]
         [BsonIgnoreIfDefault]
-        public BsonBinaryData Avatar { get; set; }
+        public string AvatarId { get; set; }
 
         [BsonElement("date")]
         [BsonIgnoreIfDefault]

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
 using Funkmap.Common.Redis.Abstract;
@@ -24,7 +25,7 @@ namespace Funkmap.Module
             builder.RegisterType<FilteredCacheService>().As<IFilteredCacheService>();
 
             var baseRepositoryName = nameof(IBaseRepository);
-            builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName);
+            builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName).WithAttributeFiltering();
             builder.RegisterDecorator<IBaseRepository>((container, inner) =>
             { 
                  var favoriteService = container.Resolve<IFavoriteCacheService>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Funkmap.Data;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Repositories;
 using Funkmap.Statistics.Data.Entities;

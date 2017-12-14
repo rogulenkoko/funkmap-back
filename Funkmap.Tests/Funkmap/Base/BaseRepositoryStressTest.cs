@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Common.Abstract;
+using Funkmap.Data;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;

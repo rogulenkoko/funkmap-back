@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
 using Autofac;
+using Autofac.Features.AttributeFilters;
 using Autofac.Integration.WebApi;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Azure;
+using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
 
 namespace Funkmap.Module.Auth
@@ -32,10 +37,39 @@ namespace Funkmap.Module.Auth
                 .OnActivating(async collection => await collection.Instance.Indexes
                     .CreateManyAsync(new List<CreateIndexModel<UserEntity>>() { loginBaseIndexModel}))
                 .As<IMongoCollection<UserEntity>>();
-            
+
+
             
 
-            builder.RegisterType<AuthRepository>().As<IAuthRepository>();
+            //builder.Register(container =>
+            //{
+            //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+            //    //database.CreateCollection("fs.files");
+            //    //database.CreateCollection("fs.chunks");
+            //    return new GridFSBucket(database);
+
+            //}).As<IGridFSBucket>().Named<IGridFSBucket>(storageName);
+
+            //builder.Register(container =>
+            //{
+            //    var gridFs = container.ResolveNamed<IGridFSBucket>(storageName);
+            //    return new GridFsFileStorage(gridFs);
+            //}).Named<GridFsFileStorage>(storageName);
+            //builder.Register(context => context.ResolveNamed<GridFsFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
+
+
+            builder.Register(container =>
+            {
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                return new AzureFileStorage(blobClient, AuthCollectionNameProvider.AuthStorageName);
+            }).Keyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName).InstancePerDependency();
+
+            builder.Register(context => context.ResolveKeyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName))
+                .Keyed<IFileStorage>(AuthCollectionNameProvider.AuthStorageName)
+                .InstancePerDependency();
+
+            builder.RegisterType<AuthRepository>().As<IAuthRepository>().WithAttributeFiltering();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль авторизации");
         }

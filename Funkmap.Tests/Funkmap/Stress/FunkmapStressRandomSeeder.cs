@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common;
 using Funkmap.Common.Data.Mongo.Entities;
+using Funkmap.Data;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Tests.Images;

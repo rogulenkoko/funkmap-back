@@ -3,14 +3,13 @@ using System.Configuration;
 using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
-using Funkmap.Common.Data.Mongo;
+using Funkmap.Data;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Module
 {
@@ -45,8 +44,7 @@ namespace Funkmap.Module
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<StudioEntity>>();
 
-
-            var storageName = "funkmapstorage";
+            
 
             //builder.Register(container =>
             //{
@@ -69,14 +67,12 @@ namespace Funkmap.Module
             {
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                return new AzureFileStorage(blobClient, storageName);
-            }).Named<AzureFileStorage>(storageName).InstancePerDependency();
-
-
-
-            builder.Register(context => context.ResolveNamed<AzureFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
+                return new AzureFileStorage(blobClient, CollectionNameProvider.StorageName);
+            }).Keyed<AzureFileStorage>(CollectionNameProvider.StorageName).InstancePerDependency();
             
-
+            builder.Register(context => context.ResolveKeyed<AzureFileStorage>(CollectionNameProvider.StorageName))
+                .Keyed<IFileStorage>(CollectionNameProvider.StorageName)
+                .InstancePerDependency();
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));

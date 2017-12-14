@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Data.Abstract;
-using Funkmap.Auth.Data.Objects;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
@@ -39,7 +36,7 @@ namespace Funkmap.Module.Auth.Controllers
             var model = new UserPreview()
             {
                 Login = userEntity.Login,
-                Avatar = userEntity.Avatar?.AsByteArray,
+                Avatar = userEntity.AvatarId,
                 Name = userEntity.Name,
                 IsExist = true
             };
@@ -64,19 +61,8 @@ namespace Funkmap.Module.Auth.Controllers
         [Route("avatar/{login}")]
         public async Task<IHttpActionResult> GetAvatar(string login)
         {
-            
-            var images = await _authRepository.GetAvatarsAsync(new [] {login });
-            return Ok(images.Select(x=>x.Avatar).FirstOrDefault());
-        }
-
-        [HttpPost]
-        [Route("avatars")]
-        public async Task<IHttpActionResult> GetAvatars(string[] logins)
-        {
-            if (logins == null) return BadRequest();
-            var distinctLogins = logins.Distinct().ToArray();
-            ICollection<UserAvatarResult> avatarResults = await _authRepository.GetAvatarsAsync(distinctLogins);
-            return Ok(avatarResults);
+            var image = await _authRepository.GetAvatarAsync(login);
+            return Ok(image);
         }
 
         [HttpPost]

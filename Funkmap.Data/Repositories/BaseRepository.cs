@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Common.Tools;
@@ -12,7 +13,6 @@ using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Tools;
 using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Data.Repositories
 {
@@ -22,7 +22,7 @@ namespace Funkmap.Data.Repositories
         private readonly IFileStorage _fileStorage;
 
         public BaseRepository(IMongoCollection<BaseEntity> collection,
-                              IFileStorage fileStorage,
+                              [KeyFilter(CollectionNameProvider.StorageName)]IFileStorage fileStorage,
                               IFilterFactory filterFactory) : base(collection)
         {
             _filterFactory = filterFactory;

@@ -139,7 +139,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionNameProvider.cs" />
     <Compile Include="Controllers\BandController.cs" />
     <Compile Include="Controllers\BaseController.Data.cs" />
     <Compile Include="Controllers\BaseController.Navigation.cs" />
