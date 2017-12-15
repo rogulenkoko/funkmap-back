@@ -2,12 +2,14 @@
 
 namespace Funkmap.Notifications.Contracts.Specific.BandInvite
 {
-    public class BandInviteNotification : NotificationBase
+    public class BandInviteConfirmationNotification : NotificationBase
     {
+        public override NotificationType Type => NotificationType.BandInviteConfirmation;
+        public override bool NeedAnswer => false;
+
         public string BandLogin { get; set; }
         public string BandName { get; set; }
         public string InvitedMusicianLogin { get; set; }
-        public override NotificationType Type => NotificationType.BandInvite;
-        public override bool NeedAnswer => true;
+        public bool Answer { get; set; }
     }
 }

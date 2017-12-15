@@ -4,7 +4,6 @@ using Funkmap.Common.Redis.Abstract;
 using Funkmap.Common.Redis.Options;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
-using Funkmap.Notifications.Contracts.Specific;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;
 using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
@@ -31,6 +30,7 @@ namespace Funkmap.Notifications.Services
         public void InitHandlers()
         {
             _messageQueue.Subscribe<BandInviteNotification>(Handle);
+            _messageQueue.Subscribe<BandInviteConfirmationNotification>(Handle);
         }
 
         private void Handle(NotificationBase notification)
@@ -42,7 +42,8 @@ namespace Funkmap.Notifications.Services
                 IsRead = false,
                 RecieverLogin = notification.RecieverLogin,
                 NotificationType = notification.Type,
-                SenderLogin = notification.SenderLogin
+                SenderLogin = notification.SenderLogin,
+                NeedAnswer = notification.NeedAnswer
             };
 
             //уведомление по SignalR
@@ -51,6 +52,7 @@ namespace Funkmap.Notifications.Services
             GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
                 .Clients.Clients(recievers.ToList())
                 .OnNotificationRecieved(notificatinEntity.ToNotificationModel());
+
 
             _notificationRepository.CreateAsync(notificatinEntity);
         }

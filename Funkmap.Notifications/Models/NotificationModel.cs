@@ -12,6 +12,7 @@ namespace Funkmap.Notifications.Models
         public bool IsRead { get; set; }
         public string RecieverLogin { get; set; }
         public string SenderLogin { get; set; }
+        public bool NeedAnswer { get; set; }
         public NotificationBase InnerNotification { get; set; }
     }
 }

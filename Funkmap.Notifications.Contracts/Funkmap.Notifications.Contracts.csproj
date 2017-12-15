@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\NotificationBase.cs" />
+    <Compile Include="Specific\BandInvite\BandInviteConfirmationNotification.cs" />
     <Compile Include="Specific\BandInvite\BandInviteNotification.cs" />
     <Compile Include="NotificationAnswer.cs" />
     <Compile Include="NotificationType.cs" />

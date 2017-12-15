@@ -27,6 +27,9 @@ namespace Funkmap.Notifications.Data.Entities
         [BsonElement("nsl")]
         public string SenderLogin { get; set; }
 
+        [BsonElement("na")]
+        public bool NeedAnswer { get; set; }
+
         [BsonElement("inn")]
         public NotificationBase InnerNotification { get; set; }
     }

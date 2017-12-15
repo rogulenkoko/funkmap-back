@@ -2,6 +2,7 @@
 {
     public enum NotificationType
     {
-        BandInvite = 1
+        BandInvite = 1,
+        BandInviteConfirmation = 2
     }
 }

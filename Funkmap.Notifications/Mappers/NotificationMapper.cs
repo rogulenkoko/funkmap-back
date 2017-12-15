@@ -16,8 +16,10 @@ namespace Funkmap.Notifications.Mappers
                 Date = source.Date,
                 IsRead = source.IsRead,
                 InnerNotification = source.InnerNotification,
-                SenderLogin = source.SenderLogin
+                SenderLogin = source.SenderLogin,
+                NeedAnswer = source.NeedAnswer
             };
         }
     }
 }
+

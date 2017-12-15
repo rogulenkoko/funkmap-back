@@ -49,9 +49,26 @@ namespace Funkmap.Services
                 BandLogin = inviteRequest.BandLogin
             };
             _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
+
+            var confirmation = new BandInviteConfirmationNotification()
+            {
+                RecieverLogin = inviteRequest.SenderLogin,
+                SenderLogin = inviteRequest.SenderLogin,
+                BandLogin = inviteRequest.BandLogin,
+                BandName = inviteRequest.BandName,
+                InvitedMusicianLogin = inviteRequest.InvitedMusicianLogin,
+                Answer = request.Answer
+            };
+
+            ConfirmBandInvite(confirmation);
         }
 
         public void NotifyBandInvite(BandInviteNotification notification)
+        {
+            _messageQueue.PublishAsync(notification);
+        }
+
+        public void ConfirmBandInvite(BandInviteConfirmationNotification notification)
         {
             _messageQueue.PublishAsync(notification);
         }
