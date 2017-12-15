@@ -8,6 +8,7 @@ using Autofac.Integration.WebApi;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
+using Funkmap.Middleware.App_Start;
 using Funkmap.Module.Auth;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
@@ -119,12 +120,12 @@ namespace Funkmap.Middleware
 
                 SwaggerConfig.SetCommentsPath(x);
 
-                //x.ApiKey("Token")
-                //    .Description("Bearer token")
-                //    .Name("Authorization")
-                //    .In("header");
+                x.ApiKey("Token")
+                    .Description("Bearer token")
+                    .Name("Authorization")
+                    .In("header");
 
-                //x.DocumentFilter<AuthTokenDocumentFilter>();
+                x.DocumentFilter<AuthDocumentFilter>();
 
             }).EnableSwaggerUi(x => x.EnableApiKeySupport("Authorization", "header"));
         }
