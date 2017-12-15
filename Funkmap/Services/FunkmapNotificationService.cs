@@ -53,7 +53,7 @@ namespace Funkmap.Services
             var confirmation = new BandInviteConfirmationNotification()
             {
                 RecieverLogin = inviteRequest.SenderLogin,
-                SenderLogin = inviteRequest.SenderLogin,
+                SenderLogin = inviteRequest.RecieverLogin,
                 BandLogin = inviteRequest.BandLogin,
                 BandName = inviteRequest.BandName,
                 InvitedMusicianLogin = inviteRequest.InvitedMusicianLogin,

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using MongoDB.Driver;
 
 namespace Funkmap.Module.Auth
 {

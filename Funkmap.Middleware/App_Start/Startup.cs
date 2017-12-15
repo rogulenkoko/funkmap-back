@@ -73,22 +73,6 @@ namespace Funkmap.Middleware
 
             appBuilder.UseWebApi(config);
 
-            //Статические файлы
-            var physicalFileSystem = new PhysicalFileSystem(@"./");
-            var options = new FileServerOptions
-            {
-                EnableDefaultFiles = true,
-                FileSystem = physicalFileSystem
-            };
-            options.StaticFileOptions.FileSystem = physicalFileSystem;
-            options.StaticFileOptions.ServeUnknownFileTypes = true;
-            //options.DefaultFilesOptions.DefaultFileNames = new[]
-            //{
-            //    "index.html"
-            //};
-
-            appBuilder.UseFileServer(options);
-
             //SignalR
 
             var dependencyResolver = new AutofacDependencyResolver(container);
