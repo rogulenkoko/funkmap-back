@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Hubs\INotificationsHub.cs" />
     <Compile Include="Hubs\NotificationsHub.cs" />
     <Compile Include="Mappers\NotificationMapper.cs" />
     <Compile Include="Models\NotificationAnswerModel.cs" />

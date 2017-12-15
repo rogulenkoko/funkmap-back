@@ -8,7 +8,7 @@ namespace Funkmap.Notifications.Hubs
 {
     [HubName("notifications")]
     [ValidateRequestModel]
-    public class NotificationsHub : Hub
+    public class NotificationsHub : Hub<INotificationsHub>
     {
         private readonly INotificationsConnectionService _connectionService;
 

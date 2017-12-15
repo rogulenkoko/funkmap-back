@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Linq;
 using Funkmap.Common.Redis.Abstract;
 using Funkmap.Common.Redis.Options;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Notifications.Contracts.Specific;
+using Funkmap.Notifications.Contracts.Specific.BandInvite;
 using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
+using Funkmap.Notifications.Hubs;
+using Funkmap.Notifications.Mappers;
 using Funkmap.Notifications.Services.Abstract;
+using Microsoft.AspNet.SignalR;
 
 namespace Funkmap.Notifications.Services
 {
@@ -14,11 +19,13 @@ namespace Funkmap.Notifications.Services
     {
         private readonly IMessageQueue _messageQueue;
         private readonly INotificationRepository _notificationRepository;
+        private readonly INotificationsConnectionService _connectionService;
 
-        public NotificationService(IMessageQueue messageQueue, INotificationRepository notificationRepository)
+        public NotificationService(IMessageQueue messageQueue, INotificationRepository notificationRepository, INotificationsConnectionService connectionService)
         {
             _messageQueue = messageQueue;
             _notificationRepository = notificationRepository;
+            _connectionService = connectionService;
         }
 
         public void InitHandlers()
@@ -38,7 +45,12 @@ namespace Funkmap.Notifications.Services
                 SenderLogin = notification.SenderLogin
             };
 
-            //уведомление по сигнал р
+            //уведомление по SignalR
+            var recievers = _connectionService.GetConnectionIdsByLogin(notificatinEntity.RecieverLogin);
+
+            GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
+                .Clients.Clients(recievers.ToList())
+                .OnNotificationRecieved(notificatinEntity.ToNotificationModel());
 
             _notificationRepository.CreateAsync(notificatinEntity);
         }

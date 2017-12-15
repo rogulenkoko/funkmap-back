@@ -4,6 +4,7 @@ using Funkmap.Common.Redis.Options;
 using Funkmap.Models.Requests;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Specific;
+using Funkmap.Notifications.Contracts.Specific.BandInvite;
 using Funkmap.Services.Abstract;
 
 namespace Funkmap.Services

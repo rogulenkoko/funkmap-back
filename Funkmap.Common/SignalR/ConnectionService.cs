@@ -2,10 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Funkmap.Common.SignalR.Abstract;
 
 namespace Funkmap.Common.SignalR
 {
-    public class ConnectionService
+    public class ConnectionService : IConnectionService
     {
         protected readonly ConcurrentDictionary<string, UserConnection> _onlineUsers;
 
@@ -48,6 +49,11 @@ namespace Funkmap.Common.SignalR
         public ICollection<string> GetConnectionIdsByLogins(ICollection<string> logins)
         {
             return _onlineUsers.Where(x => logins.Contains(x.Value.Login)).Select(x => x.Key).ToList();
+        }
+
+        public ICollection<string> GetConnectionIdsByLogin(string login)
+        {
+            return _onlineUsers.Where(x => x.Value.Login == login).Select(x => x.Key).ToList();
         }
 
         public ICollection<string> GetOnlineUsersLogins()

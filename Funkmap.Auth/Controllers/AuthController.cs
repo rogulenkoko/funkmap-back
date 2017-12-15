@@ -56,6 +56,7 @@ namespace Funkmap.Module.Auth.Controllers
             if (!_usersConfirmationCache.ContainsKey(request.Login)) return Ok(response);
 
             _usersConfirmationCache[request.Login].User.Email = request.Email;
+            request.Name = _usersConfirmationCache[request.Login].User.Name;
 
             var code = new Random().Next(100000, 999999).ToString();
 

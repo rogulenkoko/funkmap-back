@@ -53,6 +53,7 @@ namespace Funkmap.Module
             builder.RegisterType<FunkmapNotificationService>()
                 .As<IFunkmapNotificationService>()
                 .As<IMessageHandler>()
+                .SingleInstance()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
             

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Notifications.Contracts.Specific;
+using Funkmap.Notifications.Contracts.Specific.BandInvite;
 
 namespace Funkmap.Models.Notifications
 {

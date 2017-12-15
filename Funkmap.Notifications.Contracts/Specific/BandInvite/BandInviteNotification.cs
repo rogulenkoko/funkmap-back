@@ -1,6 +1,6 @@
 ﻿using Funkmap.Notifications.Contracts.Abstract;
 
-namespace Funkmap.Notifications.Contracts.Specific
+namespace Funkmap.Notifications.Contracts.Specific.BandInvite
 {
     public class BandInviteNotification : NotificationBase
     {

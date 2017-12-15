@@ -12,6 +12,7 @@ using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
 using Funkmap.Notifications.Contracts.Specific;
+using Funkmap.Notifications.Contracts.Specific.BandInvite;
 using Funkmap.Services.Abstract;
 
 namespace Funkmap.Controllers

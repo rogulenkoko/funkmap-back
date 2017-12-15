@@ -32,14 +32,14 @@ namespace Funkmap.Notifications
                 .As<IMongoCollection<NotificationEntity>>();
 
             builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
-            builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>();
+            builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>().SingleInstance();
 
             builder.RegisterType<NotificationService>()
                 .As<IMessageHandler>()
+                .As<INotificationService>()
+                .SingleInstance()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
-
-            builder.RegisterType<NotificationService>().As<INotificationService>();
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
