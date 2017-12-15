@@ -12,7 +12,7 @@ namespace Funkmap.Auth.Data.Abstract
         Task<bool> CheckIfExist(string login);
 
         Task<byte[]> GetAvatarAsync(string login);
-        Task SaveAvatarAsync(string login, byte[] image);
+        Task<string> SaveAvatarAsync(string login, byte[] image);
 
         Task UpdateLastVisitDateAsync(string login, DateTime date);
 

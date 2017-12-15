@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Data;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
-using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
-using Funkmap.Models;
 using Funkmap.Tests.Funkmap.Data;
 using Funkmap.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
 
 namespace Funkmap.Tests.Funkmap.Musician
 {
@@ -41,8 +33,7 @@ namespace Funkmap.Tests.Funkmap.Musician
             {
                 Login = "asd",
                 BirthDate = DateTime.Now,
-                Description = "zzzzz",
-                Photo = new ImageInfo() {Image = new byte[] { 1, 2, 3 } } 
+                Description = "zzzzz"
             };
 
             var t = entity.FillEntity<MusicianEntity>(newEntity);

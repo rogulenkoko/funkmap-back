@@ -47,7 +47,6 @@ namespace Funkmap.Mappers
                 Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
                 Name = source.Name,
                 Styles = source.Styles?.ToList(),
-                Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
                 YouTubeLink = source.YoutubeLink,
                 VkLink = source.VkLink,
                 FacebookLink = source.FacebookLink,

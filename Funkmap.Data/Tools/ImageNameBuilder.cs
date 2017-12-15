@@ -1,17 +1,17 @@
-﻿using Funkmap.Data.Entities.Abstract;
+﻿using System;
 
 namespace Funkmap.Data.Tools
 {
     public class ImageNameBuilder
     {
-        public static string BuildAvatarName(BaseEntity entity)
+        public static string BuildAvatarName(string login)
         {
-            return $"Avatar_{entity.Login}";
+            return $"Avatar_{login}_{DateTime.UtcNow}";
         }
 
-        public static string BuildAvatarMiniName(BaseEntity entity)
+        public static string BuildAvatarMiniName(string login)
         {
-            return $"AvatarMini_{entity.Login}";
+            return $"AvatarMini_{login}_{DateTime.UtcNow}";
         }
     }
 }

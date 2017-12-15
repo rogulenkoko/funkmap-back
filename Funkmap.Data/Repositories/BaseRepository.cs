@@ -227,39 +227,39 @@ namespace Funkmap.Data.Repositories
         public override async Task UpdateAsync(BaseEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.Photo != null && entity.Photo.Image != null && entity.Photo.Image.AsByteArray.Length != 0)
-            {
-                var imageBytes = entity.Photo.Image.AsByteArray;
-
-                var fileName = ImageNameBuilder.BuildAvatarName(entity);
-                var imageBytesNormal = FunkmapImageProcessor.MinifyImage(imageBytes, 200);
-                var photoId = await _fileStorage.UploadFromBytesAsync(fileName, imageBytesNormal);
-                entity.PhotoId = photoId;
-
-                var fileMiniName = ImageNameBuilder.BuildAvatarMiniName(entity);
-                var imageMiniBytes = FunkmapImageProcessor.MinifyImage(imageBytes);
-                var photoMiniId = await _fileStorage.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
-                entity.PhotoMiniId = photoMiniId;
-            }
-            else if (entity.Photo != null && (entity.Photo.Image == null || entity.Photo.Image.AsByteArray.Length == 0))
-            {
-                entity.PhotoId = null;
-                entity.PhotoMiniId = null;
-            }
-
+            
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, entity.EntityType);
 
             await _collection.ReplaceOneAsync(filter, entity);
+        }
+
+        public async Task UpdateAvatarAsync(BaseEntity entity, byte[] imageBytes)
+        {
+            if (imageBytes == null || imageBytes.Length == 0)
+            {
+                entity.PhotoId = String.Empty;
+                entity.PhotoMiniId = String.Empty;
+                await UpdateAsync(entity);
+                return;
+            }
+
+            var fileName = ImageNameBuilder.BuildAvatarName(entity.Login);
+            var imageBytesNormal = FunkmapImageProcessor.MinifyImage(imageBytes, 200);
+            var photoId = await _fileStorage.UploadFromBytesAsync(fileName, imageBytesNormal);
+            entity.PhotoId = photoId;
+
+            var fileMiniName = ImageNameBuilder.BuildAvatarMiniName(entity.Login);
+            var imageMiniBytes = FunkmapImageProcessor.MinifyImage(imageBytes);
+            var photoMiniId = await _fileStorage.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
+            entity.PhotoMiniId = photoMiniId;
+
+            await UpdateAsync(entity);
         }
 
         public override async Task<BaseEntity> DeleteAsync(string id)
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, id);
             var entity = await _collection.FindOneAndDeleteAsync(filter);
-            if (entity == null) return null; //todo подумать как лучше, может просить эксепшен
-
-            if (!String.IsNullOrEmpty(entity.PhotoId)) _fileStorage.DeleteAsync(entity.PhotoId);
-            if (!String.IsNullOrEmpty(entity.PhotoMiniId)) _fileStorage.DeleteAsync(entity.PhotoMiniId);
 
             return entity;
         }

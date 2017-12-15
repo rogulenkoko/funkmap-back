@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Auth.Data.Entities;
+﻿using Funkmap.Auth.Data.Entities;
 
 namespace Funkmap.Module.Auth.Models
 {

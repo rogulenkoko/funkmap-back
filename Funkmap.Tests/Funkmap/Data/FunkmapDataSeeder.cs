@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Funkmap.Auth.Data;
-using Funkmap.Auth.Data.Entities;
-using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Data;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Abstract;
 using Funkmap.Data.Repositories;
-using Funkmap.Module.Auth;
-using Funkmap.Tests.Images;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
@@ -60,9 +55,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 CreationDate = DateTime.UtcNow.AddMonths(-12),
                 FavoriteFor = new List<string>() { "qwe","wewe","dfsdf"}
             };
-
-
-            m1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("avatar.jpg")};
+            
 
             var m2 = new MusicianEntity()
             {
@@ -142,8 +135,6 @@ namespace Funkmap.Tests.Funkmap.Data
                 CreationDate = DateTime.UtcNow.AddMonths(-9),
                 FavoriteFor = new List<string>() { "qwe", "wewe" }
             };
-
-            b1.Photo = new ImageInfo() {Image = ImageProvider.GetAvatar("beatles-avatar.jpg")};
 
             var b2 = new BandEntity()
             {

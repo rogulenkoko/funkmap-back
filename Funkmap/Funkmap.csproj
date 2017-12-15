@@ -152,6 +152,7 @@
     <Compile Include="Models\CleanDependenciesParameter.cs" />
     <Compile Include="Models\Notifications\BandInviteNotificationAnswer.cs" />
     <Compile Include="Models\Requests\BandInviteInfoRequest.cs" />
+    <Compile Include="Models\Requests\UpdateAvatarRequest.cs" />
     <Compile Include="Models\Requests\UpdateBandMembersRequest.cs" />
     <Compile Include="Models\Requests\UpdateFavoriteRequest.cs" />
     <Compile Include="Models\Responses\InviteBandResponse.cs" />

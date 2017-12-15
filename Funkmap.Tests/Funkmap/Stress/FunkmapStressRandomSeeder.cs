@@ -84,7 +84,6 @@ namespace Funkmap.Tests.Funkmap.Stress
                 SoundCloudLink = RandomString(15),
                 Sex = (Sex)Enum.GetValues(typeof(Sex)).GetValue(_random.Next(Enum.GetValues(typeof(Sex)).Length)),
                 Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
-                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
                 IsActive = true,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
             };
@@ -106,7 +105,6 @@ namespace Funkmap.Tests.Funkmap.Stress
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
                 Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
-                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
                 IsActive = true,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
             };
@@ -127,7 +125,6 @@ namespace Funkmap.Tests.Funkmap.Stress
                 Name = RandomString(15),
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
-                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
                 IsActive = true,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } },
                 Website = "https://github.com/"
@@ -149,7 +146,6 @@ namespace Funkmap.Tests.Funkmap.Stress
                 Name = RandomString(15),
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
-                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
                 IsActive = true,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
             };
@@ -170,7 +166,6 @@ namespace Funkmap.Tests.Funkmap.Stress
                 Name = RandomString(15),
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
-                Photo = new ImageInfo() { Image = ImageProvider.GetAvatar("avatar.jpg") },
                 IsActive = true,
                 VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } },
 

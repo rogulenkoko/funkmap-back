@@ -87,6 +87,11 @@ namespace Funkmap.Data.Caches.Base
 
         }
 
+        public Task UpdateAvatarAsync(BaseEntity entity, byte[] imageBytes)
+        {
+            return _baseRepository.UpdateAvatarAsync(entity, imageBytes);
+        }
+
         public Task<ICollection<BaseEntity>> GetAllAsyns()
         {
             return _baseRepository.GetAllAsyns();

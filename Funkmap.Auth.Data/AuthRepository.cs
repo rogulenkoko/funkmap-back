@@ -52,7 +52,7 @@ namespace Funkmap.Auth.Data
             }
         }
 
-        public async Task SaveAvatarAsync(string login, byte[] image)
+        public async Task<string> SaveAvatarAsync(string login, byte[] image)
         {
             var filename = $"avatar_{login}";
             var fullPath = await _fileStorage.UploadFromBytesAsync(filename, image);
@@ -60,6 +60,7 @@ namespace Funkmap.Auth.Data
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
             var update = Builders<UserEntity>.Update.Set(x => x.AvatarId, fullPath);
             await _collection.UpdateOneAsync(filter, update);
+            return fullPath;
         }
 
         public async Task UpdateLastVisitDateAsync(string login, DateTime date)

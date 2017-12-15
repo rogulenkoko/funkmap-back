@@ -73,7 +73,6 @@ namespace Funkmap.Mappers
                 Website = source.WebSite,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Address = source.Address,
-                Photo = source.Avatar == null ? null : new ImageInfo() { Image = source.Avatar },
                 VideoInfos = source.VideoInfos,
                 IsActive = source.IsActive,
                 UserLogin = source.UserLogin

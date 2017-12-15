@@ -49,9 +49,6 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
         public string PhotoId { get; set; }
-        
-        [BsonIgnore]
-        public ImageInfo Photo { get; set; }
 
         [BsonElement("pm")]
         [BsonIgnoreIfDefault]

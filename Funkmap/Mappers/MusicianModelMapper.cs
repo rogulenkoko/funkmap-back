@@ -55,7 +55,6 @@ namespace Funkmap.Mappers
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
                 Styles = source.Styles?.ToList(),
-                Photo = source.Avatar == null ? null: new ImageInfo() {Image = source.Avatar},
                 VideoInfos = source.VideoInfos,
                 YouTubeLink = source.YoutubeLink,
                 VkLink = source.VkLink,

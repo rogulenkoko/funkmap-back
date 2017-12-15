@@ -33,6 +33,20 @@ namespace Funkmap.Controllers
             return Ok(new BaseResponse() { Success = true });
         }
 
+        [HttpPost]
+        [Route("updateavatar")]
+        [Authorize]
+        public async Task<IHttpActionResult> UpdateAvatar(UpdateAvatarRequest request)
+        {
+            var entity = await _repository.GetAsync(request.Login);
+
+            var login = Request.GetLogin();
+            if (entity == null || entity.UserLogin != login) return BadRequest();
+
+            await _repository.UpdateAvatarAsync(entity, request.Photo);
+            return Ok(new BaseResponse() { Success = true });
+        }
+
         [HttpGet]
         [Route("delete/{login}")]
         [Authorize]

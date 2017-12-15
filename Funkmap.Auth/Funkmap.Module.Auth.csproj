@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthFunkmapModule.cs" />
+    <Compile Include="Models\AvatarUpdateResponse.cs" />
     <Compile Include="Notifications\ConfirmationNotification.cs" />
     <Compile Include="Notifications\PasswordRecoverNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />

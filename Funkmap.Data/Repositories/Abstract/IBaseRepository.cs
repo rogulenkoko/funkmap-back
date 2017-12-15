@@ -34,5 +34,7 @@ namespace Funkmap.Data.Repositories.Abstract
         Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter);
 
         Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin);
+
+        Task UpdateAvatarAsync(BaseEntity entity, byte[] imageBytes);
     }
 }
