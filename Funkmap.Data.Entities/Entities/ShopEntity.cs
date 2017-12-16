@@ -1,8 +1,7 @@
-﻿using Funkmap.Common;
-using Funkmap.Data.Entities.Abstract;
+﻿using Funkmap.Data.Entities.Entities.Abstract;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Funkmap.Data.Entities
+namespace Funkmap.Data.Entities.Entities
 {
     public class ShopEntity : EstablishmentEntity
     {

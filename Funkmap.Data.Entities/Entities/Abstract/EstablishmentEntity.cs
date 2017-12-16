@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Funkmap.Data.Entities.Abstract
+namespace Funkmap.Data.Entities.Entities.Abstract
 {
     public abstract class EstablishmentEntity : BaseEntity
     {

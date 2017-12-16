@@ -6,7 +6,7 @@ using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Common.Tools;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;

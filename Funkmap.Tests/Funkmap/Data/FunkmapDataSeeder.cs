@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Funkmap.Data;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;

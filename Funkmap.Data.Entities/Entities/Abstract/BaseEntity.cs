@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Funkmap.Common;
-using Funkmap.Common.Data.Mongo.Entities;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace Funkmap.Data.Entities.Abstract
+namespace Funkmap.Data.Entities.Entities.Abstract
 {
     [BsonDiscriminator(RootClass = true)]
 
@@ -53,10 +48,6 @@ namespace Funkmap.Data.Entities.Abstract
         [BsonElement("pm")]
         [BsonIgnoreIfDefault]
         public string PhotoMiniId { get; set; }
-
-        [BsonIgnore]
-        public ImageInfo PhotoMini { get; set; }
-
 
         [BsonElement("ytv")]
         public List<VideoInfo> VideoInfos { get; set; }

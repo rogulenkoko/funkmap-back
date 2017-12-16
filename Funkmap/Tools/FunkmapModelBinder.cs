@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
-using Funkmap.Common;
+using Funkmap.Data.Entities;
 using Funkmap.Models;
 
 namespace Funkmap.Tools

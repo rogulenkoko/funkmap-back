@@ -1,4 +1,4 @@
-﻿using Funkmap.Common;
+﻿using Funkmap.Data.Entities;
 using Funkmap.Data.Parameters;
 using Funkmap.Models.Requests;
 using Funkmap.Tools.Abstract;

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
 

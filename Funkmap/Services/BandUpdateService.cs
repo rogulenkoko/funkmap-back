@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Models;
 using Funkmap.Models.Requests;

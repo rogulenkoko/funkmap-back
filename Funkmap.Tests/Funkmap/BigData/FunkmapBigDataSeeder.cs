@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Funkmap.Data;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Repositories;
-using Funkmap.Data.Repositories.Abstract;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;

@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Funkmap.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -211,9 +212,9 @@
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
-      <Project>{5863156A-0E14-4319-8536-B719DBEBE433}</Project>
-      <Name>Funkmap.Contracts</Name>
+    <ProjectReference Include="..\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">
+      <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
+      <Name>Funkmap.Data.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models;

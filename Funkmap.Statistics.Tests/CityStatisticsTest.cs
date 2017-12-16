@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac.Extras.Moq;
 using Funkmap.Common.Abstract;
 using Funkmap.Data;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Statistics.Data.Entities;

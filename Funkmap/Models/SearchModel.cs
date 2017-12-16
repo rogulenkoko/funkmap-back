@@ -1,5 +1,5 @@
-﻿using Funkmap.Common;
-using Funkmap.Data.Entities;
+﻿using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities;
 
 namespace Funkmap.Models
 {

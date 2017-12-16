@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Services.Abstract;
 using MongoDB.Driver;

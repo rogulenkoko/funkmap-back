@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo.Abstract;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Objects;
 using Funkmap.Data.Parameters;
 

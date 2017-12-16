@@ -9,6 +9,11 @@ namespace Funkmap.Controllers
 {
     public partial class BaseController
     {
+
+        /// <summary>
+        /// All existing active profiles
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("all")]
         public async Task<IHttpActionResult> GetAll()

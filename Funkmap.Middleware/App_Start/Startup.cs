@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
-using Funkmap.Middleware.App_Start;
 using Funkmap.Module.Auth;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
-using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Security.OAuth;
-using Microsoft.Owin.StaticFiles;
 using Owin;
 using Swashbuckle.Application;
+using Swashbuckle.Swagger;
 
 namespace Funkmap.Middleware
 {
@@ -26,7 +29,7 @@ namespace Funkmap.Middleware
         public void Configuration(IAppBuilder appBuilder)
         {
             HttpConfiguration config = new HttpConfiguration();
-            
+
             appBuilder.UseCors(CorsOptions.AllowAll);
 
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
@@ -83,7 +86,7 @@ namespace Funkmap.Middleware
                 EnableDetailedErrors = false,
                 Resolver = dependencyResolver
             };
-           
+
             GlobalHost.DependencyResolver = dependencyResolver;
             appBuilder.MapSignalR("/signalr", signalRConfig);
         }
@@ -114,20 +117,66 @@ namespace Funkmap.Middleware
         {
             // Swagger
             //http://.../swagger/ui/index
-            httpConfiguration.EnableSwagger(x =>
+
+            httpConfiguration.EnableSwagger(swaggerConfig =>
             {
-                x.SingleApiVersion("v1", "Funkmap");
+                swaggerConfig.SingleApiVersion("v1", "Funkmap");
 
-                SwaggerConfig.SetCommentsPath(x);
+                string executablePath = AppDomain.CurrentDomain.BaseDirectory;
 
-                x.ApiKey("Token")
-                    .Description("Bearer token")
-                    .Name("Authorization")
-                    .In("header");
+                AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(x => x.FullName.Contains("Funkmap"))
+                    .ToList().ForEach(assembly =>
+                    {
+                        string filePath = $"{executablePath}\\{assembly.GetName().Name}.XML";
+                        if (!File.Exists(filePath)) return;
 
-                x.DocumentFilter<AuthDocumentFilter>();
+                        swaggerConfig.IncludeXmlComments(filePath);
+                    });
+
+                //x.ApiKey("Token")
+                //    .Description("Bearer token")
+                //    .Name("Authorization")
+                //    .In("header");
+
+                swaggerConfig.OperationFilter<AuthDocumentFilter>();
+
+
+                //swaggerConfig.OAuth2("Auth")
+                //    .AuthorizationUrl("/api/token")
+                //    .TokenUrl("/api/token");
 
             }).EnableSwaggerUi(x => x.EnableApiKeySupport("Authorization", "header"));
+        }
+
+
+        public class AuthDocumentFilter : IOperationFilter
+        {
+            public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+            {
+                // Determine if the operation has the Authorize attribute
+                var authorizeAttributes = apiDescription.ActionDescriptor.GetCustomAttributes<System.Web.Http.AuthorizeAttribute>();
+
+                if (!authorizeAttributes.Any())
+                    return;
+
+                // Initialize the operation.security property
+                if (operation.security == null)
+                    operation.security = new List<IDictionary<string, IEnumerable<string>>>();
+
+
+                // Add the appropriate security definition to the operation
+                var parameter = new Parameter
+                {
+                    description = "The authorization token",
+                    @in = "header",
+                    name = "Authorization",
+                    required = true,
+                    type = "string"
+                };
+                
+                operation.parameters = new List<Parameter>() { parameter };
+            }
         }
     }
 

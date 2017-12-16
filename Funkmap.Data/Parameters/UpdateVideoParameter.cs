@@ -1,4 +1,4 @@
-﻿using Funkmap.Data.Entities.Abstract;
+﻿using Funkmap.Data.Entities.Entities.Abstract;
 
 namespace Funkmap.Data.Parameters
 {

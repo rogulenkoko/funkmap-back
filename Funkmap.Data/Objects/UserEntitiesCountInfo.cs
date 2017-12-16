@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Funkmap.Common;
+using Funkmap.Data.Entities;
 
 namespace Funkmap.Data.Objects
 {

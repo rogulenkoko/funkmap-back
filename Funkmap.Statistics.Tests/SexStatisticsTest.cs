@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Data;
 using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Repositories;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories;

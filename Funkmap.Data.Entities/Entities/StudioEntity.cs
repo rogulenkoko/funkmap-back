@@ -1,7 +1,6 @@
-﻿using Funkmap.Common;
-using Funkmap.Data.Entities.Abstract;
+﻿using Funkmap.Data.Entities.Entities.Abstract;
 
-namespace Funkmap.Data.Entities
+namespace Funkmap.Data.Entities.Entities
 {
     public class StudioEntity : EstablishmentEntity
     {

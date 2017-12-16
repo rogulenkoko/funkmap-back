@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Funkmap</name>
+    </assembly>
+    <members>
+        <member name="M:Funkmap.Controllers.BaseController.GetAll">
+            <summary>
+            All existing active profiles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Limit">
+            <summary>
+            Максимальное количество доступных для чтение сущностей
+            </summary>
+        </member>
+    </members>
+</doc>

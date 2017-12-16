@@ -1,7 +1,8 @@
 ﻿using System;
 using Funkmap.Common;
 using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Services.Abstract;
 using MongoDB.Driver;

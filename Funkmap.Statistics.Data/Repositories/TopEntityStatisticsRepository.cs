@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;

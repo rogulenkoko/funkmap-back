@@ -1,9 +1,6 @@
 ﻿using System.Linq;
-using Funkmap.Common.Data.Mongo.Entities;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Models;
-using MongoDB.Bson;
 using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Mappers

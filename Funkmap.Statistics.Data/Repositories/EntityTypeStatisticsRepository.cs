@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Common;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories.Abstract;
 using MongoDB.Driver;

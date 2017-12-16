@@ -115,10 +115,6 @@
     <Compile Include="Caches\Base\FavoriteCacheService.cs" />
     <Compile Include="Caches\Base\FilteredCacheService.cs" />
     <Compile Include="CollectionNameProvider.cs" />
-    <Compile Include="Entities\Abstract\EstablishmentEntity.cs" />
-    <Compile Include="Entities\RehearsalPointEntity.cs" />
-    <Compile Include="Entities\ShopEntity.cs" />
-    <Compile Include="Entities\StudioEntity.cs" />
     <Compile Include="Objects\UserEntitiesCountInfo.cs" />
     <Compile Include="Parameters\ChangeAvatarParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
@@ -130,9 +126,6 @@
     <Compile Include="Parameters\LocationParameter.cs" />
     <Compile Include="Repositories\Abstract\IBandRepository.cs" />
     <Compile Include="Repositories\Abstract\IBaseRepository.cs" />
-    <Compile Include="Entities\Abstract\BaseEntity.cs" />
-    <Compile Include="Entities\BandEntity.cs" />
-    <Compile Include="Entities\MusicianEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstract\IMusicianRepository.cs" />
     <Compile Include="Repositories\Abstract\IStudioRepository.cs" />
@@ -162,9 +155,9 @@
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Contracts\Funkmap.Contracts.csproj">
-      <Project>{5863156A-0E14-4319-8536-B719DBEBE433}</Project>
-      <Name>Funkmap.Contracts</Name>
+    <ProjectReference Include="..\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">
+      <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
+      <Name>Funkmap.Data.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

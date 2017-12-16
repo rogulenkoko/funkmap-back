@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Common;
 using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Objects;
 using Funkmap.Statistics.Data.Repositories.Abstract;

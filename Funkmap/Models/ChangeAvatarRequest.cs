@@ -1,4 +1,4 @@
-﻿using Funkmap.Common;
+﻿using Funkmap.Data.Entities;
 
 namespace Funkmap.Models
 {

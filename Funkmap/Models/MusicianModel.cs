@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities;
 using Microsoft.Build.Framework;
 
 namespace Funkmap.Models

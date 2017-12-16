@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo.Abstract;
-using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities;
 
 namespace Funkmap.Data.Repositories.Abstract
 {

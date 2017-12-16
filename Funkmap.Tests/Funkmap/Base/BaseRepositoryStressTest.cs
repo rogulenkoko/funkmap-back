@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Common.Abstract;
 using Funkmap.Data;
-using Funkmap.Data.Entities.Abstract;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Tests.Funkmap.Data;
-using Funkmap.Tests.Funkmap.Stress;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

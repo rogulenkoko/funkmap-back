@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Funkmap.Common;
-using Funkmap.Data.Entities.Abstract;
+﻿using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using MongoDB.Driver;
 

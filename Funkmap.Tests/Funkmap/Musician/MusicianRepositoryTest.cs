@@ -1,6 +1,6 @@
 ﻿using System;
 using Funkmap.Data;
-using Funkmap.Data.Entities;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Tests.Funkmap.Data;
