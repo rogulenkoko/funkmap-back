@@ -12,7 +12,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
 using Swashbuckle.Application;
-using Module = Autofac.Module;
 
 [assembly: OwinStartup(typeof(Funkmap.Statistics.Web.Startup))]
 
