@@ -21,7 +21,5 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
         Task<ICollection<DialogEntity>> GetDialogsAvatarsAsync(string[] ids);
 
         Task<DialogEntity> GetDialogAvatarAsync(string id);
-
-        Task<ICollection<MessageEntity>> GetLastDialogsMessages(string[] dialogId);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data.Entities;
@@ -9,10 +8,7 @@ using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Messenger.Data.Repositories
 {
@@ -35,48 +31,33 @@ namespace Funkmap.Messenger.Data.Repositories
 
         public async Task<ICollection<DialogEntity>> GetUserDialogsAsync(string login)
         {
-            var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, login);
 
-            var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
-
-            var dialogs = await _collection
-                .Find(filter)
-                .Sort(sortFilter)
-                .ToListAsync();
-
-            return dialogs;
-        }
-
-        public async Task<ICollection<MessageEntity>> GetLastDialogsMessages(string[] dialogIds)
-        {
             //db.dialogs.aggregate(
             //    [{$match: { _id: ObjectId("5a304763208c10408cac622e")} },
             //{$lookup: { from: "messages", localField: "_id", foreignField: "d", as: "mes" } },
             //{$project: { _id: 1, message: { $arrayElemAt: ["$mes", 0] } } }
             //])
 
-            //todo перенести эту логику в запрос всех диалогов, чтобы доставать сразу с сообщением
+            var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, login);
 
-            if (dialogIds == null || dialogIds.Length == 0) throw new ArgumentException(nameof(dialogIds));
+            var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
 
-            var sort = Builders<DialogLookup>.Sort.Descending(x => x.LastMessages);
-
-            var dialogsFilter = Builders<DialogEntity>.Filter.In(x => x.Id, dialogIds.Select(x => new ObjectId(x)));
-
-            var messages = await _collection.Aggregate()
-                .Match(dialogsFilter)
-                .Lookup<DialogEntity, MessageEntity, DialogLookup>(_messagesCollection, x => x.Id, x=>x.DialogId, result => result.LastMessages)
-                .Sort(sort)
-                .Project(x=> new LastDialogMessageResult()
+            var dialogs = await _collection.Aggregate()
+                .Match(filter)
+                .Lookup<DialogEntity, MessageEntity, DialogLookup>(_messagesCollection, x => x.Id, x => x.DialogId, result => result.LastMessages)
+                .Project(x => new DialogEntity()
                 {
-                    DialogId = x.Id,
-                    LastMessage = x.LastMessages.Last()
+                    Id = x.Id,
+                    LastMessage = x.LastMessages.Last(),
+                    Name = x.Name,
+                    Participants = x.Participants,
+                    LastMessageDate = x.LastMessageDate,
+                    CreatorLogin = x.CreatorLogin
                 })
+                .Sort(sortFilter)
                 .ToListAsync();
 
-            if (messages == null) return new List<MessageEntity>();
-
-            return messages.Select(x => x.LastMessage).ToList();
+            return dialogs;
         }
 
         public async Task<ICollection<DialogEntity>> GetDialogsAvatarsAsync(string[] ids)

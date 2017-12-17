@@ -14,7 +14,7 @@
         </member>
         <member name="M:Funkmap.Controllers.BandController.RemoveMusicianFromBand(Funkmap.Models.Requests.UpdateBandMembersRequest)">
             <summary>
-            Удаление музыканта изз группы
+            Удаление музыканта из группы
             </summary>
             <param name="membersRequest">Логин группы (из которой надо удалить музыканта) и логин музыканта</param>
             <returns></returns>
@@ -160,6 +160,71 @@
             </summary>
             <param name="membersRequest"></param>
             <returns></returns>
+        </member>
+        <member name="P:Funkmap.Models.Requests.BandInviteInfoRequest.InvitedMusician">
+            <summary>
+            Логин приглашаемого музыканта
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.UpdateBandMembersRequest.MusicianLogin">
+            <summary>
+            Логин приглашаемого музыканта
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.UpdateBandMembersRequest.BandLogin">
+            <summary>
+            Группа, в которую приглашается музыкант
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Skip">
+            <summary>
+            Пропустить Skip элементов
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Take">
+            <summary>
+            Взять Take элементов
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.SearchText">
+            <summary>
+            Часть имени
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.EntityType">
+            <summary>
+            Тип профиля
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Instruments">
+            <summary>
+            Интересующие инструменты
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Expirience">
+            <summary>
+            Интересующие типы опыта игры
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Styles">
+            <summary>
+            Интересующие стили игры
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.RadiusDeg">
+            <summary>
+            Поиск внутри радиуса (в радианах)
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Latitude">
+            <summary>
+            Широта
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.Longitude">
+            <summary>
+            Долгота
+            </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Limit">
             <summary>

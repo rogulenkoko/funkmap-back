@@ -26,5 +26,8 @@ namespace Funkmap.Messenger.Data.Entities
         [BsonIgnoreIfDefault]
         public string CreatorLogin { get; set; }
 
+        [BsonIgnore]
+        public MessageEntity LastMessage { get; set; }
+
     }
 }

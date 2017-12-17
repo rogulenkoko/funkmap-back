@@ -49,10 +49,7 @@ namespace Funkmap.Messenger.Controllers
             var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(userLogin);
             if (dialogsEntities == null || dialogsEntities.Count == 0) return Ok(new List<Dialog>());
 
-            var dialogIds = dialogsEntities.Select(x => x.Id.ToString()).ToArray();
-            var lastDialogMessage = await _dialogRepository.GetLastDialogsMessages(dialogIds);
-
-            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin, lastDialogMessage.FirstOrDefault(y => y.DialogId.ToString() == x.Id.ToString()).ToModel())).ToList();
+            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin)).ToList();
             return Content(HttpStatusCode.OK, dialogs);
         }
 
@@ -231,12 +228,15 @@ namespace Funkmap.Messenger.Controllers
                             Sender = "",
                             Text = $"{userLogin} покинул беседу"
                         };
+
+                        dialog.LastMessage = message;
                     }
 
                     await _messageRepository.AddMessage(message);
 
 
-                    return Ok(new DialogResponse() { Success = true, Dialog = dialog.ToModel(userLogin, message.ToModel())});
+
+                    return Ok(new DialogResponse() { Success = true, Dialog = dialog.ToModel(userLogin)});
                 }
             }
 
