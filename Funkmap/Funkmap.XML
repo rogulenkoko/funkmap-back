@@ -4,10 +4,161 @@
         <name>Funkmap</name>
     </assembly>
     <members>
+        <member name="M:Funkmap.Controllers.BandController.GetInviteMusicianInfo(Funkmap.Models.Requests.BandInviteInfoRequest)">
+            <summary>
+            Информация о группах, в которые можно пригласить музыканта 
+            (музыкант не состоит в ней или еще не приглашен)
+            </summary>
+            <param name="request">Логин приглашаемого музыканта</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BandController.RemoveMusicianFromBand(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+            <summary>
+            Удаление музыканта изз группы
+            </summary>
+            <param name="membersRequest">Логин группы (из которой надо удалить музыканта) и логин музыканта</param>
+            <returns></returns>
+        </member>
         <member name="M:Funkmap.Controllers.BaseController.GetAll">
             <summary>
-            All existing active profiles
+            Все активные профили
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetFullBand(System.String)">
+            <summary>
+            Полная информация о профиле
+            </summary>
+            <param name="login">Логин профиля</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetRehearsalPoint(System.String)">
+            <summary>
+            Основная информация о профиле (специфична для каждого типа профиля)
+            </summary>
+            <param name="login">Логин профиля</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetSpecific(System.String[])">
+            <summary>
+            Основная информация о некоторых профилях
+            </summary>
+            <param name="logins">Логины профилей</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetImage(System.String)">
+            <summary>
+            Аватар профиля
+            </summary>
+            <param name="login">Логин профиля</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetUserEntitiesLogins">
+            <summary>
+            Логины профилей, созданных пользователем
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetUserEntitiesCountInfo">
+            <summary>
+            Соотношение типов профилей и количества созданных пользователем профилей данного типа
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.CheckIfLoginExist(System.String)">
+            <summary>
+            Проверка на существование профиля
+            </summary>
+            <param name="login">Логин профиля</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetFavoritesLogins">
+            <summary>
+            Отмеченные, как избранное, логины профилей
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetFavorites">
+            <summary>
+            Отмеченные, как избранное, профиля
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetNearest(Funkmap.Models.Requests.LocationRequest)">
+            <summary>
+            Ближайшие n профилей (информация о навигации) по отношению к указанной точке
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetFullNearest(Funkmap.Models.Requests.FullLocationRequest)">
+            <summary>
+            Ближайшие n профилей (основная информация) по отношению к указанной точке
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetSpecificMarkers(System.String[])">
+            <summary>
+            Информация о навигации некоторых профилях
+            </summary>
+            <param name="logins">Логины профилей</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetFiltered(Funkmap.Models.Requests.FilteredRequest)">
+            <summary>
+            Основная информация о порции отфильтрованных профилей, логины всех отфильтрованных профилей
+            </summary>
+            <param name="request">Параметры фильтрации</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.SaveMusician(Funkmap.Models.BaseModel)">
+            <summary>
+            Сохранение профиля
+            </summary>
+            <param name="model">Профиль</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.Update(Funkmap.Models.BaseModel)">
+            <summary>
+            Обновление любых полей профиля (кроме автара)
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.UpdateAvatar(Funkmap.Models.Requests.UpdateAvatarRequest)">
+            <summary>
+            Обновление аватара профиля
+            </summary>
+            <param name="request">Логин профиля и фото base64</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.Delete(System.String)">
+            <summary>
+            Удаление профиля
+            </summary>
+            <param name="login">Логин профиля</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.UpdateFavorite(Funkmap.Models.Requests.UpdateFavoriteRequest)">
+            <summary>
+            Изменение отметки об избранном
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.MusicianController.InviteMusician(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+            <summary>
+            Приглашение музыканта в группу
+            </summary>
+            <param name="membersRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.MusicianController.LeaveBand(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+            <summary>
+            Удаление музыканта из группы
+            </summary>
+            <param name="membersRequest"></param>
             <returns></returns>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Limit">

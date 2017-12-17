@@ -2,7 +2,7 @@
 
 namespace Funkmap.Statistics.Models
 {
-    public class TopProfileStatistics
+    public class TopProfileStatistics : IStatistics
     {
         public string Login { get; set; }
         public EntityType EntityType { get; set; }

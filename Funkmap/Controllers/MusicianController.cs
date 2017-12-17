@@ -37,6 +37,11 @@ namespace Funkmap.Controllers
             _dependenciesController = dependenciesController;
         }
 
+        /// <summary>
+        /// Приглашение музыканта в группу
+        /// </summary>
+        /// <param name="membersRequest"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [Route("invite")]
@@ -68,6 +73,11 @@ namespace Funkmap.Controllers
             return Ok(inviteResponse);
         }
 
+        /// <summary>
+        /// Удаление музыканта из группы
+        /// </summary>
+        /// <param name="membersRequest"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [Route("leaveBand")]

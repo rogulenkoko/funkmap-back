@@ -69,21 +69,21 @@ namespace Funkmap.Statistics.Web
 
             httpConfiguration.EnableSwagger(swaggerConfig =>
             {
-                swaggerConfig.SingleApiVersion("v1", "Funkmap");
-
+                swaggerConfig.SingleApiVersion("v1", "FunkmapStatistics");
+                
                 string executablePath = AppDomain.CurrentDomain.BaseDirectory;
 
                 AppDomain.CurrentDomain.GetAssemblies()
                     .Where(x => x.FullName.Contains("Funkmap"))
                     .ToList().ForEach(assembly =>
                     {
-                        string filePath = $"{executablePath}\\{assembly.GetName().Name}.XML";
+                        string filePath = $"{executablePath}bin\\{assembly?.GetName().Name}.XML";
                         if (!File.Exists(filePath)) return;
 
                         swaggerConfig.IncludeXmlComments(filePath);
                     });
 
-            }).EnableSwaggerUi(x => x.EnableApiKeySupport("Authorization", "header"));
+            }).EnableSwaggerUi();
         }
     }
 }

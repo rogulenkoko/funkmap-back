@@ -2,7 +2,7 @@
 
 namespace Funkmap.Statistics.Models
 {
-    public class StyleStatistics
+    public class StyleStatistics : IStatistics
     {
         public Styles Style { get; set; }
         public int Count { get; set; }

@@ -34,7 +34,11 @@ namespace Funkmap.Controllers
         }
 
        
-
+        /// <summary>
+        /// Ближайшие n профилей (информация о навигации) по отношению к указанной точке
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("nearest")]
         public async Task<IHttpActionResult> GetNearest(LocationRequest request)
@@ -52,6 +56,11 @@ namespace Funkmap.Controllers
 
         }
 
+        /// <summary>
+        /// Ближайшие n профилей (основная информация) по отношению к указанной точке
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("fullnearest")]
         public async Task<IHttpActionResult> GetFullNearest(FullLocationRequest request)
@@ -69,8 +78,12 @@ namespace Funkmap.Controllers
             return Content(HttpStatusCode.OK, searchModels);
         }
 
-        
 
+        /// <summary>
+        /// Информация о навигации некоторых профилях
+        /// </summary>
+        /// <param name="logins">Логины профилей</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("specificmarkers")]
         public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
@@ -80,6 +93,11 @@ namespace Funkmap.Controllers
             return Ok(items);
         }
         
+        /// <summary>
+        /// Основная информация о порции отфильтрованных профилей, логины всех отфильтрованных профилей
+        /// </summary>
+        /// <param name="request">Параметры фильтрации</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("filtered")]
         public async Task<IHttpActionResult> GetFiltered(FilteredRequest request)

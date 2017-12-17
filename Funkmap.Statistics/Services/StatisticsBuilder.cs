@@ -18,6 +18,8 @@ namespace Funkmap.Statistics.Services
         Task<ProfileStatistics> BuildProfileStatisticsAsync(DateRequest request);
         Task<MusicianStatistics> BuildMusicianStatisticsAsync(DateRequest request);
 
+        Task<ICollection<IStatistics>> BuildSpecificStatistic(StatisticsType type);
+
     }
 
     public class StatisticsBuilder : IStatisticsBuilder
@@ -136,6 +138,21 @@ namespace Funkmap.Statistics.Services
                 InstrumentStatistics = statisticsDictionary.ContainsKey(StatisticsType.InstrumentType) ? (statisticsDictionary[StatisticsType.InstrumentType] as InstrumentStatisticsEntity).ToModel() : null,
                 BandStatistics = statisticsDictionary.ContainsKey(StatisticsType.InBand) ? (statisticsDictionary[StatisticsType.InBand] as InBandStatisticsEntity).ToModel() : null,
             };
+        }
+
+        public async Task<ICollection<IStatistics>> BuildSpecificStatistic(StatisticsType type)
+        {
+            IStatisticsRepository repository = _profileStatisticsRepositories.SingleOrDefault(x => x.StatisticsType == type);
+            if (repository == null)
+            {
+                repository = _musicianStatisticsRepositories.SingleOrDefault(x => x.StatisticsType == type);
+            }
+
+            if(repository == null) throw new InvalidOperationException("Некорректный тип статистик");
+
+            var statistics = await repository.BuildFullStatisticsAsync();
+            var statisticsModels = statistics.ToStatisticsModel(type);
+            return statisticsModels;
         }
     }
 }

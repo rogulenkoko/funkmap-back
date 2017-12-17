@@ -11,7 +11,7 @@ namespace Funkmap.Controllers
     {
 
         /// <summary>
-        /// All existing active profiles
+        /// Все активные профили
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -23,24 +23,39 @@ namespace Funkmap.Controllers
             return Content(HttpStatusCode.OK, markers);
         }
 
-
+        /// <summary>
+        /// Полная информация о профиле
+        /// </summary>
+        /// <param name="login">Логин профиля</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("getFull/{id}")]
-        public async Task<IHttpActionResult> GetFullBand(string id)
+        public async Task<IHttpActionResult> GetFullBand(string login)
         {
-            var entity = await _repository.GetAsync(id);
+            var entity = await _repository.GetAsync(login);
             return Content(HttpStatusCode.OK, entity.ToSpecificModel());
 
         }
 
+        /// <summary>
+        /// Основная информация о профиле (специфична для каждого типа профиля)
+        /// </summary>
+        /// <param name="login">Логин профиля</param>
+        /// <returns></returns>
+
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<IHttpActionResult> GetRehearsalPoint(string id)
+        public async Task<IHttpActionResult> GetRehearsalPoint(string login)
         {
-            var entity = await _repository.GetAsync(id);
+            var entity = await _repository.GetAsync(login);
             return Content(HttpStatusCode.OK, entity.ToSpecificPreviewModel());
         }
 
+        /// <summary>
+        /// Основная информация о некоторых профилях
+        /// </summary>
+        /// <param name="logins">Логины профилей</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
@@ -50,14 +65,23 @@ namespace Funkmap.Controllers
             return Ok(items);
         }
 
+        /// <summary>
+        /// Аватар профиля
+        /// </summary>
+        /// <param name="login">Логин профиля</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("getimage")]
-        public async Task<IHttpActionResult> GetImage(string id)
+        public async Task<IHttpActionResult> GetImage(string login)
         {
-            var file = await _repository.GetFileAsync(id);
+            var file = await _repository.GetFileAsync(login);
             return Ok(file);
         }
 
+        /// <summary>
+        /// Логины профилей, созданных пользователем
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("users")]
@@ -68,6 +92,10 @@ namespace Funkmap.Controllers
             return Ok(logins);
         }
 
+        /// <summary>
+        /// Соотношение типов профилей и количества созданных пользователем профилей данного типа
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("userscount")]
@@ -79,6 +107,11 @@ namespace Funkmap.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Проверка на существование профиля
+        /// </summary>
+        /// <param name="login">Логин профиля</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("checkLogin/{login}")]
         public async Task<IHttpActionResult> CheckIfLoginExist(string login)
@@ -87,6 +120,10 @@ namespace Funkmap.Controllers
             return Ok(isExist);
         }
 
+        /// <summary>
+        /// Отмеченные, как избранное, логины профилей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("favoritesLogins")]
@@ -97,6 +134,11 @@ namespace Funkmap.Controllers
             return Ok(favoritesLogins);
         }
 
+
+        /// <summary>
+        /// Отмеченные, как избранное, профиля
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("favorites")]

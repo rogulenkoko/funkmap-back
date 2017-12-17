@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Common;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
 using Funkmap.Data.Entities;
@@ -32,6 +30,13 @@ namespace Funkmap.Controllers
             _dependenciesController = dependenciesController;
         }
         
+
+        /// <summary>
+        /// Информация о группах, в которые можно пригласить музыканта 
+        /// (музыкант не состоит в ней или еще не приглашен)
+        /// </summary>
+        /// <param name="request">Логин приглашаемого музыканта</param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [Route("getInviteInfo")]
@@ -60,6 +65,11 @@ namespace Funkmap.Controllers
             return Ok(info);
         }
 
+        /// <summary>
+        /// Удаление музыканта изз группы
+        /// </summary>
+        /// <param name="membersRequest">Логин группы (из которой надо удалить музыканта) и логин музыканта</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [Route("removeMusician")]

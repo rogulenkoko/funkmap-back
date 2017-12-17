@@ -12,6 +12,11 @@ namespace Funkmap.Controllers
 {
     public partial class BaseController
     {
+        /// <summary>
+        /// Сохранение профиля
+        /// </summary>
+        /// <param name="model">Профиль</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [Route("save")]
@@ -24,6 +29,12 @@ namespace Funkmap.Controllers
 
         }
 
+
+        /// <summary>
+        /// Обновление любых полей профиля (кроме автара)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("update")]
         [Authorize]
@@ -33,6 +44,11 @@ namespace Funkmap.Controllers
             return Ok(new BaseResponse() { Success = true });
         }
 
+        /// <summary>
+        /// Обновление аватара профиля
+        /// </summary>
+        /// <param name="request">Логин профиля и фото base64</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("updateavatar")]
         [Authorize]
@@ -47,6 +63,11 @@ namespace Funkmap.Controllers
             return Ok(new BaseResponse() { Success = true });
         }
 
+        /// <summary>
+        /// Удаление профиля
+        /// </summary>
+        /// <param name="login">Логин профиля</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("delete/{login}")]
         [Authorize]
@@ -64,6 +85,11 @@ namespace Funkmap.Controllers
             return Ok(new BaseResponse() { Success = true });
         }
 
+        /// <summary>
+        /// Изменение отметки об избранном
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Authorize]
         [Route("updateFavorite")]
         [Authorize]
