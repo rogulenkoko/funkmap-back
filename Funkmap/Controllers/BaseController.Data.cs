@@ -29,7 +29,7 @@ namespace Funkmap.Controllers
         /// <param name="login">Логин профиля</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("getFull/{id}")]
+        [Route("getFull/{login}")]
         public async Task<IHttpActionResult> GetFullBand(string login)
         {
             var entity = await _repository.GetAsync(login);
@@ -44,7 +44,7 @@ namespace Funkmap.Controllers
         /// <returns></returns>
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("get/{login}")]
         public async Task<IHttpActionResult> GetRehearsalPoint(string login)
         {
             var entity = await _repository.GetAsync(login);

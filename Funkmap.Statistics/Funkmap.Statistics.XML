@@ -48,7 +48,7 @@
         </member>
         <member name="M:Funkmap.Statistics.Controllers.StatisticsController.GetMusicianStatistics(Funkmap.Statistics.Models.Requests.DateRequest)">
             <summary>
-            All staistics by musicians с учетом with date range
+            All staistics by musicians with date range
             </summary>
             <param name="request"></param>
             <returns></returns>

@@ -10,6 +10,7 @@ namespace Funkmap.Mappers
     {
         public static BaseModel ToSpecificModel(this BaseEntity source)
         {
+            if (source == null) return null;
             switch (source.EntityType)
             {
                     case EntityType.Musician: return (source as MusicianEntity).ToModel();
@@ -24,6 +25,7 @@ namespace Funkmap.Mappers
 
         public static BaseModel ToSpecificPreviewModel(this BaseEntity source)
         {
+            if (source == null) return null;
             switch (source.EntityType)
             {
                 case EntityType.Musician: return (source as MusicianEntity).ToPreviewModel();

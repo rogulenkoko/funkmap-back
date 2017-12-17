@@ -66,7 +66,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Удаление музыканта изз группы
+        /// Удаление музыканта из группы
         /// </summary>
         /// <param name="membersRequest">Логин группы (из которой надо удалить музыканта) и логин музыканта</param>
         /// <returns></returns>

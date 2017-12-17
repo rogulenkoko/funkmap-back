@@ -133,50 +133,8 @@ namespace Funkmap.Middleware
 
                         swaggerConfig.IncludeXmlComments(filePath);
                     });
-
-                //x.ApiKey("Token")
-                //    .Description("Bearer token")
-                //    .Name("Authorization")
-                //    .In("header");
-
-                swaggerConfig.OperationFilter<AuthDocumentFilter>();
-
-
-                //swaggerConfig.OAuth2("Auth")
-                //    .AuthorizationUrl("/api/token")
-                //    .TokenUrl("/api/token");
-
-            }).EnableSwaggerUi(x => x.EnableApiKeySupport("Authorization", "header"));
-        }
-
-
-        public class AuthDocumentFilter : IOperationFilter
-        {
-            public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
-            {
-                // Determine if the operation has the Authorize attribute
-                var authorizeAttributes = apiDescription.ActionDescriptor.GetCustomAttributes<System.Web.Http.AuthorizeAttribute>();
-
-                if (!authorizeAttributes.Any())
-                    return;
-
-                // Initialize the operation.security property
-                if (operation.security == null)
-                    operation.security = new List<IDictionary<string, IEnumerable<string>>>();
-
-
-                // Add the appropriate security definition to the operation
-                var parameter = new Parameter
-                {
-                    description = "The authorization token",
-                    @in = "header",
-                    name = "Authorization",
-                    required = true,
-                    type = "string"
-                };
                 
-                operation.parameters = new List<Parameter>() { parameter };
-            }
+            }).EnableSwaggerUi();
         }
     }
 
