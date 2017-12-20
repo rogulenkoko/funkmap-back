@@ -28,6 +28,7 @@ namespace Funkmap.Mappers
                 AvatarMiniId = source.PhotoMiniId,
                 Address = source.Address,
                 VideoInfos = source.VideoInfos,
+                SoundCloudTrackIds = source.SoundCloudTrackIds,
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive
             };
@@ -50,6 +51,7 @@ namespace Funkmap.Mappers
                 SoundCloudLink = source.SoundCloudLink,
                 Address = source.Address,
                 VideoInfos = source.VideoInfos,
+                SoundCloudTrackIds = source.SoundCloudTrackIds,
                 IsActive = source.IsActive,
                 UserLogin = source.UserLogin,
                 MusicianLogins = source.Musicians?.ToList()

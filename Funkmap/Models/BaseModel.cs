@@ -28,6 +28,8 @@ namespace Funkmap.Models
         public string AvatarMiniId { get; set; }
         public List<VideoInfo> VideoInfos { get; set; }
 
+        public List<int> SoundCloudTrackIds { get; set; }
+
         public string VkLink { get; set; }
         public string YoutubeLink { get; set; }
         public string FacebookLink { get; set; }

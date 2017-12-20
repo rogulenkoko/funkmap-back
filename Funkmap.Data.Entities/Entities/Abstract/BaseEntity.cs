@@ -52,6 +52,9 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         [BsonElement("ytv")]
         public List<VideoInfo> VideoInfos { get; set; }
 
+        [BsonElement("sct")]
+        public List<int> SoundCloudTrackIds { get; set; }
+
         [BsonElement("d")]
         [BsonIgnoreIfDefault]
         public string Description { get; set; }
