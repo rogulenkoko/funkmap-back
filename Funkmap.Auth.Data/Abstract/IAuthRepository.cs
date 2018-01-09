@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Data.Mongo.Abstract;
@@ -7,7 +8,7 @@ namespace Funkmap.Auth.Data.Abstract
 {
     public interface IAuthRepository : IMongoRepository<UserEntity>
     {
-        Task<UserEntity> Login(string login, string password);
+        Task<UserEntity> LoginAsync(string login, string password);
 
         Task<bool> CheckIfExist(string login);
 
@@ -19,5 +20,7 @@ namespace Funkmap.Auth.Data.Abstract
         Task<DateTime?> GetLastVisitDate(string login);
 
         Task<UserEntity> GetUserByEmail(string email);
+
+        Task<ICollection<string>> GetBookedEmailsAsync();
     }
 }

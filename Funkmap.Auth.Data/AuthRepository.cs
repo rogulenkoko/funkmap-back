@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
@@ -19,7 +21,7 @@ namespace Funkmap.Auth.Data
             _fileStorage = fileStorage;
         }
 
-        public async Task<UserEntity> Login(string login, string password)
+        public async Task<UserEntity> LoginAsync(string login, string password)
         {
             var user = await _collection.Find(x=>x.Login == login && x.Password == password).SingleOrDefaultAsync();
             return user;
@@ -87,6 +89,13 @@ namespace Funkmap.Auth.Data
         {
             var filter = Builders<UserEntity>.Filter.Eq("em", email);
             return await _collection.Find(filter).SingleOrDefaultAsync();
+        }
+
+        public async Task<ICollection<string>> GetBookedEmailsAsync()
+        {
+            var projection = Builders<UserEntity>.Projection.Include(x => x.Email);
+            var usersEmails = await _collection.Find(x => true).Project<UserEntity>(projection).ToListAsync();
+            return usersEmails.Where(x => !String.IsNullOrEmpty(x.Email)).Select(x => x.Email).ToList();
         }
     }
 }

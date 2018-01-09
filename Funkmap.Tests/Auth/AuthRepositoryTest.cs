@@ -30,13 +30,13 @@ namespace Funkmap.Tests.Auth
         [TestMethod]
         public void LoginTest()
         {
-            var result = _repository.Login("rogulenkoko", "1").Result;
+            var result = _repository.LoginAsync("rogulenkoko", "1").Result;
             Assert.IsNotNull(result);
 
-            result = _repository.Login("rogulenkoko", "2").Result;
+            result = _repository.LoginAsync("rogulenkoko", "2").Result;
             Assert.IsNull(result);
 
-            result = _repository.Login("test", "2").Result;
+            result = _repository.LoginAsync("test", "2").Result;
             Assert.IsNull(result);
         }
 

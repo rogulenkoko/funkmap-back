@@ -22,18 +22,18 @@ namespace Funkmap.Common.Notifications.Notification
         public EmailExternalNotificationService(ISettingsService settingsService, IFunkmapLogger<EmailExternalNotificationService> logger)
         {
             var settings = settingsService.GetSettings();
-            if (settings == null) throw new ArgumentNullException(nameof(settings), "Необходим сервис настроек и настройки");
+            if (settings == null) throw new ArgumentNullException(nameof(settings), "settings service and settings are required");
             _appEmail = settings.Email;
             _appEmailPassword = settings.EmailPassword;
             _logger = logger;
         }
 
-        public async Task<bool> SendNotification(Notification notification)
+        public async Task<bool> TrySendNotificationAsync(Notification notification)
         {
             await Task.Yield();
             try
             {
-                _logger.Info($"Отправка email по адресу {notification.Receiver}");
+                _logger.Info($"Email has been sent by email {notification.Receiver}");
 
                 string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
                 var body = File.ReadAllText(new Uri(Path.Combine(root, "Templates/base-template.html")).LocalPath);
@@ -66,7 +66,7 @@ namespace Funkmap.Common.Notifications.Notification
             }
             catch (Exception e)
             {
-                _logger.Error(e, $"Произошла ошибка отправки email");
+                _logger.Error(e, $"Email ({notification.Receiver}) sending failed");
                 return false;
             }
 

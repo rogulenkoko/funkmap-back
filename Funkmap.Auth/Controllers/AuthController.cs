@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Filters;
+using Funkmap.Common.Models;
 using Funkmap.Common.Notifications.Notification.Abstract;
 using Funkmap.Module.Auth.Models;
 using Funkmap.Module.Auth.Notifications;
+using Funkmap.Module.Auth.Services;
 
 namespace Funkmap.Module.Auth.Controllers
 {
@@ -17,33 +19,25 @@ namespace Funkmap.Module.Auth.Controllers
     {
         private readonly IAuthRepository _authRepository;
         private readonly IExternalNotificationService _externalNotificationService;
-
-        private static readonly ConcurrentDictionary<string, UserConfirmationModel> _usersConfirmationCache = new ConcurrentDictionary<string, UserConfirmationModel>();
-        public AuthController(IAuthRepository authRepository, IExternalNotificationService externalNotificationService)
+        private readonly IRegistrationContextManager _contextManager;
+        public AuthController(IAuthRepository authRepository, IExternalNotificationService externalNotificationService,
+            IRegistrationContextManager contextManager)
         {
             _authRepository = authRepository;
             _externalNotificationService = externalNotificationService;
+            _contextManager = contextManager;
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IHttpActionResult> Register(RegistrationRequest creds)
         {
-            var isExist = await _authRepository.CheckIfExist(creds.Login);
-            isExist = isExist || _usersConfirmationCache.ContainsKey(creds.Login);
+            var creationContetResult = await _contextManager.TryCreateContextAsync(creds);
 
             var response = new RegistrationResponse()
             {
-                Success = !isExist
+                Success = creationContetResult
             };
-
-            if (!isExist)
-            {
-                _usersConfirmationCache[creds.Login] = new UserConfirmationModel()
-                {
-                    User = new UserEntity() { Login = creds.Login, Password = creds.Password,  Name = creds.Name}
-                };
-            }
 
             return Ok(response);
         }
@@ -52,18 +46,17 @@ namespace Funkmap.Module.Auth.Controllers
         [Route("sendEmail")]
         public async Task<IHttpActionResult> SendEmail(RegistrationRequest request)
         {
-            var response = new RegistrationResponse();
-            if (!_usersConfirmationCache.ContainsKey(request.Login)) return Ok(response);
+            if (String.IsNullOrEmpty(request.Email) || !(new EmailAddressAttribute().IsValid(request.Email)))
+            {
+                return BadRequest("invalid email");
+            }
 
-            _usersConfirmationCache[request.Login].User.Email = request.Email;
-            request.Name = _usersConfirmationCache[request.Login].User.Name;
+            var codeSentresult = await _contextManager.TrySendCodeAsync(request.Login, request.Email);
 
-            var code = new Random().Next(100000, 999999).ToString();
-
-            var notification = new ConfirmationNotification(request.Email, request.Name, code);
-            var sendResult = await _externalNotificationService.SendNotification(notification);
-            _usersConfirmationCache[request.Login].Code = code;
-            response.Success = sendResult;
+            var response = new BaseResponse
+            {
+                Success = codeSentresult
+            };
 
             return Ok(response);
         }
@@ -72,15 +65,12 @@ namespace Funkmap.Module.Auth.Controllers
         [Route("confirm")]
         public async Task<IHttpActionResult> Confirm(ConfirmationRequest request)
         {
-            var response = new RegistrationResponse();
-            if (!(_usersConfirmationCache.ContainsKey(request.Login) && _usersConfirmationCache[request.Login].Code == request.Code)) return Ok(response);
+            var confirmationResult = await _contextManager.TryConfirmAsync(request.Login, request.Code);
 
-            var userConfirm = _usersConfirmationCache[request.Login];
-            userConfirm.User.LastVisitDateUtc = DateTime.UtcNow;
-
-            await _authRepository.CreateAsync(userConfirm.User);
-            response.Success = true;
-
+            var response = new RegistrationResponse()
+            {
+                Success = confirmationResult
+            };
 
             return Ok(response);
         }
@@ -93,7 +83,7 @@ namespace Funkmap.Module.Auth.Controllers
             UserEntity user = _authRepository.GetUserByEmail(email).Result;
             if (user == null) return Ok(response);
             var notification = new PasswordRecoverNotification(email, user.Name, user.Password);
-            var sendResult = await _externalNotificationService.SendNotification(notification);
+            var sendResult = await _externalNotificationService.TrySendNotificationAsync(notification);
             response.Success = sendResult;
             return Ok(response);
         }

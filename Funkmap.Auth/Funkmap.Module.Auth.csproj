@@ -124,6 +124,7 @@
       <HintPath>..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -177,6 +178,8 @@
     <Compile Include="Models\UserConfirmationModel.cs" />
     <Compile Include="Models\UserPreview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\RegistrationContext.cs" />
+    <Compile Include="Services\RegistrationContextFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
@@ -194,6 +197,10 @@
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+      <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
+      <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
       <Project>{cc5b36a9-d49f-4583-b74c-d2f3a17087a4}</Project>
