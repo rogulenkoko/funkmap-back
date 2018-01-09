@@ -3,6 +3,7 @@ using System.Configuration;
 using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Data;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
@@ -46,28 +47,28 @@ namespace Funkmap.Module
                 .As<IMongoCollection<StudioEntity>>();
 
 
-            //builder.Register(container =>
-            //{
-            //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
-            //    var gridFs = new GridFSBucket(database);
-            //    return new GridFsFileStorage(gridFs);
-            //}).Keyed<GridFsFileStorage>(CollectionNameProvider.StorageName);
-
-            //builder.Register(context => context.ResolveNamed<GridFsFileStorage>(CollectionNameProvider.StorageName))
-            //    .Keyed<IFileStorage>(CollectionNameProvider.StorageName)
-            //    .InstancePerDependency();
-
-
             builder.Register(container =>
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                return new AzureFileStorage(blobClient, CollectionNameProvider.StorageName);
-            }).Keyed<AzureFileStorage>(CollectionNameProvider.StorageName).InstancePerDependency();
+                var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+                var gridFs = new GridFSBucket(database);
+                return new GridFsFileStorage(gridFs);
+            }).Keyed<GridFsFileStorage>(CollectionNameProvider.StorageName);
 
-            builder.Register(context => context.ResolveKeyed<AzureFileStorage>(CollectionNameProvider.StorageName))
+            builder.Register(context => context.ResolveNamed<GridFsFileStorage>(CollectionNameProvider.StorageName))
                 .Keyed<IFileStorage>(CollectionNameProvider.StorageName)
                 .InstancePerDependency();
+
+
+            //builder.Register(container =>
+            //{
+            //    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+            //    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            //    return new AzureFileStorage(blobClient, CollectionNameProvider.StorageName);
+            //}).Keyed<AzureFileStorage>(CollectionNameProvider.StorageName).InstancePerDependency();
+
+            //builder.Register(context => context.ResolveKeyed<AzureFileStorage>(CollectionNameProvider.StorageName))
+            //    .Keyed<IFileStorage>(CollectionNameProvider.StorageName)
+            //    .InstancePerDependency();
 
             var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));

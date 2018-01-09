@@ -42,28 +42,28 @@ namespace Funkmap.Module.Auth
                 .As<IMongoCollection<UserEntity>>();
 
 
-            //builder.Register(container =>
-            //{
-            //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
-            //    var gridFs = new GridFSBucket(database);
-            //    return new GridFsFileStorage(gridFs);
-            //}).Named<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName);
-
-            //builder.Register(context => context.ResolveKeyed<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName))
-            //    .Keyed<IFileStorage>(AuthCollectionNameProvider.AuthStorageName)
-            //    .InstancePerDependency();
-
-
             builder.Register(container =>
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                return new AzureFileStorage(blobClient, AuthCollectionNameProvider.AuthStorageName);
-            }).Keyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName).InstancePerDependency();
+                var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+                var gridFs = new GridFSBucket(database);
+                return new GridFsFileStorage(gridFs);
+            }).Named<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName);
 
-            builder.Register(context => context.ResolveKeyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName))
+            builder.Register(context => context.ResolveKeyed<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName))
                 .Keyed<IFileStorage>(AuthCollectionNameProvider.AuthStorageName)
                 .InstancePerDependency();
+
+
+            //builder.Register(container =>
+            //{
+            //    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+            //    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            //    return new AzureFileStorage(blobClient, AuthCollectionNameProvider.AuthStorageName);
+            //}).Keyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName).InstancePerDependency();
+
+            //builder.Register(context => context.ResolveKeyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName))
+            //    .Keyed<IFileStorage>(AuthCollectionNameProvider.AuthStorageName)
+            //    .InstancePerDependency();
 
             builder.RegisterType<RegistrationContextManager>().As<IRegistrationContextManager>().SingleInstance();
 
