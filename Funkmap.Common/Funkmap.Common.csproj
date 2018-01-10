@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IFileStorage.cs" />
     <Compile Include="Abstract\IFunkmapModule.cs" />
+    <Compile Include="Abstract\IStorage.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Models\BaseResponse.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="SignalR\UserConnection.cs" />
     <Compile Include="Tools\EntityUpdateExtension.cs" />
     <Compile Include="Tools\FunkmapImageProcessor.cs" />
+    <Compile Include="Tools\InMemoryStorage.cs" />
     <Compile Include="Tools\ModulesLoader.cs" />
   </ItemGroup>
   <ItemGroup>

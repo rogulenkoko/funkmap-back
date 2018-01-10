@@ -21,9 +21,7 @@ namespace Funkmap.Common.Redis.Autofac
                 })
                 .As<IDatabase>()
                 .SingleInstance();
-
             
-            builder.RegisterType<RedisStorage>().As<IStorage>().SingleInstance();
 
             builder.Register(container =>
                 {

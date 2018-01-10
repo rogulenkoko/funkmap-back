@@ -3,6 +3,8 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Redis;
+using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Tools;
 
 namespace Funkmap.Middleware.Modules
 {
@@ -15,6 +17,8 @@ namespace Funkmap.Middleware.Modules
 
             builder.RegisterType<InMemoryCommandBus>().As<ICommandBus>();
             builder.RegisterType<CommandHandlerResolver>().As<ICommandHandlerResolver>();
+
+            builder.RegisterType<InMemoryStorage>().As<IStorage>().SingleInstance();
         }
     }
 }
