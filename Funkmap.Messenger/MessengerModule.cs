@@ -8,10 +8,15 @@ using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data;
-using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
+using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Events.Dialogs;
+using Funkmap.Messenger.Events.Messages;
+using Funkmap.Messenger.Handlers;
 using Funkmap.Messenger.Services;
 using Funkmap.Messenger.Services.Abstract;
 using Microsoft.Azure;
@@ -44,33 +49,33 @@ namespace Funkmap.Messenger
             var dialogLastMessageDateIndexModel = new CreateIndexModel<DialogEntity>(Builders<DialogEntity>.IndexKeys.Descending(x => x.LastMessageDate));
             var messageDialogIdIndexModel = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Ascending(x => x.DialogId));
 
-            //builder.Register(container =>
-            //{
-            //    var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
-            //    //database.CreateCollection("fs.files");
-            //    //database.CreateCollection("fs.chunks");
-            //    return new GridFSBucket(database);
+            builder.Register(container =>
+            {
+                var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+                //database.CreateCollection("fs.files");
+                //database.CreateCollection("fs.chunks");
+                return new GridFSBucket(database);
 
-            //}).As<IGridFSBucket>().Named<IGridFSBucket>(storageName);
-
-            //builder.Register(container =>
-            //{
-            //    var gridFs = container.ResolveNamed<IGridFSBucket>(storageName);
-            //    return new GridFsFileStorage(gridFs);
-            //}).Named<GridFsFileStorage>(storageName);
-            //builder.Register(context => context.ResolveNamed<GridFsFileStorage>(storageName)).As<IFileStorage>().InstancePerDependency();
-
+            }).As<IGridFSBucket>().Named<IGridFSBucket>(MessengerCollectionNameProvider.MessengerStorage);
 
             builder.Register(container =>
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                return new AzureFileStorage(blobClient, MessengerCollectionNameProvider.MessengerStorage);
-            }).Keyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage).InstancePerDependency();
+                var gridFs = container.ResolveNamed<IGridFSBucket>(MessengerCollectionNameProvider.MessengerStorage);
+                return new GridFsFileStorage(gridFs);
+            }).Named<GridFsFileStorage>(MessengerCollectionNameProvider.MessengerStorage);
+            builder.Register(context => context.ResolveNamed<GridFsFileStorage>(MessengerCollectionNameProvider.MessengerStorage)).As<IFileStorage>().InstancePerDependency();
 
-            builder.Register(context => context.ResolveKeyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage))
-                .Keyed<IFileStorage>(MessengerCollectionNameProvider.MessengerStorage)
-                .InstancePerDependency();
+
+            //builder.Register(container =>
+            //{
+            //    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+            //    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            //    return new AzureFileStorage(blobClient, MessengerCollectionNameProvider.MessengerStorage);
+            //}).Keyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage).InstancePerDependency();
+
+            //builder.Register(context => context.ResolveKeyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage))
+            //    .Keyed<IFileStorage>(MessengerCollectionNameProvider.MessengerStorage)
+            //    .InstancePerDependency();
 
             builder.RegisterType<DialogRepository>().As<IDialogRepository>();
             builder.RegisterType<MessageRepository>().As<IMessageRepository>().WithAttributeFiltering();
@@ -93,6 +98,21 @@ namespace Funkmap.Messenger
             });
 
             builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance();
+
+            builder.RegisterType<DialogLastMessageEventHandler>()
+                .As<IEventHandler<MessageSavedCompleteEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+            builder.RegisterType<SignalrEventHandler>()
+                .As<IEventHandler<DialogUpdatedEvent>>()
+                .As<IEventHandler<MessageSavedCompleteEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+            
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

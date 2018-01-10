@@ -1,6 +1,6 @@
 ﻿using System;
+using Funkmap.Common.Cqrs;
 using Funkmap.Common.Redis;
-using Funkmap.Common.Redis.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Funkmap.Common.Tests

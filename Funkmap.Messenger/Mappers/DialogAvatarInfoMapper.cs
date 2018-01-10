@@ -1,5 +1,4 @@
-﻿using Funkmap.Common.Data.Mongo.Entities;
-using Funkmap.Messenger.Data.Entities;
+﻿using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Models;
 
 namespace Funkmap.Messenger.Mappers

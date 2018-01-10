@@ -10,8 +10,8 @@ namespace Funkmap.Common.Redis.Autofac
     {
         public void Register(ContainerBuilder builder)
         {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["redis-primary"]);
 
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["redis-primary"]);
             builder.RegisterInstance(redis).As<ConnectionMultiplexer>().SingleInstance().OnRelease(x => x.Dispose());
             builder.Register(container =>
                 {
@@ -22,7 +22,7 @@ namespace Funkmap.Common.Redis.Autofac
                 .As<IDatabase>()
                 .SingleInstance();
 
-            builder.RegisterType<NewtonSerializer>().As<ISerializer>();
+            
             builder.RegisterType<RedisStorage>().As<IStorage>().SingleInstance();
 
             builder.Register(container =>
@@ -33,7 +33,7 @@ namespace Funkmap.Common.Redis.Autofac
                 .As<ISubscriber>()
                 .SingleInstance();
 
-            builder.RegisterType<RedisMessageQueue>().As<IMessageQueue>().SingleInstance();
+            
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
+using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Data.Repositories.Abstract
 {

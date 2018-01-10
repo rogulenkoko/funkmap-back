@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using Funkmap.Common.SignalR.Abstract;
 
 namespace Funkmap.Messenger.Services.Abstract
@@ -8,5 +9,7 @@ namespace Funkmap.Messenger.Services.Abstract
 
         bool CheckDialogIsOpened(string login, string dialogId);
         bool SetOpenedDialog(string id, string dialogId);
+
+        ICollection<string> GetDialogParticipants(string dialogId);
     }
 }

@@ -140,6 +140,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>

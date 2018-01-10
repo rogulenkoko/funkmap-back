@@ -1,6 +1,6 @@
 ﻿using Funkmap.Common.Data.Mongo.Entities;
-using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
+using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Models;
 
 namespace Funkmap.Messenger.Mappers
@@ -14,7 +14,7 @@ namespace Funkmap.Messenger.Mappers
             {
                 DialogId = source.Id.ToString(),
                 Name = source.Name,
-                LastMessage = source.LastMessage.ToModel(),
+                LastMessage = source.LastMessage?.ToModel(),
                 Participants = source.Participants,
                 CreatorLogin = source.CreatorLogin
             };

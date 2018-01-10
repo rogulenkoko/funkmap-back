@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo.Abstract;
-using Funkmap.Messenger.Data.Entities;
-using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
+using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Data.Repositories.Abstract

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Redis.Abstract;
 using StackExchange.Redis;
 

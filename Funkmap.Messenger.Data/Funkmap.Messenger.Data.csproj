@@ -76,9 +76,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\DialogEntity.cs" />
-    <Compile Include="Entities\MessageEntity.cs" />
-    <Compile Include="Entities\MessageUnwinded.cs" />
     <Compile Include="MessengerCollectionNameProvider.cs" />
     <Compile Include="Objects\DialogsNewMessagesCountResult.cs" />
     <Compile Include="Objects\LastDialogMessageResult.cs" />
@@ -104,6 +101,10 @@
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj">
+      <Project>{16A45066-051D-487E-86AA-0D1495E482A7}</Project>
+      <Name>Funkmap.Messenger.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

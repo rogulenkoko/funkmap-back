@@ -10,5 +10,7 @@ namespace Funkmap.Common.SignalR.Abstract
         ICollection<string> GetConnectionIdsByLogins(ICollection<string> login);
         ICollection<string> GetConnectionIdsByLogin(string login);
         ICollection<string> GetOnlineUsersLogins();
+
+        string GetLoginByConnectionId(string connectionId);
     }
 }

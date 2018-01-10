@@ -156,11 +156,7 @@
     <Compile Include="Funkmap\Stress\FunkmapStressRandomSeeder.cs" />
     <Compile Include="Images\ImageProvider.cs" />
     <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
-    <Compile Include="Messenger\Data\MessengerDataSeeder.cs" />
-    <Compile Include="Messenger\Data\MessengerDbProvider.cs" />
     <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
-    <Compile Include="Messenger\DialogsRepositoryTest.cs" />
-    <Compile Include="Messenger\MessageRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

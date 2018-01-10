@@ -1,6 +1,6 @@
 ﻿using System;
-using Funkmap.Common.Redis.Abstract;
-using Funkmap.Common.Redis.Options;
+using Funkmap.Common.Cqrs;
+using Funkmap.Common.Cqrs.Abstract;
 using Newtonsoft.Json;
 
 namespace Funkmap.Common.Redis

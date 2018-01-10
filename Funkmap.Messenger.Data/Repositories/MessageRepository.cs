@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
-using Funkmap.Messenger.Data.Entities;
 using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
+using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -28,18 +28,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
         public async Task AddMessage(MessageEntity message)
         {
-            if (message.DialogId  == null || message.DialogId == ObjectId.Empty)
-            {
-                throw new ArgumentException(nameof(message.DialogId));
-            }
-
-            Parallel.ForEach(message.Content, item =>
-            {
-                var fileId = _fileStorage.UploadFromBytesAsync(item.FileName, item.FileBytes).GetAwaiter().GetResult();
-                item.FileId = fileId;
-            });
-
-            await _collection.InsertOneAsync(message);
+            
         }
 
         

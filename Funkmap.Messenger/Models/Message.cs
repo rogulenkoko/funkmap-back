@@ -1,6 +1,5 @@
-﻿
-using System;
-using Funkmap.Messenger.Data.Entities;
+﻿using System;
+using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Models
 {

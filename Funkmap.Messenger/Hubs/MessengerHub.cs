@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Hubs.Abstract;
@@ -22,48 +24,36 @@ namespace Funkmap.Messenger.Hubs
     {
         private readonly IMessengerConnectionService _connectionService;
         private readonly IDialogRepository _dialogRepository;
-        private readonly IMessageRepository _messageRepository;
+        private readonly ICommandBus _commandBus;
 
         public MessengerHub(IMessengerConnectionService connectionService,
                             IDialogRepository dialogRepository,
-                            IMessageRepository messageRepository)
+                            ICommandBus commandBus)
         {
             _connectionService = connectionService;
             _dialogRepository = dialogRepository;
-            _messageRepository = messageRepository;
+            _commandBus = commandBus;
         }
 
         [HubMethodName("sendMessage")]
-        public async Task<BaseResponse> SendMessage(Message message)
+        public BaseResponse SendMessage(Message message)
         {
             var response = new BaseResponse();
             
             try
             {
-                var dialogParticipants = await _dialogRepository.GetDialogMembers(message.DialogId);
-                var dialogParticipantsWithoutSender = dialogParticipants.Where(x => x != message.Sender).ToList();
-                    
-                var participants = dialogParticipantsWithoutSender.Where(login=> !_connectionService.CheckDialogIsOpened(login, message.DialogId)).ToList();
-                if (participants.Count == dialogParticipants.Count - 1)
+
+                var usersWithOpenedCurrentDialog = _connectionService.GetDialogParticipants(message.DialogId);
+                var command = new SaveMessageCommand()
                 {
-                    message.IsNew = true;
-                }
+                    DialogId = message.DialogId,
+                    Sender = message.Sender,
+                    Text = message.Text,
+                    Content = message.Images?.ToList(),//todo
+                    UsersWithOpenedCurrentDialog = usersWithOpenedCurrentDialog
+                };
+                _commandBus.Execute<SaveMessageCommand>(command);
                 
-                message.DateTimeUtc = DateTime.UtcNow;
-                var messageEntity = message.ToEntity(participants);
-                await _messageRepository.AddMessage(messageEntity);
-
-                _dialogRepository.UpdateLastMessageDate(
-                    new UpdateLastMessageDateParameter()
-                    {
-                        DialogId = message.DialogId,
-                        Date = messageEntity.DateTimeUtc
-                    });
-
-                var members = await _dialogRepository.GetDialogMembers(message.DialogId);
-                var clientIds = _connectionService.GetConnectionIdsByLogins(members).ToList();
-
-                Clients.Clients(clientIds).OnMessageSent(message);
                 response.Success = true;
                 return response;
             }

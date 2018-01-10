@@ -71,7 +71,7 @@ namespace Funkmap.Module.Auth.Services
                 throw new ArgumentException("empty login or email");
             }
 
-            if (_contexts.Any(x => x.Login != login))
+            if (!_contexts.Select(x=>x.Login).Contains(login))
             {
                 return false;
             }
@@ -82,7 +82,7 @@ namespace Funkmap.Module.Auth.Services
 
             var allBookedEmails = bookedDbEmails.Concat(bookedContextEmails);
 
-            if (allBookedEmails.Any(x => x == email))
+            if (!allBookedEmails.Contains(email))
             {
                 return false;
             }

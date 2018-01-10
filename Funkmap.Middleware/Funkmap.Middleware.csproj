@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunkmapMiddleware.cs" />
+    <Compile Include="Modules\CqrsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\MonolithSettings.cs" />
     <Compile Include="Settings\MonolithSettingsService.cs" />
@@ -225,6 +226,10 @@
     <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
       <Name>Funkmap.Module.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
@@ -253,6 +258,10 @@
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj">
+      <Project>{15e79617-9cda-496e-84ef-0198fea0b4b8}</Project>
+      <Name>Funkmap.Messenger.Command</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger.Data\Funkmap.Messenger.Data.csproj">
       <Project>{592d2c7a-ff06-45e5-b9ab-bf25f83815d0}</Project>

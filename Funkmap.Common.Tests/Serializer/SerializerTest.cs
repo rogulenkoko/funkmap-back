@@ -1,4 +1,5 @@
 ﻿using System;
+using Funkmap.Common.Cqrs;
 using Funkmap.Common.Redis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

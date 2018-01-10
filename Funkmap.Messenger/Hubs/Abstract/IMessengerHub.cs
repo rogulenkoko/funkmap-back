@@ -8,6 +8,7 @@ namespace Funkmap.Messenger.Hubs.Abstract
         Task OnUserConnected(string userLogin);
         Task OnUserDisconnected(string userLogin);
         Task OnMessageSent(Message message);
+        Task OnDialogUpdated(Dialog dialog);
 
         Task OnDialogRead(string dialogId);
     }

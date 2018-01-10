@@ -60,5 +60,10 @@ namespace Funkmap.Common.SignalR
         {
             return _onlineUsers.Values.Select(x => x.Login).Distinct().ToList();
         }
+
+        public string GetLoginByConnectionId(string connectionId)
+        {
+            return !_onlineUsers.ContainsKey(connectionId) ? String.Empty : _onlineUsers[connectionId].Login;
+        }
     }
 }

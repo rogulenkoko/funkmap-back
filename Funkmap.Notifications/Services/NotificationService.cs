@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Funkmap.Common.Redis.Abstract;
-using Funkmap.Common.Redis.Options;
+using Funkmap.Common.Cqrs;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;
@@ -16,24 +16,24 @@ namespace Funkmap.Notifications.Services
 {
     public class NotificationService : INotificationService
     {
-        private readonly IMessageQueue _messageQueue;
+        private readonly IEventBus _eventBus;
         private readonly INotificationRepository _notificationRepository;
         private readonly INotificationsConnectionService _connectionService;
 
-        public NotificationService(IMessageQueue messageQueue, INotificationRepository notificationRepository, INotificationsConnectionService connectionService)
+        public NotificationService(IEventBus eventBus, INotificationRepository notificationRepository, INotificationsConnectionService connectionService)
         {
-            _messageQueue = messageQueue;
+            _eventBus = eventBus;
             _notificationRepository = notificationRepository;
             _connectionService = connectionService;
         }
 
         public void InitHandlers()
         {
-            _messageQueue.Subscribe<BandInviteNotification>(Handle);
-            _messageQueue.Subscribe<BandInviteConfirmationNotification>(Handle);
+            _eventBus.Subscribe<BandInviteNotification>(Handle);
+            _eventBus.Subscribe<BandInviteConfirmationNotification>(Handle);
         }
 
-        private void Handle(NotificationBase notification)
+        public void Handle(NotificationBase notification)
         {
             var notificatinEntity = new NotificationEntity()
             {
@@ -65,7 +65,7 @@ namespace Funkmap.Notifications.Services
                 SpecificKey = answer.Notification.Type,
                 SerializerOptions = new SerializerOptions() { HasAbstractMember = true }
             };
-            _messageQueue.PublishAsync(answer, options);
+            _eventBus.PublishAsync(answer, options);
         }
     }
 }

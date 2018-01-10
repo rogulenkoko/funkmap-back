@@ -96,6 +96,7 @@ namespace Funkmap.Middleware
             Assembly.Load(typeof(Module.FunkmapModule).Assembly.FullName);
             Assembly.Load(typeof(AuthFunkmapModule).Assembly.FullName);
             Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName);
+            Assembly.Load(typeof(Messenger.Command.MessengerCommandModule).Assembly.FullName);
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(Statistics.StatisticsModule).Assembly.FullName);
 

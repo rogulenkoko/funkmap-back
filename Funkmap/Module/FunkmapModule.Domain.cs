@@ -2,6 +2,7 @@
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Redis.Abstract;
 using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Repositories;
@@ -52,7 +53,7 @@ namespace Funkmap.Module
 
             builder.RegisterType<FunkmapNotificationService>()
                 .As<IFunkmapNotificationService>()
-                .As<IMessageHandler>()
+                .As<IEventHandler>()
                 .SingleInstance()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();

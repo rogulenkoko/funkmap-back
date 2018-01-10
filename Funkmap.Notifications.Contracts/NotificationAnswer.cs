@@ -1,6 +1,4 @@
-﻿
-using System;
-using Funkmap.Notifications.Contracts.Abstract;
+﻿using Funkmap.Notifications.Contracts.Abstract;
 
 namespace Funkmap.Notifications.Contracts
 {

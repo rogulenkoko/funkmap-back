@@ -1,6 +1,6 @@
-﻿using Funkmap.Common.Logger;
-using Funkmap.Common.Redis.Abstract;
-using Funkmap.Common.Redis.Options;
+﻿using Funkmap.Common.Cqrs;
+using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Common.Logger;
 using Funkmap.Models.Requests;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Specific;
@@ -11,15 +11,15 @@ namespace Funkmap.Services
 {
     public class FunkmapNotificationService : IFunkmapNotificationService
     {
-        private readonly IMessageQueue _messageQueue;
+        private readonly IEventBus _eventBus;
         private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
         private readonly IDependenciesController _dependenciesController;
 
-        public FunkmapNotificationService(IMessageQueue messageQueue,
+        public FunkmapNotificationService(IEventBus eventBus,
                                           IDependenciesController dependenciesController,
                                           IFunkmapLogger<FunkmapNotificationService> logger)
         {
-            _messageQueue = messageQueue;
+            _eventBus = eventBus;
             _logger = logger;
             _dependenciesController = dependenciesController;
         }
@@ -31,10 +31,10 @@ namespace Funkmap.Services
                 SpecificKey = NotificationType.BandInvite,
                 SerializerOptions = new SerializerOptions() { HasAbstractMember = true }
             };
-            _messageQueue.Subscribe<NotificationAnswer>(OnBandInviteAnswered, options);
+            _eventBus.Subscribe<NotificationAnswer>(Handle, options);
         }
 
-        private void OnBandInviteAnswered(NotificationAnswer request)
+        public void Handle(NotificationAnswer request)
         {
             var inviteRequest = request.Notification as BandInviteNotification;
             if (inviteRequest == null)
@@ -65,12 +65,12 @@ namespace Funkmap.Services
 
         public void NotifyBandInvite(BandInviteNotification notification)
         {
-            _messageQueue.PublishAsync(notification);
+            _eventBus.PublishAsync(notification);
         }
 
         public void ConfirmBandInvite(BandInviteConfirmationNotification notification)
         {
-            _messageQueue.PublishAsync(notification);
+            _eventBus.PublishAsync(notification);
         }
     }
 }

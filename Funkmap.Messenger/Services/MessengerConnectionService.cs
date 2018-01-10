@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Common.SignalR;
 using Funkmap.Messenger.Services.Abstract;
 
@@ -21,6 +22,11 @@ namespace Funkmap.Messenger.Services
                 return true;
             }
             return false;
+        }
+
+        public ICollection<string> GetDialogParticipants(string dialogId)
+        {
+            return _onlineUsers.Where(x => x.Value.OpenedDialogId == dialogId).Select(x => x.Value.Login).ToList();
         }
     }
 }
