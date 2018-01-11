@@ -23,8 +23,7 @@ namespace Funkmap.Messenger.Data.Repositories
 
         public override async Task<DialogEntity> GetAsync(string id)
         {
-            var projection = Builders<DialogEntity>.Projection.Exclude(x => x.Avatar);
-            var dialog = await _collection.Find(x => x.Id == new ObjectId(id)).Project<DialogEntity>(projection).SingleOrDefaultAsync();
+            var dialog = await _collection.Find(x => x.Id == new ObjectId(id)).SingleOrDefaultAsync();
             return dialog;
 
         }

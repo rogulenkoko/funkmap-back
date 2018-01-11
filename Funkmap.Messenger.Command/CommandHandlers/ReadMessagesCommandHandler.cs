@@ -11,10 +11,10 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class ReadMessagesCommandHandler : ICommandHandler<ReadMessagesCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<SaveMessageCommandHandler> _logger;
+        private readonly IFunkmapLogger<ReadMessagesCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public ReadMessagesCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<SaveMessageCommandHandler> logger, IEventBus eventBus)
+        public ReadMessagesCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<ReadMessagesCommandHandler> logger, IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
             _logger = logger;
@@ -31,9 +31,9 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
             try
             {
-                await _messengerRepository.MakeDialogMessagesRead(command.DialogId, command.UserLogin, command.ReadTime);
+                await _messengerRepository.MakeDialogMessagesReadAsync(command.DialogId, command.UserLogin, command.ReadTime);
 
-                var dialogMembers = await _messengerRepository.GetDialogMembers(command.DialogId);
+                var dialogMembers = await _messengerRepository.GetDialogMembersAsync(command.DialogId);
                 await _eventBus.PublishAsync(new MessagesReadEvent()
                 {
                     DialogId = command.DialogId,

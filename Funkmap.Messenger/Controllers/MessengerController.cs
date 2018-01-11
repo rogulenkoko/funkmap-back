@@ -7,7 +7,6 @@ using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
-using Funkmap.Common.Models;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Data.Parameters;
@@ -149,60 +148,13 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("leaveDialog")]
-        public async Task<IHttpActionResult> LeaveDialog(LeaveDialogRequest request)
+        public IHttpActionResult LeaveDialog(LeaveDialogRequest request)
         {
             var userLogin = Request.GetLogin();
 
-            var dialog = await _dialogRepository.GetAsync(request.DialogId);
+            _commandBus.Execute(new LeaveDialogCommand(request.DialogId, request.Login, userLogin));
 
-            if (dialog.CreatorLogin != userLogin && userLogin != request.Login) return BadRequest("you can't do it");
-
-            if ((dialog.CreatorLogin == userLogin) || (userLogin == request.Login))
-            {
-                if (dialog.Participants.Any() && dialog.Participants.Contains(request.Login))
-                {
-                    dialog.Participants.Remove(request.Login);
-                    await _dialogRepository.UpdateAsync(dialog);
-
-                    var now = DateTime.UtcNow;
-
-                    MessageEntity message;
-
-                    if (dialog.CreatorLogin == userLogin && userLogin != request.Login)
-                    {
-                        message = new MessageEntity()
-                        {
-                            DateTimeUtc = now,
-                            DialogId = dialog.Id,
-                            ToParticipants = dialog.Participants,
-                            Sender = "",
-                            Text = $"{userLogin} исключил {request.Login} из беседы"
-                        };
-                    }
-                    else
-                    {
-                        message = new MessageEntity()
-                        {
-                            DateTimeUtc = now,
-                            DialogId = dialog.Id,
-                            ToParticipants = dialog.Participants,
-                            Sender = "",
-                            Text = $"{userLogin} покинул беседу"
-                        };
-
-                        dialog.LastMessage = message;
-                    }
-
-                    await _messageRepository.AddMessage(message);
-
-
-
-                    return Ok(new DialogResponse() { Success = true, Dialog = dialog.ToModel(userLogin)});
-                }
-            }
-
-
-            return Ok(new DialogResponse() { Success = false });
+            return Ok(new DialogResponse() { Success = true });
 
         }
 

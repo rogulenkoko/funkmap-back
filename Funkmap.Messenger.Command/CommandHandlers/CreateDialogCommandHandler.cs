@@ -13,10 +13,10 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class CreateDialogCommandHandler : ICommandHandler<CreateDialogCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<SaveMessageCommandHandler> _logger;
+        private readonly IFunkmapLogger<CreateDialogCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public CreateDialogCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<SaveMessageCommandHandler> logger, IEventBus eventBus)
+        public CreateDialogCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<CreateDialogCommandHandler> logger, IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
             _logger = logger;
@@ -54,7 +54,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     Participants = command.Participants
                 };
 
-                await _messengerRepository.AddDialog(dialog);
+                await _messengerRepository.AddDialogAsync(dialog);
                 await _eventBus.PublishAsync(new DialogCreatedEvent() {Dialog = dialog});
             }
             catch (InvalidDataException e)

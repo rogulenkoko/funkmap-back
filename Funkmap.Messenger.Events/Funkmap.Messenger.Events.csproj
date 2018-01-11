@@ -43,6 +43,7 @@
     <Compile Include="Dialogs\DialogCreatedEvent.cs" />
     <Compile Include="Dialogs\DialogCreationFailedEvent.cs" />
     <Compile Include="Dialogs\DialogUpdatedEvent.cs" />
+    <Compile Include="Dialogs\UserLeavedDialogEvent.cs" />
     <Compile Include="Messages\MessageSavedCompleteEvent.cs" />
     <Compile Include="Messages\MessageSavedFailEvent.cs" />
     <Compile Include="Messages\MessagesReadEvent.cs" />

@@ -11,11 +11,13 @@ namespace Funkmap.Messenger.Command.Repositories
 {
     internal interface IMessengerCommandRepository
     {
-        Task<ICollection<string>> GetDialogMembers(string dialogId);
-        Task AddMessage(MessageEntity message);
-        Task AddDialog(DialogEntity dialog);
-        Task<DialogEntity> UpdateLastMessageDate(string dialogId, DateTime lastMessageDateTime);
-        Task MakeDialogMessagesRead(string dialogId, string login, DateTime readTime);
+        Task<DialogEntity> GetDialogAsync(string id);
+        Task UpdateDialogAsync(DialogEntity dialog);
+        Task<ICollection<string>> GetDialogMembersAsync(string dialogId);
+        Task AddMessageAsync(MessageEntity message);
+        Task AddDialogAsync(DialogEntity dialog);
+        Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime);
+        Task MakeDialogMessagesReadAsync(string dialogId, string login, DateTime readTime);
     }
 
     internal class MessengerCommandRepository : IMessengerCommandRepository
@@ -34,7 +36,20 @@ namespace Funkmap.Messenger.Command.Repositories
             _fileStorage = fileStorage;
         }
 
-        public async Task<ICollection<string>> GetDialogMembers(string dialogId)
+        public async Task<DialogEntity> GetDialogAsync(string id)
+        {
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, new ObjectId(id));
+            var dialog = await _dialogCollection.Find(filter).SingleOrDefaultAsync();
+            return dialog;
+        }
+
+        public async Task UpdateDialogAsync(DialogEntity dialog)
+        {
+            var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, dialog.Id);
+            await _dialogCollection.ReplaceOneAsync(filter, dialog);
+        }
+
+        public async Task<ICollection<string>> GetDialogMembersAsync(string dialogId)
         {
             var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, new ObjectId(dialogId));
             var projection = Builders<DialogEntity>.Projection.Include(x => x.Participants);
@@ -43,7 +58,7 @@ namespace Funkmap.Messenger.Command.Repositories
             return members;
         }
 
-        public async Task AddMessage(MessageEntity message)
+        public async Task AddMessageAsync(MessageEntity message)
         {
             if (message.Content != null && message.Content.Count > 0)
             {
@@ -58,12 +73,12 @@ namespace Funkmap.Messenger.Command.Repositories
             await _messagesCollection.InsertOneAsync(message);
         }
 
-        public async Task AddDialog(DialogEntity dialog)
+        public async Task AddDialogAsync(DialogEntity dialog)
         {
             await _dialogCollection.InsertOneAsync(dialog);
         }
 
-        public async Task<DialogEntity> UpdateLastMessageDate(string dialogId, DateTime lastMessageDateTime)
+        public async Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime)
         {
             if (String.IsNullOrEmpty(dialogId)) throw new ArgumentException(nameof(dialogId));
             if (lastMessageDateTime == DateTime.MinValue) throw new ArgumentException(nameof(lastMessageDateTime));
@@ -73,7 +88,7 @@ namespace Funkmap.Messenger.Command.Repositories
             return dialog;
         }
 
-        public async Task MakeDialogMessagesRead(string dialogId, string login, DateTime readTime)
+        public async Task MakeDialogMessagesReadAsync(string dialogId, string login, DateTime readTime)
         {
             var readFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, login)
                              & Builders<MessageEntity>.Filter.Lte(x => x.DateTimeUtc, readTime)

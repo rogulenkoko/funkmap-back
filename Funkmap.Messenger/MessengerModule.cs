@@ -115,11 +115,19 @@ namespace Funkmap.Messenger
             builder.RegisterType<SignalrEventHandler>()
                 .As<IEventHandler<DialogUpdatedEvent>>()
                 .As<IEventHandler<MessageSavedCompleteEvent>>()
+                .As<IEventHandler<MessagesReadEvent>>()
+                .As<IEventHandler<DialogCreatedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
 
-            
+            builder.RegisterType<UserLeavedDialogEventHandler>()
+                .As<IEventHandler<UserLeavedDialogEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

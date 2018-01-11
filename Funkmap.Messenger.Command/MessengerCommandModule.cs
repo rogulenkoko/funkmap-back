@@ -14,8 +14,9 @@ namespace Funkmap.Messenger.Command
             builder.RegisterType<MessengerCommandRepository>().As<IMessengerCommandRepository>();
             builder.RegisterType<DialogLastMessageCommandHandler>().As<ICommandHandler<UpdateDialogLastMessageCommand>>();
             builder.RegisterType<SaveMessageCommandHandler>().As<ICommandHandler<SaveMessageCommand>>(); 
-            builder.RegisterType<ReadMessagesCommandHandler>().As<ICommandHandler<ReadMessagesCommand>>();
+            builder.RegisterType<ReadMessagesCommandHandler>().As<ICommandHandler<ReadMessagesCommand>>(); 
             builder.RegisterType<CreateDialogCommandHandler>().As<ICommandHandler<CreateDialogCommand>>();
+            builder.RegisterType<LeaveDialogCommandHandler>().As<ICommandHandler<LeaveDialogCommand>>();
         }
     }
 }

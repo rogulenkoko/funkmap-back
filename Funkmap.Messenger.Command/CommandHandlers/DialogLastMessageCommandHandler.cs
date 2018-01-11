@@ -11,10 +11,12 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class DialogLastMessageCommandHandler : ICommandHandler<UpdateDialogLastMessageCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<SaveMessageCommandHandler> _logger;
+        private readonly IFunkmapLogger<DialogLastMessageCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public DialogLastMessageCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<SaveMessageCommandHandler> logger, IEventBus eventBus)
+        public DialogLastMessageCommandHandler(IMessengerCommandRepository messengerRepository, 
+                                               IFunkmapLogger<DialogLastMessageCommandHandler> logger, 
+                                               IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
             _logger = logger;
@@ -31,7 +33,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
             try
             {
-                var dialog = await _messengerRepository.UpdateLastMessageDate(command.DialogId, command.Message.DateTimeUtc);
+                var dialog = await _messengerRepository.UpdateLastMessageDateAsync(command.DialogId, command.Message.DateTimeUtc);
                 dialog.LastMessage = command.Message;
                 await _eventBus.PublishAsync(new DialogUpdatedEvent() { Dialog = dialog });
             }

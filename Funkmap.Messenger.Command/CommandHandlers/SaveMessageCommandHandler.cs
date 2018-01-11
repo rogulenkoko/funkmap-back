@@ -45,7 +45,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     throw new InvalidDataException("Invalid new message's content");
                 }
 
-                var dialogParticipants = await _messengerRepository.GetDialogMembers(command.DialogId);
+                var dialogParticipants = await _messengerRepository.GetDialogMembersAsync(command.DialogId);
 
                 if (!dialogParticipants.Contains(command.Sender) && command.Sender != FunkmapConstants.FunkmalAdminUser)
                 {
@@ -53,7 +53,11 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                 }
                 var participants = dialogParticipants.Where(x => x != command.Sender).ToList();
 
-                var isRead = command.UsersWithOpenedCurrentDialog.Any(x => x != command.Sender);
+                var isRead = command.UsersWithOpenedCurrentDialog != null && command.UsersWithOpenedCurrentDialog.Any(x => x != command.Sender);
+
+                var messsageParticipants = command.UsersWithOpenedCurrentDialog == null
+                    ? participants
+                    : participants.Except(command.UsersWithOpenedCurrentDialog).ToList();
 
                 var message = new MessageEntity()
                 {
@@ -63,10 +67,10 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     DialogId = new ObjectId(command.DialogId),
                     IsRead = isRead,
                     Text = command.Text,
-                    ToParticipants = participants.Except(command.UsersWithOpenedCurrentDialog).ToList()
+                    ToParticipants = messsageParticipants
                 };
 
-                await _messengerRepository.AddMessage(message);
+                await _messengerRepository.AddMessageAsync(message);
                 await _eventBus.PublishAsync(new MessageSavedCompleteEvent()
                 {
                     Success = true,
