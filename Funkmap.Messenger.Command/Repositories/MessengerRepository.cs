@@ -13,6 +13,7 @@ namespace Funkmap.Messenger.Command.Repositories
     {
         Task<ICollection<string>> GetDialogMembers(string dialogId);
         Task AddMessage(MessageEntity message);
+        Task AddDialog(DialogEntity dialog);
         Task<DialogEntity> UpdateLastMessageDate(string dialogId, DateTime lastMessageDateTime);
         Task MakeDialogMessagesRead(string dialogId, string login, DateTime readTime);
     }
@@ -55,6 +56,11 @@ namespace Funkmap.Messenger.Command.Repositories
             
 
             await _messagesCollection.InsertOneAsync(message);
+        }
+
+        public async Task AddDialog(DialogEntity dialog)
+        {
+            await _dialogCollection.InsertOneAsync(dialog);
         }
 
         public async Task<DialogEntity> UpdateLastMessageDate(string dialogId, DateTime lastMessageDateTime)

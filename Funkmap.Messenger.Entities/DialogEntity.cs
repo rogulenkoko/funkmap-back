@@ -20,10 +20,10 @@ namespace Funkmap.Messenger.Entities
         public List<string> Participants { get; set; }
 
         [BsonElement("lmd")]
+        [BsonIgnoreIfDefault]
         public DateTime LastMessageDate { get; set; }
 
         [BsonElement("c")]
-        [BsonIgnoreIfDefault]
         public string CreatorLogin { get; set; }
 
         [BsonIgnore]

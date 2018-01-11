@@ -104,6 +104,7 @@
     <Compile Include="SignalR\ConnectionService.cs" />
     <Compile Include="SignalR\UserConnection.cs" />
     <Compile Include="Tools\EntityUpdateExtension.cs" />
+    <Compile Include="Tools\FunkmapConstants.cs" />
     <Compile Include="Tools\FunkmapImageProcessor.cs" />
     <Compile Include="Tools\InMemoryStorage.cs" />
     <Compile Include="Tools\ModulesLoader.cs" />

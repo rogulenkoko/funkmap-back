@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Auth.Contracts.Models;
 using Funkmap.Common.Auth;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Common.Tools;
+using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Entities;
@@ -16,7 +17,6 @@ using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Models.Responses;
-using Funkmap.Messenger.Services;
 using Funkmap.Messenger.Services.Abstract;
 using Funkmap.Tools;
 
@@ -28,16 +28,19 @@ namespace Funkmap.Messenger.Controllers
     {
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessageRepository _messageRepository;
+        private readonly ICommandBus _commandBus;
 
         private readonly IMessengerConnectionService _messengerConnection;
 
         public MessengerController(IDialogRepository dialogRepository,
                                    IMessageRepository messageRepository,
-                                   IMessengerConnectionService messengerConnection)
+                                   IMessengerConnectionService messengerConnection,
+                                   ICommandBus commandBus)
         {
             _dialogRepository = dialogRepository;
             _messengerConnection = messengerConnection;
             _messageRepository = messageRepository;
+            _commandBus = commandBus;
         }
 
         [HttpGet]
@@ -77,61 +80,19 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("createDialog")]
-        public async Task<IHttpActionResult> CreateDialog(Dialog dialog)
+        public IHttpActionResult CreateDialog(Dialog dialog)
         {
-            if (dialog.Participants == null || dialog.Participants.Count == 0) return BadRequest("Invalid parameter");
-
             var login = Request.GetLogin();
-            if (!dialog.Participants.Contains(login))
+            var command = new CreateDialogCommand()
             {
-                dialog.Participants.Add(login);
-            }
-
-            var now = DateTime.UtcNow;
-
-
-
-            DialogEntity dialogEntity = dialog.ToEntity();
-            dialogEntity.LastMessageDate = now;
-
-
-            if (dialogEntity.Participants.Count == 2)
-            {
-                var isExist = await _dialogRepository.CheckDialogExist(dialogEntity.Participants);
-                if (isExist) return Ok(new DialogResponse() { Success = false });
-            }
-
-            if (dialog.Participants.Count > 2)
-            {
-                dialogEntity.CreatorLogin = login;
-            }
-
-            var id = await _dialogRepository.CreateAndGetIdAsync(dialogEntity);
-
-            dialogEntity.Id = id;
-
-            var response = new DialogResponse()
-            {
-                Success = true,
-                Dialog = dialogEntity.ToModel(login)
+                Participants = dialog.Participants,
+                CreatorLogin = login,
+                DialogName = dialog.Name
             };
 
-            if (dialog.Participants.Count > 2)
-            {
-                var message = new MessageEntity()
-                {
-                    DateTimeUtc = now,
-                    DialogId = id,
-                    Sender = "",
-                    IsRead = false,
-                    ToParticipants = dialog.Participants,
-                    Text = $"{login} создал беседу {dialog.Name} из {dialog.Participants.Count} участников" //todo подумать о локализации
-                };
-                await _messageRepository.AddMessage(message);
-                response.Dialog.LastMessage = message.ToModel();
-            }
+            _commandBus.Execute(command);
 
-            return Ok(response);
+            return Ok(new DialogResponse() {Success = true});
         }
 
         [HttpPost]

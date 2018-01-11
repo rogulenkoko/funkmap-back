@@ -1,10 +1,8 @@
-﻿
-using Funkmap.Common.Cqrs.Abstract;
+﻿using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Events.Messages;
 
-namespace Funkmap.Messenger.Handlers
+namespace Funkmap.Messenger.Command.EventHandlers
 {
     public class DialogLastMessageEventHandler : IEventHandler<MessageSavedCompleteEvent>
     {

@@ -13,7 +13,8 @@ namespace Funkmap.Messenger.Handlers
 {
     public class SignalrEventHandler : IEventHandler<DialogUpdatedEvent>, 
                                        IEventHandler<MessageSavedCompleteEvent>, 
-                                       IEventHandler<MessagesReadEvent>
+                                       IEventHandler<MessagesReadEvent>,
+                                       IEventHandler<DialogCreatedEvent>
     {
         private readonly IEventBus _eventBus;
         private readonly IMessengerConnectionService _connectionService;
@@ -23,12 +24,13 @@ namespace Funkmap.Messenger.Handlers
             _eventBus = eventBus;
             _connectionService = connectionService;
         }
-        
+
         public void InitHandlers()
         {
             _eventBus.Subscribe<DialogUpdatedEvent>(Handle);
             _eventBus.Subscribe<MessageSavedCompleteEvent>(Handle);
             _eventBus.Subscribe<MessagesReadEvent>(Handle);
+            _eventBus.Subscribe<DialogCreatedEvent>(Handle);
         }
 
         public void Handle(MessageSavedCompleteEvent @event)
@@ -41,6 +43,20 @@ namespace Funkmap.Messenger.Handlers
                 GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
                     .Clients.Clients(connectionId.ToList())
                     .OnMessageSent(message);
+            });
+        }
+
+        public void Handle(DialogCreatedEvent @event)
+        {
+            var clientIds = _connectionService.GetConnectionIdsByLogins(@event.Dialog.Participants).ToList();
+
+            clientIds.ForEach(clientId =>
+            {
+                var login = _connectionService.GetLoginByConnectionId(clientId);
+                var dialog = @event.Dialog.ToModel(login);
+                GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+                    .Clients.Client(clientId)
+                    .OnDialogCreated(dialog);
             });
         }
 
@@ -67,3 +83,4 @@ namespace Funkmap.Messenger.Handlers
         }
     }
 }
+

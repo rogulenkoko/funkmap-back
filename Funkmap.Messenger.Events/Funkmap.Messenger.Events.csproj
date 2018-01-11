@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\DialogCreatedEvent.cs" />
+    <Compile Include="Dialogs\DialogCreationFailedEvent.cs" />
     <Compile Include="Dialogs\DialogUpdatedEvent.cs" />
     <Compile Include="Messages\MessageSavedCompleteEvent.cs" />
     <Compile Include="Messages\MessageSavedFailEvent.cs" />

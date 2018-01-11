@@ -6,7 +6,7 @@ using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Command.Repositories;
 using Funkmap.Messenger.Events.Dialogs;
 
-namespace Funkmap.Messenger.Command.Handlers
+namespace Funkmap.Messenger.Command.CommandHandlers
 {
     internal class DialogLastMessageCommandHandler : ICommandHandler<UpdateDialogLastMessageCommand>
     {

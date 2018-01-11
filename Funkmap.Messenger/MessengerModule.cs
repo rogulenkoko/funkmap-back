@@ -10,6 +10,7 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Data.Mongo;
+using Funkmap.Messenger.Command.EventHandlers;
 using Funkmap.Messenger.Data;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
@@ -97,10 +98,16 @@ namespace Funkmap.Messenger
                 });
             });
 
-            builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance();
+            builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance(); 
 
             builder.RegisterType<DialogLastMessageEventHandler>()
                 .As<IEventHandler<MessageSavedCompleteEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+            builder.RegisterType<DialogCreatedEventHandler>()
+                .As<IEventHandler<DialogCreatedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();

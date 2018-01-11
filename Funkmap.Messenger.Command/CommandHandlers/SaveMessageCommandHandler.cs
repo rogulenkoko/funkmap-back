@@ -3,14 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Messenger.Command.Commands;
 using Funkmap.Common.Logger;
+using Funkmap.Common.Tools;
+using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Command.Repositories;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Events.Messages;
 using MongoDB.Bson;
 
-namespace Funkmap.Messenger.Command.Handlers
+namespace Funkmap.Messenger.Command.CommandHandlers
 {
     internal class SaveMessageCommandHandler : ICommandHandler<SaveMessageCommand>
     {
@@ -46,7 +47,7 @@ namespace Funkmap.Messenger.Command.Handlers
 
                 var dialogParticipants = await _messengerRepository.GetDialogMembers(command.DialogId);
 
-                if (!dialogParticipants.Contains(command.Sender))
+                if (!dialogParticipants.Contains(command.Sender) && command.Sender != FunkmapConstants.FunkmalAdminUser)
                 {
                     throw new InvalidDataException($"{command.Sender} is not member of the dialog with id {command}");
                 }

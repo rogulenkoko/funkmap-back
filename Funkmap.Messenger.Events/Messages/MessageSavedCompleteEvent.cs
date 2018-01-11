@@ -7,7 +7,6 @@ namespace Funkmap.Messenger.Events.Messages
     {
         public bool Success { get; set; }
         public MessageEntity Message { get; set; }
-
         public List<string> DialogParticipants { get; set; }
     }
 }
