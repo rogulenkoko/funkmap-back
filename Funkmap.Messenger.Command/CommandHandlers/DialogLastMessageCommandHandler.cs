@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
@@ -14,8 +15,8 @@ namespace Funkmap.Messenger.Command.CommandHandlers
         private readonly IFunkmapLogger<DialogLastMessageCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public DialogLastMessageCommandHandler(IMessengerCommandRepository messengerRepository, 
-                                               IFunkmapLogger<DialogLastMessageCommandHandler> logger, 
+        public DialogLastMessageCommandHandler(IMessengerCommandRepository messengerRepository,
+                                               IFunkmapLogger<DialogLastMessageCommandHandler> logger,
                                                IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
@@ -25,23 +26,26 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
         public async Task Execute(UpdateDialogLastMessageCommand command)
         {
-            if (String.IsNullOrEmpty(command.DialogId))
-            {
-                _logger.Info("Command validation failed");
-                return;
-            }
-
             try
             {
+                if (String.IsNullOrEmpty(command.DialogId))
+                {
+                    throw new InvalidDataException("Command validation failed");
+                }
+                
                 var dialog = await _messengerRepository.UpdateLastMessageDateAsync(command.DialogId, command.Message.DateTimeUtc);
                 dialog.LastMessage = command.Message;
-                await _eventBus.PublishAsync(new DialogUpdatedEvent() { Dialog = dialog });
+                await _eventBus.PublishAsync(new DialogUpdatedEvent() {Dialog = dialog});
             }
-            catch(Exception ex)
+            catch (InvalidDataException ex)
+            {
+                _logger.Error(ex, "Validation failed");
+            }
+            catch (Exception ex)
             {
                 _logger.Error(ex, "Dialog update failed");
             }
-            
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
@@ -24,30 +25,40 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
         public async Task Execute(LeaveDialogCommand command)
         {
-            if (String.IsNullOrEmpty(command.DialogId))
+            try
             {
-                return;
+                if (String.IsNullOrEmpty(command.DialogId))
+                {
+                    throw new InvalidDataException("Invalid dialog id");
+                }
+
+                var dialog = await _messengerRepository.GetDialogAsync(command.DialogId);
+
+                if (dialog.CreatorLogin != command.UserLogin && command.UserLogin != command.LeavedUserLogin)
+                {
+                    throw new InvalidDataException($"{command.UserLogin} can't remove {command.LeavedUserLogin} from dialog {command.DialogId}");
+                }
+
+                if (!dialog.Participants.Contains(command.LeavedUserLogin))
+                {
+                    throw new InvalidDataException($"{command.LeavedUserLogin} is not a member of dialog {command.DialogId}");
+                }
+
+                dialog.Participants.Remove(command.LeavedUserLogin);
+                await _messengerRepository.UpdateDialogAsync(dialog);
+
+                await _eventBus.PublishAsync(new UserLeavedDialogEvent(dialog.Id.ToString(), command.LeavedUserLogin,
+                    command.UserLogin, dialog.CreatorLogin));
             }
-
-            var dialog = await _messengerRepository.GetDialogAsync(command.DialogId);
-
-            if (dialog.CreatorLogin != command.UserLogin && command.UserLogin != command.LeavedUserLogin)
+            catch (InvalidDataException ex)
             {
-                _logger.Info($"{command.UserLogin} can't remove {command.LeavedUserLogin} from dialog {command.DialogId}");
-                return;
+                _logger.Error(ex, "Validation failed");
             }
-
-            if (!dialog.Participants.Contains(command.LeavedUserLogin))
+            catch (Exception e)
             {
-                _logger.Info($"{command.LeavedUserLogin} is not a member of dialog {command.DialogId}");
-                return;
+                _logger.Error(e);
             }
-
-            dialog.Participants.Remove(command.LeavedUserLogin);
-            await _messengerRepository.UpdateDialogAsync(dialog);
-
-            await _eventBus.PublishAsync(new UserLeavedDialogEvent(dialog.Id.ToString(), command.LeavedUserLogin,
-                command.UserLogin, dialog.CreatorLogin));
+            
 
         }
     }

@@ -64,8 +64,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\InviteParticipantsCommandHandler.cs" />
     <Compile Include="CommandHandlers\LeaveDialogCommandHandler.cs" />
     <Compile Include="Commands\CreateDialogCommand.cs" />
+    <Compile Include="Commands\InviteParticipantsCommand.cs" />
     <Compile Include="Commands\LeaveDialogCommand.cs" />
     <Compile Include="Commands\ReadMessagesCommand.cs" />
     <Compile Include="Commands\SaveMessageCommand.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="CommandHandlers\SaveMessageCommandHandler.cs" />
     <Compile Include="EventHandlers\DialogCreatedEventHandler.cs" />
     <Compile Include="EventHandlers\DialogLastMessageEventHandler.cs" />
+    <Compile Include="EventHandlers\UserInvitedToDialogEventHandler.cs" />
     <Compile Include="EventHandlers\UserLeavedDialogEventHandler.cs" />
     <Compile Include="MessengerCollectionNameProvider.cs" />
     <Compile Include="MessengerCommandModule.cs" />

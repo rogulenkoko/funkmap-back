@@ -7,6 +7,7 @@ using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
+using Funkmap.Common.Models;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Data.Parameters;
@@ -96,6 +97,16 @@ namespace Funkmap.Messenger.Controllers
 
         [HttpPost]
         [Authorize]
+        [Route("inviteParticipants")]
+        public IHttpActionResult InviteParticipants(InviteParticipantsRequest request)
+        {
+            var login = Request.GetLogin();
+            _commandBus.Execute(new InviteParticipantsCommand(login, request.InvitedUserLogins, request.DialogId));
+            return Ok(new BaseResponse() {Success = true});
+        }
+
+        [HttpPost]
+        [Authorize]
         [Route("updateDialog")]
         public async Task<IHttpActionResult> UpdateDialog(Dialog dialog)
         {
@@ -110,32 +121,12 @@ namespace Funkmap.Messenger.Controllers
                 Dialog = exsitingDialog.ToModel(login)
             };
 
-            var now = DateTime.UtcNow;
-
             var newDialogEntity = dialog.ToEntity();
 
             if (newDialogEntity.Avatar != null)
             {
                 var cutted = FunkmapImageProcessor.MinifyImage(newDialogEntity.Avatar.Image.AsByteArray);
                 newDialogEntity.Avatar.Image = cutted;
-            }
-
-            if (newDialogEntity.Participants != null && newDialogEntity.Participants.Except(exsitingDialog.Participants).Any())
-            {
-                var addedParticipants = newDialogEntity.Participants.Except(exsitingDialog.Participants).ToList();
-                exsitingDialog.LastMessageDate = now;
-                string addedParticipantsString = addedParticipants.Count == 1 ? addedParticipants.First() : String.Join(", ", addedParticipants);
-                var message = new MessageEntity()
-                {
-                    DateTimeUtc = now,
-                    DialogId = exsitingDialog.Id,
-                    Sender = "",
-                    IsRead = false,
-                    ToParticipants = exsitingDialog.Participants.Except(new List<string>() { login }).ToList(),
-                    Text = $"{login} пригласил {addedParticipantsString}"//todo подумать о локализации
-                };
-                await _messageRepository.AddMessage(message);
-                response.Dialog.LastMessage = message.ToModel();
             }
 
             exsitingDialog = exsitingDialog.FillEntity(newDialogEntity);

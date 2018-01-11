@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
@@ -23,14 +24,14 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
         public async Task Execute(ReadMessagesCommand command)
         {
-            if (String.IsNullOrEmpty(command.DialogId) || String.IsNullOrEmpty(command.UserLogin) || command.ReadTime == DateTime.MinValue)
-            {
-                _logger.Info("Command validation failed");
-                return;
-            }
-
             try
             {
+                if (String.IsNullOrEmpty(command.DialogId) || String.IsNullOrEmpty(command.UserLogin) || command.ReadTime == DateTime.MinValue)
+                {
+                    throw new InvalidDataException("Command validation failed");
+                }
+
+
                 await _messengerRepository.MakeDialogMessagesReadAsync(command.DialogId, command.UserLogin, command.ReadTime);
 
                 var dialogMembers = await _messengerRepository.GetDialogMembersAsync(command.DialogId);
@@ -41,6 +42,10 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     UserLogin = command.UserLogin,
                     DialogMembers = dialogMembers
                 });
+            }
+            catch (InvalidDataException ex)
+            {
+                _logger.Error(ex, "Validation failed");
             }
             catch (Exception e)
             {

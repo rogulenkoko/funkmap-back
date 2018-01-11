@@ -119,10 +119,16 @@ namespace Funkmap.Messenger
                 .As<IEventHandler<DialogCreatedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
-                .AutoActivate();
+                .AutoActivate(); 
 
             builder.RegisterType<UserLeavedDialogEventHandler>()
                 .As<IEventHandler<UserLeavedDialogEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+            builder.RegisterType<UserInvitedToDialogEventHandler>()
+                .As<IEventHandler<UserInvitedToDialogEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
