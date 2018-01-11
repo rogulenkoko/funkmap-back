@@ -18,6 +18,8 @@ namespace Funkmap.Middleware.Modules
             builder.RegisterType<InMemoryCommandBus>().As<ICommandBus>();
             builder.RegisterType<CommandHandlerResolver>().As<ICommandHandlerResolver>();
 
+            builder.RegisterType<QueryContext>().As<IQueryContext>();
+
             builder.RegisterType<InMemoryStorage>().As<IStorage>().SingleInstance();
         }
     }

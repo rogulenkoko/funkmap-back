@@ -28,37 +28,6 @@ namespace Funkmap.Messenger.Data.Repositories
 
         }
 
-        public async Task<ICollection<DialogEntity>> GetUserDialogsAsync(string login)
-        {
-
-            //db.dialogs.aggregate(
-            //    [{$match: { _id: ObjectId("5a304763208c10408cac622e")} },
-            //{$lookup: { from: "messages", localField: "_id", foreignField: "d", as: "mes" } },
-            //{$project: { _id: 1, message: { $arrayElemAt: ["$mes", 0] } } }
-            //])
-
-            var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, login);
-
-            var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
-
-            var dialogs = await _collection.Aggregate()
-                .Match(filter)
-                .Lookup<DialogEntity, MessageEntity, DialogLookup>(_messagesCollection, x => x.Id, x => x.DialogId, result => result.LastMessages)
-                .Project(x => new DialogEntity()
-                {
-                    Id = x.Id,
-                    LastMessage = x.LastMessages.Last(),
-                    Name = x.Name,
-                    Participants = x.Participants,
-                    LastMessageDate = x.LastMessageDate,
-                    CreatorLogin = x.CreatorLogin
-                })
-                .Sort(sortFilter)
-                .ToListAsync();
-
-            return dialogs;
-        }
-
         public async Task<ICollection<DialogEntity>> GetDialogsAvatarsAsync(string[] ids)
         {
             var projection = Builders<DialogEntity>.Projection.Include(x => x.Avatar);

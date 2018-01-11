@@ -11,7 +11,7 @@ namespace Funkmap.Messenger.Command.Commands
         
         public string Text { get; set; }
         
-        public List<ContentItem> Content { get; set; }
+        public List<ContentItemEntity> Content { get; set; }
 
         public ICollection<string> UsersWithOpenedCurrentDialog { get; set; }
     }

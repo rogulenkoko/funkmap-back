@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Query;
+using Funkmap.Messenger.Query.Queries;
+using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Tests.Data;
+using Funkmap.Middleware.Modules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Tests
 {
@@ -18,9 +25,16 @@ namespace Funkmap.Messenger.Tests
 
         private IDialogRepository _dialogRepository;
 
+        private IQueryContext _queryContext;
+
         [TestInitialize]
         public void Initialize()
         {
+
+            var builder = new ContainerBuilder();
+            new MessengerQueryModule().Register(builder);
+            new CqrsModule().Register(builder);
+
             var db = MessengerDbProvider.DropAndCreateDatabase;
             var messagesCollection = db.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
 
@@ -29,6 +43,10 @@ namespace Funkmap.Messenger.Tests
             var fileStorage = new GridFsFileStorage(MessengerDbProvider.GetGridFsBucket(db));
 
             _messageRepository = new MessageRepository(messagesCollection, fileStorage);
+
+            var container = builder.Build();
+
+            _queryContext = container.Resolve<IQueryContext>();
         }
 
         [TestMethod]
@@ -36,11 +54,13 @@ namespace Funkmap.Messenger.Tests
         {
             var login = "rogulenkoko";
 
-            var dialogs = _dialogRepository.GetUserDialogsAsync(login).GetAwaiter().GetResult();
+            var query = new UserDialogsQuery(login);
+
+            var dialogs = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs;
             var param = new DialogsNewMessagesParameter()
             {
                 Login = login,
-                DialogIds = dialogs.Select(x=>x.Id.ToString()).ToList()
+                DialogIds = dialogs.Select(x=>x.DialogId).ToList()
             };
             var count = _messageRepository.GetDialogsWithNewMessagesAsync(param).GetAwaiter().GetResult();
             Assert.AreEqual(count.Count, 1);
@@ -50,36 +70,52 @@ namespace Funkmap.Messenger.Tests
         public void GetDialogMessages()
         {
             var login = "rogulenkoko";
-            var dialog = _dialogRepository.GetUserDialogsAsync(login).Result.First();
 
-            var parameter = new DialogMessagesParameter()
+            var query = new UserDialogsQuery(login);
+
+            var dialog = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.First();
+
+            var query1 = new DialogMessagesQuery()
             {
-                DialogId = dialog.Id.ToString(),
+                DialogId = dialog.DialogId,
                 Take = 4,
                 Skip = 0,
-                UserLogin = "rogulenkoko"
+                UserLogin = login
             };
 
-            var messages = _messageRepository.GetDialogMessagesAsync(parameter).Result; 
+            var messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages; 
             Assert.AreEqual(messages.Count, 4);
 
-            parameter.Skip = 4;
-            messages = _messageRepository.GetDialogMessagesAsync(parameter).Result;
-            Assert.AreEqual(messages.Count, 2);
-
-            parameter = new DialogMessagesParameter()
+            var query2 = new DialogMessagesQuery()
             {
-                DialogId = dialog.Id.ToString(),
-                Take = 5,
-                Skip = 0,
-                UserLogin = "rogulenkoko"
+                DialogId = dialog.DialogId,
+                Take = 4,
+                Skip = 4,
+                UserLogin = login
             };
 
-            messages = _messageRepository.GetDialogMessagesAsync(parameter).Result;
+            messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query2).GetAwaiter().GetResult().Messages;
+            Assert.AreEqual(messages.Count, 2);
+
+            var query3 = new DialogMessagesQuery()
+            {
+                DialogId = dialog.DialogId,
+                Take = 5,
+                Skip = 0,
+                UserLogin = login
+            };
+
+            messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query3).GetAwaiter().GetResult().Messages;
             Assert.AreEqual(messages.Count, 5);
 
-            parameter.Skip = 5;
-            messages = _messageRepository.GetDialogMessagesAsync(parameter).Result;
+            var query4 = new DialogMessagesQuery()
+            {
+                DialogId = dialog.DialogId,
+                Take = 5,
+                Skip = 5,
+                UserLogin = login
+            };
+            messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query4).GetAwaiter().GetResult().Messages;
             Assert.AreEqual(messages.Count, 1);
         }
 
@@ -87,82 +123,35 @@ namespace Funkmap.Messenger.Tests
         public void CreateMessageTest()
         {
             var login = "rogulenkoko";
-            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
-            var dialog = dialogs.First();
 
-            var dialogMessagesParameter = new DialogMessagesParameter()
+
+            var query = new UserDialogsQuery(login);
+
+            var dialog = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.First();
+
+            var query1 = new DialogMessagesQuery()
             {
-                DialogId = dialog.Id.ToString(),
+                DialogId = dialog.DialogId,
                 Skip = 0,
                 Take = 100,
                 UserLogin = login
             };
-            var dialogMessages = _messageRepository.GetDialogMessagesAsync(dialogMessagesParameter).Result;
+            var dialogMessages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
 
             var message = new MessageEntity()
             {
                 Text = "aaaaa",
                 Sender = login,
-                DialogId = dialog.Id
+                DialogId = new ObjectId(dialog.DialogId)
             };
 
             _messageRepository.AddMessage(message).Wait();
 
-            var newDialogMessages = _messageRepository.GetDialogMessagesAsync(dialogMessagesParameter).Result;
+            var newDialogMessages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
 
             Assert.AreNotEqual(dialogMessages.Count, newDialogMessages.Count);
             Assert.AreEqual(dialogMessages.Count + 1, newDialogMessages.Count);
         }
-
-        [TestMethod]
-        public void MessageContentTest()
-        {
-            var login = "rogulenkoko";
-            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
-            var dialog = dialogs.First();
-
-            var filename = "beatles-avatar.jpg";
-            var image = ImageProvider.GetAvatar(filename);
-
-            var message = new MessageEntity()
-            {
-                Text = "aaaaa",
-                Sender = login,
-                DialogId = dialog.Id,
-                Content = new List<ContentItem>()
-                {
-                    new ContentItem()
-                    {
-                        FileBytes = image,
-                        FileName = filename,
-                        ContentType = ContentType.Image
-                    }
-                }
-            };
-
-            _messageRepository.AddMessage(message).Wait();
-
-            var dialogMessagesParameter = new DialogMessagesParameter()
-            {
-                DialogId = dialog.Id.ToString(),
-                Skip = 0,
-                Take = 100,
-                UserLogin = login
-            };
-            var dialogMessages = _messageRepository.GetDialogMessagesAsync(dialogMessagesParameter).Result;
-
-
-            var files = _messageRepository.GetMessagesContent(dialogMessages
-                .SelectMany(x => x.Content.Select(y => y.FileId.ToString()))
-                .ToArray());
-
-            Assert.AreEqual(files.Count, 1);
-
-            var file = files.First();
-            Assert.AreEqual(file.FileBytes.Length, image.Length);
-        }
-
-        
 
     }
 }

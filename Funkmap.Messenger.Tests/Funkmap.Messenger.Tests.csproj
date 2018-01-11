@@ -86,7 +86,7 @@
     <Compile Include="Commands\SaveMessageCommandTest.cs" />
     <Compile Include="Data\MessengerDataSeeder.cs" />
     <Compile Include="Data\MessengerDbProvider.cs" />
-    <Compile Include="DialogsRepositoryTest.cs" />
+    <Compile Include="DialogsQueriesTest.cs" />
     <Compile Include="ImageProvider.cs" />
     <Compile Include="MessageRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +119,14 @@
     <ProjectReference Include="..\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj">
       <Project>{16A45066-051D-487E-86AA-0D1495E482A7}</Project>
       <Name>Funkmap.Messenger.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj">
+      <Project>{2650D961-5402-4B7F-8E91-48AE34898A3E}</Project>
+      <Name>Funkmap.Messenger.Query</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Middleware\Funkmap.Middleware.csproj">
+      <Project>{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}</Project>
+      <Name>Funkmap.Middleware</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

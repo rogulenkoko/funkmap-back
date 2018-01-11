@@ -2,14 +2,14 @@
 
 namespace Funkmap.Messenger.Models
 {
-    public class Dialog
+    public class DialogModel
     {
         public string DialogId { get; set; }
         public string Name { get; set; }
         public byte[] Avatar { get; set; }
         public List<string> Participants { get; set; }
 
-        public Message LastMessage { get; set; }
+        public MessageModel LastMessage { get; set; }
 
         public string CreatorLogin { get; set; }
 

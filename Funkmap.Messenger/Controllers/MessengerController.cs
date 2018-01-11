@@ -16,6 +16,8 @@ using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
 using Funkmap.Messenger.Models.Responses;
+using Funkmap.Messenger.Query.Queries;
+using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Services.Abstract;
 using Funkmap.Tools;
 
@@ -28,18 +30,21 @@ namespace Funkmap.Messenger.Controllers
         private readonly IDialogRepository _dialogRepository;
         private readonly IMessageRepository _messageRepository;
         private readonly ICommandBus _commandBus;
+        private readonly IQueryContext _queryContext;
 
         private readonly IMessengerConnectionService _messengerConnection;
 
         public MessengerController(IDialogRepository dialogRepository,
                                    IMessageRepository messageRepository,
                                    IMessengerConnectionService messengerConnection,
-                                   ICommandBus commandBus)
+                                   ICommandBus commandBus,
+                                   IQueryContext queryContext)
         {
             _dialogRepository = dialogRepository;
             _messengerConnection = messengerConnection;
             _messageRepository = messageRepository;
             _commandBus = commandBus;
+            _queryContext = queryContext;
         }
 
         [HttpGet]
@@ -48,11 +53,17 @@ namespace Funkmap.Messenger.Controllers
         public async Task<IHttpActionResult> GetDialogs()
         {
             var userLogin = Request.GetLogin();
-            var dialogsEntities = await _dialogRepository.GetUserDialogsAsync(userLogin);
-            if (dialogsEntities == null || dialogsEntities.Count == 0) return Ok(new List<Dialog>());
 
-            var dialogs = dialogsEntities.Select(x => x.ToModel(userLogin)).ToList();
-            return Content(HttpStatusCode.OK, dialogs);
+            var query = new UserDialogsQuery(userLogin);
+
+            var response = await _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query);
+
+            if (!response.Success)
+            {
+                return Ok(new List<DialogModel>());
+            }
+            
+            return Content(HttpStatusCode.OK, response.Dialogs.Select(x=>x.ToModel(userLogin)));
         }
 
         [HttpGet]
@@ -79,7 +90,7 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("createDialog")]
-        public IHttpActionResult CreateDialog(Dialog dialog)
+        public IHttpActionResult CreateDialog(DialogModel dialog)
         {
             var login = Request.GetLogin();
             var command = new CreateDialogCommand()
@@ -107,7 +118,7 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("updateDialog")]
-        public IHttpActionResult UpdateDialogInfo(Dialog dialog)
+        public IHttpActionResult UpdateDialogInfo(DialogModel dialog)
         {
             var login = Request.GetLogin();
             
@@ -142,9 +153,8 @@ namespace Funkmap.Messenger.Controllers
         {
             var userLogin = Request.GetLogin();
             if (String.IsNullOrEmpty(request.DialogId)) return BadRequest("dialogId is empty");
-
-            //проверить является ли этот пользователем участником диалога
-            var parameter = new DialogMessagesParameter()
+            
+            var query = new DialogMessagesQuery()
             {
                 Skip = request.Skip,
                 Take = request.Take,
@@ -152,11 +162,14 @@ namespace Funkmap.Messenger.Controllers
                 UserLogin = userLogin
             };
 
-            var dialogExist = await _dialogRepository.CheckDialogExist(parameter.DialogId);
-            if (!dialogExist) return Content(HttpStatusCode.OK, new List<Message>());
+            var response = await _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query);
 
-            var messagesEntities = await _messageRepository.GetDialogMessagesAsync(parameter);
-            var messages = messagesEntities.Select(x => x.ToModel()).ToList();
+            if (!response.Success)
+            {
+                return Ok(new List<Message>());
+            }
+
+            var messages = response.Messages.Select(x => x.ToModel()).ToList();
             return Content(HttpStatusCode.OK, messages);
         }
 
@@ -175,18 +188,18 @@ namespace Funkmap.Messenger.Controllers
         public async Task<IHttpActionResult> GetNewDialogMessages()
         {
 
-            var login = Request.GetLogin();
-            var dialogs = await _dialogRepository.GetUserDialogsAsync(login);
-            if (dialogs == null || dialogs.Count == 0) return Ok(0);
+            //var login = Request.GetLogin();
+            //var dialogs = await _dialogRepository.GetUserDialogsAsync(login);
+            //if (dialogs == null || dialogs.Count == 0) return Ok(0);
 
-            var messagesParameter = new DialogsNewMessagesParameter()
-            {
-                Login = login,
-                DialogIds = dialogs.Select(x => x.Id.ToString()).ToList()
-            };
-            var dialogsWithNewMessages = await _messageRepository.GetDialogsWithNewMessagesAsync(messagesParameter);
+            //var messagesParameter = new DialogsNewMessagesParameter()
+            //{
+            //    Login = login,
+            //    DialogIds = dialogs.Select(x => x.Id.ToString()).ToList()
+            //};
+            //var dialogsWithNewMessages = await _messageRepository.GetDialogsWithNewMessagesAsync(messagesParameter);
 
-            return Ok(dialogsWithNewMessages);
+            return Ok(2);
         }
 
         [HttpPost]

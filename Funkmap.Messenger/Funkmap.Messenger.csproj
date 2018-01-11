@@ -166,10 +166,10 @@
     <Compile Include="Mappers\MessageMapper.cs" />
     <Compile Include="Hubs\MessengerHub.cs" />
     <Compile Include="MessengerModule.cs" />
-    <Compile Include="Models\Dialog.cs" />
+    <Compile Include="Models\DialogModel.cs" />
     <Compile Include="Models\DialogAvatarInfo.cs" />
     <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
-    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\Requests\InviteParticipantsRequest.cs" />
     <Compile Include="Models\Requests\DialogMessagesRequest.cs" />
     <Compile Include="Models\Requests\LeaveDialogRequest.cs" />
@@ -218,6 +218,10 @@
     <ProjectReference Include="..\Funkmap.Messenger.Events\Funkmap.Messenger.Events.csproj">
       <Project>{210A14C5-7305-489D-B066-3509CD03B2DC}</Project>
       <Name>Funkmap.Messenger.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj">
+      <Project>{2650D961-5402-4B7F-8E91-48AE34898A3E}</Project>
+      <Name>Funkmap.Messenger.Query</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

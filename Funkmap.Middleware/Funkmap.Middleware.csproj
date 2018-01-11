@@ -267,6 +267,10 @@
       <Project>{592d2c7a-ff06-45e5-b9ab-bf25f83815d0}</Project>
       <Name>Funkmap.Messenger.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj">
+      <Project>{2650d961-5402-4b7f-8e91-48ae34898a3e}</Project>
+      <Name>Funkmap.Messenger.Query</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
       <Name>Funkmap.Messenger</Name>

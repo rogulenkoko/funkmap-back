@@ -28,7 +28,7 @@ namespace Funkmap.Messenger.Hubs
         }
 
         [HubMethodName("sendMessage")]
-        public BaseResponse SendMessage(Message message)
+        public BaseResponse SendMessage(MessageModel message)
         {
             var response = new BaseResponse();
             

@@ -10,7 +10,6 @@ namespace Funkmap.Messenger.Data.Repositories.Abstract
     public interface IDialogRepository : IMongoRepository<DialogEntity>
     {
         Task<ObjectId> CreateAndGetIdAsync(DialogEntity item);
-        Task<ICollection<DialogEntity>> GetUserDialogsAsync(string parameter);
         Task<ICollection<string>> GetDialogMembers(string id);
         Task UpdateLastMessageDate(UpdateLastMessageDateParameter parameter);
 

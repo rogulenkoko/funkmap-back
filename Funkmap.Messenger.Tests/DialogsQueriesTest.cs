@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Data;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Query;
+using Funkmap.Messenger.Query.Queries;
+using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Tests.Data;
+using Funkmap.Middleware.Modules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Tests
 {
     [TestClass]
-    public class DialogsRepositoryTest
+    public class DialogsQueriesTest
     {
-        private IDialogRepository _dialogRepository;
 
-        private IMessageRepository _messageRepository;
+        private IQueryContext _queryContext;
+
+        private IDialogRepository _dialogRepository;
 
         [TestInitialize]
         public void Initialize()
         {
+            var builder = new ContainerBuilder();
+            new MessengerQueryModule().Register(builder);
+            new CqrsModule().Register(builder);
+
             var db = MessengerDbProvider.DropAndCreateDatabase;
 
             var messagesCollection = db.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
@@ -30,18 +41,24 @@ namespace Funkmap.Messenger.Tests
             _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
 
             var fileStorage = new GridFsFileStorage(MessengerDbProvider.GetGridFsBucket(db));
-            _messageRepository = new MessageRepository(messagesCollection, fileStorage);
+
+            var container = builder.Build();
+
+            _queryContext = container.Resolve<IQueryContext>();
         }
 
         [TestMethod]
         public void GetUserDialogs()
         {
             var login = "rogulenkoko";
-            var dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
+
+            var query = new UserDialogsQuery(login);
+
+            var dialogs = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs;
             Assert.AreEqual(dialogs.Count, 4);
 
-            login = "test";
-            dialogs = _dialogRepository.GetUserDialogsAsync(login).Result;
+            var query1 = new UserDialogsQuery(login);
+            dialogs = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query1).GetAwaiter().GetResult().Dialogs;
             Assert.AreEqual(dialogs.Count, 2);
         }
 
@@ -49,18 +66,21 @@ namespace Funkmap.Messenger.Tests
         public void UpdateLastMessageDateTest()
         {
             var login = "rogulenkoko";
-            var dialog = _dialogRepository.GetUserDialogsAsync(login).GetAwaiter().GetResult().Last();
+            var query = new UserDialogsQuery(login);
+
+            var dialog = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.Last();
 
             var parameter = new UpdateLastMessageDateParameter()
             {
-                DialogId = dialog.Id.ToString(),
+                DialogId = dialog.DialogId,
                 Date = DateTime.Now
             };
             _dialogRepository.UpdateLastMessageDate(parameter).Wait();
 
-            var updatedDialog = _dialogRepository.GetUserDialogsAsync(login).GetAwaiter().GetResult().First();
+            var query2 = new UserDialogsQuery(login);
+            var updatedDialog = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query2).GetAwaiter().GetResult().Dialogs.Last();
 
-            Assert.AreEqual(updatedDialog.Id.ToString(), dialog.Id.ToString());
+            Assert.AreEqual(updatedDialog.DialogId, dialog.DialogId);
         }
 
         [TestMethod]

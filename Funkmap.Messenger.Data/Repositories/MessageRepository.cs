@@ -26,44 +26,13 @@ namespace Funkmap.Messenger.Data.Repositories
             _fileStorage = fileStorage;
         }
 
-        
-
-        public async Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter)
+        public ICollection<ContentItemEntity> GetMessagesContent(string[] contentIds)
         {
-
-            if (String.IsNullOrEmpty(parameter.UserLogin) || String.IsNullOrEmpty(parameter.DialogId))
-            {
-                throw new ArgumentException(nameof(parameter));
-            }
-
-            var dialogFilter = Builders<MessageEntity>.Filter.Eq(x => x.DialogId, new ObjectId(parameter.DialogId));
-            var messageProjection = Builders<MessageEntity>.Projection
-                .Exclude(x => x.ToParticipants);
-
-            var sort = Builders<MessageEntity>.Sort.Descending(x => x.Id);
-
-            ICollection<MessageEntity> messages = await _collection.Find(dialogFilter).Project<MessageEntity>(messageProjection)
-                .Sort(sort)
-                .Skip(parameter.Skip)
-                .Limit(parameter.Take)
-                .ToListAsync();
-            if(messages == null || messages.Count == 0) return new List<MessageEntity>();
-
-            //дата последнего сообщения
-            DateTime lastMessageDate = messages.First().DateTimeUtc;
-
-            
-                
-            return messages.Reverse().ToList();
-        }
-
-        public ICollection<ContentItem> GetMessagesContent(string[] contentIds)
-        {
-            ConcurrentDictionary<string, ContentItem> results = new ConcurrentDictionary<string, ContentItem>();
+            ConcurrentDictionary<string, ContentItemEntity> results = new ConcurrentDictionary<string, ContentItemEntity>();
 
             Parallel.ForEach(contentIds, id =>
             {
-                var item = new ContentItem()
+                var item = new ContentItemEntity()
                 {
                     FileId = id,
                     FileBytes = _fileStorage.DownloadAsBytesAsync(id).GetAwaiter().GetResult()

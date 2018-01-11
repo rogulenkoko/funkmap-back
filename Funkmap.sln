@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Events", "Funkmap.Messenger.Events\Funkmap.Messenger.Events.csproj", "{210A14C5-7305-489D-B066-3509CD03B2DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Query", "Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj", "{2650D961-5402-4B7F-8E91-48AE34898A3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +227,10 @@ Global
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2650D961-5402-4B7F-8E91-48AE34898A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2650D961-5402-4B7F-8E91-48AE34898A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2650D961-5402-4B7F-8E91-48AE34898A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2650D961-5402-4B7F-8E91-48AE34898A3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -260,5 +266,6 @@ Global
 		{16A45066-051D-487E-86AA-0D1495E482A7} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{A6F502FB-FC60-4545-9D87-215B3AAEB0DA} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{210A14C5-7305-489D-B066-3509CD03B2DC} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
+		{2650D961-5402-4B7F-8E91-48AE34898A3E} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 	EndGlobalSection
 EndGlobal

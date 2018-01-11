@@ -1,7 +1,10 @@
 ﻿using System;
-using Funkmap.Messenger.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Funkmap.Messenger.Models
+namespace Funkmap.Messenger.Query.Responses
 {
     public class Message
     {

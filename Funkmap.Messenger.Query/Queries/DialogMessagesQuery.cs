@@ -1,6 +1,6 @@
-﻿namespace Funkmap.Messenger.Data.Parameters
+﻿namespace Funkmap.Messenger.Query.Queries
 {
-    public class DialogMessagesParameter
+    public class DialogMessagesQuery
     {
         public string DialogId { get; set; }
         public int Skip { get; set; }

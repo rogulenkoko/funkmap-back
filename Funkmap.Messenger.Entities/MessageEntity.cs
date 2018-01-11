@@ -11,7 +11,7 @@ namespace Funkmap.Messenger.Entities
         public MessageEntity()
         {
             DateTimeUtc = DateTime.UtcNow;
-            Content = new List<ContentItem>();
+            Content = new List<ContentItemEntity>();
             ToParticipants = new List<string>();
         }
 
@@ -32,13 +32,13 @@ namespace Funkmap.Messenger.Entities
 
         [BsonElement("cont")]
         [BsonIgnoreIfDefault]
-        public List<ContentItem> Content { get; set; }
+        public List<ContentItemEntity> Content { get; set; }
 
         [BsonElement("ir")]
         public bool IsRead { get; set; }
     }
 
-    public class ContentItem
+    public class ContentItemEntity
     {
         [BsonElement("ct")]
         public ContentType ContentType { get; set; }
