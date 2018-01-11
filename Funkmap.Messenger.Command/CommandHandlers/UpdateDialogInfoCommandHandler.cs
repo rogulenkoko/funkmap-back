@@ -2,31 +2,37 @@
 using System.IO;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Common.Logger;
+using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Command.Repositories;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {
-    internal class LeaveDialogCommandHandler : ICommandHandler<LeaveDialogCommand>
+    internal class UpdateDialogInfoCommandHandler : ICommandHandler<UpdateDialogInfoCommand>
     {
-
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<LeaveDialogCommandHandler> _logger;
+        private readonly IFunkmapLogger<UpdateDialogInfoCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public LeaveDialogCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<LeaveDialogCommandHandler> logger, IEventBus eventBus)
+        public UpdateDialogInfoCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<UpdateDialogInfoCommandHandler> logger, IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
             _logger = logger;
             _eventBus = eventBus;
         }
 
-        public async Task Execute(LeaveDialogCommand command)
+        public async Task Execute(UpdateDialogInfoCommand command)
         {
             try
             {
+                if ((command.Avatar == null || command.Avatar.Length == 0) && String.IsNullOrEmpty(command.Name))
+                {
+                    throw new InvalidDataException("Nothing to update");
+                }
+
                 if (String.IsNullOrEmpty(command.DialogId))
                 {
                     throw new InvalidDataException("Invalid dialog id");
@@ -39,21 +45,25 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     throw new InvalidDataException("Dialog is not exist");
                 }
 
-                if (dialog.CreatorLogin != command.UserLogin && command.UserLogin != command.LeavedUserLogin)
+                if (!dialog.Participants.Contains(command.UserLogin))
                 {
-                    throw new InvalidDataException($"{command.UserLogin} can't remove {command.LeavedUserLogin} from dialog {command.DialogId}");
+                    throw new InvalidDataException($"{command.UserLogin} can not modify dialog {command.DialogId}");
                 }
 
-                if (!dialog.Participants.Contains(command.LeavedUserLogin))
+                if (command.Avatar != null && command.Avatar.Length != 0)
                 {
-                    throw new InvalidDataException($"{command.LeavedUserLogin} is not a member of dialog {command.DialogId}");
+                    var cutted = FunkmapImageProcessor.MinifyImage(command.Avatar);
+                    dialog.Avatar = new ImageInfo() {Image = cutted };
                 }
 
-                dialog.Participants.Remove(command.LeavedUserLogin);
+                if (!String.IsNullOrEmpty(command.Name))
+                {
+                    dialog.Name = command.Name;
+                }
+
                 await _messengerRepository.UpdateDialogAsync(dialog);
+                await _eventBus.PublishAsync(new DialogUpdatedEvent(dialog));
 
-                await _eventBus.PublishAsync(new UserLeavedDialogEvent(dialog.Id.ToString(), command.LeavedUserLogin,
-                    command.UserLogin, dialog.CreatorLogin));
             }
             catch (InvalidDataException ex)
             {
@@ -61,11 +71,9 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             }
             catch (Exception e)
             {
-                _logger.Error(e);
+               _logger.Error(e);
             }
             
-
         }
     }
 }
-

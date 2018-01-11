@@ -44,6 +44,11 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
                 var dialog = await _messengerRepository.GetDialogAsync(command.DialogId);
 
+                if (dialog == null)
+                {
+                    throw new InvalidDataException("Dialog is not exist");
+                }
+
                 var newParticipants = command.InvitedUsers.Except(dialog.Participants).ToList();
 
                 if (!newParticipants.Any())

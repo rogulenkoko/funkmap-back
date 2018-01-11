@@ -12,7 +12,6 @@ using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Data.Parameters;
 using Funkmap.Messenger.Data.Repositories.Abstract;
-using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;
@@ -108,32 +107,19 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("updateDialog")]
-        public async Task<IHttpActionResult> UpdateDialog(Dialog dialog)
+        public IHttpActionResult UpdateDialogInfo(Dialog dialog)
         {
             var login = Request.GetLogin();
-            var exsitingDialog = await _dialogRepository.GetAsync(dialog.DialogId);
-
-            if (exsitingDialog == null) return BadRequest("Dialog not exists");
-
-            var response = new DialogResponse()
+            
+            _commandBus.Execute(new UpdateDialogInfoCommand()
             {
-                Success = true,
-                Dialog = exsitingDialog.ToModel(login)
-            };
-
-            var newDialogEntity = dialog.ToEntity();
-
-            if (newDialogEntity.Avatar != null)
-            {
-                var cutted = FunkmapImageProcessor.MinifyImage(newDialogEntity.Avatar.Image.AsByteArray);
-                newDialogEntity.Avatar.Image = cutted;
-            }
-
-            exsitingDialog = exsitingDialog.FillEntity(newDialogEntity);
-
-            await _dialogRepository.UpdateAsync(exsitingDialog);
-
-            return Ok(response);
+                Avatar = dialog.Avatar,
+                DialogId = dialog.DialogId,
+                Name = dialog.Name,
+                UserLogin = login
+            });
+            
+            return Ok(new BaseResponse() {Success = true});
         }
 
         [HttpPost]

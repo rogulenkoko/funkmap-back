@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
@@ -32,7 +29,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 ? @event.InvitedParticipants.First()
                 : String.Join(", ", @event.InvitedParticipants);
 
-            var command = new SaveMessageCommand()
+            var command = new SaveMessageCommand
             {
                 DialogId = @event.Dialog.Id.ToString(),
                 Sender = FunkmapConstants.FunkmalAdminUser,

@@ -16,8 +16,9 @@ namespace Funkmap.Messenger.Command
             builder.RegisterType<SaveMessageCommandHandler>().As<ICommandHandler<SaveMessageCommand>>(); 
             builder.RegisterType<ReadMessagesCommandHandler>().As<ICommandHandler<ReadMessagesCommand>>(); 
             builder.RegisterType<CreateDialogCommandHandler>().As<ICommandHandler<CreateDialogCommand>>(); 
-            builder.RegisterType<LeaveDialogCommandHandler>().As<ICommandHandler<LeaveDialogCommand>>();
+            builder.RegisterType<LeaveDialogCommandHandler>().As<ICommandHandler<LeaveDialogCommand>>(); 
             builder.RegisterType<InviteParticipantsCommandHandler>().As<ICommandHandler<InviteParticipantsCommand>>();
+            builder.RegisterType<UpdateDialogInfoCommandHandler>().As<ICommandHandler<UpdateDialogInfoCommand>>();
         }
     }
 }

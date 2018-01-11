@@ -5,7 +5,11 @@ namespace Funkmap.Messenger.Events.Dialogs
 {
     public class DialogUpdatedEvent
     {
-        public DialogEntity Dialog { get; set; }
+        public DialogUpdatedEvent(DialogEntity dialog)
+        {
+            Dialog = dialog;
+        }
+        public DialogEntity Dialog { get; }
     }
 }
 
