@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Data.Parameters;
-using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Hubs.Abstract;
-using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
-using Funkmap.Messenger.Services;
 using Funkmap.Messenger.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -23,15 +18,12 @@ namespace Funkmap.Messenger.Hubs
     public class MessengerHub : Hub<IMessengerHub>
     {
         private readonly IMessengerConnectionService _connectionService;
-        private readonly IDialogRepository _dialogRepository;
         private readonly ICommandBus _commandBus;
 
         public MessengerHub(IMessengerConnectionService connectionService,
-                            IDialogRepository dialogRepository,
                             ICommandBus commandBus)
         {
             _connectionService = connectionService;
-            _dialogRepository = dialogRepository;
             _commandBus = commandBus;
         }
 
@@ -42,7 +34,6 @@ namespace Funkmap.Messenger.Hubs
             
             try
             {
-
                 var usersWithOpenedCurrentDialog = _connectionService.GetDialogParticipants(message.DialogId);
                 var command = new SaveMessageCommand()
                 {
@@ -65,18 +56,21 @@ namespace Funkmap.Messenger.Hubs
         }
 
         [HubMethodName("setOpenedDialog")]
-        public async Task<BaseResponse> SetOpenedDialog(string dialogId)
+        public BaseResponse SetOpenedDialog(string dialogId)
         {
             if (String.IsNullOrEmpty(dialogId)) return new BaseResponse() {Success = false};
+
             var connectionId = Context.ConnectionId;
             var isSucces = _connectionService.SetOpenedDialog(connectionId, dialogId);
-
-            var dialogMembers = await _dialogRepository.GetDialogMembers(dialogId);
+            
             var login = Context.QueryString["login"];
-            var userConnections = _connectionService.GetConnectionIdsByLogins(new List<string>() {login});
-            var connectionIds = _connectionService.GetConnectionIdsByLogins(dialogMembers).Except(userConnections).ToList();
 
-            Clients.Clients(connectionIds).OnDialogRead(dialogId);
+            _commandBus.Execute(new ReadMessagesCommand
+            {
+                DialogId = dialogId,
+                UserLogin = login,
+                ReadTime = DateTime.UtcNow
+            });
 
             return new BaseResponse() {Success = isSucces};
         }

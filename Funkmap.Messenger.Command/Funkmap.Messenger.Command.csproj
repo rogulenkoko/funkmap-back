@@ -64,9 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ReadMessagesCommand.cs" />
     <Compile Include="Commands\SaveMessageCommand.cs" />
     <Compile Include="Commands\UpdateDialogLastMessageCommand.cs" />
     <Compile Include="Handlers\DialogLastMessageCommandHandler.cs" />
+    <Compile Include="Handlers\ReadMessagesCommandHandler.cs" />
     <Compile Include="Handlers\SaveMessageCommandHandler.cs" />
     <Compile Include="MessengerCollectionNameProvider.cs" />
     <Compile Include="MessengerCommandModule.cs" />

@@ -26,11 +26,6 @@ namespace Funkmap.Messenger.Data.Repositories
             _fileStorage = fileStorage;
         }
 
-        public async Task AddMessage(MessageEntity message)
-        {
-            
-        }
-
         
 
         public async Task<ICollection<MessageEntity>> GetDialogMessagesAsync(DialogMessagesParameter parameter)
@@ -57,14 +52,7 @@ namespace Funkmap.Messenger.Data.Repositories
             //дата последнего сообщения
             DateTime lastMessageDate = messages.First().DateTimeUtc;
 
-            var readFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, parameter.UserLogin)
-                            & Builders<MessageEntity>.Filter.Lte(x=>x.DateTimeUtc, lastMessageDate)
-                            & Builders<MessageEntity>.Filter.Eq(x=>x.DialogId, new ObjectId(parameter.DialogId))
-                            & Builders<MessageEntity>.Filter.Ne(x=> x.Sender, parameter.UserLogin);
-
-            var update = Builders<MessageEntity>.Update.Pull(x => x.ToParticipants, parameter.UserLogin).Set(x=>x.IsRead, true);
-
-            await _collection.UpdateManyAsync(readFilter, update);
+            
                 
             return messages.Reverse().ToList();
         }
@@ -130,6 +118,11 @@ namespace Funkmap.Messenger.Data.Repositories
                 .ToListAsync();
 
             return countResult;
+        }
+
+        public async Task AddMessage(MessageEntity message)
+        {
+            await _collection.InsertOneAsync(message);
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
@@ -19,6 +14,7 @@ namespace Funkmap.Messenger.Command
             builder.RegisterType<MessengerCommandRepository>().As<IMessengerCommandRepository>();
             builder.RegisterType<DialogLastMessageCommandHandler>().As<ICommandHandler<UpdateDialogLastMessageCommand>>();
             builder.RegisterType<SaveMessageCommandHandler>().As<ICommandHandler<SaveMessageCommand>>();
+            builder.RegisterType<ReadMessagesCommandHandler>().As<ICommandHandler<ReadMessagesCommand>>();
         }
     }
 }

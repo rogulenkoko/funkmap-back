@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Events.Dialogs;
 using Funkmap.Messenger.Events.Messages;
@@ -10,7 +11,9 @@ using Microsoft.AspNet.SignalR;
 
 namespace Funkmap.Messenger.Handlers
 {
-    public class SignalrEventHandler : IEventHandler<DialogUpdatedEvent>, IEventHandler<MessageSavedCompleteEvent>
+    public class SignalrEventHandler : IEventHandler<DialogUpdatedEvent>, 
+                                       IEventHandler<MessageSavedCompleteEvent>, 
+                                       IEventHandler<MessagesReadEvent>
     {
         private readonly IEventBus _eventBus;
         private readonly IMessengerConnectionService _connectionService;
@@ -25,6 +28,7 @@ namespace Funkmap.Messenger.Handlers
         {
             _eventBus.Subscribe<DialogUpdatedEvent>(Handle);
             _eventBus.Subscribe<MessageSavedCompleteEvent>(Handle);
+            _eventBus.Subscribe<MessagesReadEvent>(Handle);
         }
 
         public void Handle(MessageSavedCompleteEvent @event)
@@ -38,6 +42,14 @@ namespace Funkmap.Messenger.Handlers
                     .Clients.Clients(connectionId.ToList())
                     .OnMessageSent(message);
             });
+        }
+
+        public void Handle(MessagesReadEvent @event)
+        {
+            var userConnections = _connectionService.GetConnectionIdsByLogins(new List<string>() { @event.UserLogin });
+            var connectionIds = _connectionService.GetConnectionIdsByLogins(@event.DialogMembers).Except(userConnections).ToList();
+
+            GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>().Clients.Clients(connectionIds).OnDialogRead(@event.DialogId);
         }
 
         public void Handle(DialogUpdatedEvent @event)
