@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Funkmap.Common.Data.Mongo.Entities;
-using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Entities.Objects;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Query.Responses;
 
@@ -52,7 +52,7 @@ namespace Funkmap.Messenger.Mappers
             if (source == null) return null;
             return new DialogsNewMessagesCountModel()
             {
-                DialogId = source.DialogId.ToString(),
+                DialogId = source.DialogId,
                 NewMessagesCount = source.NewMessagesCount
             };
         }

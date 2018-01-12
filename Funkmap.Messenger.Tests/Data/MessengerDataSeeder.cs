@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Funkmap.Common.Data.Mongo;
-using Funkmap.Messenger.Data;
-using Funkmap.Messenger.Data.Repositories;
 using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Funkmap.Messenger.Command;
 
 namespace Funkmap.Messenger.Tests.Data
 {
@@ -26,10 +24,7 @@ namespace Funkmap.Messenger.Tests.Data
         private void SeedDialogs()
         {
             var messagesCollection = _database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
-            var dialogsRepository = new DialogRepository(_database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
-
-            var fileStorage = new GridFsFileStorage(MessengerDbProvider.GetGridFsBucket(_database));
-            var messagesRepository = new MessageRepository(messagesCollection, fileStorage);
+            var dialogsCollection = _database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName);
 
             var dialogId = ObjectId.GenerateNewId();
             var participants = new List<string>() {"test", "rogulenkoko"};
@@ -46,7 +41,7 @@ namespace Funkmap.Messenger.Tests.Data
 
             foreach (var message in messages)
             {
-                messagesRepository.AddMessage(message).Wait();
+                messagesCollection.InsertOneAsync(message).GetAwaiter().GetResult();
             }
             
 
@@ -63,7 +58,7 @@ namespace Funkmap.Messenger.Tests.Data
             
             foreach (var dialog in dialogs)
             {
-                dialogsRepository.CreateAndGetIdAsync(dialog).Wait();
+                dialogsCollection.InsertOneAsync(dialog).GetAwaiter().GetResult();
             }
         }
     }

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
-using Funkmap.Messenger.Data.Objects;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Entities.Objects;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using MongoDB.Driver;
@@ -73,6 +72,29 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                         IsNew = !x.LastMessage.IsRead
                     }
                 }).ToList());
+
+                var dialogIds = dialogs.Select(x => x.Id);
+
+                var newMessagesFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, query.UserLogin)
+                                        & Builders<MessageEntity>.Filter.In(x => x.DialogId, dialogIds);
+
+                var countResult = await _messagesCollection.Aggregate()
+                    .Match(newMessagesFilter)
+                    .Group(x => x.DialogId, y => new DialogsNewMessagesCountResult()
+                    {
+                        DialogId = y.Key.ToString(),
+                        NewMessagesCount = y.Count()
+                    })
+                    .ToListAsync();
+
+                var countResultDictionary = countResult.ToDictionary(x => x.DialogId, y => y.NewMessagesCount);
+
+                foreach (var dialog in response.Dialogs)
+                {
+                    if(!countResultDictionary.ContainsKey(dialog.DialogId)) continue;
+
+                    dialog.NewMessagesCount = countResultDictionary[dialog.DialogId];
+                }
 
                 return response;
             }

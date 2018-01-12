@@ -1,6 +1,6 @@
 ﻿namespace Funkmap.Messenger.Command
 {
-    internal static class MessengerCollectionNameProvider
+    public static class MessengerCollectionNameProvider
     { 
         public const string DialogsCollectionName = "dialogs";
         public const string MessagesCollectionName = "messages";

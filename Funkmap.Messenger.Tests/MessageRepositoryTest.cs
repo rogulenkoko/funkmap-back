@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Autofac;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Data.Mongo;
-using Funkmap.Messenger.Data;
-using Funkmap.Messenger.Data.Parameters;
-using Funkmap.Messenger.Data.Repositories;
-using Funkmap.Messenger.Data.Repositories.Abstract;
+using Funkmap.Messenger.Command;
+using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Query;
 using Funkmap.Messenger.Query.Queries;
@@ -21,9 +17,7 @@ namespace Funkmap.Messenger.Tests
     [TestClass]
     public class MessageRepositoryTest
     {
-        private IMessageRepository _messageRepository;
-
-        private IDialogRepository _dialogRepository;
+        private ICommandBus _commandBus;
 
         private IQueryContext _queryContext;
 
@@ -33,37 +27,17 @@ namespace Funkmap.Messenger.Tests
 
             var builder = new ContainerBuilder();
             new MessengerQueryModule().Register(builder);
+            new MessengerCommandModule().Register(builder);
             new CqrsModule().Register(builder);
 
             var db = MessengerDbProvider.DropAndCreateDatabase;
             var messagesCollection = db.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
 
-            _dialogRepository = new DialogRepository(db.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName), messagesCollection);
-
-            var fileStorage = new GridFsFileStorage(MessengerDbProvider.GetGridFsBucket(db));
-
-            _messageRepository = new MessageRepository(messagesCollection, fileStorage);
-
             var container = builder.Build();
 
             _queryContext = container.Resolve<IQueryContext>();
-        }
+            _commandBus = container.Resolve<ICommandBus>();
 
-        [TestMethod]
-        public void GetNewMessagesTest()
-        {
-            var login = "rogulenkoko";
-
-            var query = new UserDialogsQuery(login);
-
-            var dialogs = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs;
-            var param = new DialogsNewMessagesParameter()
-            {
-                Login = login,
-                DialogIds = dialogs.Select(x=>x.DialogId).ToList()
-            };
-            var count = _messageRepository.GetDialogsWithNewMessagesAsync(param).GetAwaiter().GetResult();
-            Assert.AreEqual(count.Count, 1);
         }
 
         [TestMethod]
@@ -138,14 +112,14 @@ namespace Funkmap.Messenger.Tests
             };
             var dialogMessages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
 
-            var message = new MessageEntity()
+            var saveMessageCommand = new SaveMessageCommand()
             {
                 Text = "aaaaa",
                 Sender = login,
-                DialogId = new ObjectId(dialog.DialogId)
+                DialogId = dialog.DialogId
             };
 
-            _messageRepository.AddMessage(message).Wait();
+            _commandBus.Execute(saveMessageCommand).GetAwaiter().GetResult();
 
             var newDialogMessages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
 

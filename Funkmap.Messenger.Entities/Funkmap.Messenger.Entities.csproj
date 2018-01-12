@@ -47,7 +47,6 @@
     <Compile Include="DialogEntity.cs" />
     <Compile Include="MessageEntity.cs" />
     <Compile Include="MessageUnwinded.cs" />
-    <Compile Include="Objects\DialogsNewMessagesCountResult.cs" />
     <Compile Include="Objects\LastDialogMessageResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

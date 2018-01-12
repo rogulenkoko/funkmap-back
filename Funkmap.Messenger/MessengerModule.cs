@@ -3,26 +3,19 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
 using Autofac;
-using Autofac.Features.AttributeFilters;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Azure;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Data.Mongo;
+using Funkmap.Messenger.Command;
 using Funkmap.Messenger.Command.EventHandlers;
-using Funkmap.Messenger.Data;
-using Funkmap.Messenger.Data.Repositories;
-using Funkmap.Messenger.Data.Repositories.Abstract;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Events.Dialogs;
 using Funkmap.Messenger.Events.Messages;
 using Funkmap.Messenger.Handlers;
 using Funkmap.Messenger.Services;
 using Funkmap.Messenger.Services.Abstract;
-using Microsoft.Azure;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
@@ -77,9 +70,7 @@ namespace Funkmap.Messenger
             //builder.Register(context => context.ResolveKeyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage))
             //    .Keyed<IFileStorage>(MessengerCollectionNameProvider.MessengerStorage)
             //    .InstancePerDependency();
-
-            builder.RegisterType<DialogRepository>().As<IDialogRepository>();
-            builder.RegisterType<MessageRepository>().As<IMessageRepository>().WithAttributeFiltering();
+            
 
             builder.RegisterBuildCallback(async c =>
             {

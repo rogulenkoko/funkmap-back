@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Funkmap.Messenger.Data.Objects
+namespace Funkmap.Messenger.Entities.Objects
 {
     public class LastDialogMessageResult
     {

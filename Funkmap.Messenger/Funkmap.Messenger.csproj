@@ -161,13 +161,12 @@
     <Compile Include="Controllers\MessengerController.cs" />
     <Compile Include="Handlers\SignalrEventHandler.cs" />
     <Compile Include="Hubs\Abstract\IMessengerHub.cs" />
-    <Compile Include="Mappers\DialogAvatarInfoMapper.cs" />
     <Compile Include="Mappers\DialogMapper.cs" />
     <Compile Include="Mappers\MessageMapper.cs" />
     <Compile Include="Hubs\MessengerHub.cs" />
     <Compile Include="MessengerModule.cs" />
     <Compile Include="Models\DialogModel.cs" />
-    <Compile Include="Models\DialogAvatarInfo.cs" />
+    <Compile Include="Models\DialogAvatarInfoModel.cs" />
     <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\Requests\InviteParticipantsRequest.cs" />
@@ -206,10 +205,6 @@
     <ProjectReference Include="..\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj">
       <Project>{15E79617-9CDA-496E-84EF-0198FEA0B4B8}</Project>
       <Name>Funkmap.Messenger.Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger.Data\Funkmap.Messenger.Data.csproj">
-      <Project>{592d2c7a-ff06-45e5-b9ab-bf25f83815d0}</Project>
-      <Name>Funkmap.Messenger.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj">
       <Project>{16A45066-051D-487E-86AA-0D1495E482A7}</Project>

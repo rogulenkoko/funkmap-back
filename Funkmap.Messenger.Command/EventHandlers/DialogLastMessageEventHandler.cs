@@ -22,7 +22,10 @@ namespace Funkmap.Messenger.Command.EventHandlers
 
         public void Handle(MessageSavedCompleteEvent @event)
         {
-            var command = new UpdateDialogLastMessageCommand(@event.Message.DialogId.ToString(), @event.Message);
+            var command = new UpdateDialogLastMessageCommand(@event.Message.DialogId.ToString(), @event.Message.DateTimeUtc)
+            {
+                Message = @event.Message
+            };
             _commandBus.Execute(command);
         }
 

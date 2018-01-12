@@ -33,7 +33,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     throw new InvalidDataException("Command validation failed");
                 }
                 
-                var dialog = await _messengerRepository.UpdateLastMessageDateAsync(command.DialogId, command.Message.DateTimeUtc);
+                var dialog = await _messengerRepository.UpdateLastMessageDateAsync(command.DialogId, command.LastMesssageDateTime);
 
                 if (dialog == null)
                 {

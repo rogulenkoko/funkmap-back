@@ -13,6 +13,8 @@ namespace Funkmap.Messenger.Query
         {
             builder.RegisterType<UserDialogsQueryExecutor>().As<IQueryExecutor<UserDialogsQuery, UserDialogsResponse>>();
             builder.RegisterType<DialogMessagesQueryExecutor>().As<IQueryExecutor<DialogMessagesQuery, DialogMessagesResponse>>();
+            builder.RegisterType<DialogAvatarInfoQueryExecutor>().As<IQueryExecutor<DialogAvatarInfoQuery, DialogAvatarInfoResponse>>();
+            builder.RegisterType<DialogsNewMessagesCountQueryExecutor>().As<IQueryExecutor<DialogsNewMessagesCountQuery, DialogsNewMessagesCountResponse>>();
         }
     }
 }
