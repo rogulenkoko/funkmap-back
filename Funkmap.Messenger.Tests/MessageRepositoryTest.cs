@@ -10,7 +10,6 @@ using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Tests.Data;
 using Funkmap.Middleware.Modules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Tests
 {

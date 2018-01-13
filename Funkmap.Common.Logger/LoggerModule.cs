@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Web;
-using System.Web.Hosting;
 using Autofac;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Settings;

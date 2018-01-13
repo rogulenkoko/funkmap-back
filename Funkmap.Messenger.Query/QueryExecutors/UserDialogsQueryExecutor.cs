@@ -57,13 +57,13 @@ namespace Funkmap.Messenger.Query.QueryExecutors
 
 
 
-                var response = new UserDialogsResponse(true, dialogs.Select(x => new DialogWithLastMessage()
+                var response = new UserDialogsResponse(true, dialogs.Where(x=>x.LastMessage != null).Select(x => new DialogWithLastMessage()
                 {
                     DialogId = x.Id.ToString(),
                     Name = x.Name,
                     Participants = x.Participants,
                     CreatorLogin = x.CreatorLogin,
-                    LastMessage = x.LastMessage == null ? null : new Message()
+                    LastMessage = new Message()
                     {
                         Text = x.LastMessage.Text,
                         DialogId = x.LastMessage.DialogId.ToString(),
@@ -80,14 +80,14 @@ namespace Funkmap.Messenger.Query.QueryExecutors
 
                 var countResult = await _messagesCollection.Aggregate()
                     .Match(newMessagesFilter)
-                    .Group(x => x.DialogId, y => new DialogsNewMessagesCountResult()
+                    .Group(x => x.DialogId, y => new DialogsNewMessagesCountResultEntity()
                     {
-                        DialogId = y.Key.ToString(),
+                        DialogId = y.Key,
                         NewMessagesCount = y.Count()
                     })
                     .ToListAsync();
 
-                var countResultDictionary = countResult.ToDictionary(x => x.DialogId, y => y.NewMessagesCount);
+                var countResultDictionary = countResult.ToDictionary(x => x.DialogId.ToString(), y => y.NewMessagesCount);
 
                 foreach (var dialog in response.Dialogs)
                 {

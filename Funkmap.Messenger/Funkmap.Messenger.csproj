@@ -167,6 +167,7 @@
     <Compile Include="MessengerModule.cs" />
     <Compile Include="Models\DialogModel.cs" />
     <Compile Include="Models\DialogAvatarInfoModel.cs" />
+    <Compile Include="Models\DialogReadModel.cs" />
     <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\Requests\InviteParticipantsRequest.cs" />

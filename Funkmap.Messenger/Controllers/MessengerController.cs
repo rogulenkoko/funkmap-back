@@ -113,18 +113,14 @@ namespace Funkmap.Messenger.Controllers
             return Content(HttpStatusCode.OK, logins);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         [Route("getDialogsWithNewMessagesCount")]
-        public async Task<IHttpActionResult> GetDialogsNewMessagesCount(string[] dialogIds)
+        public async Task<IHttpActionResult> GetDialogsNewMessagesCount()
         {
             var login = Request.GetLogin();
 
-            dialogIds = dialogIds.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-
-            if (dialogIds.Length == 0) return Ok(new List<DialogsNewMessagesCountModel>());
-
-            var query = new DialogsNewMessagesCountQuery(login, dialogIds.ToList());
+            var query = new DialogsNewMessagesCountQuery(login);
 
             var response = await _queryContext.Execute<DialogsNewMessagesCountQuery, DialogsNewMessagesCountResponse>(query);
 

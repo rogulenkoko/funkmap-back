@@ -69,10 +69,12 @@
     <Compile Include="Queries\DialogAvatarInfoQuery.cs" />
     <Compile Include="Queries\DialogMessagesQuery.cs" />
     <Compile Include="Queries\DialogsNewMessagesCountQuery.cs" />
+    <Compile Include="Queries\UserDialogQuery.cs" />
     <Compile Include="Queries\UserDialogsQuery.cs" />
     <Compile Include="QueryExecutors\DialogAvatarInfoQueryExecutor.cs" />
     <Compile Include="QueryExecutors\DialogMessagesQueryExecutor.cs" />
     <Compile Include="QueryExecutors\DialogsNewMessagesCountQueryExecutor.cs" />
+    <Compile Include="QueryExecutors\UserDialogQueryExecutor.cs" />
     <Compile Include="QueryExecutors\UserDialogsQueryExecutor.cs" />
     <Compile Include="Responses\ContentItem.cs" />
     <Compile Include="Responses\DialogAvatarInfo.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Responses\DialogsNewMessagesCountResponse.cs" />
     <Compile Include="Responses\DialogsNewMessagesCountResult.cs" />
     <Compile Include="Responses\Message.cs" />
+    <Compile Include="Responses\UserDialogResponse.cs" />
     <Compile Include="Responses\UserDialogsResponse.cs" />
   </ItemGroup>
   <ItemGroup>

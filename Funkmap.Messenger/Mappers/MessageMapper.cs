@@ -33,25 +33,5 @@ namespace Funkmap.Messenger.Mappers
                 DialogId = source.DialogId.ToString()
             };
         }
-
-        public static MessageEntity ToEntity(this MessageModel source, List<string> recievers)
-        {
-            if (source == null) return null;
-
-
-            var content = new List<ContentItemEntity>();
-
-           // content.AddRange(source.Images.Select());
-
-            return new MessageEntity()
-            {
-                Sender = source.Sender,
-                Text = source.Text,
-                DialogId = new ObjectId(source.DialogId),
-                DateTimeUtc = source.DateTimeUtc,
-                ToParticipants = recievers,
-                IsRead = !source.IsNew
-            };
-        }
     }
 }

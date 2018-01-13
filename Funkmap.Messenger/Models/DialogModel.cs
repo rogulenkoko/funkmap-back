@@ -13,5 +13,7 @@ namespace Funkmap.Messenger.Models
 
         public string CreatorLogin { get; set; }
 
+        public int NewMessagesCount { get; set; }
+
     }
 }

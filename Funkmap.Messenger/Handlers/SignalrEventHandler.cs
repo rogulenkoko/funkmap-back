@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Events.Dialogs;
 using Funkmap.Messenger.Events.Messages;
 using Funkmap.Messenger.Hubs;
 using Funkmap.Messenger.Hubs.Abstract;
 using Funkmap.Messenger.Mappers;
+using Funkmap.Messenger.Models;
+using Funkmap.Messenger.Query.Queries;
+using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 
@@ -18,11 +22,13 @@ namespace Funkmap.Messenger.Handlers
     {
         private readonly IEventBus _eventBus;
         private readonly IMessengerConnectionService _connectionService;
+        private readonly IQueryContext _queryContext;
 
-        public SignalrEventHandler(IEventBus eventBus, IMessengerConnectionService connectionService)
+        public SignalrEventHandler(IEventBus eventBus, IMessengerConnectionService connectionService, IQueryContext queryContext)
         {
             _eventBus = eventBus;
             _connectionService = connectionService;
+            _queryContext = queryContext;
         }
 
         public void InitHandlers()
@@ -50,35 +56,47 @@ namespace Funkmap.Messenger.Handlers
         {
             var clientIds = _connectionService.GetConnectionIdsByLogins(@event.Dialog.Participants).ToList();
 
-            clientIds.ForEach(clientId =>
+            Parallel.ForEach(clientIds, clientId =>
             {
                 var login = _connectionService.GetLoginByConnectionId(clientId);
-                var dialog = @event.Dialog.ToModel(login);
+
+                var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
+                var response = _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query).GetAwaiter().GetResult();
+
+                if (!response.Success) return;
+
                 GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
                     .Clients.Client(clientId)
-                    .OnDialogCreated(dialog);
+                    .OnDialogCreated(response.Dialog.ToModel(login));
             });
         }
 
         public void Handle(MessagesReadEvent @event)
         {
-            var userConnections = _connectionService.GetConnectionIdsByLogins(new List<string>() { @event.UserLogin });
-            var connectionIds = _connectionService.GetConnectionIdsByLogins(@event.DialogMembers).Except(userConnections).ToList();
+            var connectionIds = _connectionService.GetConnectionIdsByLogins(@event.DialogMembers).ToList();
 
-            GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>().Clients.Clients(connectionIds).OnDialogRead(@event.DialogId);
+            var readModel = new DialogReadModel() {DialogId = @event.DialogId, UserWhoRead = @event.UserLogin};
+
+            GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>().Clients.Clients(connectionIds).OnDialogRead(readModel);
         }
 
         public void Handle(DialogUpdatedEvent @event)
         {
             var clientIds = _connectionService.GetConnectionIdsByLogins(@event.Dialog.Participants).ToList();
+            
 
-            clientIds.ForEach(clientId =>
+            Parallel.ForEach(clientIds, clientId =>
             {
                 var login = _connectionService.GetLoginByConnectionId(clientId);
-                var dialog = @event.Dialog.ToModel(login);
+
+                var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
+                var response = _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query).GetAwaiter().GetResult();
+
+                if(!response.Success) return;
+
                 GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
                     .Clients.Client(clientId)
-                    .OnDialogUpdated(dialog);
+                    .OnDialogUpdated(response.Dialog.ToModel(login));
             });
         }
     }
