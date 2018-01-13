@@ -45,11 +45,11 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                         Name = x.Name,
                         Participants = x.Participants,
                         LastMessageDate = x.LastMessageDate,
-                        CreatorLogin = x.CreatorLogin
+                        CreatorLogin = x.CreatorLogin,
+                        DialogType = x.DialogType,
                     })
                     .SingleOrDefaultAsync();
-
-                if(dialog == null) return new UserDialogResponse(true, null);
+                
 
                 var response = new UserDialogResponse(true,  new DialogWithLastMessage()
                 {
@@ -57,14 +57,16 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     Name = dialog.Name,
                     Participants = dialog.Participants,
                     CreatorLogin = dialog.CreatorLogin,
-                    LastMessage = new Message()
+                    LastMessage = dialog.LastMessage == null ? null : new Message()
                     {
                         Text = dialog.LastMessage.Text,
                         DialogId = dialog.LastMessage.DialogId.ToString(),
                         Sender = dialog.LastMessage.Sender,
                         DateTimeUtc = dialog.LastMessage.DateTimeUtc,
-                        IsNew = !dialog.LastMessage.IsRead
-                    }
+                        IsNew = !dialog.LastMessage.IsRead,
+                        MessageType = dialog.LastMessage.MessageType
+                    },
+                    DialogType = dialog.DialogType
                 });
 
                 var newMessagesFilter = Builders<MessageEntity>.Filter.AnyEq(x => x.ToParticipants, query.UserLogin)

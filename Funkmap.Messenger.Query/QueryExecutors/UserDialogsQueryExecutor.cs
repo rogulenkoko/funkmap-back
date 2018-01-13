@@ -50,7 +50,8 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                         Name = x.Name,
                         Participants = x.Participants,
                         LastMessageDate = x.LastMessageDate,
-                        CreatorLogin = x.CreatorLogin
+                        CreatorLogin = x.CreatorLogin,
+                        DialogType = x.DialogType
                     })
                     .Sort(sortFilter)
                     .ToListAsync();
@@ -69,8 +70,10 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                         DialogId = x.LastMessage.DialogId.ToString(),
                         Sender = x.LastMessage.Sender,
                         DateTimeUtc = x.LastMessage.DateTimeUtc,
-                        IsNew = !x.LastMessage.IsRead
-                    }
+                        IsNew = !x.LastMessage.IsRead,
+                        MessageType = x.LastMessage.MessageType
+                    },
+                    DialogType = x.DialogType
                 }).ToList());
 
                 var dialogIds = dialogs.Select(x => x.Id);

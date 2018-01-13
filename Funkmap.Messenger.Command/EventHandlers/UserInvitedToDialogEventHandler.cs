@@ -3,6 +3,7 @@ using System.Linq;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.EventHandlers
@@ -32,7 +33,8 @@ namespace Funkmap.Messenger.Command.EventHandlers
             var command = new SaveMessageCommand
             {
                 DialogId = @event.Dialog.Id.ToString(),
-                Sender = FunkmapConstants.FunkmalAdminUser,
+                Sender = @event.UserLogin,
+                MessageType = MessageType.System,
                 Text = $"{@event.UserLogin} пригласил {addedParticipantsString}"//todo подумать о локализации
             };
 

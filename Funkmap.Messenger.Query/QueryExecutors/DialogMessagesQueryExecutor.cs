@@ -78,7 +78,8 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     Sender = x.Sender,
                     Text = x.Text,
                     DateTimeUtc = x.DateTimeUtc,
-                    IsNew = !x.IsRead
+                    IsNew = !x.IsRead,
+                    MessageType = x.MessageType
                 }).ToList());
 
                 return response;

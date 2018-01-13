@@ -135,14 +135,14 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("createDialog")]
-        public IHttpActionResult CreateDialog(DialogModel dialog)
+        public IHttpActionResult CreateDialog(CreateDialogRequest request)
         {
             var login = Request.GetLogin();
             var command = new CreateDialogCommand()
             {
-                Participants = dialog.Participants,
+                Participants = request.Participants,
                 CreatorLogin = login,
-                DialogName = dialog.Name
+                DialogName = request.Name
             };
 
             _commandBus.Execute(command);

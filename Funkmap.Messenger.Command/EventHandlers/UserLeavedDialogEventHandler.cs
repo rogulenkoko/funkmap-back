@@ -36,7 +36,8 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 command = new SaveMessageCommand()
                 {
                     DialogId = @event.DialogId,
-                    Sender = FunkmapConstants.FunkmalAdminUser,
+                    Sender = @event.UserLogin,
+                    MessageType = MessageType.System,
                     Text = $"{ @event.UserLogin} исключил {@event.LeavedUserLogin} из беседы"
                 };
             }
@@ -45,7 +46,8 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 command = new SaveMessageCommand()
                 {
                     DialogId = @event.DialogId,
-                    Sender = FunkmapConstants.FunkmalAdminUser,
+                    Sender = @event.UserLogin,
+                    MessageType = MessageType.System,
                     Text = $"{@event.UserLogin} покинул беседу"
                 };
             }

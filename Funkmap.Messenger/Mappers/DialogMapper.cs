@@ -12,7 +12,7 @@ namespace Funkmap.Messenger.Mappers
         {
             if (source == null) return null;
 
-            if (source.Participants.Count == 2)
+            if (source.DialogType == DialogType.Base)
             {
                 source.Name = source.Participants.Single(x => x != userLogin);
             }
@@ -24,7 +24,8 @@ namespace Funkmap.Messenger.Mappers
                 LastMessage = source.LastMessage?.ToModel(),
                 Participants = source.Participants,
                 CreatorLogin = source.CreatorLogin,
-                NewMessagesCount = source.NewMessagesCount
+                NewMessagesCount = source.NewMessagesCount,
+                DialogType = source.DialogType
             };
         }
 

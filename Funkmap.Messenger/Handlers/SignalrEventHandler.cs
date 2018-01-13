@@ -54,21 +54,18 @@ namespace Funkmap.Messenger.Handlers
 
         public void Handle(DialogCreatedEvent @event)
         {
-            var clientIds = _connectionService.GetConnectionIdsByLogins(@event.Dialog.Participants).ToList();
+            var login = @event.Sender;
 
-            Parallel.ForEach(clientIds, clientId =>
-            {
-                var login = _connectionService.GetLoginByConnectionId(clientId);
+            var clientIds = _connectionService.GetConnectionIdsByLogin(login).ToList();
 
-                var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
-                var response = _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query).GetAwaiter().GetResult();
+            var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
+            var response = _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query).GetAwaiter().GetResult();
 
-                if (!response.Success) return;
+            if (!response.Success) return;
 
-                GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
-                    .Clients.Client(clientId)
-                    .OnDialogCreated(response.Dialog.ToModel(login));
-            });
+            GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+                .Clients.Clients(clientIds)
+                .OnDialogCreated(response.Dialog.ToModel(login));
         }
 
         public void Handle(MessagesReadEvent @event)

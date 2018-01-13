@@ -29,5 +29,21 @@ namespace Funkmap.Messenger.Entities
         [BsonIgnore]
         public MessageEntity LastMessage { get; set; }
 
+        [BsonElement("t")]
+        public DialogType DialogType { get; set; }
+
+    }
+
+    public enum DialogType
+    {
+        /// <summary>
+        /// Два собеседника
+        /// </summary>
+        Base = 1,
+
+        /// <summary>
+        /// Больше двух собеседников
+        /// </summary>
+        Conversation = 2
     }
 }

@@ -5,6 +5,11 @@ namespace Funkmap.Messenger.Command.Commands
 {
     public class SaveMessageCommand
     {
+
+        public SaveMessageCommand()
+        {
+            MessageType = MessageType.Base;
+        }
         public string DialogId { get; set; }
        
         public string Sender { get; set; }
@@ -14,5 +19,7 @@ namespace Funkmap.Messenger.Command.Commands
         public List<ContentItemEntity> Content { get; set; }
 
         public ICollection<string> UsersWithOpenedCurrentDialog { get; set; }
+
+        public MessageType MessageType { get; set; }
     }
 }

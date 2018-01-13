@@ -48,6 +48,7 @@ namespace Funkmap.Common.SignalR
 
         public ICollection<string> GetConnectionIdsByLogins(ICollection<string> logins)
         {
+            if(logins == null) return new List<string>();
             return _onlineUsers.Where(x => logins.Contains(x.Value.Login)).Select(x => x.Key).ToList();
         }
 

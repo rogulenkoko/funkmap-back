@@ -47,7 +47,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
                 var dialogParticipants = await _messengerRepository.GetDialogMembersAsync(command.DialogId);
 
-                if (!dialogParticipants.Contains(command.Sender) && command.Sender != FunkmapConstants.FunkmalAdminUser)
+                if (!dialogParticipants.Contains(command.Sender))
                 {
                     throw new InvalidDataException($"{command.Sender} is not member of the dialog with id {command}");
                 }
@@ -67,7 +67,8 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     DialogId = new ObjectId(command.DialogId),
                     IsRead = isRead,
                     Text = command.Text,
-                    ToParticipants = messsageParticipants
+                    ToParticipants = messsageParticipants,
+                    MessageType = command.MessageType
                 };
 
                 await _messengerRepository.AddMessageAsync(message);

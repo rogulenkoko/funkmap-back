@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Query.Responses
 {
@@ -16,5 +13,7 @@ namespace Funkmap.Messenger.Query.Responses
         public ContentItem[] Images { get; set; }
 
         public bool IsNew { get; set; }
+
+        public MessageType MessageType { get; set; }
     }
 }

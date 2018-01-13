@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Models
 {
@@ -14,6 +15,8 @@ namespace Funkmap.Messenger.Models
         public string CreatorLogin { get; set; }
 
         public int NewMessagesCount { get; set; }
+
+        public DialogType DialogType { get; set; }
 
     }
 }

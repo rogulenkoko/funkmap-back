@@ -18,6 +18,8 @@ namespace Funkmap.Messenger.Command.Repositories
         Task AddDialogAsync(DialogEntity dialog);
         Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime);
         Task MakeDialogMessagesReadAsync(string dialogId, string login, DateTime readTime);
+
+        Task<DialogEntity> GetDialogByParticipants(string[] participants);
     }
 
     internal class MessengerCommandRepository : IMessengerCommandRepository
@@ -98,6 +100,15 @@ namespace Funkmap.Messenger.Command.Repositories
             var update = Builders<MessageEntity>.Update.Pull(x => x.ToParticipants, login).Set(x => x.IsRead, true);
 
             await _messagesCollection.UpdateManyAsync(readFilter, update);
+        }
+
+        public async Task<DialogEntity> GetDialogByParticipants(string[] participants)
+        {
+            var filter = Builders<DialogEntity>.Filter.All(x => x.Participants, participants) & Builders<DialogEntity>.Filter.Eq(x=>x.DialogType, DialogType.Base);
+
+            var dialog = await _dialogCollection.Find(filter).SingleOrDefaultAsync();
+
+            return dialog;
         }
     }
 }

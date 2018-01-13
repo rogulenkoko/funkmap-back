@@ -13,6 +13,7 @@ namespace Funkmap.Messenger.Entities
             DateTimeUtc = DateTime.UtcNow;
             Content = new List<ContentItemEntity>();
             ToParticipants = new List<string>();
+            MessageType = MessageType.Base;
         }
 
         [BsonElement("d")]
@@ -29,6 +30,9 @@ namespace Funkmap.Messenger.Entities
 
         [BsonElement("pwr")]
         public List<string> ToParticipants { get; set; }
+
+        [BsonElement("tp")]
+        public MessageType MessageType { get; set; }
 
         [BsonElement("cont")]
         [BsonIgnoreIfDefault]
@@ -56,5 +60,11 @@ namespace Funkmap.Messenger.Entities
     public enum ContentType
     {
         Image = 1
+    }
+
+    public enum MessageType
+    {
+        Base = 1,
+        System = 2
     }
 }

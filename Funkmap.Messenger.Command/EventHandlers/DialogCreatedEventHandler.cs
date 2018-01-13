@@ -2,6 +2,7 @@
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.EventHandlers
@@ -29,8 +30,8 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 var saveMessageCommand = new SaveMessageCommand()
                 {
                     DialogId = @event.Dialog.Id.ToString(),
-                    Sender = FunkmapConstants.FunkmalAdminUser,
-
+                    Sender = @event.Sender,
+                    MessageType = MessageType.System,
                     //todo подумать о локализации
                     Text = $"{@event.Dialog.CreatorLogin} создал беседу {@event.Dialog.Name} из {@event.Dialog.Participants.Count} участников"
                 };

@@ -13,5 +13,7 @@ namespace Funkmap.Messenger.Models
         public ContentItemEntity[] Images { get; set; }
 
         public bool IsNew { get; set; }
+
+        public MessageType MessageType { get; set; }
     }
 }

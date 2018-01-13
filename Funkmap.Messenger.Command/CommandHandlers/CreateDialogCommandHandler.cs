@@ -47,15 +47,27 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     command.Participants.Add(command.CreatorLogin);
                 }
 
+                if (command.Participants.Count == 2)
+                {
+                    var existingDialog = await _messengerRepository.GetDialogByParticipants(command.Participants.ToArray());
+                    if (existingDialog != null)
+                    {
+                        await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = existingDialog, Sender = command.CreatorLogin});
+                        return;
+                    }
+                }
+                
+
                 var dialog = new DialogEntity
                 {
                     Name = command.DialogName,
                     CreatorLogin = command.CreatorLogin,
-                    Participants = command.Participants
+                    Participants = command.Participants,
+                    DialogType = command.Participants.Count == 2 ? DialogType.Base : DialogType.Conversation
                 };
 
                 await _messengerRepository.AddDialogAsync(dialog);
-                await _eventBus.PublishAsync(new DialogCreatedEvent() {Dialog = dialog});
+                await _eventBus.PublishAsync(new DialogCreatedEvent() {Dialog = dialog, Sender = dialog.CreatorLogin});
             }
             catch (InvalidDataException e)
             {

@@ -58,12 +58,16 @@ namespace Funkmap.Messenger.Hubs
         [HubMethodName("setOpenedDialog")]
         public BaseResponse SetOpenedDialog(string dialogId)
         {
-            if (String.IsNullOrEmpty(dialogId)) return new BaseResponse() {Success = false};
-
             var connectionId = Context.ConnectionId;
             var isSucces = _connectionService.SetOpenedDialog(connectionId, dialogId);
             
             var login = Context.QueryString["login"];
+
+            //у пользователя нет открытых диалогов
+            if (String.IsNullOrEmpty(dialogId))
+            {
+                return new BaseResponse() {Success = true};
+            }
 
             _commandBus.Execute(new ReadMessagesCommand
             {
