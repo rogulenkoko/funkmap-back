@@ -179,7 +179,8 @@
     <Compile Include="Models\UserPreview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RegistrationContext.cs" />
-    <Compile Include="Services\RegistrationContextFactory.cs" />
+    <Compile Include="Services\RegistrationContextManager.cs" />
+    <Compile Include="Services\CryptoProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
@@ -54,6 +56,10 @@ namespace Funkmap.Module.Auth.Services
                 return false;
             }
 
+            
+
+            creds.Password = CryptoProvider.ComputeHash(creds.Password);
+
             var user = new UserEntity() { Login = creds.Login, Password = creds.Password, Name = creds.Name };
 
             var context = new RegistrationContext(user);
@@ -82,7 +88,7 @@ namespace Funkmap.Module.Auth.Services
 
             var allBookedEmails = bookedDbEmails.Concat(bookedContextEmails);
 
-            if (!allBookedEmails.Contains(email))
+            if (allBookedEmails.Any(x=> x == email))
             {
                 return false;
             }
