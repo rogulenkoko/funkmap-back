@@ -2,14 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Auth.Data.Abstract;
-using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Common.Notifications.Notification.Abstract;
+using Funkmap.Module.Auth.Abstract;
 using Funkmap.Module.Auth.Models;
-using Funkmap.Module.Auth.Notifications;
-using Funkmap.Module.Auth.Services;
 
 namespace Funkmap.Module.Auth.Controllers
 {
@@ -17,22 +13,19 @@ namespace Funkmap.Module.Auth.Controllers
     [ValidateRequestModel]
     public class AuthController : ApiController
     {
-        private readonly IAuthRepository _authRepository;
-        private readonly IExternalNotificationService _externalNotificationService;
         private readonly IRegistrationContextManager _contextManager;
-        public AuthController(IAuthRepository authRepository, IExternalNotificationService externalNotificationService,
-            IRegistrationContextManager contextManager)
+        private readonly IRestoreContextManager _restoreContextManager;
+        public AuthController(IRegistrationContextManager contextManager, IRestoreContextManager restoreContextManager)
         {
-            _authRepository = authRepository;
-            _externalNotificationService = externalNotificationService;
             _contextManager = contextManager;
+            _restoreContextManager = restoreContextManager;
         }
 
-        [HttpPost]
-        [Route("register")]
-        public async Task<IHttpActionResult> Register(RegistrationRequest creds)
+        [HttpGet]
+        [Route("validate/{login}")]
+        public async Task<IHttpActionResult> Register(string login)
         {
-            var creationContetResult = await _contextManager.TryCreateContextAsync(creds);
+            var creationContetResult = await _contextManager.ValidateLogin(login);
 
             var response = new RegistrationResponse()
             {
@@ -51,7 +44,7 @@ namespace Funkmap.Module.Auth.Controllers
                 return BadRequest("invalid email");
             }
 
-            var codeSentresult = await _contextManager.TrySendCodeAsync(request.Login, request.Email);
+            var codeSentresult = await _contextManager.TryCreateContextAsync(request);
 
             var response = new BaseResponse
             {
@@ -65,7 +58,12 @@ namespace Funkmap.Module.Auth.Controllers
         [Route("confirm")]
         public async Task<IHttpActionResult> Confirm(ConfirmationRequest request)
         {
-            var confirmationResult = await _contextManager.TryConfirmAsync(request.Login, request.Code);
+            if (String.IsNullOrEmpty(request.Email) || !(new EmailAddressAttribute().IsValid(request.Email)))
+            {
+                return BadRequest("invalid email");
+            }
+
+            var confirmationResult = await _contextManager.TryConfirmAsync(request.Login, request.Email, request.Code);
 
             var response = new RegistrationResponse()
             {
@@ -75,17 +73,32 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        [Route("restore")]
-        public async Task<IHttpActionResult> SendEmailForКecovery(String email)
+        [HttpGet]
+        [Route("restore/{email}")]
+        public async Task<IHttpActionResult> AskRestore(string email)
         {
-            var response = new RegistrationResponse();
-            UserEntity user = _authRepository.GetUserByEmail(email).Result;
-            if (user == null) return Ok(response);
-            var notification = new PasswordRecoverNotification(email, user.Name, user.Password);
-            var sendResult = await _externalNotificationService.TrySendNotificationAsync(notification);
-            response.Success = sendResult;
-            return Ok(response);
+            var result = await _restoreContextManager.TryCreateRestoreContextAsync(email);
+
+            if (!result)
+            {
+                return Ok(new BaseResponse() {Success = false});
+            }
+
+            return Ok(new BaseResponse() {Success = true});
+        }
+
+        [HttpPost]
+        [Route("confirmRestore")]
+        public async Task<IHttpActionResult> ConfirmRestore(ConfirmRestoreRequest request)
+        {
+            var result = await _restoreContextManager.TryConfirmRestoreAsync(request.LoginOrEmail, request.Code, request.Password);
+
+            if (!result)
+            {
+                return Ok(new BaseResponse() { Success = false });
+            }
+
+            return Ok(new BaseResponse() { Success = true });
         }
     }
 }

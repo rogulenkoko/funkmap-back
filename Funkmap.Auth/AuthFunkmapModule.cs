@@ -11,6 +11,7 @@ using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
 using Funkmap.Common.Data.Mongo;
+using Funkmap.Module.Auth.Abstract;
 using Funkmap.Module.Auth.Services;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
@@ -65,7 +66,7 @@ namespace Funkmap.Module.Auth
             //    .Keyed<IFileStorage>(AuthCollectionNameProvider.AuthStorageName)
             //    .InstancePerDependency();
 
-            builder.RegisterType<RegistrationContextManager>().As<IRegistrationContextManager>().SingleInstance();
+            builder.RegisterType<RegistrationContextManager>().As<IRegistrationContextManager>().As<IRestoreContextManager>().SingleInstance();
 
             builder.RegisterType<AuthRepository>().As<IAuthRepository>().WithAttributeFiltering();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());

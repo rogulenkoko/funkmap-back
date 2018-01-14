@@ -6,14 +6,6 @@ namespace Funkmap.Module.Auth.Services
 {
     public class RegistrationContext
     {
-        public string Login { get; }
-
-        public string Email
-        {
-            get { return User.Email; }
-            set { User.Email = value; }
-        }
-
         public string Code { get; set; }
 
         public UserEntity User { get; }
@@ -24,10 +16,8 @@ namespace Funkmap.Module.Auth.Services
             {
                 throw new ArgumentException("user is null");
             }
-
-            Login = user.Login;
+            
             User = user;
-
         }
     }
 }

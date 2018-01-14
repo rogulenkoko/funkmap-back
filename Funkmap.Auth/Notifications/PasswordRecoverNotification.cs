@@ -4,12 +4,12 @@ namespace Funkmap.Module.Auth.Notifications
 {
     public class PasswordRecoverNotification : Notification
     {
-        public PasswordRecoverNotification(string reciever, string name, string newPassword) : base(reciever)
+        public PasswordRecoverNotification(string reciever, string name, string code) : base(reciever)
         {
             Subject = GetSubject();
             Title = GetConfirmationTitle(name);
             MainContent = "<br><br><br>";
-            Footer = GetFooter(newPassword);
+            Footer = GetFooter(code);
         }
 
         private string GetSubject()
@@ -22,9 +22,9 @@ namespace Funkmap.Module.Auth.Notifications
             return $"Приветствую, {name}";
         }
 
-        private string GetFooter(string newPassword)
+        private string GetFooter(string code)
         {
-            return "Ваш пароль: " + $"<span style=\"font-family: 'Roboto', Arial, sans-serif; margin: 0 0 0; font-size: 26px; line-height: 29px; color:#ee9117;\"> {newPassword} </span>";
+            return "Код для восстановления пароля: " + $"<span style=\"font-family: 'Roboto', Arial, sans-serif; margin: 0 0 0; font-size: 26px; line-height: 29px; color:#ee9117;\"> {code} </span>";
         }
     }
 }

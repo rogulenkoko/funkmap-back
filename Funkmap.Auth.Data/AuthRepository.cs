@@ -23,14 +23,14 @@ namespace Funkmap.Auth.Data
 
         public async Task<UserEntity> LoginAsync(string login, string password)
         {
-            var user = await _collection.Find(x=>x.Login == login && x.Password == password).SingleOrDefaultAsync();
+            var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == password).SingleOrDefaultAsync();
             return user;
         }
 
         public async Task<bool> CheckIfExist(string login)
         {
             var projection = Builders<UserEntity>.Projection.Include(x => x.Login);
-            var userId = await _collection.Find(x => x.Login == login).Project(projection).SingleOrDefaultAsync();
+            var userId = await _collection.Find(x => x.Login == login || x.Email == login).Project(projection).SingleOrDefaultAsync();
             var isExist = userId != null;
             return isExist;
         }
@@ -80,15 +80,10 @@ namespace Funkmap.Auth.Data
             return user?.LastVisitDateUtc;
         }
 
-        public override Task UpdateAsync(UserEntity entity)
+        public override async Task UpdateAsync(UserEntity entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<UserEntity> GetUserByEmail(string email)
-        {
-            var filter = Builders<UserEntity>.Filter.Eq("em", email);
-            return await _collection.Find(filter).SingleOrDefaultAsync();
+            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, entity.Login);
+            await _collection.ReplaceOneAsync(filter, entity);
         }
 
         public async Task<ICollection<string>> GetBookedEmailsAsync()
@@ -96,6 +91,13 @@ namespace Funkmap.Auth.Data
             var projection = Builders<UserEntity>.Projection.Include(x => x.Email);
             var usersEmails = await _collection.Find(x => true).Project<UserEntity>(projection).ToListAsync();
             return usersEmails.Where(x => !String.IsNullOrEmpty(x.Email)).Select(x => x.Email).ToList();
+        }
+
+        public async Task<UserEntity> GetUserByEmailOrLogin(string emailOrLogin)
+        {
+            var user = await _collection.Find(x => x.Login == emailOrLogin || x.Email == emailOrLogin).SingleOrDefaultAsync();
+
+            return user;
         }
     }
 }

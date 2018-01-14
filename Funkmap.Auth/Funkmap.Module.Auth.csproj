@@ -163,8 +163,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IRegistrationContextManager.cs" />
+    <Compile Include="Abstract\IRestoreContextManager.cs" />
     <Compile Include="AuthFunkmapModule.cs" />
     <Compile Include="Models\AvatarUpdateResponse.cs" />
+    <Compile Include="Models\ConfirmRestoreRequest.cs" />
     <Compile Include="Notifications\ConfirmationNotification.cs" />
     <Compile Include="Notifications\PasswordRecoverNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />
@@ -181,6 +184,7 @@
     <Compile Include="Services\RegistrationContext.cs" />
     <Compile Include="Services\RegistrationContextManager.cs" />
     <Compile Include="Services\CryptoProvider.cs" />
+    <Compile Include="Services\RestoreContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
