@@ -58,11 +58,22 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     throw new InvalidDataException($"{command.UserLogin} can not modify dialog {command.DialogId}");
                 }
 
-                if (command.Avatar != null && command.Avatar.Length != 0)
+                if (command.Avatar != null)
                 {
-                    var cutted = FunkmapImageProcessor.MinifyImage(command.Avatar);
-                    var date = DateTimeOffset.Now.ToString("yyyyMMddhhmmss");
-                    var fullPath = await _fileStorage.UploadFromBytesAsync($"{dialog.Id}{date}", cutted);
+                    string fullPath;
+
+                    if (command.Avatar.Length != 0)
+                    {
+                        var cutted = FunkmapImageProcessor.MinifyImage(command.Avatar);
+                        var date = DateTimeOffset.Now.ToString("yyyyMMddhhmmss");
+                        fullPath = await _fileStorage.UploadFromBytesAsync($"{dialog.Id}{date}", cutted);
+                    }
+                    else
+                    {
+                        await _fileStorage.DeleteAsync(dialog.AvatarId);
+                        fullPath = String.Empty;
+                    }
+                   
                     
                     dialog.AvatarId = fullPath;
                 }

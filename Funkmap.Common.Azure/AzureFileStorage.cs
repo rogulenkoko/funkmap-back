@@ -47,7 +47,7 @@ namespace Funkmap.Common.Azure
 
         public async Task DeleteAsync(string fullFilePath)
         {
-            var name = fullFilePath.Replace(_container.Uri.ToString(), "");
+            var name = fullFilePath.Replace($"{_container.Uri}/", "");
             CloudBlockBlob blob = _container.GetBlockBlobReference(name);
             await blob.DeleteAsync();
         }
