@@ -49,7 +49,11 @@ namespace Funkmap.Data.Entities.Entities
         None = 0,
         HipHop = 1,
         Rock = 2,
-        Funk = 3
+        Funk = 3,
+        Metal = 4,
+        Jazz = 5,
+        Pop = 6,
+        Electronic = 7
     }
 
     public enum InstrumentType
@@ -60,7 +64,8 @@ namespace Funkmap.Data.Entities.Entities
         Vocal = 3,
         Brass = 4,
         Guitar = 5,
-        Keyboard = 6
+        Keyboard = 6,
+        Dj = 7
     }
 
     public enum ExpirienceType
