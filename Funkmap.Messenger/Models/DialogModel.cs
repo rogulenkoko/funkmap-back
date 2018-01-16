@@ -7,7 +7,7 @@ namespace Funkmap.Messenger.Models
     {
         public string DialogId { get; set; }
         public string Name { get; set; }
-        public byte[] Avatar { get; set; }
+        public string AvatarId { get; set; }
         public List<string> Participants { get; set; }
 
         public MessageModel LastMessage { get; set; }

@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IMessengerCommandRepository.cs" />
     <Compile Include="CommandHandlers\InviteParticipantsCommandHandler.cs" />
     <Compile Include="CommandHandlers\LeaveDialogCommandHandler.cs" />
     <Compile Include="CommandHandlers\UpdateDialogInfoCommandHandler.cs" />

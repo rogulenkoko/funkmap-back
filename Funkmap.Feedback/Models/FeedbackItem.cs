@@ -7,6 +7,7 @@
         public string Message { get; set; }
     }
 
+    //todo вынести это в сборку Funkmap.Feedback.Entities
     public enum FeedbackType
     {
         Another = 0,

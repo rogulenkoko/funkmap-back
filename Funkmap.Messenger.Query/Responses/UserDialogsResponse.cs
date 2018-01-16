@@ -21,6 +21,7 @@ namespace Funkmap.Messenger.Query.Responses
         public string DialogId { get; set; }
         public string Name { get; set; }
         public List<string> Participants { get; set; }
+        public string AvatarId { get; set; }
 
         public Message LastMessage { get; set; }
 

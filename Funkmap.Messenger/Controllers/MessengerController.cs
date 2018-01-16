@@ -163,15 +163,15 @@ namespace Funkmap.Messenger.Controllers
         [HttpPost]
         [Authorize]
         [Route("updateDialog")]
-        public IHttpActionResult UpdateDialogInfo(DialogModel dialog)
+        public IHttpActionResult UpdateDialogInfo(DialogUpdateRequest request)
         {
             var login = Request.GetLogin();
 
             _commandBus.Execute(new UpdateDialogInfoCommand()
             {
-                Avatar = dialog.Avatar,
-                DialogId = dialog.DialogId,
-                Name = dialog.Name,
+                Avatar = request.Avatar,
+                DialogId = request.DialogId,
+                Name = request.Name,
                 UserLogin = login
             });
 

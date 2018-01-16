@@ -3,26 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
+using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Funkmap.Messenger.Command.Repositories
 {
-    internal interface IMessengerCommandRepository
-    {
-        Task<DialogEntity> GetDialogAsync(string id);
-        Task UpdateDialogAsync(DialogEntity dialog);
-        Task<ICollection<string>> GetDialogMembersAsync(string dialogId);
-        Task AddMessageAsync(MessageEntity message);
-        Task AddDialogAsync(DialogEntity dialog);
-        Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime);
-        Task MakeDialogMessagesReadAsync(string dialogId, string login, DateTime readTime);
-
-        Task<DialogEntity> GetDialogByParticipants(string[] participants);
-    }
-
-    internal class MessengerCommandRepository : IMessengerCommandRepository
+    public class MessengerCommandRepository : IMessengerCommandRepository
     {
 
         private readonly IMongoCollection<MessageEntity> _messagesCollection;
@@ -31,7 +19,9 @@ namespace Funkmap.Messenger.Command.Repositories
 
         public MessengerCommandRepository(IMongoCollection<DialogEntity> dialogCollection,
                                           IMongoCollection<MessageEntity> messagesCollection,
-            [KeyFilter(MessengerCollectionNameProvider.MessengerStorage)]IFileStorage fileStorage)
+
+                                          [KeyFilter(MessengerCollectionNameProvider.MessengerStorage)]
+                                          IFileStorage fileStorage)
         {
             _messagesCollection = messagesCollection;
             _dialogCollection = dialogCollection;
@@ -47,6 +37,8 @@ namespace Funkmap.Messenger.Command.Repositories
 
         public async Task UpdateDialogAsync(DialogEntity dialog)
         {
+
+            
             var filter = Builders<DialogEntity>.Filter.Eq(x => x.Id, dialog.Id);
             await _dialogCollection.ReplaceOneAsync(filter, dialog);
         }

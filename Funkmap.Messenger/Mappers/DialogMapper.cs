@@ -25,7 +25,8 @@ namespace Funkmap.Messenger.Mappers
                 Participants = source.Participants,
                 CreatorLogin = source.CreatorLogin,
                 NewMessagesCount = source.NewMessagesCount,
-                DialogType = source.DialogType
+                DialogType = source.DialogType,
+                AvatarId = source.AvatarId
             };
         }
 

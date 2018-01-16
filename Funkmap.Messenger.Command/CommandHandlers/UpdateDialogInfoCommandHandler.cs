@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Autofac.Features.AttributeFilters;
+using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Data.Mongo.Entities;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
+using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Command.Repositories;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
@@ -14,12 +15,19 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class UpdateDialogInfoCommandHandler : ICommandHandler<UpdateDialogInfoCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
+        private readonly IFileStorage _fileStorage;
+
         private readonly IFunkmapLogger<UpdateDialogInfoCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public UpdateDialogInfoCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<UpdateDialogInfoCommandHandler> logger, IEventBus eventBus)
+        public UpdateDialogInfoCommandHandler(IMessengerCommandRepository messengerRepository,
+                                              [KeyFilter(MessengerCollectionNameProvider.MessengerStorage)]
+                                              IFileStorage fileStorage,
+                                              IFunkmapLogger<UpdateDialogInfoCommandHandler> logger, 
+                                              IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
+            _fileStorage = fileStorage;
             _logger = logger;
             _eventBus = eventBus;
         }
@@ -53,7 +61,10 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                 if (command.Avatar != null && command.Avatar.Length != 0)
                 {
                     var cutted = FunkmapImageProcessor.MinifyImage(command.Avatar);
-                    dialog.Avatar = new ImageInfo() {Image = cutted };
+                    var date = DateTimeOffset.Now.ToString("yyyyMMddhhmmss");
+                    var fullPath = await _fileStorage.UploadFromBytesAsync($"{dialog.Id}{date}", cutted);
+                    
+                    dialog.AvatarId = fullPath;
                 }
 
                 if (!String.IsNullOrEmpty(command.Name))

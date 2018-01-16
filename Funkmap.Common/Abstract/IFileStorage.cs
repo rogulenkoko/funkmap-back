@@ -12,7 +12,7 @@ namespace Funkmap.Common.Abstract
         /// </summary>
         /// <param name="fullFilePath">ВАЖНО! Полный путь до файла</param>
         /// <returns></returns>
-        Task<byte[]> DownloadAsBytesAsync(string fileName);
+        Task<byte[]> DownloadAsBytesAsync(string fullFilePath);
 
 
         /// <summary>

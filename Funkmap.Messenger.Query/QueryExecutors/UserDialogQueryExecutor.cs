@@ -44,6 +44,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                         LastMessage = x.LastMessages.Last(),
                         Name = x.Name,
                         Participants = x.Participants,
+                        AvatarId = x.AvatarId,
                         LastMessageDate = x.LastMessageDate,
                         CreatorLogin = x.CreatorLogin,
                         DialogType = x.DialogType,
@@ -56,6 +57,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     DialogId = dialog.Id.ToString(),
                     Name = dialog.Name,
                     Participants = dialog.Participants,
+                    AvatarId = dialog.AvatarId,
                     CreatorLogin = dialog.CreatorLogin,
                     LastMessage = dialog.LastMessage == null ? null : new Message()
                     {

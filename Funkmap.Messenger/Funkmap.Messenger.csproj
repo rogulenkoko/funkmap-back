@@ -171,6 +171,7 @@
     <Compile Include="Models\DialogsNewMessagesCountModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\Requests\CreateDialogRequest.cs" />
+    <Compile Include="Models\Requests\DialogUpdateRequest.cs" />
     <Compile Include="Models\Requests\InviteParticipantsRequest.cs" />
     <Compile Include="Models\Requests\DialogMessagesRequest.cs" />
     <Compile Include="Models\Requests\LeaveDialogRequest.cs" />
