@@ -34,11 +34,27 @@
       <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.4.4\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.4.4\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,6 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandler\FeedbackCommandHandler.cs" />
+    <Compile Include="Commands\FeedbackCommand.cs" />
+    <Compile Include="FeedbackCollectionNameProvider.cs" />
     <Compile Include="FeedbackCommandModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,9 +75,21 @@
       <Project>{8f4b3c85-22d5-4826-bda4-1bc7ec81fd55}</Project>
       <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+      <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
+      <Name>Funkmap.Common.Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj">
+      <Project>{2d0c55a3-225b-4269-997f-e205fb2e0b5a}</Project>
+      <Name>Funkmap.Feedback.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Feedback.Events\Funkmap.Feedback.Events.csproj">
+      <Project>{2F3381DC-A672-4E91-B310-94B8DC59C398}</Project>
+      <Name>Funkmap.Feedback.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

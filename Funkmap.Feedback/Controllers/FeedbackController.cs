@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
+﻿using System.Web.Http;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Feedback.Command.Commands;
 using Funkmap.Feedback.Models;
 
 namespace Funkmap.Feedback.Controllers
@@ -10,12 +11,18 @@ namespace Funkmap.Feedback.Controllers
     [ValidateRequestModel]
     public class FeedbackController : ApiController
     {
+        private readonly ICommandBus _commandBus;
 
-        [HttpPost]
-        [Route("validate/{login}")]
-        public async Task<IHttpActionResult> Register(FeedbackItem item)
+        public FeedbackController(ICommandBus commandBus)
         {
-            
+            _commandBus = commandBus;
+        }
+        
+        [HttpPost]
+        [Route("save")]
+        public IHttpActionResult SaveFeedback(FeedbackItem item)
+        {
+            _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message));
 
             return Ok(new BaseResponse() {Success = true});
         }

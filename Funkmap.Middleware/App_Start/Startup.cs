@@ -97,7 +97,7 @@ namespace Funkmap.Middleware
             Assembly.Load(typeof(Messenger.Query.MessengerQueryModule).Assembly.FullName);
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(Statistics.StatisticsModule).Assembly.FullName); 
-            Assembly.Load(typeof(Feedback.FeedBackModule).Assembly.FullName);
+            Assembly.Load(typeof(Feedback.FeedbackModule).Assembly.FullName);
             Assembly.Load(typeof(Feedback.Command.FeedbackCommandModule).Assembly.FullName);
 
             //Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
