@@ -21,6 +21,7 @@ namespace Funkmap.Messenger.Command
             builder.RegisterType<LeaveDialogCommandHandler>().As<ICommandHandler<LeaveDialogCommand>>(); 
             builder.RegisterType<InviteParticipantsCommandHandler>().As<ICommandHandler<InviteParticipantsCommand>>();
             builder.RegisterType<UpdateDialogInfoCommandHandler>().As<ICommandHandler<UpdateDialogInfoCommand>>().WithAttributeFiltering();
+            builder.RegisterType<StartUploadContentCommandHandler>().As<ICommandHandler<StartUploadContentCommand>>().WithAttributeFiltering();
         }
     }
 }

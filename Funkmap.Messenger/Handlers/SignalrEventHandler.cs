@@ -18,7 +18,8 @@ namespace Funkmap.Messenger.Handlers
     public class SignalrEventHandler : IEventHandler<DialogUpdatedEvent>, 
                                        IEventHandler<MessageSavedCompleteEvent>, 
                                        IEventHandler<MessagesReadEvent>,
-                                       IEventHandler<DialogCreatedEvent>
+                                       IEventHandler<DialogCreatedEvent>,
+                                       IEventHandler<ContentUploadedEvent>
     {
         private readonly IEventBus _eventBus;
         private readonly IMessengerConnectionService _connectionService;
@@ -31,12 +32,15 @@ namespace Funkmap.Messenger.Handlers
             _queryContext = queryContext;
         }
 
+        
+
         public void InitHandlers()
         {
             _eventBus.Subscribe<DialogUpdatedEvent>(Handle);
             _eventBus.Subscribe<MessageSavedCompleteEvent>(Handle);
             _eventBus.Subscribe<MessagesReadEvent>(Handle);
             _eventBus.Subscribe<DialogCreatedEvent>(Handle);
+            _eventBus.Subscribe<ContentUploadedEvent>(Handle);
         }
 
         public void Handle(MessageSavedCompleteEvent @event)
@@ -95,6 +99,16 @@ namespace Funkmap.Messenger.Handlers
                     .Clients.Client(clientId)
                     .OnDialogUpdated(response.Dialog.ToModel(login));
             });
+        }
+
+        public void Handle(ContentUploadedEvent @event)
+        {
+            var connectionIds = _connectionService.GetConnectionIdsByLogin(@event.Sender);
+
+            GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+                .Clients.Clients(connectionIds.ToList())
+                .OnContentLoaded(new ContentItemModel() {Name = @event.Name, DataUrl = @event.DataUrl, ContentType = @event.ContentType});
+
         }
     }
 }

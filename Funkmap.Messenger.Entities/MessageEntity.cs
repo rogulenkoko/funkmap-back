@@ -53,8 +53,8 @@ namespace Funkmap.Messenger.Entities
         [BsonElement("bts")]
         public string FileId { get; set; }
 
-        [BsonIgnore]
-        public byte[] FileBytes { get; set; } 
+        [BsonElement("s")]
+        public double Size { get; set; }
     }
 
     public enum ContentType

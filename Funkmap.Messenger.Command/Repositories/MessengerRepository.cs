@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
@@ -54,16 +55,6 @@ namespace Funkmap.Messenger.Command.Repositories
 
         public async Task AddMessageAsync(MessageEntity message)
         {
-            if (message.Content != null && message.Content.Count > 0)
-            {
-                Parallel.ForEach(message.Content, item =>
-                {
-                    var fileId = _fileStorage.UploadFromBytesAsync(item.FileName, item.FileBytes).GetAwaiter().GetResult();
-                    item.FileId = fileId;
-                });
-            }
-            
-
             await _messagesCollection.InsertOneAsync(message);
         }
 

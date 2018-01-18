@@ -37,6 +37,45 @@ namespace Funkmap.Messenger.Controllers
             _queryContext = queryContext;
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("sendMessage")]
+        public IHttpActionResult SendMessage(MessageModel message)
+        {
+            var response = new BaseResponse();
+
+            var login = Request.GetLogin();
+
+            if (message.Sender != login) return BadRequest();
+
+            var usersWithOpenedCurrentDialog = _messengerConnection.GetDialogParticipants(message.DialogId);
+            var command = new SaveMessageCommand()
+            {
+                DialogId = message.DialogId,
+                Sender = message.Sender,
+                Text = message.Text,
+                Content = message.Content?.Select(x => x.ToEntity()).ToList(),
+                UsersWithOpenedCurrentDialog = usersWithOpenedCurrentDialog
+            };
+            _commandBus.Execute<SaveMessageCommand>(command);
+
+            response.Success = true;
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("startUpload")]
+        public IHttpActionResult StartUploadContent(ContentItemModel contentItemModel)
+        {
+            var login = Request.GetLogin();
+            var command = new StartUploadContentCommand(contentItemModel.ContentType, contentItemModel.Name, contentItemModel.Data, login);
+
+            _commandBus.Execute(command);
+
+            return Ok(new BaseResponse() {Success = true});
+        }
+
         [HttpGet]
         [Authorize]
         [Route("getDialogs")]

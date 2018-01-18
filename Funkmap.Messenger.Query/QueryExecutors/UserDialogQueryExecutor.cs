@@ -66,7 +66,14 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                         Sender = dialog.LastMessage.Sender,
                         DateTimeUtc = dialog.LastMessage.DateTimeUtc,
                         IsNew = !dialog.LastMessage.IsRead,
-                        MessageType = dialog.LastMessage.MessageType
+                        MessageType = dialog.LastMessage.MessageType,
+                        Content = dialog.LastMessage.Content.Select(c => new ContentItem()
+                        {
+                            ContentType = c.ContentType,
+                            FileName = c.FileName,
+                            Size = c.Size,
+                            FileId = c.FileId
+                        }).ToArray()
                     },
                     DialogType = dialog.DialogType
                 });

@@ -9,5 +9,7 @@ namespace Funkmap.Messenger.Query.Responses
         public string FileName { get; set; }
         public string FileId { get; set; }
         public byte[] FileBytes { get; set; }
+
+        public double Size { get; set; }
     }
 }

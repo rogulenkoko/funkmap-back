@@ -67,12 +67,14 @@
     <Compile Include="Abstract\IMessengerCommandRepository.cs" />
     <Compile Include="CommandHandlers\InviteParticipantsCommandHandler.cs" />
     <Compile Include="CommandHandlers\LeaveDialogCommandHandler.cs" />
+    <Compile Include="CommandHandlers\StartUploadContentCommandHandler.cs" />
     <Compile Include="CommandHandlers\UpdateDialogInfoCommandHandler.cs" />
     <Compile Include="Commands\CreateDialogCommand.cs" />
     <Compile Include="Commands\InviteParticipantsCommand.cs" />
     <Compile Include="Commands\LeaveDialogCommand.cs" />
     <Compile Include="Commands\ReadMessagesCommand.cs" />
     <Compile Include="Commands\SaveMessageCommand.cs" />
+    <Compile Include="Commands\StartUploadContentCommand.cs" />
     <Compile Include="Commands\UpdateDialogInfoCommand.cs" />
     <Compile Include="Commands\UpdateDialogLastMessageCommand.cs" />
     <Compile Include="CommandHandlers\CreateDialogCommandHandler.cs" />

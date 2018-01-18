@@ -11,8 +11,6 @@ namespace Funkmap.Common.Azure
     {
         private readonly CloudBlobContainer _container;
 
-        private readonly string _extension = "png";
-
         public AzureFileStorage(CloudBlobClient blobClient, string containerName)
         {
             _container = blobClient.GetContainerReference(containerName);
@@ -20,11 +18,18 @@ namespace Funkmap.Common.Azure
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName">Название файла С РАСШИРЕНИЕМ</param>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+
         public async Task<string> UploadFromBytesAsync(string fileName, byte[] bytes)
         {
-            var blob = _container.GetBlockBlobReference($"{fileName}.{_extension}");
+            var blob = _container.GetBlockBlobReference($"{fileName}");
             await blob.UploadFromByteArrayAsync(bytes, 0, bytes.Length);
-            return $"{_container.Uri}/{fileName}.{_extension}";
+            return $"{_container.Uri}/{fileName}";
         }
 
         public async Task<byte[]> DownloadAsBytesAsync(string fullFilePath)

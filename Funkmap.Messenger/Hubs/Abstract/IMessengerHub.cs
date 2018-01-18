@@ -12,5 +12,7 @@ namespace Funkmap.Messenger.Hubs.Abstract
         Task OnDialogUpdated(DialogModel dialog);
 
         Task OnDialogRead(DialogReadModel dialogRead);
+
+        Task OnContentLoaded(ContentItemModel itemModel);
     }
 }

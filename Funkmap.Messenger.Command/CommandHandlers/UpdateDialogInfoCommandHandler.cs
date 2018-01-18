@@ -66,7 +66,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     {
                         var cutted = FunkmapImageProcessor.MinifyImage(command.Avatar);
                         var date = DateTimeOffset.Now.ToString("yyyyMMddhhmmss");
-                        fullPath = await _fileStorage.UploadFromBytesAsync($"{dialog.Id}{date}", cutted);
+                        fullPath = await _fileStorage.UploadFromBytesAsync($"{dialog.Id}{date}.png", cutted);
                     }
                     else
                     {

@@ -6,6 +6,7 @@ using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Hubs.Abstract;
+using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Services.Abstract;
 using Microsoft.AspNet.SignalR;
@@ -25,34 +26,6 @@ namespace Funkmap.Messenger.Hubs
         {
             _connectionService = connectionService;
             _commandBus = commandBus;
-        }
-
-        [HubMethodName("sendMessage")]
-        public BaseResponse SendMessage(MessageModel message)
-        {
-            var response = new BaseResponse();
-            
-            try
-            {
-                var usersWithOpenedCurrentDialog = _connectionService.GetDialogParticipants(message.DialogId);
-                var command = new SaveMessageCommand()
-                {
-                    DialogId = message.DialogId,
-                    Sender = message.Sender,
-                    Text = message.Text,
-                    Content = message.Images?.ToList(),//todo
-                    UsersWithOpenedCurrentDialog = usersWithOpenedCurrentDialog
-                };
-                _commandBus.Execute<SaveMessageCommand>(command);
-                
-                response.Success = true;
-                return response;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new BaseResponse();
-            }
         }
 
         [HubMethodName("setOpenedDialog")]

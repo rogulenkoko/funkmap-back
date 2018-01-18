@@ -56,7 +56,7 @@ namespace Funkmap.Auth.Data
 
         public async Task<string> SaveAvatarAsync(string login, byte[] image)
         {
-            var filename = $"avatar_{login}";
+            var filename = $"avatar_{login}.png";
             var fullPath = await _fileStorage.UploadFromBytesAsync(filename, image);
 
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);

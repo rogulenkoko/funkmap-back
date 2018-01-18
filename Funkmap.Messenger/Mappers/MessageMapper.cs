@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Query.Responses;
-using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Mappers
 {
@@ -18,7 +17,8 @@ namespace Funkmap.Messenger.Mappers
                 Text = source.Text,
                 IsNew = source.IsNew,
                 DialogId = source.DialogId,
-                MessageType = source.MessageType
+                MessageType = source.MessageType,
+                Content = source.Content?.Select(x=>x.ToModel()).ToArray()
             };
         }
 
@@ -32,7 +32,8 @@ namespace Funkmap.Messenger.Mappers
                 Text = source.Text,
                 IsNew = !source.IsRead,
                 DialogId = source.DialogId.ToString(),
-                MessageType = source.MessageType
+                MessageType = source.MessageType,
+                Content = source.Content?.Select(x=>x.ToModel()).ToArray()
             };
         }
     }

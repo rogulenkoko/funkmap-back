@@ -10,7 +10,7 @@ namespace Funkmap.Messenger.Query.Responses
         public string Text { get; set; }
         public DateTime DateTimeUtc { get; set; }
 
-        public ContentItem[] Images { get; set; }
+        public ContentItem[] Content { get; set; }
 
         public bool IsNew { get; set; }
 

@@ -35,7 +35,7 @@ namespace Funkmap.Tests.FileStorage
 
             var file = ImageProvider.GetAvatar("beatles-avatar.jpg").ToArray();
 
-            var fileName = $"{Guid.NewGuid()}";
+            var fileName = $"{Guid.NewGuid()}.png";
             var resultLink = _azureStorage.UploadFromBytesAsync(fileName, file).GetAwaiter().GetResult();
 
             var downloaded = _azureStorage.DownloadAsBytesAsync(resultLink).GetAwaiter().GetResult();

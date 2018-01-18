@@ -79,7 +79,14 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     Text = x.Text,
                     DateTimeUtc = x.DateTimeUtc,
                     IsNew = !x.IsRead,
-                    MessageType = x.MessageType
+                    MessageType = x.MessageType,
+                    Content = x.Content.Select(c=> new ContentItem()
+                    {
+                        ContentType = c.ContentType,
+                        FileName = c.FileName,
+                        Size = c.Size,
+                        FileId = c.FileId
+                    }).ToArray()
                 }).ToList());
 
                 return response;
