@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
 using Funkmap.Mappers;
+using Funkmap.Models;
 
 namespace Funkmap.Controllers
 {
@@ -103,7 +105,8 @@ namespace Funkmap.Controllers
         {
             var userLogin = Request.GetLogin();
             var countResults = await _repository.GetUserEntitiesCountInfoAsync(userLogin);
-            var result = countResults.ToCountModels();
+            ICollection<UsersEntitiesCountModel> counts = countResults.ToCountModels();
+            var result = new UsersCountModel(counts);
             return Ok(result);
         }
 

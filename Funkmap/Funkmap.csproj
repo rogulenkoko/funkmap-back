@@ -162,6 +162,7 @@
     <Compile Include="Models\Requests\UpdateFavoriteRequest.cs" />
     <Compile Include="Models\Responses\InviteBandResponse.cs" />
     <Compile Include="Models\Responses\SearchResponse.cs" />
+    <Compile Include="Models\UsersCountModel.cs" />
     <Compile Include="Models\UsersEntitiesCountModel.cs" />
     <Compile Include="Module\FunkmapModule.Domain.cs" />
     <Compile Include="Module\FunkmapModule.Mongo.cs" />

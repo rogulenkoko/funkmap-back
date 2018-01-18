@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
 using Funkmap.Data.Parameters;
+using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Tools;
@@ -23,6 +25,15 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
         {
             var login = Request.GetLogin();
+            var maxProfilesCount = 5;
+
+            var userLogin = Request.GetLogin();
+            var userEntities = await _repository.GetUserEntitiesLoginsAsync(userLogin);
+            if (userEntities.Count >= 5)
+            {
+                return BadRequest($"You can create up to {maxProfilesCount} profiles");
+            }
+
             model.UserLogin = login;
             await _updateService.CreateEntity(model);
             return Ok(new BaseResponse() { Success = true });
