@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Feedback.Entities
@@ -13,9 +14,20 @@ namespace Funkmap.Feedback.Entities
 
         [BsonElement("m")]
         public string Message { get; set; }
+
+        [BsonElement("c")]
+        public List<FeedbackContentEntity> Content { get; set; }
     }
 
-    //todo вынести это в сборку Funkmap.Feedback.Entities
+    public class FeedbackContentEntity
+    {
+        [BsonElement("n")]
+        public string Name { get; set; }
+
+        [BsonElement("url")]
+        public string DataUrl { get; set; }
+    }
+    
     public enum FeedbackType
     {
         Another = 0,

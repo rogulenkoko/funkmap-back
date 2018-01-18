@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Autofac.Features.AttributeFilters;
-using Funkmap.Common.Abstract;
-using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
@@ -16,17 +13,12 @@ namespace Funkmap.Messenger.Command.Repositories
 
         private readonly IMongoCollection<MessageEntity> _messagesCollection;
         private readonly IMongoCollection<DialogEntity> _dialogCollection;
-        private readonly IFileStorage _fileStorage;
 
         public MessengerCommandRepository(IMongoCollection<DialogEntity> dialogCollection,
-                                          IMongoCollection<MessageEntity> messagesCollection,
-
-                                          [KeyFilter(MessengerCollectionNameProvider.MessengerStorage)]
-                                          IFileStorage fileStorage)
+                                          IMongoCollection<MessageEntity> messagesCollection)
         {
             _messagesCollection = messagesCollection;
             _dialogCollection = dialogCollection;
-            _fileStorage = fileStorage;
         }
 
         public async Task<DialogEntity> GetDialogAsync(string id)

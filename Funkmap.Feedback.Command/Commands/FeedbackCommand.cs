@@ -1,4 +1,5 @@
-﻿using Funkmap.Feedback.Entities;
+﻿using System.Collections.Generic;
+using Funkmap.Feedback.Entities;
 
 namespace Funkmap.Feedback.Command.Commands
 {
@@ -13,5 +14,13 @@ namespace Funkmap.Feedback.Command.Commands
         public FeedbackType FeedbackType { get; }
 
         public string Message { get; }
+
+        public ICollection<FeedbackContent> Content { get; set; }
+    }
+
+    public class FeedbackContent
+    {
+        public string Name { get; set; }
+        public byte[] Data { get; set; }
     }
 }

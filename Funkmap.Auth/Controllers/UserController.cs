@@ -70,8 +70,8 @@ namespace Funkmap.Module.Auth.Controllers
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
         {
             var response = new AvatarUpdateResponse();
-            var minified = FunkmapImageProcessor.MinifyImage(request.Avatar, 200);
-            var path = await _authRepository.SaveAvatarAsync(request.Login, minified);
+            
+            var path = await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
             response.Success = true;
             response.AvatarPath = path;
             return Ok(response);

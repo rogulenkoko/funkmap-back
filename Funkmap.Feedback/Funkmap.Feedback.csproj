@@ -85,6 +85,7 @@
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="EventHandlers\FeedbackSavedEventHandler.cs" />
     <Compile Include="FeedBackModule.cs" />
+    <Compile Include="Models\FeedbackContentModel.cs" />
     <Compile Include="Models\FeedbackItem.cs" />
     <Compile Include="Notifications\FeedbackNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

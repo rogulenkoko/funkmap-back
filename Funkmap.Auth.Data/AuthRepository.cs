@@ -8,6 +8,7 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using MongoDB.Driver;
 using Autofac.Features.AttributeFilters;
+using Funkmap.Common.Tools;
 
 namespace Funkmap.Auth.Data
 {
@@ -56,8 +57,21 @@ namespace Funkmap.Auth.Data
 
         public async Task<string> SaveAvatarAsync(string login, byte[] image)
         {
-            var filename = $"avatar_{login}.png";
-            var fullPath = await _fileStorage.UploadFromBytesAsync(filename, image);
+            String fullPath;
+            if (image == null || image.Length == 0)
+            {
+                fullPath = String.Empty;
+            }
+            else
+            {
+                var minified = FunkmapImageProcessor.MinifyImage(image, 200);
+
+                var date = DateTime.UtcNow.ToString("yyyyMMddhhmmss");
+                var filename = $"{date}avatar_{login}.png";
+                fullPath = await _fileStorage.UploadFromBytesAsync(filename, minified);
+            }
+
+           
 
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
             var update = Builders<UserEntity>.Update.Set(x => x.AvatarId, fullPath);

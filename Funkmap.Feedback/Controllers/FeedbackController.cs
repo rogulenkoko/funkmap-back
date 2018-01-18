@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
@@ -22,7 +23,10 @@ namespace Funkmap.Feedback.Controllers
         [Route("save")]
         public IHttpActionResult SaveFeedback(FeedbackItem item)
         {
-            _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message));
+            _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message)
+            {
+                Content = item.Content?.Select(x=> new FeedbackContent() {Name = x.Name,Data = x.Data}).ToList()
+            });
 
             return Ok(new BaseResponse() {Success = true});
         }

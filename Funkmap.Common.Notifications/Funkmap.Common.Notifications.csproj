@@ -53,6 +53,7 @@
     <Compile Include="Notification\Abstract\IExternalNotificationService.cs" />
     <Compile Include="Notification\EmailExternalNotificationService.cs" />
     <Compile Include="Notification\Notification.cs" />
+    <Compile Include="Notification\NotificationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

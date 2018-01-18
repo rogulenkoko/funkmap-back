@@ -10,5 +10,6 @@ namespace Funkmap.Feedback.Events
         }
 
         public FeedbackEntity Feedback { get; }
+        
     }
 }

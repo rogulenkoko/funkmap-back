@@ -28,31 +28,54 @@ namespace Funkmap.Common.Notifications.Notification
             _logger = logger;
         }
 
-        public async Task<bool> TrySendNotificationAsync(Notification notification)
+        public async Task<bool> TrySendNotificationAsync(Notification notification, NotificationOptions options = null)
         {
             await Task.Yield();
+
+            if (options == null) options = new NotificationOptions();
+
             try
             {
                 _logger.Info($"Email has been sent by email {notification.Receiver}");
 
-                string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-                var body = File.ReadAllText(new Uri(Path.Combine(root, "Templates/base-template.html")).LocalPath);
 
-                var mailDefenition = new MailDefinition
+                MailMessage message;
+
+                if (options.UseTemplate)
                 {
-                    From = _appEmail,
-                    Subject = notification.Subject,
-                    IsBodyHtml = true
-                };
+                    string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+                    var body = File.ReadAllText(new Uri(Path.Combine(root, "Templates/base-template.html")).LocalPath);
+                    var mailDefenition = new MailDefinition
+                    {
+                        From = _appEmail,
+                        Subject = notification.Subject,
+                        IsBodyHtml = true
+                    };
 
-                var replacements = new Dictionary<string, string>()
+                    var replacements = new Dictionary<string, string>()
+                    {
+                        {"title", notification.Title},
+                        {"main", notification.MainContent},
+                        {"footer", notification.Footer}
+                    };
+
+                    message = mailDefenition.CreateMailMessage(notification.Receiver, replacements, body,
+                        new System.Web.UI.Control());
+                }
+                else
                 {
-                    {"title", notification.Title },
-                    {"main", notification.MainContent },
-                    {"footer", notification.Footer }
-                };
+                    message = new MailMessage()
+                    {
+                        From = new MailAddress(_appEmail),
+                        Subject = notification.Subject,
+                        Body = notification.MainContent,
+                        To = { notification.Receiver }
+                    };
+                }
 
-                var message = mailDefenition.CreateMailMessage(notification.Receiver, replacements, body, new System.Web.UI.Control());
+                
+
+               
 
                 var smtpClient = new SmtpClient();
                 smtpClient.Host = "smtp.mail.ru";
