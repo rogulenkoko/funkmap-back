@@ -173,7 +173,32 @@ namespace Funkmap.Data.Repositories
             return result;
         }
 
-        public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public async Task<ICollection<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        {
+            var filter = CreateFilter(commonFilter, parameter);
+
+            if (commonFilter.Longitude.HasValue && commonFilter.Latitude.HasValue)
+            {
+                if (commonFilter.RadiusDeg == null) commonFilter.RadiusDeg = Int32.MaxValue;
+                filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
+            }
+
+            //todo придумать адекватную проекцию для геопозиции
+            var projection = Builders<BaseEntity>.Projection
+                .Exclude(x => x.Description)
+                .Exclude(x => x.Name)
+                .Exclude(x => x.Address)
+                .Exclude(x => x.VideoInfos)
+                .Exclude(x => x.YouTubeLink)
+                .Exclude(x => x.FacebookLink)
+                .Exclude(x => x.SoundCloudLink)
+                .Exclude(x => x.VkLink);
+
+            var result = await _collection.Find(filter).Project<BaseEntity>(projection).Skip(commonFilter.Skip).Limit(commonFilter.Take).ToListAsync();
+            return result;
+        }
+
+        public async Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
         {
             var filter = CreateFilter(commonFilter, parameter);
             var profection = Builders<BaseEntity>.Projection.Include(x => x.Login);
@@ -184,8 +209,8 @@ namespace Funkmap.Data.Repositories
                 filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
             }
 
-            var result = await _collection.Find(filter).Project<BaseEntity>(profection).Limit(commonFilter.Limit).ToListAsync();
-            return result.Select(x => x.Login).ToList();
+            var result = await _collection.Find(filter).Project<BaseEntity>(profection).Limit(commonFilter.Limit).CountAsync();
+            return result;
         }
 
         public async Task<bool> CheckIfLoginExistAsync(string login)

@@ -125,17 +125,14 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.GetFilteredAsync(commonFilter, parameter);
         }
 
-        public async Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public Task<ICollection<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
-            var logins = await _filteredService.GetFilteredLogins(commonFilter, parameter);
-            if (logins == null)
-            {
-                var result = await _baseRepository.GetAllFilteredLoginsAsync(commonFilter, parameter);
-                _filteredService.SetFilteredLogins(commonFilter, parameter, result as List<string>);
-                return result;
-            }
-           
-            return logins;
+            return _baseRepository.GetFilteredNavigationAsync(commonFilter, parameter);
+        }
+
+        public Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        {
+            return _baseRepository.GetAllFilteredCountAsync(commonFilter, parameter);
         }
 
         public Task<bool> CheckIfLoginExistAsync(string login)

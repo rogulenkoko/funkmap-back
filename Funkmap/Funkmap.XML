@@ -105,6 +105,13 @@
             <param name="logins">Логины профилей</param>
             <returns></returns>
         </member>
+        <member name="M:Funkmap.Controllers.BaseController.GetFilteredMarkers(Funkmap.Models.Requests.FilteredRequest)">
+            <summary>
+            Информация о навигации фильтрованных профилей
+            </summary>
+            <param name="request">Параметры фильтрации</param>
+            <returns></returns>
+        </member>
         <member name="M:Funkmap.Controllers.BaseController.GetFiltered(Funkmap.Models.Requests.FilteredRequest)">
             <summary>
             Основная информация о порции отфильтрованных профилей, логины всех отфильтрованных профилей

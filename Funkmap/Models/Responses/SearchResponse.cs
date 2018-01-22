@@ -6,8 +6,6 @@ namespace Funkmap.Models.Responses
     {
         public ICollection<SearchModel> Items { get; set; }
 
-        public ICollection<string> AllLogins { get; set; }
-
         public long AllCount { get; set; }
     }
 }

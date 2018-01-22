@@ -92,7 +92,35 @@ namespace Funkmap.Controllers
             var items = baseEntities.Select(x => x.ToMarkerModel());
             return Ok(items);
         }
-        
+
+        /// <summary>
+        /// Информация о навигации фильтрованных профилей
+        /// </summary>
+        /// <param name="request">Параметры фильтрации</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("filteredmarkers")]
+        public async Task<IHttpActionResult> GetFilteredMarkers(FilteredRequest request)
+        {
+
+            var commonParameter = new CommonFilterParameter
+            {
+                EntityType = request.EntityType,
+                SearchText = request.SearchText,
+                Skip = request.Skip,
+                Take = request.Take,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                RadiusDeg = request.RadiusDeg,
+                Limit = request.Limit
+            };
+            var paramter = _parameterFactory.CreateParameter(request);
+
+            var baseEntities = await _repository.GetFilteredNavigationAsync(commonParameter, paramter);
+            var items = baseEntities.Select(x => x.ToMarkerModel());
+            return Ok(items);
+        }
+
         /// <summary>
         /// Основная информация о порции отфильтрованных профилей, логины всех отфильтрованных профилей
         /// </summary>
@@ -117,13 +145,13 @@ namespace Funkmap.Controllers
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
             var items = filteredEntities.Select(x => x.ToSearchModel()).ToList();
 
-            var logins = await _repository.GetAllFilteredLoginsAsync(commonParameter, paramter);
+            //todo сравнить что быстрее, делать два запроса или агрегирующий запрос
+            var count = await _repository.GetAllFilteredCountAsync(commonParameter, paramter);
 
             var reponse = new SearchResponse()
             {
                 Items = items,
-                AllCount = logins.Count,
-                AllLogins = logins
+                AllCount = count
             };
             return Ok(reponse);
         }

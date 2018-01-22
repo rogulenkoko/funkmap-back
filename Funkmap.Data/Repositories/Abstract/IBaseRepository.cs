@@ -23,7 +23,9 @@ namespace Funkmap.Data.Repositories.Abstract
 
         Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
-        Task<ICollection<string>> GetAllFilteredLoginsAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
+        Task<ICollection<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
+
+        Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
 
         Task<bool> CheckIfLoginExistAsync(string login);
 
