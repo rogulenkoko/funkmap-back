@@ -39,6 +39,7 @@ namespace Funkmap.Statistics.Web
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             config.Filters.Add(new ValidateRequestModelAttribute());
+            config.Filters.Add(new LanguageFilterAttribute());
 
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);

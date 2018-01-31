@@ -74,7 +74,7 @@ namespace Funkmap.Module.Auth.Services
 
             var password = CryptoProvider.ComputeHash(creds.Password);
 
-            var user = new UserEntity() { Login = creds.Login, Password = password, Name = creds.Name, Email = creds.Email};
+            var user = new UserEntity() { Login = creds.Login, Password = password, Name = creds.Name, Email = creds.Email, Locale = creds.Locale};
 
 
             var bookedContextEmails = _contexts.Where(x => !String.IsNullOrEmpty(x.Value.User.Email)).Select(x => x.Value.User.Email);

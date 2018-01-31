@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -22,6 +20,9 @@ namespace Funkmap.Auth.Data.Entities
 
         [BsonElement("em")]
         public string Email { get; set; }
+
+        [BsonElement("loc")]
+        public string Locale { get; set; }
 
         [BsonElement("av")]
         [BsonIgnoreIfDefault]

@@ -17,6 +17,8 @@ namespace Funkmap.Auth.Data.Abstract
 
         Task UpdateLastVisitDateAsync(string login, DateTime date);
 
+        Task UpdateLocaleAsync(string login, string locale);
+
         Task<DateTime?> GetLastVisitDate(string login);
 
         Task<ICollection<string>> GetBookedEmailsAsync();

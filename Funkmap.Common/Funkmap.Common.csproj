@@ -95,6 +95,7 @@
     <Compile Include="Abstract\IFunkmapModule.cs" />
     <Compile Include="Abstract\IStorage.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
+    <Compile Include="Filters\LanguageFilterAttribute.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

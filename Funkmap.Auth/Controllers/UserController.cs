@@ -5,7 +5,6 @@ using Funkmap.Auth.Data.Abstract;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Common.Tools;
 using Funkmap.Module.Auth.Models;
 
 namespace Funkmap.Module.Auth.Controllers
@@ -56,6 +55,19 @@ namespace Funkmap.Module.Auth.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("updateLocale")]
+        public async Task<IHttpActionResult> UpdateLocale(UpdateLocaleRequest request)
+        {
+            var response = new BaseResponse();
+            var login = Request.GetLogin();
+            await _authRepository.UpdateLocaleAsync(login, request.Locale);
+
+            return Ok(response);
+        }
+        
 
         [HttpGet]
         [Route("avatar/{login}")]

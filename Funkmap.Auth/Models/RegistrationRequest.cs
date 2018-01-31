@@ -15,5 +15,8 @@ namespace Funkmap.Module.Auth.Models
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public string Locale { get; set; }
     }
 }

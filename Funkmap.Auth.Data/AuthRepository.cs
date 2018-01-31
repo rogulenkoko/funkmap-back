@@ -85,6 +85,12 @@ namespace Funkmap.Auth.Data
             await _collection.UpdateOneAsync(x => x.Login == login, update);
         }
 
+        public async Task UpdateLocaleAsync(string login, string locale)
+        {
+            var update = Builders<UserEntity>.Update.Set(x => x.Locale, locale);
+            await _collection.UpdateOneAsync(x => x.Login == login, update);
+        }
+
         public async Task<DateTime?> GetLastVisitDate(string login)
         {
             var dateProjection = Builders<UserEntity>.Projection.Include(x => x.LastVisitDateUtc);
