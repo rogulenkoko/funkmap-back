@@ -255,6 +255,14 @@
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Concerts.Command\Funkmap.Concerts.Command.csproj">
+      <Project>{27e107c2-72ea-4f47-b462-9f581bd33fa9}</Project>
+      <Name>Funkmap.Concerts.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Concerts\Funkmap.Concerts.csproj">
+      <Project>{eeab4c5a-bc2b-4a77-b1f7-dfeef165858c}</Project>
+      <Name>Funkmap.Concerts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
