@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Funkmap.Concerts.Command.Commands
+﻿namespace Funkmap.Concerts.Command.Commands
 {
-    class UpdateAfficheCommand
+    public class UpdateAfficheCommand
     {
+        public string ConcertId { get; set; }
+
+        public string User { get; set; }
+
+        public byte[] Data { get; set; }
     }
 }
