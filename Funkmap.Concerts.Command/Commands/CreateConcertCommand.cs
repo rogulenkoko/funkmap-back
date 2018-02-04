@@ -6,11 +6,11 @@ namespace Funkmap.Concerts.Command.Commands
     public class CreateConcertCommand
     {
         
-        public DateTime PeriodBegin { get; set; }
+        public DateTime PeriodBeginUtc { get; set; }
         
-        public DateTime PeriodEnd { get; set; }
+        public DateTime PeriodEndUtc { get; set; }
         
-        public DateTime Date { get; set; }
+        public DateTime DateUtc { get; set; }
         
         public string Name { get; set; }
         

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
@@ -21,7 +22,8 @@ namespace Funkmap.Concerts.Command.CommandHandlers
         private readonly IFunkmapLogger<UpdateAfficheCommandHandler> _logger;
 
 
-        public UpdateAfficheCommandHandler(IFileStorage fileStorage, IMongoCollection<ConcertEntity> collection, IFunkmapLogger<UpdateAfficheCommandHandler> logger)
+        public UpdateAfficheCommandHandler([KeyFilter(ConcertsCollectionNameProvider.StorageName)]IFileStorage fileStorage, 
+                                            IMongoCollection<ConcertEntity> collection, IFunkmapLogger<UpdateAfficheCommandHandler> logger)
         {
             _fileStorage = fileStorage;
             _collection = collection;

@@ -11,8 +11,10 @@ namespace Funkmap.Concerts.Command
     {
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterType<UpdateAfficheCommandHandler>().As<ICommandHandler<UpdateAfficheCommand>>().WithAttributeFiltering();
+            builder.RegisterType<UpdateAfficheCommandHandler>().As<ICommandHandler<UpdateAfficheCommand>>().WithAttributeFiltering(); 
             builder.RegisterType<CreateConcertCommandHandler>().As<ICommandHandler<CreateConcertCommand>>();
+            builder.RegisterType<FinishConcertCommandHandler>().As<ICommandHandler<FinishConcertCommand>>();
+            builder.RegisterType<UpdateActivityCommandHandler>().As<ICommandHandler<UpdateActivityCommand>>();
         }
     }
 }

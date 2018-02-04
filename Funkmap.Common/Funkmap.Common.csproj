@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IFileStorage.cs" />
+    <Compile Include="Abstract\IFunkmapBootstrapper.cs" />
     <Compile Include="Abstract\IFunkmapModule.cs" />
     <Compile Include="Abstract\IStorage.cs" />
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="SignalR\Abstract\IConnectionService.cs" />
     <Compile Include="SignalR\ConnectionService.cs" />
     <Compile Include="SignalR\UserConnection.cs" />
+    <Compile Include="Tools\BoostrappersConfigurator.cs" />
     <Compile Include="Tools\EntityUpdateExtension.cs" />
     <Compile Include="Tools\FunkmapImageProcessor.cs" />
     <Compile Include="Tools\InMemoryStorage.cs" />

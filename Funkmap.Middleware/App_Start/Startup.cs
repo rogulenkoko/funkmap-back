@@ -44,6 +44,9 @@ namespace Funkmap.Middleware
 
             var container = containerBuilder.Build();
 
+            var configurator = new BoostrappersConfigurator();
+            configurator.Configure(container);
+
             var logger = container.Resolve<IFunkmapLogger<FunkmapMiddleware>>();
             appBuilder.Use<FunkmapMiddleware>(logger);
 

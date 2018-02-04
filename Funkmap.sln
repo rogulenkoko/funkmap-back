@@ -103,6 +103,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Concerts.Command", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Concerts.Events", "Funkmap.Concerts.Events\Funkmap.Concerts.Events.csproj", "{198A59F5-568D-4176-8B60-0CA3545167C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Concerts.Tests", "Funkmap.Concerts.Tests\Funkmap.Concerts.Tests.csproj", "{662F4D93-2545-4222-BB66-419EAA7DA156}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Concerts.Query", "Funkmap.Concerts.Query\Funkmap.Concerts.Query.csproj", "{5B0BFC4D-8DBE-406C-BA0F-9E7FCAD4E843}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +281,14 @@ Global
 		{198A59F5-568D-4176-8B60-0CA3545167C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198A59F5-568D-4176-8B60-0CA3545167C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198A59F5-568D-4176-8B60-0CA3545167C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{662F4D93-2545-4222-BB66-419EAA7DA156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{662F4D93-2545-4222-BB66-419EAA7DA156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{662F4D93-2545-4222-BB66-419EAA7DA156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{662F4D93-2545-4222-BB66-419EAA7DA156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B0BFC4D-8DBE-406C-BA0F-9E7FCAD4E843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B0BFC4D-8DBE-406C-BA0F-9E7FCAD4E843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B0BFC4D-8DBE-406C-BA0F-9E7FCAD4E843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B0BFC4D-8DBE-406C-BA0F-9E7FCAD4E843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -320,5 +332,7 @@ Global
 		{0894FB21-EA1F-4048-9F97-66CE73608835} = {D65EEA3F-CF3F-4EA5-9533-1A9C400D6C30}
 		{27E107C2-72EA-4F47-B462-9F581BD33FA9} = {D65EEA3F-CF3F-4EA5-9533-1A9C400D6C30}
 		{198A59F5-568D-4176-8B60-0CA3545167C3} = {D65EEA3F-CF3F-4EA5-9533-1A9C400D6C30}
+		{662F4D93-2545-4222-BB66-419EAA7DA156} = {D65EEA3F-CF3F-4EA5-9533-1A9C400D6C30}
+		{5B0BFC4D-8DBE-406C-BA0F-9E7FCAD4E843} = {D65EEA3F-CF3F-4EA5-9533-1A9C400D6C30}
 	EndGlobalSection
 EndGlobal

@@ -36,20 +36,34 @@ namespace Funkmap.Concerts.Command.CommandHandlers
             try
             {
                 if (String.IsNullOrEmpty(command.Name) || String.IsNullOrEmpty(command.CreatorLogin)
-                    || command.Date == DateTime.MinValue)
+                    || command.DateUtc == DateTime.MinValue)
                 {
                     throw new InvalidDataException();
                 }
+
+                if (command.PeriodBeginUtc >= command.PeriodEndUtc)
+                {
+                    throw new InvalidDataException("Invalid period scope");
+                }
+
+                if (!(command.PeriodBeginUtc <= command.DateUtc && command.PeriodEndUtc >= command.DateUtc))
+                {
+                    throw new InvalidDataException("Invalid concert date");
+                }
+
+                var isActive = command.PeriodBeginUtc >= DateTime.UtcNow;
 
                 var entity = new ConcertEntity()
                 {
                     Name = command.Name,
                     CreatorLogin = command.CreatorLogin,
-                    Date = command.Date,
+                    DateUtc = command.DateUtc,
                     Description = command.Description,
                     Participants = command.Participants,
-                    PeriodBegin = command.PeriodBegin,
-                    PeriodEnd = command.PeriodEnd
+                    PeriodBeginUtc = command.PeriodBeginUtc,
+                    PeriodEndUtc = command.PeriodEndUtc,
+                    CreationDateUtc = DateTime.UtcNow,
+                    IsActive = isActive
                 };
 
                 await _collection.InsertOneAsync(entity);
