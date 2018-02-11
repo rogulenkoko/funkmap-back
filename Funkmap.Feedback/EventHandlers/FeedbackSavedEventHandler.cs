@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Text;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Notifications.Notification;
 using Funkmap.Common.Notifications.Notification.Abstract;
@@ -24,7 +25,7 @@ namespace Funkmap.Feedback.EventHandlers
             _eventBus.Subscribe<FeedbackSavedEvent>(Handle);
         }
 
-        public void Handle(FeedbackSavedEvent @event)
+        public async Task Handle(FeedbackSavedEvent @event)
         {
             var reciever = ConfigurationManager.AppSettings["email"];
 
@@ -44,7 +45,7 @@ namespace Funkmap.Feedback.EventHandlers
 
             var message = new FeedbackNotification(reciever, @event.Feedback.FeedbackType, sb.ToString());
 
-            _notificationService.TrySendNotificationAsync(message, new NotificationOptions() {UseTemplate = false}).GetAwaiter().GetResult();
+            await _notificationService.TrySendNotificationAsync(message, new NotificationOptions() {UseTemplate = false});
         }
         
     }

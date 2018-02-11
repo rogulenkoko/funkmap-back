@@ -1,4 +1,5 @@
-﻿using Funkmap.Common.Cqrs;
+﻿using System.Threading.Tasks;
+using Funkmap.Common.Cqrs;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
 using Funkmap.Models.Requests;
@@ -34,7 +35,7 @@ namespace Funkmap.Services
             _eventBus.Subscribe<NotificationAnswer>(Handle, options);
         }
 
-        public void Handle(NotificationAnswer request)
+        public async Task Handle(NotificationAnswer request)
         {
             var inviteRequest = request.Notification as BandInviteNotification;
             if (inviteRequest == null)
@@ -48,7 +49,7 @@ namespace Funkmap.Services
                 MusicianLogin = inviteRequest.InvitedMusicianLogin,
                 BandLogin = inviteRequest.BandLogin
             };
-            _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
+            await _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
 
             var confirmation = new BandInviteConfirmationNotification()
             {

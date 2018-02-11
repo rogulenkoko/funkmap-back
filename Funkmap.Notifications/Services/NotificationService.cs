@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Notifications.Contracts;
@@ -33,7 +34,7 @@ namespace Funkmap.Notifications.Services
             _eventBus.Subscribe<BandInviteConfirmationNotification>(Handle);
         }
 
-        public void Handle(NotificationBase notification)
+        public async Task Handle(NotificationBase notification)
         {
             var notificatinEntity = new NotificationEntity()
             {
@@ -49,12 +50,12 @@ namespace Funkmap.Notifications.Services
             //уведомление по SignalR
             var recievers = _connectionService.GetConnectionIdsByLogin(notificatinEntity.RecieverLogin);
 
-            GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
-                .Clients.Clients(recievers.ToList())
-                .OnNotificationRecieved(notificatinEntity.ToNotificationModel());
+            await GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
+                 .Clients.Clients(recievers.ToList())
+                 .OnNotificationRecieved(notificatinEntity.ToNotificationModel());
 
 
-            _notificationRepository.CreateAsync(notificatinEntity);
+            await _notificationRepository.CreateAsync(notificatinEntity);
         }
 
         public void PublishNotificationAnswer(NotificationAnswer answer)

@@ -85,7 +85,7 @@ namespace Funkmap.Tests.Funkmap.BigData
                         // YouTubeLink = "https://www.youtube.com/user/Urgantshow",
                         // BandLogin = "funkmap",
                         ExpirienceType = (ExpirienceType) new Random().Next(0, 4),
-                        //VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "mpR5zbEXdW8" }, new VideoInfo() { Id = "GlreDCpb5t0" } }
+                        //VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "mpR5zbEXdW8" }, new VideoInfoEntity() { Id = "GlreDCpb5t0" } }
                     };
                     repository.CreateAsync(musician).Wait();
                 }

@@ -22,7 +22,8 @@ namespace Funkmap.Notifications.Data
         public async Task<ICollection<NotificationEntity>> GetUserNotificationsAsync(string login)
         {
             var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login);
-            var notifications = await _collection.Find(filter).ToListAsync();
+            var sort = Builders<NotificationEntity>.Sort.Descending(x => x.Date);
+            var notifications = await _collection.Find(filter).Sort(sort).ToListAsync();
 
             var update = Builders<NotificationEntity>.Update.Set(x => x.IsRead, true);
             _collection.UpdateManyAsync(filter, update);

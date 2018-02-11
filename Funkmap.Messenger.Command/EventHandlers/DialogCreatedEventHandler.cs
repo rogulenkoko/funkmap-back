@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
@@ -23,7 +24,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
             _eventBus.Subscribe<DialogCreatedEvent>(Handle);
         }
 
-        public void Handle(DialogCreatedEvent @event)
+        public async Task Handle(DialogCreatedEvent @event)
         {
             if (@event.Dialog.Participants.Count > 2)
             {
@@ -35,7 +36,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                     //todo подумать о локализации
                     Text = $"{@event.Dialog.CreatorLogin} создал беседу {@event.Dialog.Name} из {@event.Dialog.Participants.Count} участников"
                 };
-                _commandBus.Execute(saveMessageCommand);
+                await _commandBus.Execute(saveMessageCommand);
             }
         }
         

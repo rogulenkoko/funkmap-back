@@ -35,7 +35,7 @@ namespace Funkmap.Common.Cqrs
             }
         }
 
-        public void Subscribe<T>(Action<T> handler, MessageQueueOptions options = null) where T : class
+        public void Subscribe<T>(Func<T, Task> handler, MessageQueueOptions options = null) where T : class
         {
             var type = typeof(T);
             
@@ -43,7 +43,7 @@ namespace Funkmap.Common.Cqrs
             Subscribe<T>(key, handler, options);
         }
 
-        public void Subscribe<T>(string key, Action<T> handler, MessageQueueOptions options = null) where T : class
+        public void Subscribe<T>(string key, Func<T, Task> handler, MessageQueueOptions options = null) where T : class
         {
             if (options?.SpecificKey != null)
             {

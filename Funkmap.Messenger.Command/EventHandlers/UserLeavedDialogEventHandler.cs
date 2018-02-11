@@ -27,7 +27,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
             _eventBus.Subscribe<UserLeavedDialogEvent>(Handle);
         }
 
-        public void Handle(UserLeavedDialogEvent @event)
+        public async Task Handle(UserLeavedDialogEvent @event)
         {
             SaveMessageCommand command;
 
@@ -52,7 +52,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 };
             }
 
-            _commandBus.Execute(command);
+            await _commandBus.Execute(command);
         }
     }
 }

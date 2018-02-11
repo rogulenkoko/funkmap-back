@@ -29,7 +29,7 @@ namespace Funkmap.Common.Cqrs.Abstract
         /// <typeparam name="T"></typeparam>
         /// <param name="handler">Обработчик события</param>
         /// <param name="options">Дополнительные опции</param>
-        void Subscribe<T>(Action<T> handler, MessageQueueOptions options = null) where T : class;
+        void Subscribe<T>(Func<T, Task> handler, MessageQueueOptions options = null) where T : class;
 
 
         /// <summary>
@@ -39,6 +39,6 @@ namespace Funkmap.Common.Cqrs.Abstract
         /// <param name="key">Ключ подписки</param>
         /// <param name="handler">Обработчик события</param>
         /// <param name="options">Дополнительные опции</param>
-        void Subscribe<T>(string key, Action<T> handler, MessageQueueOptions options = null) where T : class;
+        void Subscribe<T>(string key, Func<T, Task> handler, MessageQueueOptions options = null) where T : class;
     }
 }

@@ -50,7 +50,7 @@ namespace Funkmap.Tests.Funkmap.Data
                 YouTubeLink = "https://www.youtube.com/user/Urgantshow",
                 BandLogins = new List<string>() { "funkmap", "Kirill'sMother" } ,
                 ExpirienceType = ExpirienceType.Advanced,
-                VideoInfos = new List<VideoInfo>() { new VideoInfo() {Id = "mpR5zbEXdW8" } , new VideoInfo() { Id = "GlreDCpb5t0" } },
+                VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() {Id = "mpR5zbEXdW8" } , new VideoInfoEntity() { Id = "GlreDCpb5t0" } },
                 IsActive = true,
                 CreationDate = DateTime.UtcNow.AddMonths(-12),
                 FavoriteFor = new List<string>() { "qwe","wewe","dfsdf"}

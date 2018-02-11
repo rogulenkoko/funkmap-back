@@ -50,10 +50,10 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         public string PhotoMiniId { get; set; }
 
         [BsonElement("ytv")]
-        public List<VideoInfo> VideoInfos { get; set; }
+        public List<VideoInfoEntity> VideoInfos { get; set; }
 
         [BsonElement("sct")]
-        public List<int> SoundCloudTrackIds { get; set; }
+        public List<AudioInfoEntity> SoundCloudTracks { get; set; }
 
         [BsonElement("d")]
         [BsonIgnoreIfDefault]
@@ -88,7 +88,7 @@ namespace Funkmap.Data.Entities.Entities.Abstract
 
     }
 
-    public class VideoInfo
+    public class VideoInfoEntity
     {
         [BsonElement("vid")]
         public string Id { get; set; }
@@ -102,6 +102,18 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         [BsonElement("vt")]
         public VideoType Type { get; set; }
 
+        [BsonElement("vsd")]
+        public DateTime SaveDateUtc { get; set; }
+
+    }
+
+    public class AudioInfoEntity
+    {
+        [BsonElement("aid")]
+        public long Id { get; set; }
+
+        [BsonElement("asd")]
+        public DateTime SaveDateUtc { get; set; }
     }
 
     

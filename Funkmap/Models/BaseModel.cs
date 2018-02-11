@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Microsoft.Build.Framework;
@@ -28,7 +29,7 @@ namespace Funkmap.Models
         public string AvatarMiniId { get; set; }
         public List<VideoInfo> VideoInfos { get; set; }
 
-        public List<int> SoundCloudTrackIds { get; set; }
+        public List<AudioInfo> SoundCloudTracks { get; set; }
 
         public string VkLink { get; set; }
         public string YoutubeLink { get; set; }
@@ -36,5 +37,21 @@ namespace Funkmap.Models
         public string SoundCloudLink { get; set; }
 
         public bool? IsActive { get; set; }
+    }
+
+    public class VideoInfo
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public VideoType Type { get; set; }
+        public DateTime SaveDateUtc { get; set; }
+    }
+
+    public class AudioInfo
+    {
+        public long Id { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace Funkmap.Common.Cqrs.Abstract
 
     public interface IEventHandler<in T> : IEventHandler where T : class
     {
-        void Handle(T @event);
+        Task Handle(T @event);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
@@ -24,7 +25,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
             _eventBus.Subscribe<UserInvitedToDialogEvent>(Handle);
         }
 
-        public void Handle(UserInvitedToDialogEvent @event)
+        public async Task Handle(UserInvitedToDialogEvent @event)
         {
             string addedParticipantsString = @event.InvitedParticipants.Count == 1
                 ? @event.InvitedParticipants.First()
@@ -38,7 +39,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 Text = $"{@event.UserLogin} пригласил {addedParticipantsString}"//todo подумать о локализации
             };
 
-            _commandBus.Execute(command);
+            await _commandBus.Execute(command);
         }
 
         

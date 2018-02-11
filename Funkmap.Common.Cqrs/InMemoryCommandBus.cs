@@ -27,7 +27,13 @@ namespace Funkmap.Common.Cqrs
         public async Task Execute<TCommand>(TCommand commandBody) where TCommand : class
         {
             ICommandHandler<TCommand> handler = _commandHandlerResolver.ResolveCommandHandler<ICommandHandler<TCommand>>();
-            await handler.Execute(commandBody);
+
+            Task.Run(() =>
+            {
+                handler.Execute(commandBody);
+            }).ConfigureAwait(false);
+
+            
         }
     }
 }

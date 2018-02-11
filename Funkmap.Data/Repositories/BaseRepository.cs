@@ -12,6 +12,7 @@ using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Tools;
+using Funkmap.Tools;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
@@ -54,8 +55,7 @@ namespace Funkmap.Data.Repositories
                 .Exclude(x => x.FacebookLink)
                 .Exclude(x => x.SoundCloudLink)
                 .Exclude(x => x.VkLink);
-
-
+            
             ICollection<BaseEntity> result;
             if (parameter.Longitude == null || parameter.Latitude == null)
             {

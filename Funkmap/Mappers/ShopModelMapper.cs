@@ -1,4 +1,5 @@
-﻿using Funkmap.Data.Entities.Entities;
+﻿using System.Linq;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Models;
 using MongoDB.Bson;
 using MongoDB.Driver.GeoJsonObjectModel;
@@ -26,8 +27,6 @@ namespace Funkmap.Mappers
                 Address = source.Address,
                 AvatarId = source.PhotoId,
                 AvatarMiniId = source.PhotoMiniId,
-                VideoInfos = source.VideoInfos,
-                SoundCloudTrackIds = source.SoundCloudTrackIds,
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive
             };
@@ -71,8 +70,6 @@ namespace Funkmap.Mappers
                 Website = source.WebSite,
                 WorkingHoursDescription = source.WorkingHoursDescription,
                 Address = source.Address,
-                VideoInfos = source.VideoInfos,
-                SoundCloudTrackIds = source.SoundCloudTrackIds,
                 IsActive = source.IsActive,
                 UserLogin = source.UserLogin
             };

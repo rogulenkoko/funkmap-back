@@ -81,7 +81,7 @@ namespace Funkmap.Tests.Funkmap.Stress
                 Sex = (Sex)Enum.GetValues(typeof(Sex)).GetValue(_random.Next(Enum.GetValues(typeof(Sex)).Length)),
                 Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
                 IsActive = true,
-                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
+                VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "ThCbl10-1pA" } }
             };
         }
 
@@ -102,7 +102,7 @@ namespace Funkmap.Tests.Funkmap.Stress
                 SoundCloudLink = RandomString(15),
                 Styles = new List<Styles>() { (Styles)Enum.GetValues(typeof(Styles)).GetValue(_random.Next(Enum.GetValues(typeof(Styles)).Length)) },
                 IsActive = true,
-                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
+                VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "ThCbl10-1pA" } }
             };
         }
 
@@ -122,7 +122,7 @@ namespace Funkmap.Tests.Funkmap.Stress
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
                 IsActive = true,
-                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } },
+                VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "ThCbl10-1pA" } },
                 Website = "https://github.com/"
             };
         }
@@ -143,7 +143,7 @@ namespace Funkmap.Tests.Funkmap.Stress
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
                 IsActive = true,
-                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } }
+                VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "ThCbl10-1pA" } }
             };
         }
 
@@ -163,7 +163,7 @@ namespace Funkmap.Tests.Funkmap.Stress
                 UserLogin = "test",
                 SoundCloudLink = RandomString(15),
                 IsActive = true,
-                VideoInfos = new List<VideoInfo>() { new VideoInfo() { Id = "ThCbl10-1pA" } },
+                VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "ThCbl10-1pA" } },
 
             };
         }
