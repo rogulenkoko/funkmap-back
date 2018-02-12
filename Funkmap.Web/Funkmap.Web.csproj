@@ -171,7 +171,9 @@
     </None>
     <Content Include="NLogEmail.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\bandmap-api - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\file.pubxml" />
     <None Include="Properties\PublishProfiles\FunkmapWeb.pubxml" />
     <None Include="Web.Debug.config">

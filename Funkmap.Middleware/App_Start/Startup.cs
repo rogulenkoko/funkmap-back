@@ -16,8 +16,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using Swashbuckle.Application;
-using Swashbuckle.Swagger;
+using Swagger.Net.Application;
 
 namespace Funkmap.Middleware
 {
@@ -121,7 +120,7 @@ namespace Funkmap.Middleware
 
             httpConfiguration.EnableSwagger(swaggerConfig =>
             {
-                swaggerConfig.SingleApiVersion("v1", "Funkmap");
+                swaggerConfig.SingleApiVersion("v1", "Bandmap");
 
                 string executablePath = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -134,8 +133,14 @@ namespace Funkmap.Middleware
 
                         swaggerConfig.IncludeXmlComments(filePath);
                     });
-                
-            }).EnableSwaggerUi();
+
+                swaggerConfig.OAuth2("Bandmap").TokenUrl($"/api/token").Flow("password");
+                swaggerConfig.OperationFilter<SwaggerConfig.AuthTokenOperationFilter>();
+
+            }).EnableSwaggerUi(ui =>
+            {
+                ui.EnableOAuth2Support(String.Empty, String.Empty, String.Empty);
+            });
         }
     }
 
