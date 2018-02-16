@@ -19,7 +19,7 @@ namespace Funkmap.Notifications.Data
             throw new System.NotImplementedException();
         }
 
-        public async Task<ICollection<NotificationEntity>> GetUserNotificationsAsync(string login)
+        public async Task<List<NotificationEntity>> GetUserNotificationsAsync(string login)
         {
             var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login);
             var sort = Builders<NotificationEntity>.Sort.Descending(x => x.Date);

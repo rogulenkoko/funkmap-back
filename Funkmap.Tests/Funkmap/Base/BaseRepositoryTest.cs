@@ -63,11 +63,11 @@ namespace Funkmap.Tests.Funkmap.Base
         public void GetSpecificTest()
         {
             var logins = new List<string>() { "razrab" };
-            var result = _baseRepository.GetSpecificNavigationAsync(logins.ToArray()).Result;
+            var result = _baseRepository.GetSpecificNavigationAsync(logins).Result;
             Assert.AreEqual(result.Count, 1);
 
             logins.Add("rogulenkoko");
-            result = _baseRepository.GetSpecificNavigationAsync(logins.ToArray()).Result;
+            result = _baseRepository.GetSpecificNavigationAsync(logins).Result;
             Assert.AreEqual(result.Count, 2);
         }
 

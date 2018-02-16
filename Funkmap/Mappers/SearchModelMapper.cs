@@ -43,7 +43,7 @@ namespace Funkmap.Mappers
                 Address = address,
                 Website = (source as ShopEntity)?.Website,
 
-                Styles = (source as BandEntity)?.Styles?.ToArray()
+                Styles = (source as BandEntity)?.Styles
             };
         }
     }

@@ -22,7 +22,7 @@ namespace Funkmap.Mappers
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
                 Age = age.Value == 0 ? null : age,
-                Styles = source.Styles?.ToArray(),
+                Styles = source.Styles,
                 AvatarId = source.PhotoId,
                 AvatarMiniId = source.PhotoMiniId,
                 VideoInfos = source.VideoInfos?.Select(x=>x.ToModel()).ToList(),
@@ -52,7 +52,7 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
-                Styles = source.Styles?.ToList(),
+                Styles = source.Styles,
                 VideoInfos = source.VideoInfos?.Select(x=>x.ToEntity()).ToList(),
                 SoundCloudTracks = source.SoundCloudTracks?.Select(x=>x.ToEntity()).ToList(),
                 YouTubeLink = source.YoutubeLink,
@@ -73,7 +73,7 @@ namespace Funkmap.Mappers
             return new MusicianPreviewModel()
             {
                 Login = source.Login,
-                Styles = source.Styles?.ToArray(),
+                Styles = source.Styles,
                 Name = source.Name,
                 AvatarId = source.PhotoId,
                 AvatarMiniId = source.PhotoMiniId,

@@ -4,7 +4,7 @@ namespace Funkmap.Models.Responses
 {
     public class SearchResponse
     {
-        public ICollection<SearchModel> Items { get; set; }
+        public List<SearchModel> Items { get; set; }
 
         public long AllCount { get; set; }
     }

@@ -6,6 +6,6 @@ namespace Funkmap.Statistics.Data.Repositories.Abstract
 {
     public interface IBaseStatisticsRepository
     {
-        Task<ICollection<BaseStatisticsEntity>> GetAllStatisticsAsync(StatisticsType[] statisticsTypes = null);
+        Task<ICollection<BaseStatisticsEntity>> GetAllStatisticsAsync(IReadOnlyCollection<StatisticsType> statisticsTypes = null);
     }
 }

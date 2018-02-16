@@ -18,7 +18,7 @@ namespace Funkmap.Messenger.Mappers
                 IsNew = source.IsNew,
                 DialogId = source.DialogId,
                 MessageType = source.MessageType,
-                Content = source.Content?.Select(x=>x.ToModel()).ToArray()
+                Content = source.Content?.Select(x=>x.ToModel()).ToList()
             };
         }
 
@@ -33,7 +33,7 @@ namespace Funkmap.Messenger.Mappers
                 IsNew = !source.IsRead,
                 DialogId = source.DialogId.ToString(),
                 MessageType = source.MessageType,
-                Content = source.Content?.Select(x=>x.ToModel()).ToArray()
+                Content = source.Content?.Select(x=>x.ToModel()).ToList()
             };
         }
     }

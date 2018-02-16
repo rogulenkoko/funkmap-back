@@ -106,7 +106,7 @@ namespace Funkmap.Auth.Data
             await _collection.ReplaceOneAsync(filter, entity);
         }
 
-        public async Task<ICollection<string>> GetBookedEmailsAsync()
+        public async Task<List<string>> GetBookedEmailsAsync()
         {
             var projection = Builders<UserEntity>.Projection.Include(x => x.Email);
             var usersEmails = await _collection.Find(x => true).Project<UserEntity>(projection).ToListAsync();

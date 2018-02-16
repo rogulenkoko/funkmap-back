@@ -118,7 +118,7 @@ namespace Funkmap.Messenger.Controllers
                 return Ok(new List<Message>());
             }
 
-            var messages = response.Messages.Select(x => x.ToModel()).ToList();
+            var messages = response.Messages.Select(x => x.ToModel());
             return Content(HttpStatusCode.OK, messages);
         }
 

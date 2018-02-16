@@ -21,7 +21,7 @@ namespace Funkmap.Auth.Data.Abstract
 
         Task<DateTime?> GetLastVisitDate(string login);
 
-        Task<ICollection<string>> GetBookedEmailsAsync();
+        Task<List<string>> GetBookedEmailsAsync();
 
         Task<UserEntity> GetUserByEmailOrLogin(string emailOrLogin);
     }

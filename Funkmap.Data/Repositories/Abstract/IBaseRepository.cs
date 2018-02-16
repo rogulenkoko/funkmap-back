@@ -9,33 +9,33 @@ namespace Funkmap.Data.Repositories.Abstract
 {
     public interface IBaseRepository : IMongoRepository<BaseEntity>
     {
-        Task<ICollection<BaseEntity>> GetAllAsyns();
+        Task<List<BaseEntity>> GetAllAsyns();
 
-        Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter);
+        Task<List<BaseEntity>> GetNearestAsync(LocationParameter parameter);
 
-        Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter);
+        Task<List<BaseEntity>> GetFullNearestAsync(LocationParameter parameter);
 
-        Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins);
+        Task<List<BaseEntity>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins);
 
-        Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins);
+        Task<List<BaseEntity>> GetSpecificFullAsync(IReadOnlyCollection<string> logins);
 
-        Task<ICollection<string>> GetUserEntitiesLoginsAsync(string userLogin);
+        Task<List<string>> GetUserEntitiesLoginsAsync(string userLogin);
 
-        Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
+        Task<List<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
-        Task<ICollection<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
+        Task<List<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
         Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
 
         Task<bool> CheckIfLoginExistAsync(string login);
 
-        Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin);
+        Task<List<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin);
 
         Task<byte[]> GetFileAsync(string fileId);
 
         Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter);
 
-        Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin);
+        Task<List<string>> GetFavoritesLoginsAsync(string userLogin);
 
         Task UpdateAvatarAsync(BaseEntity entity, byte[] imageBytes);
     }

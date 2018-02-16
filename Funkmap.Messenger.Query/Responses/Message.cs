@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Query.Responses
@@ -10,7 +11,7 @@ namespace Funkmap.Messenger.Query.Responses
         public string Text { get; set; }
         public DateTime DateTimeUtc { get; set; }
 
-        public ContentItem[] Content { get; set; }
+        public List<ContentItem> Content { get; set; }
 
         public bool IsNew { get; set; }
 

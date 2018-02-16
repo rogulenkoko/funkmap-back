@@ -21,7 +21,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetAll()
         {
             var result = await _repository.GetAllAsyns();
-            var markers = result.Select(x => x.ToMarkerModel()).ToList();
+            var markers = result.Select(x => x.ToMarkerModel());
             return Content(HttpStatusCode.OK, markers);
         }
 
@@ -148,8 +148,8 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetFavorites()
         {
             var login = Request.GetLogin();
-            var favoritesLogins = await _repository.GetFavoritesLoginsAsync(login);
-            var favorites = await _repository.GetSpecificFullAsync(favoritesLogins.ToArray());
+            List<string> favoritesLogins = await _repository.GetFavoritesLoginsAsync(login);
+            var favorites = await _repository.GetSpecificFullAsync(favoritesLogins);
             return Ok(favorites?.Select(x=>x.ToSearchModel()));
         }
     }

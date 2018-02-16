@@ -77,7 +77,7 @@ namespace Funkmap.Messenger.Command.Repositories
             await _messagesCollection.UpdateManyAsync(readFilter, update);
         }
 
-        public async Task<DialogEntity> GetDialogByParticipants(string[] participants)
+        public async Task<DialogEntity> GetDialogByParticipants(IReadOnlyCollection<string> participants)
         {
             var filter = Builders<DialogEntity>.Filter.All(x => x.Participants, participants) & Builders<DialogEntity>.Filter.Eq(x=>x.DialogType, DialogType.Base);
 

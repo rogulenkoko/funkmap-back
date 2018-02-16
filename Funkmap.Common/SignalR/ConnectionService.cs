@@ -46,18 +46,18 @@ namespace Funkmap.Common.SignalR
 
         }
 
-        public ICollection<string> GetConnectionIdsByLogins(ICollection<string> logins)
+        public List<string> GetConnectionIdsByLogins(ICollection<string> logins)
         {
             if(logins == null) return new List<string>();
             return _onlineUsers.Where(x => logins.Contains(x.Value.Login)).Select(x => x.Key).ToList();
         }
 
-        public ICollection<string> GetConnectionIdsByLogin(string login)
+        public List<string> GetConnectionIdsByLogin(string login)
         {
             return _onlineUsers.Where(x => x.Value.Login == login).Select(x => x.Key).ToList();
         }
 
-        public ICollection<string> GetOnlineUsersLogins()
+        public List<string> GetOnlineUsersLogins()
         {
             return _onlineUsers.Values.Select(x => x.Login).Distinct().ToList();
         }

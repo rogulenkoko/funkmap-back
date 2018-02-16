@@ -15,6 +15,6 @@ namespace Funkmap.Messenger.Command.Abstract
         Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime);
         Task MakeDialogMessagesReadAsync(string dialogId, string login, DateTime readTime);
 
-        Task<DialogEntity> GetDialogByParticipants(string[] participants);
+        Task<DialogEntity> GetDialogByParticipants(IReadOnlyCollection<string> participants);
     }
 }

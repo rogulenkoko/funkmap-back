@@ -10,6 +10,6 @@ namespace Funkmap.Messenger.Services.Abstract
         bool CheckDialogIsOpened(string login, string dialogId);
         bool SetOpenedDialog(string id, string dialogId);
 
-        ICollection<string> GetDialogParticipants(string dialogId);
+        List<string> GetDialogParticipants(string dialogId);
     }
 }

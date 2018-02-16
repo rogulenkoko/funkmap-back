@@ -1,4 +1,5 @@
-﻿using Funkmap.Data.Entities;
+﻿using System.Collections.Generic;
+using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
 
 namespace Funkmap.Models
@@ -24,6 +25,6 @@ namespace Funkmap.Models
         public string Website { get; set; }
 
         //для группы 
-        public Styles[] Styles { get; set; }
+        public List<Styles> Styles { get; set; }
     }
 }

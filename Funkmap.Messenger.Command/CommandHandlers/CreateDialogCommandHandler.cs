@@ -49,7 +49,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
                 if (command.Participants.Count == 2)
                 {
-                    var existingDialog = await _messengerRepository.GetDialogByParticipants(command.Participants.ToArray());
+                    var existingDialog = await _messengerRepository.GetDialogByParticipants(command.Participants);
                     if (existingDialog != null)
                     {
                         await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = existingDialog, Sender = command.CreatorLogin});

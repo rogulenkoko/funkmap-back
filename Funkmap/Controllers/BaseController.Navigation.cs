@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Filters;
+using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Parameters;
 using Funkmap.Data.Repositories.Abstract;
 using Funkmap.Mappers;
@@ -51,7 +53,7 @@ namespace Funkmap.Controllers
                 Take = request.Limit
             };
             var result = await _repository.GetNearestAsync(parameters);
-            var markers = result.Select(x => x.ToMarkerModel()).ToList();
+            var markers = result.Select(x => x.ToMarkerModel());
             return Content(HttpStatusCode.OK, markers);
 
         }
@@ -73,8 +75,8 @@ namespace Funkmap.Controllers
                 Take = request.Take,
                 Skip = request.Skip
             };
-            var result = await _repository.GetFullNearestAsync(parameters);
-            var searchModels = result.Select(x => x.ToSearchModel()).ToList();
+            List<BaseEntity> result = await _repository.GetFullNearestAsync(parameters);
+            var searchModels = result.Select(x => x.ToSearchModel());
             return Content(HttpStatusCode.OK, searchModels);
         }
 

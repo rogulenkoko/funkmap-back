@@ -35,7 +35,7 @@ namespace Funkmap.Notifications.Controllers
             var login = Request.GetLogin();
 
             var notifications = await _notificationRepository.GetUserNotificationsAsync(login);
-            var result = notifications.Select(x => x.ToNotificationModel()).ToList();
+            var result = notifications.Select(x => x.ToNotificationModel());
             return Content(HttpStatusCode.OK, result);
         }
 

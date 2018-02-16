@@ -16,12 +16,12 @@ namespace Funkmap.Statistics.Data.Repositories
         }
 
 
-        public async Task<ICollection<BaseStatisticsEntity>> GetAllStatisticsAsync(StatisticsType[] statisticsTypes = null)
+        public async Task<ICollection<BaseStatisticsEntity>> GetAllStatisticsAsync(IReadOnlyCollection<StatisticsType> statisticsTypes = null)
         {
 
             var filter = Builders<BaseStatisticsEntity>.Filter.Empty;
 
-            if (statisticsTypes != null && statisticsTypes.Length > 0)
+            if (statisticsTypes != null && statisticsTypes.Count > 0)
             {
                 filter = filter & Builders<BaseStatisticsEntity>.Filter.In(x => x.StatisticsType, statisticsTypes);
             }

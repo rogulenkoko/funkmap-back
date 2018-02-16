@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Events.Dialogs;
@@ -53,7 +52,7 @@ namespace Funkmap.Messenger.Handlers
             {
                 var connectionId = _connectionService.GetConnectionIdsByLogin(login);
                 GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
-                    .Clients.Clients(connectionId.ToList())
+                    .Clients.Clients(connectionId)
                     .OnMessageSent(message);
             });
         }
@@ -62,7 +61,7 @@ namespace Funkmap.Messenger.Handlers
         {
             var login = @event.Sender;
 
-            var clientIds = _connectionService.GetConnectionIdsByLogin(login).ToList();
+            var clientIds = _connectionService.GetConnectionIdsByLogin(login);
 
             var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
             var response = await _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query);
@@ -76,7 +75,7 @@ namespace Funkmap.Messenger.Handlers
 
         public async Task Handle(MessagesReadEvent @event)
         {
-            var connectionIds = _connectionService.GetConnectionIdsByLogins(@event.DialogMembers).ToList();
+            var connectionIds = _connectionService.GetConnectionIdsByLogins(@event.DialogMembers);
 
             var readModel = new DialogReadModel() {DialogId = @event.DialogId, UserWhoRead = @event.UserLogin};
 
@@ -88,7 +87,7 @@ namespace Funkmap.Messenger.Handlers
 
             await Task.Yield();
 
-            var clientIds = _connectionService.GetConnectionIdsByLogins(@event.Dialog.Participants).ToList();
+            var clientIds = _connectionService.GetConnectionIdsByLogins(@event.Dialog.Participants);
             
             Parallel.ForEach(clientIds, async clientId =>
             {
@@ -110,7 +109,7 @@ namespace Funkmap.Messenger.Handlers
             var connectionIds = _connectionService.GetConnectionIdsByLogin(@event.Sender);
 
             await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
-                .Clients.Clients(connectionIds.ToList())
+                .Clients.Clients(connectionIds)
                 .OnContentLoaded(new ContentItemModel() {Name = @event.Name, DataUrl = @event.DataUrl, ContentType = @event.ContentType});
 
         }

@@ -51,7 +51,7 @@ namespace Funkmap.Notifications.Services
             var recievers = _connectionService.GetConnectionIdsByLogin(notificatinEntity.RecieverLogin);
 
             await GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
-                 .Clients.Clients(recievers.ToList())
+                 .Clients.Clients(recievers)
                  .OnNotificationRecieved(notificatinEntity.ToNotificationModel());
 
 

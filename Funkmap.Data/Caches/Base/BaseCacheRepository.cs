@@ -12,13 +12,11 @@ namespace Funkmap.Data.Caches.Base
     {
         private readonly IBaseRepository _baseRepository;
         private readonly IFavoriteCacheService _favoriteService;
-        private readonly IFilteredCacheService _filteredService;
 
-        public BaseCacheRepository(IFavoriteCacheService favoriteCacheService, IFilteredCacheService filteredCacheService, IBaseRepository baseRepository)
+        public BaseCacheRepository(IFavoriteCacheService favoriteCacheService, IBaseRepository baseRepository)
         {
             _baseRepository = baseRepository;
             _favoriteService = favoriteCacheService;
-            _filteredService = filteredCacheService;
 
         }
 
@@ -43,7 +41,7 @@ namespace Funkmap.Data.Caches.Base
         #endregion
 
 
-        public Task<ICollection<BaseEntity>> GetAllAsync()
+        public Task<List<BaseEntity>> GetAllAsync()
         {
             return _baseRepository.GetAllAsyns();
         }
@@ -53,7 +51,7 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.GetAsync(id);
         }
 
-        public Task<ICollection<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin)
+        public Task<List<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin)
         {
             return _baseRepository.GetUserEntitiesCountInfoAsync(userLogin);
         }
@@ -69,17 +67,17 @@ namespace Funkmap.Data.Caches.Base
             await _baseRepository.UpdateFavoriteAsync(parameter);
 
             var favorites = await _baseRepository.GetFavoritesLoginsAsync(parameter.UserLogin);
-            _favoriteService.SetFavorites(parameter.UserLogin, favorites.ToList());
+            _favoriteService.SetFavorites(parameter.UserLogin, favorites);
 
         }
 
-        public async Task<ICollection<string>> GetFavoritesLoginsAsync(string userLogin)
+        public async Task<List<string>> GetFavoritesLoginsAsync(string userLogin)
         {
-            ICollection<string> favorites = await _favoriteService.GetFavoriteLogins(userLogin);
+            List<string> favorites = await _favoriteService.GetFavoriteLogins(userLogin);
             if (favorites == null)
             {
                 favorites = await _baseRepository.GetFavoritesLoginsAsync(userLogin);
-                _favoriteService.SetFavorites(userLogin, favorites as List<string>);
+                _favoriteService.SetFavorites(userLogin, favorites);
             }
             return favorites;
 
@@ -90,42 +88,42 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.UpdateAvatarAsync(entity, imageBytes);
         }
 
-        public Task<ICollection<BaseEntity>> GetAllAsyns()
+        public Task<List<BaseEntity>> GetAllAsyns()
         {
             return _baseRepository.GetAllAsyns();
         }
 
-        public Task<ICollection<BaseEntity>> GetNearestAsync(LocationParameter parameter)
+        public Task<List<BaseEntity>> GetNearestAsync(LocationParameter parameter)
         {
             return _baseRepository.GetNearestAsync(parameter);
         }
 
-        public Task<ICollection<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
+        public Task<List<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
         {
             return _baseRepository.GetFullNearestAsync(parameter);
         }
 
-        public Task<ICollection<BaseEntity>> GetSpecificNavigationAsync(string[] logins)
+        public Task<List<BaseEntity>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
         {
             return _baseRepository.GetSpecificNavigationAsync(logins);
         }
 
-        public Task<ICollection<BaseEntity>> GetSpecificFullAsync(string[] logins)
+        public Task<List<BaseEntity>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
         {
             return _baseRepository.GetSpecificFullAsync(logins);
         }
 
-        public Task<ICollection<string>> GetUserEntitiesLoginsAsync(string userLogin)
+        public Task<List<string>> GetUserEntitiesLoginsAsync(string userLogin)
         {
             return _baseRepository.GetUserEntitiesLoginsAsync(userLogin);
         }
 
-        public Task<ICollection<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public Task<List<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             return _baseRepository.GetFilteredAsync(commonFilter, parameter);
         }
 
-        public Task<ICollection<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public Task<List<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             return _baseRepository.GetFilteredNavigationAsync(commonFilter, parameter);
         }

@@ -7,9 +7,9 @@ namespace Funkmap.Common.SignalR.Abstract
         void AddOnlineUser(string id, string login);
         void RemoveOnlineUser(string id, out string login);
 
-        ICollection<string> GetConnectionIdsByLogins(ICollection<string> login);
-        ICollection<string> GetConnectionIdsByLogin(string login);
-        ICollection<string> GetOnlineUsersLogins();
+        List<string> GetConnectionIdsByLogins(ICollection<string> login);
+        List<string> GetConnectionIdsByLogin(string login);
+        List<string> GetOnlineUsersLogins();
 
         string GetLoginByConnectionId(string connectionId);
     }

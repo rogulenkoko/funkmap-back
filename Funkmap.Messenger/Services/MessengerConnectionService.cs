@@ -24,7 +24,7 @@ namespace Funkmap.Messenger.Services
             return false;
         }
 
-        public ICollection<string> GetDialogParticipants(string dialogId)
+        public List<string> GetDialogParticipants(string dialogId)
         {
             return _onlineUsers.Where(x => x.Value.OpenedDialogId == dialogId).Select(x => x.Value.Login).ToList();
         }

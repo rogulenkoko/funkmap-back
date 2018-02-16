@@ -80,7 +80,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                             FileName = c.FileName,
                             Size = c.Size,
                             FileId = c.FileId
-                        }).ToArray()
+                        }).ToList()
                     },
                     DialogType = x.DialogType
                 }).ToList());

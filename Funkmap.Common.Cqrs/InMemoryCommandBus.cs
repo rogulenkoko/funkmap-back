@@ -28,12 +28,10 @@ namespace Funkmap.Common.Cqrs
         {
             ICommandHandler<TCommand> handler = _commandHandlerResolver.ResolveCommandHandler<ICommandHandler<TCommand>>();
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 handler.Execute(commandBody);
             }).ConfigureAwait(false);
-
-            
         }
     }
 }

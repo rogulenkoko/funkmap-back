@@ -41,7 +41,7 @@ namespace Funkmap.Statistics.Services
         {
             var statisticsDictionary = new Dictionary<StatisticsType, BaseStatisticsEntity>();
 
-            var profileStatisticsTypes = _profileStatisticsRepositories.Select(x => x.StatisticsType).ToArray();
+            var profileStatisticsTypes = _profileStatisticsRepositories.Select(x => x.StatisticsType).ToList();
             var profileStatistics = await _baseStatisticsRepository.GetAllStatisticsAsync(profileStatisticsTypes);
 
             var now = DateTime.UtcNow;
@@ -90,7 +90,7 @@ namespace Funkmap.Statistics.Services
         public async Task<MusicianStatistics> BuildMusicianStatisticsAsync()
         {
             var statisticsDictionary = new Dictionary<StatisticsType, BaseStatisticsEntity>();
-            var musicianStatisticsTypes = _musicianStatisticsRepositories.Select(x => x.StatisticsType).ToArray();
+            var musicianStatisticsTypes = _musicianStatisticsRepositories.Select(x => x.StatisticsType).ToList();
             var musicianStatistics = await _baseStatisticsRepository.GetAllStatisticsAsync(musicianStatisticsTypes);
             
             var now = DateTime.UtcNow;
