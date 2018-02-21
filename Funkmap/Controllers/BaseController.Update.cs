@@ -71,6 +71,9 @@ namespace Funkmap.Controllers
             if (entity == null || entity.UserLogin != login) return BadRequest();
 
             await _repository.UpdateAvatarAsync(entity, request.Photo);
+
+            //_eventBus.PublishAsync()
+
             return Ok(new BaseResponse() { Success = true });
         }
 

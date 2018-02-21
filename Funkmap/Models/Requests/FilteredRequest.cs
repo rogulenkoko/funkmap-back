@@ -22,6 +22,11 @@ namespace Funkmap.Models.Requests
         public string SearchText { get; set; }
 
         /// <summary>
+        /// Логин пользователя, создавшего профиль
+        /// </summary>
+        public string UserLogin { get; set; }
+
+        /// <summary>
         /// Тип профиля
         /// </summary>
         public EntityType EntityType { get; set; }

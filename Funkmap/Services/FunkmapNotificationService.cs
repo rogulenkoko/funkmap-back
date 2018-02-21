@@ -44,7 +44,7 @@ namespace Funkmap.Services
                 return;
             }
 
-            var updateRequest = new UpdateBandMembersRequest()
+            var updateRequest = new UpdateBandMemberRequest()
             {
                 MusicianLogin = inviteRequest.InvitedMusicianLogin,
                 BandLogin = inviteRequest.BandLogin

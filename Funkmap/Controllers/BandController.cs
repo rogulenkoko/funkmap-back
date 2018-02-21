@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Models;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
@@ -21,6 +22,7 @@ namespace Funkmap.Controllers
         private readonly IBandRepository _bandRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IDependenciesController _dependenciesController;
+        
 
 
         public BandController(IBandRepository bandRepository, IBaseRepository baseRepository, IDependenciesController dependenciesController)
@@ -73,7 +75,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("removeMusician")]
-        public async Task<IHttpActionResult> RemoveMusicianFromBand(UpdateBandMembersRequest membersRequest)
+        public async Task<IHttpActionResult> RemoveMusicianFromBand(UpdateBandMemberRequest membersRequest)
         {
             var userLogin = Request.GetLogin();
             var band = await _bandRepository.GetAsync(membersRequest.BandLogin);

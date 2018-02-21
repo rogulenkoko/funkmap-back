@@ -30,8 +30,7 @@ namespace Funkmap.Module
             builder.RegisterDecorator<IBaseRepository>((container, inner) =>
             { 
                  var favoriteService = container.Resolve<IFavoriteCacheService>();
-                 var filteredService = container.Resolve<IFilteredCacheService>();
-                return new BaseCacheRepository(favoriteService, filteredService, inner);
+                return new BaseCacheRepository(favoriteService, inner);
             }, fromKey: baseRepositoryName).As<IBaseRepository>();
 
 

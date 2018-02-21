@@ -20,7 +20,7 @@ namespace Funkmap.Controllers
         [Route("all")]
         public async Task<IHttpActionResult> GetAll()
         {
-            var result = await _repository.GetAllAsyns();
+            var result = await _repository.GetAllAsync();
             var markers = result.Select(x => x.ToMarkerModel());
             return Content(HttpStatusCode.OK, markers);
         }

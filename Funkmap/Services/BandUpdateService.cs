@@ -26,7 +26,7 @@ namespace Funkmap.Services
             _baseRepository = baseRepository;
         }
 
-        public async Task<InviteBandResponse> HandleInviteBandChanges(UpdateBandMembersRequest membersRequest, string userLogin)
+        public async Task<InviteBandResponse> HandleInviteBandChanges(UpdateBandMemberRequest membersRequest, string userLogin)
         {
             var musician = await _musicianRepository.GetAsync(membersRequest.MusicianLogin);
             if (musician == null) throw new ArgumentNullException(nameof(musician));
@@ -35,7 +35,7 @@ namespace Funkmap.Services
             var band = await _bandRepository.GetAsync(membersRequest.BandLogin);
             if (band == null) throw new ArgumentNullException(nameof(band));
 
-            var response = new InviteBandResponse();
+            var response = new InviteBandResponse() { MusicianLogin = membersRequest.MusicianLogin };
 
             if ((band.InvitedMusicians != null && band.InvitedMusicians.Contains(musician.Login)) || (band.MusicianLogins != null && band.MusicianLogins.Contains(musician.Login)))
             {
@@ -76,7 +76,7 @@ namespace Funkmap.Services
             return response;
         }
 
-        public async Task CreateDependenciesAsync(UpdateBandMembersRequest request, bool needToAdd = true)
+        public async Task CreateDependenciesAsync(UpdateBandMemberRequest request, bool needToAdd = true)
         {
             var band = await _bandRepository.GetAsync(request.BandLogin);
             if (band == null) return;

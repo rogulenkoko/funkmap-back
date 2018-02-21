@@ -9,8 +9,6 @@ namespace Funkmap.Data.Repositories.Abstract
 {
     public interface IBaseRepository : IMongoRepository<BaseEntity>
     {
-        Task<List<BaseEntity>> GetAllAsyns();
-
         Task<List<BaseEntity>> GetNearestAsync(LocationParameter parameter);
 
         Task<List<BaseEntity>> GetFullNearestAsync(LocationParameter parameter);

@@ -43,7 +43,7 @@ namespace Funkmap.Data.Caches.Base
 
         public Task<List<BaseEntity>> GetAllAsync()
         {
-            return _baseRepository.GetAllAsyns();
+            return _baseRepository.GetAllAsync();
         }
 
         public Task<BaseEntity> GetAsync(string id)
@@ -90,7 +90,7 @@ namespace Funkmap.Data.Caches.Base
 
         public Task<List<BaseEntity>> GetAllAsyns()
         {
-            return _baseRepository.GetAllAsyns();
+            return _baseRepository.GetAllAsync();
         }
 
         public Task<List<BaseEntity>> GetNearestAsync(LocationParameter parameter)

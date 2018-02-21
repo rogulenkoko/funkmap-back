@@ -12,5 +12,7 @@ namespace Funkmap.Models.Responses
 
         //todo подумать может убрать
         public string BandName { get; set; }
+
+        public string MusicianLogin { get; set; }
     }
 }

@@ -93,6 +93,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Entities",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Events", "Funkmap.Feedback.Events\Funkmap.Feedback.Events.csproj", "{2F3381DC-A672-4E91-B310-94B8DC59C398}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Events", "Funkmap.Events\Funkmap.Events.csproj", "{9250DEF9-436F-450B-94A9-6F27512399CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -251,6 +253,10 @@ Global
 		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9250DEF9-436F-450B-94A9-6F27512399CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9250DEF9-436F-450B-94A9-6F27512399CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9250DEF9-436F-450B-94A9-6F27512399CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9250DEF9-436F-450B-94A9-6F27512399CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -290,5 +296,6 @@ Global
 		{4141CF1F-5901-40D2-8B7E-C1567BF2E343} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{2D0C55A3-225B-4269-997F-E205FB2E0B5A} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{2F3381DC-A672-4E91-B310-94B8DC59C398} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
+		{9250DEF9-436F-450B-94A9-6F27512399CB} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
 	EndGlobalSection
 EndGlobal

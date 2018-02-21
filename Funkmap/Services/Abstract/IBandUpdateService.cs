@@ -7,6 +7,6 @@ namespace Funkmap.Services.Abstract
 {
     public interface IBandUpdateService
     {
-        Task<InviteBandResponse> HandleInviteBandChanges(UpdateBandMembersRequest membersRequest, string userLogin);
+        Task<InviteBandResponse> HandleInviteBandChanges(UpdateBandMemberRequest membersRequest, string userLogin);
     }
 }

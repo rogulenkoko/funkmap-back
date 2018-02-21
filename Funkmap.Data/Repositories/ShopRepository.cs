@@ -15,7 +15,7 @@ namespace Funkmap.Data.Repositories
         {
         }
 
-        public override async Task<ICollection<ShopEntity>> GetAllAsync()
+        public override async Task<List<ShopEntity>> GetAllAsync()
         {
             var filter = Builders<ShopEntity>.Filter.Eq(x => x.EntityType, EntityType.Shop);
             var result = await _collection.Find(filter).ToListAsync();

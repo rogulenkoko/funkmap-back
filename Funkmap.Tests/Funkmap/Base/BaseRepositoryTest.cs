@@ -40,7 +40,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestMethod]
         public void GetAll()
         {
-            var all = _baseRepository.GetAllAsyns().Result;
+            var all = _baseRepository.GetAllAsync().Result;
             Assert.AreEqual(all.Count, 15);
         }
 
@@ -93,7 +93,7 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestMethod]
         public void UpdateEntity()
         {
-            var entity = _baseRepository.GetAllAsyns().GetAwaiter().GetResult().First();
+            var entity = _baseRepository.GetAllAsync().GetAwaiter().GetResult().First();
             (entity as MusicianEntity).Instrument = InstrumentType.Keyboard;
             _baseRepository.UpdateAsync(entity).GetAwaiter().GetResult();
             var updatedEntity = _baseRepository.GetSpecificNavigationAsync(new[] { entity.Login }).GetAwaiter().GetResult();

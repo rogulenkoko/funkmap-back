@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -45,7 +46,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("invite")]
-        public async Task<IHttpActionResult> InviteMusician(UpdateBandMembersRequest membersRequest)
+        public async Task<IHttpActionResult> InviteMusician(UpdateBandMemberRequest membersRequest)
         {
             if (String.IsNullOrEmpty(membersRequest.BandLogin) || String.IsNullOrEmpty(membersRequest.MusicianLogin))
             {
@@ -74,6 +75,52 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
+        /// Приглашение музыкантов в группу
+        /// </summary>
+        /// <param name="membersRequest"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        [Route("inviteMany")]
+        public async Task<IHttpActionResult> InviteManyMusician(UpdateBandMembersRequest membersRequest)
+        {
+            if (String.IsNullOrEmpty(membersRequest.BandLogin) || membersRequest.MusicianLogins == null || membersRequest.MusicianLogins.Count == 0)
+            {
+                return BadRequest("ivalid membersRequest parameter");
+            }
+
+            var login = Request.GetLogin();
+
+
+            var response = new List<InviteBandResponse>();
+
+            foreach (var musicianLogin in membersRequest.MusicianLogins)
+            {
+                var request = new UpdateBandMemberRequest() {MusicianLogin = musicianLogin, BandLogin = membersRequest.BandLogin};
+
+                InviteBandResponse inviteResponse = await _bandUpdateService.HandleInviteBandChanges(request, login);
+
+                if (!inviteResponse.IsOwner)
+                {
+                    var requestMessage = new BandInviteNotification()
+                    {
+                        BandLogin = membersRequest.BandLogin,
+                        InvitedMusicianLogin = musicianLogin,
+                        SenderLogin = login,
+                        RecieverLogin = inviteResponse.OwnerLogin,
+                        BandName = inviteResponse.BandName,
+                    };
+
+                    _notificationService.NotifyBandInvite(requestMessage);
+                }
+
+                response.Add(inviteResponse);
+            }
+            
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Удаление музыканта из группы
         /// </summary>
         /// <param name="membersRequest"></param>
@@ -81,7 +128,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("leaveBand")]
-        public async Task<IHttpActionResult> LeaveBand(UpdateBandMembersRequest membersRequest)
+        public async Task<IHttpActionResult> LeaveBand(UpdateBandMemberRequest membersRequest)
         {
             var userLogin = Request.GetLogin();
             var musician = await _musicianRepository.GetAsync(membersRequest.MusicianLogin);

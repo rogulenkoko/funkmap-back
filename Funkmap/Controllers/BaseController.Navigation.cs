@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Parameters;
@@ -23,19 +24,22 @@ namespace Funkmap.Controllers
         private readonly IParameterFactory _parameterFactory;
         private readonly IEntityUpdateService _updateService;
         private readonly IDependenciesController _dependenciesController;
+        private readonly IEventBus _eventBus;
 
         public BaseController(IBaseRepository repository,
                               IParameterFactory parameterFactory,
                               IEntityUpdateService updateService,
-                              IDependenciesController dependenciesController)
+                              IDependenciesController dependenciesController,
+                              IEventBus eventBus)
         {
             _repository = repository;
             _parameterFactory = parameterFactory;
             _updateService = updateService;
             _dependenciesController = dependenciesController;
+            _eventBus = eventBus;
         }
 
-       
+
         /// <summary>
         /// Ближайшие n профилей (информация о навигации) по отношению к указанной точке
         /// </summary>
@@ -141,7 +145,8 @@ namespace Funkmap.Controllers
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
                 RadiusDeg = request.RadiusDeg,
-                Limit = request.Limit
+                Limit = request.Limit,
+                UserLogin = request.UserLogin
             };
             var paramter = _parameterFactory.CreateParameter(request);
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);

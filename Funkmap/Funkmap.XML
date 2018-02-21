@@ -12,7 +12,7 @@
             <param name="request">Логин приглашаемого музыканта</param>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Controllers.BandController.RemoveMusicianFromBand(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+        <member name="M:Funkmap.Controllers.BandController.RemoveMusicianFromBand(Funkmap.Models.Requests.UpdateBandMemberRequest)">
             <summary>
             Удаление музыканта из группы
             </summary>
@@ -154,14 +154,21 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Controllers.MusicianController.InviteMusician(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+        <member name="M:Funkmap.Controllers.MusicianController.InviteMusician(Funkmap.Models.Requests.UpdateBandMemberRequest)">
             <summary>
             Приглашение музыканта в группу
             </summary>
             <param name="membersRequest"></param>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Controllers.MusicianController.LeaveBand(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+        <member name="M:Funkmap.Controllers.MusicianController.InviteManyMusician(Funkmap.Models.Requests.UpdateBandMembersRequest)">
+            <summary>
+            Приглашение музыкантов в группу
+            </summary>
+            <param name="membersRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.MusicianController.LeaveBand(Funkmap.Models.Requests.UpdateBandMemberRequest)">
             <summary>
             Удаление музыканта из группы
             </summary>
@@ -173,7 +180,17 @@
             Логин приглашаемого музыканта
             </summary>
         </member>
-        <member name="P:Funkmap.Models.Requests.UpdateBandMembersRequest.MusicianLogin">
+        <member name="P:Funkmap.Models.Requests.UpdateBandMemberRequest.MusicianLogin">
+            <summary>
+            Логин приглашаемого музыканта
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.UpdateBandMemberRequest.BandLogin">
+            <summary>
+            Группа, в которую приглашается музыкант
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.UpdateBandMembersRequest.MusicianLogins">
             <summary>
             Логин приглашаемого музыканта
             </summary>
@@ -196,6 +213,11 @@
         <member name="P:Funkmap.Models.Requests.FilteredRequest.SearchText">
             <summary>
             Часть имени
+            </summary>
+        </member>
+        <member name="P:Funkmap.Models.Requests.FilteredRequest.UserLogin">
+            <summary>
+            Логин пользователя, создавшего профиль
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.EntityType">

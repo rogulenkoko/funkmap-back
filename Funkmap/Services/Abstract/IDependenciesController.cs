@@ -11,6 +11,6 @@ namespace Funkmap.Services.Abstract
 
         Task CleanDependenciesAsync(CleanDependenciesParameter parameter);
 
-        Task CreateDependenciesAsync(UpdateBandMembersRequest request, bool needToAdd = true);
+        Task CreateDependenciesAsync(UpdateBandMemberRequest request, bool needToAdd = true);
     }
 }
