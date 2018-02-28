@@ -10,7 +10,7 @@ namespace Funkmap.Auth.Data.Abstract
     {
         Task<UserEntity> LoginAsync(string login, string password);
 
-        Task<bool> CheckIfExist(string login);
+        Task<bool> CheckIfExistAsync(string login);
 
         Task<byte[]> GetAvatarAsync(string login);
         Task<string> SaveAvatarAsync(string login, byte[] image);
@@ -19,10 +19,10 @@ namespace Funkmap.Auth.Data.Abstract
 
         Task UpdateLocaleAsync(string login, string locale);
 
-        Task<DateTime?> GetLastVisitDate(string login);
+        Task<DateTime?> GetLastVisitDateAsync(string login);
 
         Task<List<string>> GetBookedEmailsAsync();
 
-        Task<UserEntity> GetUserByEmailOrLogin(string emailOrLogin);
+        Task<UserEntity> GetUserByEmailOrLoginAsync(string emailOrLogin);
     }
 }

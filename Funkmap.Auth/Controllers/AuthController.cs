@@ -1,24 +1,35 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Auth.Data.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Module.Auth.Abstract;
 using Funkmap.Module.Auth.Models;
+using Funkmap.Module.Auth.Services.ExternalValidation;
 
 namespace Funkmap.Module.Auth.Controllers
 {
     [RoutePrefix("api/auth")]
     [ValidateRequestModel]
-    public class AuthController : ApiController
+    public partial class AuthController : ApiController
     {
         private readonly IRegistrationContextManager _contextManager;
         private readonly IRestoreContextManager _restoreContextManager;
-        public AuthController(IRegistrationContextManager contextManager, IRestoreContextManager restoreContextManager)
+        private readonly IAuthRepository _authRepository;
+        private readonly ExternalAuthFacade _externalAuthFacade;
+
+        public AuthController(IRegistrationContextManager contextManager, 
+                              IRestoreContextManager restoreContextManager, 
+                              IAuthRepository authRepository,
+                              ExternalAuthFacade externalAuthFacade)
         {
             _contextManager = contextManager;
             _restoreContextManager = restoreContextManager;
+            _authRepository = authRepository;
+            _externalAuthFacade = externalAuthFacade;
         }
 
         [HttpGet]

@@ -34,8 +34,8 @@
       <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Autofac.Integration.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.Owin.4.1.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
+    <Reference Include="Autofac.Integration.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Owin.4.2.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -75,8 +75,8 @@
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.4\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -163,11 +163,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IClientSecretProvider.cs" />
     <Compile Include="Abstract\IRegistrationContextManager.cs" />
     <Compile Include="Abstract\IRestoreContextManager.cs" />
     <Compile Include="AuthFunkmapModule.cs" />
+    <Compile Include="AuthProviderType.cs" />
     <Compile Include="Models\AvatarUpdateResponse.cs" />
     <Compile Include="Models\ConfirmRestoreRequest.cs" />
+    <Compile Include="Models\ExternalSignupRequest.cs" />
+    <Compile Include="Models\FacebookUser.cs" />
     <Compile Include="Models\UpdateLocaleRequest.cs" />
     <Compile Include="Notifications\ConfirmationNotification.cs" />
     <Compile Include="Notifications\PasswordRecoverNotification.cs" />
@@ -182,6 +186,10 @@
     <Compile Include="Models\UserConfirmationModel.cs" />
     <Compile Include="Models\UserPreview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ClientSecretProvider.cs" />
+    <Compile Include="Services\ExternalValidation\ExternalAuthFacade.cs" />
+    <Compile Include="Services\ExternalValidation\FacebookAuthService.cs" />
+    <Compile Include="Services\ExternalValidation\IExternalAuthService.cs" />
     <Compile Include="Services\RegistrationContext.cs" />
     <Compile Include="Services\RegistrationContextManager.cs" />
     <Compile Include="Services\CryptoProvider.cs" />
@@ -219,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Controllers\AuthController.External.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

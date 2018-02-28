@@ -24,11 +24,12 @@ namespace Funkmap.Auth.Data
 
         public async Task<UserEntity> LoginAsync(string login, string password)
         {
-            var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == password).SingleOrDefaultAsync();
+            var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == password)
+                .SingleOrDefaultAsync();
             return user;
         }
 
-        public async Task<bool> CheckIfExist(string login)
+        public async Task<bool> CheckIfExistAsync(string login)
         {
             var projection = Builders<UserEntity>.Projection.Include(x => x.Login);
             var userId = await _collection.Find(x => x.Login == login || x.Email == login).Project(projection).SingleOrDefaultAsync();
@@ -91,7 +92,7 @@ namespace Funkmap.Auth.Data
             await _collection.UpdateOneAsync(x => x.Login == login, update);
         }
 
-        public async Task<DateTime?> GetLastVisitDate(string login)
+        public async Task<DateTime?> GetLastVisitDateAsync(string login)
         {
             var dateProjection = Builders<UserEntity>.Projection.Include(x => x.LastVisitDateUtc);
             var user = await _collection.Find(x => x.Login == login)
@@ -113,7 +114,7 @@ namespace Funkmap.Auth.Data
             return usersEmails.Where(x => !String.IsNullOrEmpty(x.Email)).Select(x => x.Email).ToList();
         }
 
-        public async Task<UserEntity> GetUserByEmailOrLogin(string emailOrLogin)
+        public async Task<UserEntity> GetUserByEmailOrLoginAsync(string emailOrLogin)
         {
             var user = await _collection.Find(x => x.Login == emailOrLogin || x.Email == emailOrLogin).SingleOrDefaultAsync();
 

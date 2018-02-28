@@ -45,7 +45,7 @@ namespace Funkmap.Tests.Auth
         {
             string path = @"${basedir}";
             var der = Directory.GetDirectories(path);
-            UserEntity user = _repository.GetUserByEmailOrLogin("timoshka_kirov@mail.ru").Result;
+            UserEntity user = _repository.GetUserByEmailOrLoginAsync("timoshka_kirov@mail.ru").Result;
             Assert.AreEqual(user.Password, "123");
         }
     }

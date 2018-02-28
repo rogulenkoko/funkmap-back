@@ -31,5 +31,8 @@ namespace Funkmap.Auth.Data.Entities
         [BsonElement("date")]
         [BsonIgnoreIfDefault]
         public DateTime LastVisitDateUtc { get; set; }
+
+        [BsonElement("ext")]
+        public bool IsExternal { get; set; }
     }
 }

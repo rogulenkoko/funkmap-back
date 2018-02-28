@@ -20,8 +20,9 @@ using Swagger.Net.Application;
 
 namespace Funkmap.Middleware
 {
-    public class Startup
+    public partial class Startup
     {
+        
         public void Configuration(IAppBuilder appBuilder)
         {
             HttpConfiguration config = new HttpConfiguration();
@@ -58,6 +59,8 @@ namespace Funkmap.Middleware
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/api/token"),
+                AuthorizeEndpointPath = new PathString("api/external"),
+                
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = container.Resolve<FunkmapAuthProvider>(),
                 RefreshTokenProvider = new FunkmapRefreshTokenProvider()

@@ -12,7 +12,7 @@ using Funkmap.Module.Auth.Notifications;
 
 namespace Funkmap.Module.Auth.Services
 {
-    
+
     public class RegistrationContextManager : IRegistrationContextManager, IRestoreContextManager
     {
         //todo timer
@@ -26,7 +26,7 @@ namespace Funkmap.Module.Auth.Services
 
         private readonly IFunkmapLogger<RegistrationContextManager> _logger;
 
-        public RegistrationContextManager(IAuthRepository authRepository, IExternalNotificationService externalNotificationService, 
+        public RegistrationContextManager(IAuthRepository authRepository, IExternalNotificationService externalNotificationService,
             IFunkmapLogger<RegistrationContextManager> logger)
         {
             _authRepository = authRepository;
@@ -40,7 +40,7 @@ namespace Funkmap.Module.Auth.Services
 
         public async Task<bool> ValidateLogin(string login)
         {
-            var isExist = await _authRepository.CheckIfExist(login);
+            var isExist = await _authRepository.CheckIfExistAsync(login);
 
             if (isExist)
             {
@@ -48,6 +48,24 @@ namespace Funkmap.Module.Auth.Services
             }
 
             if (_contexts.Any(x => x.Value.User.Login == login))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> Validate(string login, string email)
+        {
+            var loginValidation = await ValidateLogin(login);
+
+            var bookedContextEmails = _contexts.Where(x => !String.IsNullOrEmpty(x.Value.User.Email)).Select(x => x.Value.User.Email);
+
+            var bookedDbEmails = await _authRepository.GetBookedEmailsAsync();
+
+            var allBookedEmails = bookedDbEmails.Concat(bookedContextEmails);
+
+            if (!loginValidation || allBookedEmails.Any(x => x == email))
             {
                 return false;
             }
@@ -64,9 +82,9 @@ namespace Funkmap.Module.Auth.Services
                 return false;
             }
 
-            var isLoginValid = await ValidateLogin(creds.Login);
+            var isValid = await Validate(creds.Login, creds.Email);
 
-            if (!isLoginValid)
+            if (!isValid)
             {
                 return false;
             }
@@ -74,25 +92,13 @@ namespace Funkmap.Module.Auth.Services
 
             var password = CryptoProvider.ComputeHash(creds.Password);
 
-            var user = new UserEntity() { Login = creds.Login, Password = password, Name = creds.Name, Email = creds.Email, Locale = creds.Locale};
-
-
-            var bookedContextEmails = _contexts.Where(x => !String.IsNullOrEmpty(x.Value.User.Email)).Select(x => x.Value.User.Email);
-
-            var bookedDbEmails = await _authRepository.GetBookedEmailsAsync();
-
-            var allBookedEmails = bookedDbEmails.Concat(bookedContextEmails);
-
-            if (allBookedEmails.Any(x => x == creds.Email))
-            {
-                return false;
-            }
+            var user = new UserEntity() { Login = creds.Login, Password = password, Name = creds.Name, Email = creds.Email, Locale = creds.Locale };
 
             var context = new RegistrationContext(user)
             {
                 Code = new Random().Next(100000, 999999).ToString()
             };
-            
+
 
             var notification = new ConfirmationNotification(context.User.Email, context.User.Name, context.Code);
             var sendResult = await _externalNotificationService.TrySendNotificationAsync(notification);
@@ -101,7 +107,7 @@ namespace Funkmap.Module.Auth.Services
             {
                 return false;
             }
-            
+
             _contexts.TryAdd(hash, context);
 
             return true;
@@ -142,8 +148,30 @@ namespace Funkmap.Module.Auth.Services
                 _logger.Info($"{context.User.Login}'s registration failed");
                 return false;
             }
-            
+
             return true;
+        }
+
+        public async Task<bool> TryRegisterExternal(UserEntity user)
+        {
+            if (user == null) throw new ArgumentNullException("Invalid user");
+
+            var isValid = await Validate(user.Login, user.Email);
+
+            if (!isValid)
+            {
+                return false;
+            }
+
+            try
+            {
+                await _authRepository.CreateAsync(user);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -152,7 +180,7 @@ namespace Funkmap.Module.Auth.Services
 
         public async Task<bool> TryCreateRestoreContextAsync(string loginOrEmail)
         {
-            UserEntity user = await _authRepository.GetUserByEmailOrLogin(loginOrEmail);
+            UserEntity user = await _authRepository.GetUserByEmailOrLoginAsync(loginOrEmail);
 
             if (user == null)
             {
@@ -169,7 +197,7 @@ namespace Funkmap.Module.Auth.Services
                 return false;
             }
 
-            var context = new RestoreContext() {Email = user.Email,Code = code };
+            var context = new RestoreContext() { Email = user.Email, Code = code };
 
             _restoreContexts.TryAdd(user.Email, context);
 
@@ -178,7 +206,7 @@ namespace Funkmap.Module.Auth.Services
 
         public async Task<bool> TryConfirmRestoreAsync(string loginOrEmail, string code, string newPassword)
         {
-            UserEntity user = await _authRepository.GetUserByEmailOrLogin(loginOrEmail);
+            UserEntity user = await _authRepository.GetUserByEmailOrLoginAsync(loginOrEmail);
 
 
             if (user == null)
