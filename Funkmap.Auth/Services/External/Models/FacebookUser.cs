@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Funkmap.Module.Auth.Models
+namespace Funkmap.Module.Auth.Services.External.Models
 {
     public class FacebookUser
     {

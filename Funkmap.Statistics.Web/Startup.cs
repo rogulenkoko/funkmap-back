@@ -11,7 +11,7 @@ using Funkmap.Common.Tools;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
-using Swashbuckle.Application;
+using Swagger.Net.Application;
 
 [assembly: OwinStartup(typeof(Funkmap.Statistics.Web.Startup))]
 

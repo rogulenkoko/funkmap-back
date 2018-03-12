@@ -79,8 +79,8 @@
       <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -111,8 +111,8 @@
       <HintPath>..\packages\MongoDB.Driver.GridFS.2.5.0\lib\net45\MongoDB.Driver.GridFS.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -167,11 +167,10 @@
     <Compile Include="Abstract\IRegistrationContextManager.cs" />
     <Compile Include="Abstract\IRestoreContextManager.cs" />
     <Compile Include="AuthFunkmapModule.cs" />
-    <Compile Include="AuthProviderType.cs" />
     <Compile Include="Models\AvatarUpdateResponse.cs" />
     <Compile Include="Models\ConfirmRestoreRequest.cs" />
-    <Compile Include="Models\ExternalSignupRequest.cs" />
-    <Compile Include="Models\FacebookUser.cs" />
+    <Compile Include="Services\External\Models\FacebookUser.cs" />
+    <Compile Include="Services\External\Models\GoogleUser.cs" />
     <Compile Include="Models\UpdateLocaleRequest.cs" />
     <Compile Include="Notifications\ConfirmationNotification.cs" />
     <Compile Include="Notifications\PasswordRecoverNotification.cs" />
@@ -187,9 +186,10 @@
     <Compile Include="Models\UserPreview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientSecretProvider.cs" />
-    <Compile Include="Services\ExternalValidation\ExternalAuthFacade.cs" />
-    <Compile Include="Services\ExternalValidation\FacebookAuthService.cs" />
-    <Compile Include="Services\ExternalValidation\IExternalAuthService.cs" />
+    <Compile Include="Services\External\ExternalAuthFacade.cs" />
+    <Compile Include="Services\External\FacebookAuthService.cs" />
+    <Compile Include="Services\External\GoogleAuthService.cs" />
+    <Compile Include="Services\External\Abstract\IExternalAuthService.cs" />
     <Compile Include="Services\RegistrationContext.cs" />
     <Compile Include="Services\RegistrationContextManager.cs" />
     <Compile Include="Services\CryptoProvider.cs" />
@@ -227,7 +227,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Compile Include="Controllers\AuthController.External.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

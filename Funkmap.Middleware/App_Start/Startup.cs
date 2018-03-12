@@ -59,7 +59,6 @@ namespace Funkmap.Middleware
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/api/token"),
-                AuthorizeEndpointPath = new PathString("api/external"),
                 
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = container.Resolve<FunkmapAuthProvider>(),

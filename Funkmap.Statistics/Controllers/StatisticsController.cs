@@ -6,7 +6,7 @@ using Funkmap.Statistics.Data.Services;
 using Funkmap.Statistics.Models;
 using Funkmap.Statistics.Models.Requests;
 using Funkmap.Statistics.Services;
-using Swashbuckle.Swagger.Annotations;
+using Swagger.Net.Annotations;
 
 namespace Funkmap.Statistics.Controllers
 {

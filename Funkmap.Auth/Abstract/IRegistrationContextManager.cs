@@ -12,7 +12,7 @@ namespace Funkmap.Module.Auth.Abstract
 
         Task<bool> TryConfirmAsync(string login, string email, string code);
 
-        Task<bool> TryRegisterExternal(UserEntity user);
+        Task<bool> TryRegisterExternal(UserEntity user, AuthProviderType providerType);
 
     }
 }

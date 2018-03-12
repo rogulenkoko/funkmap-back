@@ -2,10 +2,11 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
-using Funkmap.Module.Auth.Models;
+using Funkmap.Module.Auth.Services.External.Abstract;
+using Funkmap.Module.Auth.Services.External.Models;
 using Newtonsoft.Json;
 
-namespace Funkmap.Module.Auth.Services.ExternalValidation
+namespace Funkmap.Module.Auth.Services.External
 {
     public class FacebookAuthService : IExternalAuthService
     {

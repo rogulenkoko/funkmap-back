@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IAuthRepository.cs" />
     <Compile Include="AuthCollectionNameProvider.cs" />
+    <Compile Include="Entities\AuthProviderType.cs" />
     <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthRepository.cs" />

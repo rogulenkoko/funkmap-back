@@ -6,7 +6,7 @@ using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Module.Auth.Abstract;
 using Funkmap.Module.Auth.Services;
-using Funkmap.Module.Auth.Services.ExternalValidation;
+using Funkmap.Module.Auth.Services.External;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
@@ -85,7 +85,7 @@ namespace Funkmap.Module.Auth
             
             if (!isExist)
             {
-                var validateResult = await _registrationContextManager.Validate(user.Login, user.Email);
+                var validateResult = await _registrationContextManager.ValidateLogin(user.Login);
 
                 if (!validateResult)
                 {
@@ -93,7 +93,7 @@ namespace Funkmap.Module.Auth
                     return;
                 }
 
-                var registerResult = await _registrationContextManager.TryRegisterExternal(user);
+                var registerResult = await _registrationContextManager.TryRegisterExternal(user, type);
                 if (!registerResult)
                 {
                     context.SetError("External validation error");

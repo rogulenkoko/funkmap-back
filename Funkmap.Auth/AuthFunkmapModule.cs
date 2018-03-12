@@ -14,7 +14,8 @@ using Funkmap.Common.Azure;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Module.Auth.Abstract;
 using Funkmap.Module.Auth.Services;
-using Funkmap.Module.Auth.Services.ExternalValidation;
+using Funkmap.Module.Auth.Services.External;
+using Funkmap.Module.Auth.Services.External.Abstract;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -38,10 +39,11 @@ namespace Funkmap.Module.Auth
             builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
             
             var loginBaseIndexModel = new CreateIndexModel<UserEntity>(Builders<UserEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
+            var emailIndexModel = new CreateIndexModel<UserEntity>(Builders<UserEntity>.IndexKeys.Ascending(x => x.Email).Ascending(x=>x.ProviderType), new CreateIndexOptions() { Unique = true });
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName))
                 .OnActivating(async collection => await collection.Instance.Indexes
-                    .CreateManyAsync(new List<CreateIndexModel<UserEntity>>() { loginBaseIndexModel}))
+                    .CreateManyAsync(new List<CreateIndexModel<UserEntity>>() { loginBaseIndexModel, emailIndexModel }))
                 .As<IMongoCollection<UserEntity>>();
 
 
@@ -76,7 +78,8 @@ namespace Funkmap.Module.Auth
             builder.RegisterType<ClientSecretProvider>().As<IClientSecretProvider>().SingleInstance();
 
             builder.RegisterType<FacebookAuthService>().As<IExternalAuthService>();
-            builder.RegisterType<ExternalAuthFacade>();
+            builder.RegisterType<GoogleAuthService>().As<IExternalAuthService>();
+            builder.RegisterType<ExternalAuthFacade>(); 
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль авторизации");

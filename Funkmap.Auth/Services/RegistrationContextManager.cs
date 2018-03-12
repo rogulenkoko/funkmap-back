@@ -152,11 +152,16 @@ namespace Funkmap.Module.Auth.Services
             return true;
         }
 
-        public async Task<bool> TryRegisterExternal(UserEntity user)
+        public async Task<bool> TryRegisterExternal(UserEntity user, AuthProviderType providerType)
         {
             if (user == null) throw new ArgumentNullException("Invalid user");
 
-            var isValid = await Validate(user.Login, user.Email);
+            user.ProviderType = providerType;
+
+            var password = CryptoProvider.ComputeHash(Guid.NewGuid().ToString());
+            user.Password = password;
+
+            var isValid = await ValidateLogin(user.Login);
 
             if (!isValid)
             {

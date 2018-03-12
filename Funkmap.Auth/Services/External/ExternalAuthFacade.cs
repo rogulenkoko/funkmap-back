@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
+using Funkmap.Module.Auth.Services.External.Abstract;
 
-namespace Funkmap.Module.Auth.Services.ExternalValidation
+namespace Funkmap.Module.Auth.Services.External
 {
     public class ExternalAuthFacade
     {

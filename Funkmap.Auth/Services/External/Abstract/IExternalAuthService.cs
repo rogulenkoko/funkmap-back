@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
 
-namespace Funkmap.Module.Auth.Services.ExternalValidation
+namespace Funkmap.Module.Auth.Services.External.Abstract
 {
     public interface IExternalAuthService
     {
