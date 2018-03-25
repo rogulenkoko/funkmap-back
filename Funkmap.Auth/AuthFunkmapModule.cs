@@ -11,11 +11,8 @@ using Funkmap.Auth.Data.Abstract;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Module.Auth.Abstract;
 using Funkmap.Module.Auth.Services;
-using Funkmap.Module.Auth.Services.External;
-using Funkmap.Module.Auth.Services.External.Abstract;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -76,10 +73,6 @@ namespace Funkmap.Module.Auth
 
             builder.RegisterType<HttpClient>().SingleInstance().OnRelease(x => x.Dispose());
             builder.RegisterType<ClientSecretProvider>().As<IClientSecretProvider>().SingleInstance();
-
-            builder.RegisterType<FacebookAuthService>().As<IExternalAuthService>();
-            builder.RegisterType<GoogleAuthService>().As<IExternalAuthService>();
-            builder.RegisterType<ExternalAuthFacade>(); 
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Загружен модуль авторизации");
