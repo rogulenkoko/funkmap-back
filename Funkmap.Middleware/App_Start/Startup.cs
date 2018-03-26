@@ -1,21 +1,28 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Routing;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
+using Funkmap.Middleware.Handlers;
 using Funkmap.Module.Auth;
+using Metrics;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using Owin.Metrics;
 using Swagger.Net.Application;
 
 namespace Funkmap.Middleware
@@ -73,6 +80,14 @@ namespace Funkmap.Middleware
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute("Swagger UI", "", null, null, new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
 
+            config.MessageHandlers.Add(new MetricsHandler());
+
+            Metric.Config
+                .WithAllCounters()
+                .WithOwin(middleware => appBuilder.Use(middleware), metricsConfig => metricsConfig
+                    .WithRequestMetricsConfig(c => c.WithAllOwinMetrics())
+                    .WithMetricsEndpoint()
+                );
 
             appBuilder.UseWebApi(config);
 
