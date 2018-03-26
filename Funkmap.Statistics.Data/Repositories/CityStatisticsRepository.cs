@@ -11,7 +11,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class CityStatisticsRepository : StatisticsMongoRepository<CityStatisticsEntity>, IProfileStatisticsRepository
+    public class CityStatisticsRepository : StatisticsRepository<CityStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
         private readonly ICitiesInfoProvider _citiesInfoProvider;

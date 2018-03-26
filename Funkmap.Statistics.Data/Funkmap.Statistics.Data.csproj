@@ -87,7 +87,7 @@
     <Compile Include="Repositories\Abstract\IMusicianStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IProfileStatisticsRepository.cs" />
     <Compile Include="Repositories\Abstract\IStatisticsRepository.cs" />
-    <Compile Include="Repositories\Abstract\StatisticsMongoRepository.cs" />
+    <Compile Include="Repositories\Abstract\StatisticsRepository.cs" />
     <Compile Include="Repositories\AgeStatisticsRepository.cs" />
     <Compile Include="Repositories\BaseStatisticsRepository.cs" />
     <Compile Include="Repositories\CityStatisticsRepository.cs" />

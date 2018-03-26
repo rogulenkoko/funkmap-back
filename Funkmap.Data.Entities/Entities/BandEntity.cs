@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Data.Entities.Entities.Abstract;
+using Funkmap.Domain.Enums;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Data.Entities.Entities
@@ -13,7 +14,7 @@ namespace Funkmap.Data.Entities.Entities
 
         [BsonElement("dinstr")]
         [BsonIgnoreIfDefault]
-        public List<InstrumentType> DesiredInstruments { get; set; }
+        public List<Instruments> DesiredInstruments { get; set; }
 
         [BsonElement("mus")]
         [BsonIgnoreIfDefault]

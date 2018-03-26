@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Funkmap.Common.Auth;
+using Funkmap.Domain.Models;
 using Funkmap.Mappers;
 using Funkmap.Models;
 
@@ -11,31 +12,18 @@ namespace Funkmap.Controllers
 {
     public partial class BaseController
     {
-
-        /// <summary>
-        /// Все активные профили
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("all")]
-        public async Task<IHttpActionResult> GetAll()
-        {
-            var result = await _repository.GetAllAsync();
-            var markers = result.Select(x => x.ToMarkerModel());
-            return Content(HttpStatusCode.OK, markers);
-        }
-
         /// <summary>
         /// Полная информация о профиле
         /// </summary>
         /// <param name="login">Логин профиля</param>
         /// <returns></returns>
         [HttpGet]
+        [ResponseType(typeof(Profile))]
         [Route("getFull/{login}")]
         public async Task<IHttpActionResult> GetFullBand(string login)
         {
             var entity = await _repository.GetAsync(login);
-            return Content(HttpStatusCode.OK, entity.ToSpecificModel());
+            return Content(HttpStatusCode.OK, entity);
 
         }
 
@@ -46,6 +34,7 @@ namespace Funkmap.Controllers
         /// <returns></returns>
 
         [HttpGet]
+        
         [Route("get/{login}")]
         public async Task<IHttpActionResult> GetRehearsalPoint(string login)
         {
@@ -59,11 +48,11 @@ namespace Funkmap.Controllers
         /// <param name="logins">Логины профилей</param>
         /// <returns></returns>
         [HttpPost]
+        [ResponseType(typeof(List<SearchItem>))]
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificFullAsync(logins);
-            var items = baseEntities.Select(x => x.ToSearchModel());
+            List<SearchItem> items = await _repository.GetSpecificFullAsync(logins);
             return Ok(items);
         }
 
@@ -143,14 +132,15 @@ namespace Funkmap.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ResponseType(typeof(List<SearchItem>))]
         [Authorize]
         [Route("favorites")]
         public async Task<IHttpActionResult> GetFavorites()
         {
             var login = Request.GetLogin();
             List<string> favoritesLogins = await _repository.GetFavoritesLoginsAsync(login);
-            var favorites = await _repository.GetSpecificFullAsync(favoritesLogins);
-            return Ok(favorites?.Select(x=>x.ToSearchModel()));
+            List<SearchItem> favorites = await _repository.GetSpecificFullAsync(favoritesLogins);
+            return Ok(favorites);
         }
     }
 }

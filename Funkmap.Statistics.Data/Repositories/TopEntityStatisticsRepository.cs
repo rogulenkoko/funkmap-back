@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class TopEntityStatisticsRepository : StatisticsMongoRepository<TopProfileStatisticsEntity>, IProfileStatisticsRepository
+    public class TopEntityStatisticsRepository : StatisticsRepository<TopProfileStatisticsEntity>, IProfileStatisticsRepository
     {
         private readonly IMongoCollection<BaseEntity> _profileCollection;
 

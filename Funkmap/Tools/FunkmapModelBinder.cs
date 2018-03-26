@@ -3,6 +3,8 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using Funkmap.Data.Entities;
+using Funkmap.Domain;
+using Funkmap.Domain.Models;
 using Funkmap.Models;
 
 namespace Funkmap.Tools
@@ -27,23 +29,23 @@ namespace Funkmap.Tools
             switch (entityTypeModel.EntityType)
             {
                 case EntityType.Musician:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<MusicianModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Musician>(body);
                     break;
 
                 case EntityType.Band:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<BandModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Band>(body);
                     break;
 
                 case EntityType.Shop:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<ShopModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Shop>(body);
                     break;
 
                 case EntityType.RehearsalPoint:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<RehearsalPointModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<RehearsalPoint>(body);
                     break;
 
                 case EntityType.Studio:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<StudioModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Studio>(body);
                     break;
             }
             return true;

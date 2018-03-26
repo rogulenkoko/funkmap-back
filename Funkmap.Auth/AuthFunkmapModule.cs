@@ -58,7 +58,7 @@ namespace Funkmap.Module.Auth
 
             builder.Register(container =>
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azure-storage"));
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 return new AzureFileStorage(blobClient, AuthCollectionNameProvider.AuthStorageName);
             }).Keyed<AzureFileStorage>(AuthCollectionNameProvider.AuthStorageName).SingleInstance();

@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BandRepository : MongoLoginRepository<BandEntity>, IBandRepository
+    public class BandRepository : LoginRepository<BandEntity>, IBandRepository
     {
         public BandRepository(IMongoCollection<BandEntity> collection) : base(collection)
         {
@@ -20,7 +20,7 @@ namespace Funkmap.Data.Repositories
             throw new NotImplementedException("Использовать для обновления BaseRepository");
         }
 
-        public async Task CleanMusiciansDependencies(MusicianEntity musician, string bandLogin = null)
+        public async Task CleanMusiciansDependencies(Musician musician, string bandLogin = null)
         {
             if (musician?.BandLogins == null || musician.BandLogins.Count == 0) return;
 

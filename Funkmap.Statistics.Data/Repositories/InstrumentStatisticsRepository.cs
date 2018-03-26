@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class InstrumentStatisticsRepository : StatisticsMongoRepository<InstrumentStatisticsEntity>, IMusicianStatisticsRepository
+    public class InstrumentStatisticsRepository : StatisticsRepository<InstrumentStatisticsEntity>, IMusicianStatisticsRepository
     {
         public StatisticsType StatisticsType => StatisticsType.InstrumentType;
 
@@ -34,7 +34,7 @@ namespace Funkmap.Statistics.Data.Repositories
 
             var statistics = await _profileCollection.Aggregate()
                 .Match(filter)
-                .Group(x => x.Instrument, entities => new CountStatisticsEntity<InstrumentType>()
+                .Group(x => x.Instrument, entities => new CountStatisticsEntity<Instruments>()
                     {
                         Key = entities.Key,
                         Count = entities.Count()

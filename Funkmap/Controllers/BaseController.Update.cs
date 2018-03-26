@@ -4,7 +4,8 @@ using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
-using Funkmap.Data.Parameters;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
@@ -22,7 +23,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("save")]
-        public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
+        public async Task<IHttpActionResult> SaveMusician([ModelBinder(typeof(FunkmapModelBinderProvider))]Profile model)
         {
             var login = Request.GetLogin();
             var maxProfilesCount = 5;
@@ -49,7 +50,7 @@ namespace Funkmap.Controllers
         [HttpPost]
         [Route("update")]
         [Authorize]
-        public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]BaseModel model)
+        public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]Profile model)
         {
             await _updateService.UpdateEntity(model);
             return Ok(new BaseResponse() { Success = true });
@@ -65,12 +66,9 @@ namespace Funkmap.Controllers
         [Authorize]
         public async Task<IHttpActionResult> UpdateAvatar(UpdateAvatarRequest request)
         {
-            var entity = await _repository.GetAsync(request.Login);
+            //todo валидация
 
-            var login = Request.GetLogin();
-            if (entity == null || entity.UserLogin != login) return BadRequest();
-
-            await _repository.UpdateAvatarAsync(entity, request.Photo);
+            await _repository.UpdateAvatarAsync(request.Login, request.Photo);
 
             //_eventBus.PublishAsync()
 
@@ -110,14 +108,14 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> UpdateFavorite(UpdateFavoriteRequest request)
         {
             var login = Request.GetLogin();
-            var parameter = new UpdateFavoriteParameter()
+            var parameter = new UpdateFavoriteParameter
             {
                 EntityLogin = request.EntityLogin,
                 IsFavorite = request.IsFavorite,
                 UserLogin = login
             };
             await _repository.UpdateFavoriteAsync(parameter);
-            return Ok(new BaseResponse() {Success = true});
+            return Ok(new BaseResponse() { Success = true });
         }
     }
 }

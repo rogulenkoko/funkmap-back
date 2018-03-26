@@ -80,11 +80,11 @@ namespace Funkmap.Tests.Funkmap.BigData
                             (double) new Random().Next(45000, 55000) / 1000)),
                         Styles =
                             new List<Styles>() {(Styles) new Random().Next(0, 4), (Styles) new Random().Next(0, 4)},
-                        Instrument = (InstrumentType) new Random().Next(0, 6),
+                        Instrument = (Instruments) new Random().Next(0, 6),
                         VkLink = "https://vk.com/" + _name[j].Substring(0, 1) + _surname[i],
                         // YouTubeLink = "https://www.youtube.com/user/Urgantshow",
                         // BandLogin = "funkmap",
-                        ExpirienceType = (ExpirienceType) new Random().Next(0, 4),
+                        ExpirienceType = (Expiriences) new Random().Next(0, 4),
                         //VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "mpR5zbEXdW8" }, new VideoInfoEntity() { Id = "GlreDCpb5t0" } }
                     };
                     repository.CreateAsync(musician).Wait();
@@ -103,10 +103,10 @@ namespace Funkmap.Tests.Funkmap.BigData
                 var b1 = new BandEntity()
                 {
                     UserLogin = "testBandEntity" + i,
-                    DesiredInstruments = new List<InstrumentType>()
+                    DesiredInstruments = new List<Instruments>()
                     {
-                        (InstrumentType) new Random().Next(0, 6),
-                        (InstrumentType) new Random().Next(0, 6)
+                        (Instruments) new Random().Next(0, 6),
+                        (Instruments) new Random().Next(0, 6)
                     },
                     Name = "testName" + i,
                     Login = "testLogin" + i,

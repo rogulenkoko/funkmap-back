@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Domain.Parameters;
 using Microsoft.Build.Framework;
 
 namespace Funkmap.Models.Requests
@@ -6,13 +7,13 @@ namespace Funkmap.Models.Requests
     public class UpdateBandMemberRequest
     {
         /// <summary>
-        /// Логин приглашаемого музыканта
+        /// Invited musician login
         /// </summary>
         [Required]
         public string MusicianLogin { get; set; }
 
         /// <summary>
-        /// Группа, в которую приглашается музыкант
+        /// Inviting band login
         /// </summary>
         [Required]
         public string BandLogin { get; set; }
@@ -21,13 +22,13 @@ namespace Funkmap.Models.Requests
     public class UpdateBandMembersRequest
     {
         /// <summary>
-        /// Логин приглашаемого музыканта
+        /// Invited musicians logins
         /// </summary>
         [Required]
         public List<string> MusicianLogins { get; set; }
 
         /// <summary>
-        /// Группа, в которую приглашается музыкант
+        ///  Inviting band login
         /// </summary>
         [Required]
         public string BandLogin { get; set; }

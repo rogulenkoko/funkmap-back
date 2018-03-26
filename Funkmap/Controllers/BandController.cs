@@ -3,16 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Auth;
-using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Models;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Entities;
-using Funkmap.Data.Parameters;
-using Funkmap.Data.Repositories.Abstract;
-using Funkmap.Mappers;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
+using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
-using Funkmap.Services.Abstract;
 
 namespace Funkmap.Controllers
 {
@@ -23,8 +21,6 @@ namespace Funkmap.Controllers
         private readonly IBaseRepository _baseRepository;
         private readonly IDependenciesController _dependenciesController;
         
-
-
         public BandController(IBandRepository bandRepository, IBaseRepository baseRepository, IDependenciesController dependenciesController)
         {
             _bandRepository = bandRepository;
@@ -53,8 +49,9 @@ namespace Funkmap.Controllers
                 Skip = 0,
                 Take = Int32.MaxValue
             };
+
             var bandEntities = await _baseRepository.GetFilteredAsync(parameter);
-            var availableBands = bandEntities.Cast<BandEntity>()
+            var availableBands = bandEntities.Cast<Band>()
                 .Where(x=>(x.MusicianLogins == null && x.InvitedMusicians == null) 
                     || ((x.MusicianLogins == null || !x.MusicianLogins.Contains(request.InvitedMusician))) 
                     && (x.InvitedMusicians == null || !x.InvitedMusicians.Contains(request.InvitedMusician)))
@@ -64,6 +61,7 @@ namespace Funkmap.Controllers
             {
                 AvailableBands = availableBands
             };
+
             return Ok(info);
         }
 
@@ -87,6 +85,7 @@ namespace Funkmap.Controllers
                 EntityLogin = membersRequest.MusicianLogin,
                 FromEntityLogin = membersRequest.BandLogin
             };
+
             await _dependenciesController.CleanDependenciesAsync(parameter);
 
             return Ok(new BaseResponse() { Success = true });

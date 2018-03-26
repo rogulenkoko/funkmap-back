@@ -11,7 +11,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Statistics.Data.Repositories
 {
-    public class AgeStatisticsRepository: StatisticsMongoRepository<AgeStatisticsEntity>, IMusicianStatisticsRepository
+    public class AgeStatisticsRepository: StatisticsRepository<AgeStatisticsEntity>, IMusicianStatisticsRepository
     {
         public StatisticsType StatisticsType => StatisticsType.Age;
 

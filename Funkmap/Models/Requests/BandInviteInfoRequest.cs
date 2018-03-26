@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Funkmap.Models.Requests
+﻿namespace Funkmap.Models.Requests
 {
     public class BandInviteInfoRequest
     {

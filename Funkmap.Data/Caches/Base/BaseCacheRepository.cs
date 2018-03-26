@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Objects;
-using Funkmap.Data.Parameters;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Domain.Abstract;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
 
 namespace Funkmap.Data.Caches.Base
 {
@@ -39,12 +39,6 @@ namespace Funkmap.Data.Caches.Base
         }
 
         #endregion
-
-
-        public Task<List<BaseEntity>> GetAllAsync()
-        {
-            return _baseRepository.GetAllAsync();
-        }
 
         public Task<BaseEntity> GetAsync(string id)
         {
@@ -83,32 +77,27 @@ namespace Funkmap.Data.Caches.Base
 
         }
 
-        public Task UpdateAvatarAsync(BaseEntity entity, byte[] imageBytes)
+        public Task UpdateAvatarAsync(string login, byte[] imageBytes)
         {
-            return _baseRepository.UpdateAvatarAsync(entity, imageBytes);
+            return _baseRepository.UpdateAvatarAsync(login, imageBytes);
         }
 
-        public Task<List<BaseEntity>> GetAllAsyns()
-        {
-            return _baseRepository.GetAllAsync();
-        }
-
-        public Task<List<BaseEntity>> GetNearestAsync(LocationParameter parameter)
+        public Task<List<Marker>> GetNearestAsync(LocationParameter parameter)
         {
             return _baseRepository.GetNearestAsync(parameter);
         }
 
-        public Task<List<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
+        public Task<List<SearchItem>> GetFullNearestAsync(LocationParameter parameter)
         {
             return _baseRepository.GetFullNearestAsync(parameter);
         }
 
-        public Task<List<BaseEntity>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
+        public Task<List<Marker>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
         {
             return _baseRepository.GetSpecificNavigationAsync(logins);
         }
 
-        public Task<List<BaseEntity>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
+        public Task<List<Profile>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
         {
             return _baseRepository.GetSpecificFullAsync(logins);
         }
@@ -118,12 +107,12 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.GetUserEntitiesLoginsAsync(userLogin);
         }
 
-        public Task<List<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public Task<List<Profile>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             return _baseRepository.GetFilteredAsync(commonFilter, parameter);
         }
 
-        public Task<List<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public Task<List<Marker>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             return _baseRepository.GetFilteredNavigationAsync(commonFilter, parameter);
         }

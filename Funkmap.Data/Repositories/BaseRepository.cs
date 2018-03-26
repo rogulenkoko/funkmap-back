@@ -7,17 +7,18 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Common.Tools;
 using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Objects;
-using Funkmap.Data.Parameters;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Data.Mappers;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Tools;
-using Funkmap.Tools;
+using Funkmap.Domain.Abstract;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BaseRepository : MongoLoginRepository<BaseEntity>, IBaseRepository
+    public class BaseRepository : Repository<BaseEntity>, IBaseRepository
     {
         private readonly IFilterFactory _filterFactory;
         private readonly IFileStorage _fileStorage;
@@ -30,7 +31,7 @@ namespace Funkmap.Data.Repositories
             _fileStorage = fileStorage;
         }
 
-        public async Task<List<BaseEntity>> GetAllAsyns()
+        public async Task<List<Profile>> GetAllAsyns()
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
 
@@ -38,10 +39,26 @@ namespace Funkmap.Data.Repositories
                 .Exclude(x => x.Description)
                 .Exclude(x => x.Name);
 
-            return await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+            var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
+
+            return result.ToSpecificProfiles();
         }
 
-        public async Task<List<BaseEntity>> GetNearestAsync(LocationParameter parameter)
+        public async Task<Profile> GetAsync(string login)
+        {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, login);
+            var entity = await _collection.Find(filter).SingleOrDefaultAsync();
+            return entity.ToSpecificProfile();
+        }
+
+        public async Task<T> GetAsync<T>(string login) where T : Profile
+        {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, login);
+            var entity = await _collection.Find(filter).SingleOrDefaultAsync();
+            return entity.ToSpecificProfile() as T;
+        }
+
+        public async Task<List<Marker>> GetNearestAsync(LocationParameter parameter)
         {
             //db.bases.find({ loc: { $nearSphere: [50, 30], $minDistance: 0, $maxDistance: 1 } }).limit(20)
 
@@ -64,16 +81,16 @@ namespace Funkmap.Data.Repositories
             }
             else
             {
-                if(parameter.RadiusDeg == null) parameter.RadiusDeg = Int32.MaxValue;
+                if (parameter.RadiusDeg == null) parameter.RadiusDeg = Int32.MaxValue;
                 var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
                     & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
                 result = await _collection.Find(filter).Limit(parameter.Take).ToListAsync();
             }
-            return result;
+            return result.ToMarkers();
 
         }
 
-        public async Task<List<BaseEntity>> GetFullNearestAsync(LocationParameter parameter)
+        public async Task<List<SearchItem>> GetFullNearestAsync(LocationParameter parameter)
         {
             List<BaseEntity> result;
             if (parameter.Longitude == null || parameter.Latitude == null)
@@ -88,10 +105,10 @@ namespace Funkmap.Data.Repositories
                 result = await _collection.Find(filter).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
             }
 
-            return result;
+            return result.ToSearchItems();
         }
 
-        public async Task<List<BaseEntity>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
+        public async Task<List<Marker>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
         {
             //todo придумать адекватную проекцию для геопозиции
             var projection = Builders<BaseEntity>.Projection
@@ -106,14 +123,14 @@ namespace Funkmap.Data.Repositories
 
             var filter = Builders<BaseEntity>.Filter.In(x => x.Login, logins);
             var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
-            return result;
+            return result.ToMarkers();
         }
 
-        public async Task<List<BaseEntity>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
+        public async Task<List<SearchItem>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
         {
             var filter = Builders<BaseEntity>.Filter.In(x => x.Login, logins);
             var result = await _collection.Find(filter).ToListAsync();
-            return result;
+            return result.ToSearchItems();
         }
 
         public async Task<List<string>> GetUserEntitiesLoginsAsync(string userLogin)
@@ -156,10 +173,10 @@ namespace Funkmap.Data.Repositories
             {
                 return null;
             }
-           
+
         }
 
-        public async Task<List<BaseEntity>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public async Task<List<Profile>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             var filter = CreateFilter(commonFilter, parameter);
 
@@ -170,10 +187,10 @@ namespace Funkmap.Data.Repositories
             }
 
             var result = await _collection.Find(filter).Skip(commonFilter.Skip).Limit(commonFilter.Take).ToListAsync();
-            return result;
+            return result.ToSpecificProfiles();
         }
 
-        public async Task<List<BaseEntity>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public async Task<List<Marker>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             var filter = CreateFilter(commonFilter, parameter);
 
@@ -195,7 +212,7 @@ namespace Funkmap.Data.Repositories
                 .Exclude(x => x.VkLink);
 
             var result = await _collection.Find(filter).Project<BaseEntity>(projection).Skip(commonFilter.Skip).Limit(commonFilter.Take).ToListAsync();
-            return result;
+            return result.ToMarkers();
         }
 
         public async Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
@@ -252,14 +269,16 @@ namespace Funkmap.Data.Repositories
         public override async Task UpdateAsync(BaseEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            
+
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, entity.EntityType);
 
             await _collection.ReplaceOneAsync(filter, entity);
         }
 
-        public async Task UpdateAvatarAsync(BaseEntity entity, byte[] imageBytes)
+        public async Task UpdateAvatarAsync(string login, byte[] imageBytes)
         {
+            var entity = await _collection.Find(x => x.Login == login).SingleOrDefaultAsync();
+
             if (imageBytes == null || imageBytes.Length == 0)
             {
                 entity.PhotoId = String.Empty;
@@ -291,7 +310,7 @@ namespace Funkmap.Data.Repositories
 
         public async Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
         {
-            if(String.IsNullOrEmpty(parameter?.EntityLogin) || String.IsNullOrEmpty(parameter?.UserLogin)) throw new ArgumentNullException(nameof(parameter));
+            if (String.IsNullOrEmpty(parameter?.EntityLogin) || String.IsNullOrEmpty(parameter.UserLogin)) throw new ArgumentNullException(nameof(parameter));
 
             FilterDefinition<BaseEntity> filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.EntityLogin);
             UpdateDefinition<BaseEntity> update;
@@ -306,7 +325,7 @@ namespace Funkmap.Data.Repositories
                 if (entity?.FavoriteFor == null)
                 {
                     var emptyArrayFilter = Builders<BaseEntity>.Filter.Eq(x => x.Login, parameter.EntityLogin);
-                    var emptyArrayUpdate = Builders<BaseEntity>.Update.Set(x=>x.FavoriteFor, new List<string>() {parameter.UserLogin});
+                    var emptyArrayUpdate = Builders<BaseEntity>.Update.Set(x => x.FavoriteFor, new List<string>() { parameter.UserLogin });
                     await _collection.UpdateOneAsync(emptyArrayFilter, emptyArrayUpdate);
                 }
 
@@ -326,7 +345,7 @@ namespace Funkmap.Data.Repositories
             var filter = Builders<BaseEntity>.Filter.AnyEq(x => x.FavoriteFor, userLogin);
             var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
             var favorites = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
-            return favorites?.Select(x=>x.Login).ToList();
+            return favorites?.Select(x => x.Login).ToList();
         }
     }
 }

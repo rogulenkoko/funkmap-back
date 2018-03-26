@@ -13,7 +13,7 @@ namespace Funkmap.Statistics.Data.Services
         Task MergeStatistics();
     }
 
-    public class StatisticsMerger : MongoRepository<BaseStatisticsEntity>, IStatisticsMerger
+    public class StatisticsMerger : Repository<BaseStatisticsEntity>, IStatisticsMerger
     {
         private readonly IEnumerable<IStatisticsRepository> _statisticsRepositories;
 

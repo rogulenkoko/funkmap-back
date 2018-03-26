@@ -83,7 +83,7 @@ namespace Funkmap.Tests.Funkmap.Base
             var musicianParameter = new MusicianFilterParameter()
             {
                 Styles = new List<Styles>() { Styles.HipHop },
-                Expirience = new List<ExpirienceType>() { ExpirienceType.Advanced }
+                Expirience = new List<Expiriences>() { Expiriences.Advanced }
             };
 
             var result = _baseRepository.GetFilteredAsync(commonParameter, musicianParameter).Result;
@@ -94,7 +94,7 @@ namespace Funkmap.Tests.Funkmap.Base
         public void UpdateEntity()
         {
             var entity = _baseRepository.GetAllAsync().GetAwaiter().GetResult().First();
-            (entity as MusicianEntity).Instrument = InstrumentType.Keyboard;
+            (entity as MusicianEntity).Instrument = Instruments.Keyboard;
             _baseRepository.UpdateAsync(entity).GetAwaiter().GetResult();
             var updatedEntity = _baseRepository.GetSpecificNavigationAsync(new[] { entity.Login }).GetAwaiter().GetResult();
         }

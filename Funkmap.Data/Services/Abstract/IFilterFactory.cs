@@ -1,5 +1,5 @@
 ﻿using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Parameters;
+using Funkmap.Domain.Abstract;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Services.Abstract

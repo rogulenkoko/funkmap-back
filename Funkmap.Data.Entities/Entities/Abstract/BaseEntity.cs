@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Funkmap.Domain;
+using Funkmap.Domain.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
@@ -9,8 +11,8 @@ namespace Funkmap.Data.Entities.Entities.Abstract
     [BsonDiscriminator(RootClass = true)]
 
     [BsonKnownTypes(
-        typeof(MusicianEntity), 
-        typeof(ShopEntity), 
+        typeof(MusicianEntity),
+        typeof(ShopEntity),
         typeof(BandEntity),
         typeof(StudioEntity),
         typeof(RehearsalPointEntity))]
@@ -26,7 +28,7 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         [BsonElement("user")]
         public string UserLogin { get; set; }
 
-       [BsonElement("n")]
+        [BsonElement("n")]
         public string Name { get; set; }
 
         [BsonElement("t")]
@@ -115,12 +117,5 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         [BsonElement("asd")]
         public DateTime SaveDateUtc { get; set; }
     }
-
     
-
-    public enum VideoType
-    {
-        Youtube = 1,
-        Vimeo = 2
-    }
 }

@@ -6,7 +6,7 @@ using Funkmap.Common.Data.Mongo.Abstract;
 
 namespace Funkmap.Auth.Data.Abstract
 {
-    public interface IAuthRepository : IMongoRepository<UserEntity>
+    public interface IAuthRepository : IRepository<UserEntity>
     {
         Task<UserEntity> LoginAsync(string login, string password);
 

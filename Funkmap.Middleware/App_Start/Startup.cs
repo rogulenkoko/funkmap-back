@@ -10,6 +10,8 @@ using Autofac.Integration.WebApi;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
+using Funkmap.Data;
+using Funkmap.Module;
 using Funkmap.Module.Auth;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
@@ -92,7 +94,10 @@ namespace Funkmap.Middleware
 
         private void LoadAssemblies()
         {
-            Assembly.Load(typeof(Module.FunkmapModule).Assembly.FullName);
+            Assembly.Load(typeof(FunkmapModule).Assembly.FullName);
+            Assembly.Load(typeof(FunkmapMongoModule).Assembly.FullName);
+            
+
             Assembly.Load(typeof(AuthFunkmapModule).Assembly.FullName);
             Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName); 
             Assembly.Load(typeof(Messenger.Command.MessengerCommandModule).Assembly.FullName);
@@ -123,6 +128,8 @@ namespace Funkmap.Middleware
             httpConfiguration.EnableSwagger(swaggerConfig =>
             {
                 swaggerConfig.SingleApiVersion("v1", "Bandmap");
+
+                swaggerConfig.DescribeAllEnumsAsStrings();
 
                 string executablePath = AppDomain.CurrentDomain.BaseDirectory;
 

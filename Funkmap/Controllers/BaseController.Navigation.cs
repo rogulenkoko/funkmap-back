@@ -3,15 +3,15 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
-using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Parameters;
-using Funkmap.Data.Repositories.Abstract;
-using Funkmap.Mappers;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
+using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
-using Funkmap.Services.Abstract;
 using Funkmap.Tools.Abstract;
 
 namespace Funkmap.Controllers
@@ -46,6 +46,7 @@ namespace Funkmap.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
+        [ResponseType(typeof(List<Marker>))]
         [Route("nearest")]
         public async Task<IHttpActionResult> GetNearest(LocationRequest request)
         {
@@ -56,8 +57,8 @@ namespace Funkmap.Controllers
                 RadiusDeg = request.RadiusDeg,
                 Take = request.Limit
             };
-            var result = await _repository.GetNearestAsync(parameters);
-            var markers = result.Select(x => x.ToMarkerModel());
+            List<Marker> markers = await _repository.GetNearestAsync(parameters);
+
             return Content(HttpStatusCode.OK, markers);
 
         }
@@ -71,7 +72,7 @@ namespace Funkmap.Controllers
         [Route("fullnearest")]
         public async Task<IHttpActionResult> GetFullNearest(FullLocationRequest request)
         {
-            var parameters = new LocationParameter()
+            var parameters = new LocationParameter
             {
                 Longitude = request.Longitude,
                 Latitude = request.Latitude,
@@ -79,8 +80,7 @@ namespace Funkmap.Controllers
                 Take = request.Take,
                 Skip = request.Skip
             };
-            List<BaseEntity> result = await _repository.GetFullNearestAsync(parameters);
-            var searchModels = result.Select(x => x.ToSearchModel());
+            List<SearchItem> searchModels = await _repository.GetFullNearestAsync(parameters);
             return Content(HttpStatusCode.OK, searchModels);
         }
 
@@ -91,11 +91,11 @@ namespace Funkmap.Controllers
         /// <param name="logins">Логины профилей</param>
         /// <returns></returns>
         [HttpPost]
+        [ResponseType(typeof(List<Marker>))]
         [Route("specificmarkers")]
         public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
         {
-            var baseEntities = await _repository.GetSpecificNavigationAsync(logins);
-            var items = baseEntities.Select(x => x.ToMarkerModel());
+            List<Marker> items = await _repository.GetSpecificNavigationAsync(logins);
             return Ok(items);
         }
 
@@ -105,10 +105,10 @@ namespace Funkmap.Controllers
         /// <param name="request">Параметры фильтрации</param>
         /// <returns></returns>
         [HttpPost]
+        [ResponseType(typeof(List<Marker>))]
         [Route("filteredmarkers")]
         public async Task<IHttpActionResult> GetFilteredMarkers(FilteredRequest request)
         {
-
             var commonParameter = new CommonFilterParameter
             {
                 EntityType = request.EntityType,
@@ -122,8 +122,7 @@ namespace Funkmap.Controllers
             };
             var paramter = _parameterFactory.CreateParameter(request);
 
-            var baseEntities = await _repository.GetFilteredNavigationAsync(commonParameter, paramter);
-            var items = baseEntities.Select(x => x.ToMarkerModel());
+            List<Marker> items = await _repository.GetFilteredNavigationAsync(commonParameter, paramter);
             return Ok(items);
         }
 

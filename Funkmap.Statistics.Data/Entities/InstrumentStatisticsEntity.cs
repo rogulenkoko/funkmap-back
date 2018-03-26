@@ -10,12 +10,12 @@ namespace Funkmap.Statistics.Data.Entities
     {
         public InstrumentStatisticsEntity()
         {
-            CountStatistics = new List<CountStatisticsEntity<InstrumentType>>();
+            CountStatistics = new List<CountStatisticsEntity<Instruments>>();
             StatisticsType = StatisticsType.InstrumentType;
         }
 
         [BsonElement("cs")]
-        public List<CountStatisticsEntity<InstrumentType>> CountStatistics { get; set; }
+        public List<CountStatisticsEntity<Instruments>> CountStatistics { get; set; }
 
         public override BaseStatisticsEntity Merge(BaseStatisticsEntity second)
         {

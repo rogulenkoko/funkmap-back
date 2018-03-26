@@ -12,7 +12,7 @@ using Funkmap.Common.Tools;
 
 namespace Funkmap.Auth.Data
 {
-    public class AuthRepository : MongoLoginRepository<UserEntity>, IAuthRepository
+    public class AuthRepository : LoginRepository<UserEntity>, IAuthRepository
     {
         private readonly IFileStorage _fileStorage;
 
