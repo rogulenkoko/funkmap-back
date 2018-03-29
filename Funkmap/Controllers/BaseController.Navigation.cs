@@ -10,6 +10,7 @@ using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
+using Funkmap.Mappers;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
 using Funkmap.Tools.Abstract;
@@ -22,21 +23,18 @@ namespace Funkmap.Controllers
     {
         private readonly IBaseRepository _repository;
         private readonly IParameterFactory _parameterFactory;
-        private readonly IEntityUpdateService _updateService;
+        private readonly IUpdateRepository _updateRepository;
         private readonly IDependenciesController _dependenciesController;
-        private readonly IEventBus _eventBus;
 
         public BaseController(IBaseRepository repository,
                               IParameterFactory parameterFactory,
-                              IEntityUpdateService updateService,
-                              IDependenciesController dependenciesController,
-                              IEventBus eventBus)
+                              IUpdateRepository updateRepository,
+                              IDependenciesController dependenciesController)
         {
             _repository = repository;
             _parameterFactory = parameterFactory;
-            _updateService = updateService;
+            _updateRepository = updateRepository;
             _dependenciesController = dependenciesController;
-            _eventBus = eventBus;
         }
 
 
@@ -54,10 +52,10 @@ namespace Funkmap.Controllers
             {
                 Longitude = request.Longitude,
                 Latitude = request.Latitude,
-                RadiusDeg = request.RadiusDeg,
+                RadiusKm = request.RadiusKm,
                 Take = request.Limit
             };
-            List<Marker> markers = await _repository.GetNearestAsync(parameters);
+            List<Marker> markers = await _repository.GetNearestMarkersAsync(parameters);
 
             return Content(HttpStatusCode.OK, markers);
 
@@ -76,11 +74,11 @@ namespace Funkmap.Controllers
             {
                 Longitude = request.Longitude,
                 Latitude = request.Latitude,
-                RadiusDeg = request.RadiusDeg,
+                RadiusKm = request.RadiusKm,
                 Take = request.Take,
                 Skip = request.Skip
             };
-            List<SearchItem> searchModels = await _repository.GetFullNearestAsync(parameters);
+            List<SearchItem> searchModels = await _repository.GetNearestAsync(parameters);
             return Content(HttpStatusCode.OK, searchModels);
         }
 
@@ -95,7 +93,7 @@ namespace Funkmap.Controllers
         [Route("specificmarkers")]
         public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
         {
-            List<Marker> items = await _repository.GetSpecificNavigationAsync(logins);
+            List<Marker> items = await _repository.GetSpecificMarkersAsync(logins);
             return Ok(items);
         }
 
@@ -117,12 +115,12 @@ namespace Funkmap.Controllers
                 Take = request.Take,
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
-                RadiusDeg = request.RadiusDeg,
+                RadiusKm = request.RadiusDeg,
                 Limit = request.Limit
             };
             var paramter = _parameterFactory.CreateParameter(request);
 
-            List<Marker> items = await _repository.GetFilteredNavigationAsync(commonParameter, paramter);
+            List<Marker> items = await _repository.GetFilteredMarkersAsync(commonParameter, paramter);
             return Ok(items);
         }
 
@@ -143,13 +141,13 @@ namespace Funkmap.Controllers
                 Take = request.Take,
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
-                RadiusDeg = request.RadiusDeg,
+                RadiusKm = request.RadiusDeg,
                 Limit = request.Limit,
                 UserLogin = request.UserLogin
             };
             var paramter = _parameterFactory.CreateParameter(request);
             var filteredEntities = await _repository.GetFilteredAsync(commonParameter, paramter);
-            var items = filteredEntities.Select(x => x.ToSearchModel()).ToList();
+            var items = filteredEntities.ToSearchItems();
 
             //todo сравнить что быстрее, делать два запроса или агрегирующий запрос
             var count = await _repository.GetAllFilteredCountAsync(commonParameter, paramter);

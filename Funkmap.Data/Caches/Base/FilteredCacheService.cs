@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Common.Redis.Abstract;
-using Funkmap.Data.Parameters;
+using Funkmap.Domain.Abstract;
+using Funkmap.Domain.Parameters;
 
 namespace Funkmap.Data.Caches.Base
 {

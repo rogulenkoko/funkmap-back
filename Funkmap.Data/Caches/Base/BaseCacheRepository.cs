@@ -20,29 +20,24 @@ namespace Funkmap.Data.Caches.Base
 
         }
 
-        #region Update
+        #region UpdateAsync
 
-        public Task CreateAsync(BaseEntity item)
-        {
-            return _baseRepository.CreateAsync(item);
-        }
-
-        public Task<BaseEntity> DeleteAsync(string id)
+        public Task<Profile> DeleteAsync(string id)
         {
             //todo решить как быть здесь с избранными
             return _baseRepository.DeleteAsync(id);
         }
 
-        public Task UpdateAsync(BaseEntity entity)
-        {
-            return _baseRepository.UpdateAsync(entity);
-        }
-
         #endregion
 
-        public Task<BaseEntity> GetAsync(string id)
+        public Task<Profile> GetAsync(string id)
         {
             return _baseRepository.GetAsync(id);
+        }
+
+        public Task<T> GetAsync<T>(string login) where T : Profile
+        {
+            return _baseRepository.GetAsync<T>(login);
         }
 
         public Task<List<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin)
@@ -82,24 +77,24 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.UpdateAvatarAsync(login, imageBytes);
         }
 
-        public Task<List<Marker>> GetNearestAsync(LocationParameter parameter)
+        public Task<List<Marker>> GetNearestMarkersAsync(LocationParameter parameter)
+        {
+            return _baseRepository.GetNearestMarkersAsync(parameter);
+        }
+
+        public Task<List<SearchItem>> GetNearestAsync(LocationParameter parameter)
         {
             return _baseRepository.GetNearestAsync(parameter);
         }
 
-        public Task<List<SearchItem>> GetFullNearestAsync(LocationParameter parameter)
+        public Task<List<Marker>> GetSpecificMarkersAsync(IReadOnlyCollection<string> logins)
         {
-            return _baseRepository.GetFullNearestAsync(parameter);
+            return _baseRepository.GetSpecificMarkersAsync(logins);
         }
 
-        public Task<List<Marker>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
+        public Task<List<SearchItem>> GetSpecificAsync(IReadOnlyCollection<string> logins)
         {
-            return _baseRepository.GetSpecificNavigationAsync(logins);
-        }
-
-        public Task<List<Profile>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
-        {
-            return _baseRepository.GetSpecificFullAsync(logins);
+            return _baseRepository.GetSpecificAsync(logins);
         }
 
         public Task<List<string>> GetUserEntitiesLoginsAsync(string userLogin)
@@ -112,9 +107,9 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.GetFilteredAsync(commonFilter, parameter);
         }
 
-        public Task<List<Marker>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public Task<List<Marker>> GetFilteredMarkersAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
-            return _baseRepository.GetFilteredNavigationAsync(commonFilter, parameter);
+            return _baseRepository.GetFilteredMarkersAsync(commonFilter, parameter);
         }
 
         public Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
@@ -122,9 +117,9 @@ namespace Funkmap.Data.Caches.Base
             return _baseRepository.GetAllFilteredCountAsync(commonFilter, parameter);
         }
 
-        public Task<bool> CheckIfLoginExistAsync(string login)
+        public Task<bool> LoginExistsAsync(string login)
         {
-            return _baseRepository.CheckIfLoginExistAsync(login);
+            return _baseRepository.LoginExistsAsync(login);
         }
     }
 }

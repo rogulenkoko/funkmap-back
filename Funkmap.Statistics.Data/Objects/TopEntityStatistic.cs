@@ -1,4 +1,4 @@
-﻿using Funkmap.Data.Entities;
+﻿using Funkmap.Domain;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

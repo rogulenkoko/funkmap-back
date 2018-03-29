@@ -11,23 +11,23 @@ namespace Funkmap.Domain.Abstract.Repositories
 
         Task<T> GetAsync<T>(string login) where T : Profile;
 
-        Task<List<Marker>> GetNearestAsync(LocationParameter parameter);
+        Task<List<Marker>> GetNearestMarkersAsync(LocationParameter parameter);
 
-        Task<List<SearchItem>> GetFullNearestAsync(LocationParameter parameter);
+        Task<List<SearchItem>> GetNearestAsync(LocationParameter parameter);
 
-        Task<List<Marker>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins);
+        Task<List<Marker>> GetSpecificMarkersAsync(IReadOnlyCollection<string> logins);
 
-        Task<List<SearchItem>> GetSpecificFullAsync(IReadOnlyCollection<string> logins);
+        Task<List<SearchItem>> GetSpecificAsync(IReadOnlyCollection<string> logins);
 
         Task<List<string>> GetUserEntitiesLoginsAsync(string userLogin);
 
         Task<List<Profile>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
-        Task<List<Marker>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
+        Task<List<Marker>> GetFilteredMarkersAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
-        Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter);
+        Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null);
 
-        Task<bool> CheckIfLoginExistAsync(string login);
+        Task<bool> LoginExistsAsync(string login);
 
         Task<List<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin);
 
@@ -38,5 +38,7 @@ namespace Funkmap.Domain.Abstract.Repositories
         Task<List<string>> GetFavoritesLoginsAsync(string userLogin);
 
         Task UpdateAvatarAsync(string login, byte[] imageBytes);
+
+        Task<Profile> DeleteAsync(string id);
     }
 }

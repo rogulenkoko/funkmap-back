@@ -1,8 +1,19 @@
-﻿namespace Funkmap.Domain.Parameters
+﻿using Funkmap.Domain.Abstract;
+
+namespace Funkmap.Domain.Parameters
 {
-    public class LocationParameter
+    public class LocationParameter : ILocationParameter
     {
-        public double? RadiusDeg { get; set; }
+        public LocationParameter()
+        {
+            Skip = 0;
+            Take = 10;
+        }
+
+        /// <summary>
+        /// Радиус в километрах
+        /// </summary>
+        public double? RadiusKm { get; set; }
 
         /// <summary>
         /// Широта объекта относительно которого надо искать

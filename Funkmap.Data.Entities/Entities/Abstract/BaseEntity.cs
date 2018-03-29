@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Funkmap.Domain;
-using Funkmap.Domain.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
@@ -89,33 +88,4 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         public List<string> FavoriteFor { get; set; }
 
     }
-
-    public class VideoInfoEntity
-    {
-        [BsonElement("vid")]
-        public string Id { get; set; }
-
-        [BsonElement("vn")]
-        public string Name { get; set; }
-
-        [BsonElement("vd")]
-        public string Description { get; set; }
-
-        [BsonElement("vt")]
-        public VideoType Type { get; set; }
-
-        [BsonElement("vsd")]
-        public DateTime SaveDateUtc { get; set; }
-
-    }
-
-    public class AudioInfoEntity
-    {
-        [BsonElement("aid")]
-        public long Id { get; set; }
-
-        [BsonElement("asd")]
-        public DateTime SaveDateUtc { get; set; }
-    }
-    
 }

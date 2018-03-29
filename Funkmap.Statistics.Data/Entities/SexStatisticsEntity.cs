@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Funkmap.Data.Entities.Entities;
+using Funkmap.Domain.Enums;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Statistics.Data.Entities

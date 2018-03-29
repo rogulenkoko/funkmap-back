@@ -1,26 +1,26 @@
 ﻿using System;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Parameters;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract;
+using Funkmap.Domain.Parameters;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Services
 {
-    
     public class BandFilterService : IFilterService
     {
         public EntityType EntityType => EntityType.Band;
 
         public FilterDefinition<BaseEntity> CreateFilter(IFilterParameter parameter)
         {
-            if (!(parameter is BandFilterParameter))
+            var bandFilterParameter = parameter as BandFilterParameter;
+
+            if (bandFilterParameter == null)
             {
                 throw new InvalidOperationException(nameof(parameter));
             }
-
-            var bandFilterParameter = parameter as BandFilterParameter;
             
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.EntityType, EntityType.Band);
 

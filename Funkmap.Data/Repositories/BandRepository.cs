@@ -9,15 +9,10 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BandRepository : LoginRepository<BandEntity>, IBandRepository
+    public class BandRepository : RepositoryBase<BandEntity>, IBandRepository
     {
         public BandRepository(IMongoCollection<BandEntity> collection) : base(collection)
         {
-        }
-
-        public override Task UpdateAsync(BandEntity entity)
-        {
-            throw new NotImplementedException("Использовать для обновления BaseRepository");
         }
 
         public async Task CleanMusiciansDependencies(Musician musician, string bandLogin = null)

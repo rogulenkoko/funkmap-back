@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
-using Funkmap.Mappers;
-using Funkmap.Models;
 using Funkmap.Models.Requests;
 using Funkmap.Tools;
 
@@ -36,7 +33,7 @@ namespace Funkmap.Controllers
             }
 
             model.UserLogin = login;
-            await _updateService.CreateEntity(model);
+            await _updateRepository.Create(model);
             return Ok(new BaseResponse() { Success = true });
 
         }
@@ -52,7 +49,7 @@ namespace Funkmap.Controllers
         [Authorize]
         public async Task<IHttpActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]Profile model)
         {
-            await _updateService.UpdateEntity(model);
+            await _updateRepository.UpdateAsync(model);
             return Ok(new BaseResponse() { Success = true });
         }
 
@@ -69,9 +66,7 @@ namespace Funkmap.Controllers
             //todo валидация
 
             await _repository.UpdateAvatarAsync(request.Login, request.Photo);
-
-            //_eventBus.PublishAsync()
-
+           
             return Ok(new BaseResponse() { Success = true });
         }
 

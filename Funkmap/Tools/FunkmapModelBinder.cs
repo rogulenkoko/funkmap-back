@@ -2,10 +2,8 @@
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
-using Funkmap.Data.Entities;
 using Funkmap.Domain;
 using Funkmap.Domain.Models;
-using Funkmap.Models;
 
 namespace Funkmap.Tools
 {

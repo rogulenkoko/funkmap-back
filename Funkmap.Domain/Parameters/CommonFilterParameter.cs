@@ -13,7 +13,7 @@
 
         public override string ToString()
         {
-            return $"{SearchText}|{EntityType}|{Limit}|{Latitude}|{Longitude}|{RadiusDeg}|";
+            return $"{SearchText}|{EntityType}|{Limit}|{Latitude}|{Longitude}|{RadiusKm}|";
         }
     }
 }

@@ -13,12 +13,17 @@ namespace Funkmap.Domain.Services
         private readonly IBandRepository _bandRepository;
         private readonly IMusicianRepository _musicianRepository;
         private readonly IBaseRepository _baseRepository;
+        private readonly IUpdateRepository _updateRepository;
 
-        public BandUpdateService(IBandRepository bandRepository, IMusicianRepository musicianRepository, IBaseRepository baseRepository)
+        public BandUpdateService(IBandRepository bandRepository, 
+                                 IMusicianRepository musicianRepository, 
+                                 IBaseRepository baseRepository, 
+                                 IUpdateRepository updateRepository)
         {
             _bandRepository = bandRepository;
             _musicianRepository = musicianRepository;
             _baseRepository = baseRepository;
+            _updateRepository = updateRepository;
         }
 
         public async Task<InviteBandResponse> HandleInviteBandChanges(UpdateBandMemberParameter membersParameter, string userLogin)
@@ -54,7 +59,7 @@ namespace Funkmap.Domain.Services
                 {
                     musician.BandLogins.Add(band.Login);
                 }
-                _baseRepository.UpdateAsync(musician);
+                await _updateRepository.UpdateAsync(musician);
 
             }
             else
@@ -70,7 +75,7 @@ namespace Funkmap.Domain.Services
             response.BandName = band.Name;
             response.OwnerLogin = musicianOwnerLogin;
 
-            _baseRepository.UpdateAsync(band);
+            await _updateRepository.UpdateAsync(band);
 
             return response;
         }
@@ -105,7 +110,7 @@ namespace Funkmap.Domain.Services
                     musician.BandLogins.Add(band.Login);
                 }
 
-                _baseRepository.UpdateAsync(musician);
+                await _updateRepository.UpdateAsync(musician);
             }
             else
             {
@@ -115,7 +120,7 @@ namespace Funkmap.Domain.Services
                 }
             }
 
-            await _baseRepository.UpdateAsync(band);
+            await _updateRepository.UpdateAsync(band);
         }
 
         public void CleanDeletedDependencies(Profile deletedEntity)

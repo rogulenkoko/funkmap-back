@@ -10,35 +10,29 @@ namespace Funkmap.Tests.Funkmap.Data
 {
     public class FunkmapTestDbProvider
     {
-        public static IMongoDatabase DropAndCreateDatabase
+        public static IMongoDatabase DropAndCreateDatabase()
         {
-            get
-            {
-                var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
-                var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
-                var mongoClient = new MongoClient(connectionString);
-                mongoClient.DropDatabase(databaseName);
-                var db = mongoClient.GetDatabase(databaseName);
-                CreateIndexes(db);
-                new FunkmapDataSeeder(db).SeedData();
-                return db;
-            }
-        }
+            var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
+            var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
 
-        public static IMongoDatabase DropAndCreateStressDatabase
-        {
-            get
-            {
-                var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
-                var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
-                var mongoClient = new MongoClient(connectionString);
-                mongoClient.DropDatabase(databaseName);
-                var db = mongoClient.GetDatabase(databaseName);
+            var stressMode = bool.Parse(ConfigurationManager.AppSettings["stress_mode"]);
 
-                CreateIndexes(db);
+            var mongoClient = new MongoClient(connectionString);
+            mongoClient.DropDatabase(databaseName);
+            var db = mongoClient.GetDatabase(databaseName);
+            CreateIndexes(db);
+
+            if (stressMode)
+            {
                 new FunkmapStressRandomSeeder(db).SeedData();
-                return db;
             }
+            else
+            {
+                new FunkmapDataSeeder(db).SeedData();
+            }
+
+            return db;
+
         }
 
         private static void CreateIndexes(IMongoDatabase db)

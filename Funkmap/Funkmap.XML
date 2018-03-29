@@ -19,12 +19,6 @@
             <param name="membersRequest">Логин группы (из которой надо удалить музыканта) и логин музыканта</param>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Controllers.BaseController.GetAll">
-            <summary>
-            Все активные профили
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Funkmap.Controllers.BaseController.GetFullBand(System.String)">
             <summary>
             Полная информация о профиле
@@ -119,14 +113,14 @@
             <param name="request">Параметры фильтрации</param>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Controllers.BaseController.SaveMusician(Funkmap.Models.BaseModel)">
+        <member name="M:Funkmap.Controllers.BaseController.SaveMusician(Funkmap.Domain.Models.Profile)">
             <summary>
             Сохранение профиля
             </summary>
             <param name="model">Профиль</param>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Controllers.BaseController.Update(Funkmap.Models.BaseModel)">
+        <member name="M:Funkmap.Controllers.BaseController.Update(Funkmap.Domain.Models.Profile)">
             <summary>
             Обновление любых полей профиля (кроме автара)
             </summary>
@@ -182,82 +176,82 @@
         </member>
         <member name="P:Funkmap.Models.Requests.UpdateBandMemberRequest.MusicianLogin">
             <summary>
-            Логин приглашаемого музыканта
+            Invited musician login
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.UpdateBandMemberRequest.BandLogin">
             <summary>
-            Группа, в которую приглашается музыкант
+            Inviting band login
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.UpdateBandMembersRequest.MusicianLogins">
             <summary>
-            Логин приглашаемого музыканта
+            Invited musicians logins
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.UpdateBandMembersRequest.BandLogin">
             <summary>
-            Группа, в которую приглашается музыкант
+             Inviting band login
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Skip">
             <summary>
-            Пропустить Skip элементов
+            Number of skipped elements
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Take">
             <summary>
-            Взять Take элементов
+            Number of taken elements (default: 10)
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.SearchText">
             <summary>
-            Часть имени
+            Search pattern (for names)
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.UserLogin">
             <summary>
-            Логин пользователя, создавшего профиль
+            Profile's creator login
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.EntityType">
             <summary>
-            Тип профиля
+            Profile type
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Instruments">
             <summary>
-            Интересующие инструменты
+            Interested musician instruments
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Expirience">
             <summary>
-            Интересующие типы опыта игры
+            Interested musician expiriences
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Styles">
             <summary>
-            Интересующие стили игры
+            Interested musician styles (genres)
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.RadiusDeg">
             <summary>
-            Поиск внутри радиуса (в радианах)
+            Search within the radius (radians)
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Latitude">
             <summary>
-            Широта
+            Latitude
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Longitude">
             <summary>
-            Долгота
+            Longitude
             </summary>
         </member>
         <member name="P:Funkmap.Models.Requests.FilteredRequest.Limit">
             <summary>
-            Максимальное количество доступных для чтение сущностей
+            Maximum number of profiles for reading (default: 1000)
             </summary>
         </member>
     </members>

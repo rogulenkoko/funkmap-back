@@ -2,7 +2,7 @@
 using Funkmap.Data;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Repositories;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Tests.Funkmap.Data;
 using Funkmap.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,12 +12,10 @@ namespace Funkmap.Tests.Funkmap.Musician
     [TestClass]
     public class MusicianRepositoryTest
     {
-        private IMusicianRepository _musicianRepository;
-
         [TestInitialize]
         public void Initialize()
         {
-            _musicianRepository = new MusicianRepository(FunkmapTestDbProvider.DropAndCreateDatabase.GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName));
+            
         }
         
         [TestMethod]

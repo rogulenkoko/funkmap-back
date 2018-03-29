@@ -14,6 +14,7 @@ using Funkmap.Data.Repositories;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Services.Abstract;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -86,6 +87,7 @@ namespace Funkmap.Data
 
             builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
             builder.RegisterType<BandRepository>().As<IBandRepository>().SingleInstance();
+            builder.RegisterType<UpdateRepository>().As<IUpdateRepository>();
 
             //Cache Services
             builder.RegisterType<FavoriteCacheService>().As<IFavoriteCacheService>();

@@ -11,7 +11,6 @@ using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models.Requests;
-using Funkmap.Models.Responses;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;
 
 namespace Funkmap.Controllers
@@ -20,19 +19,16 @@ namespace Funkmap.Controllers
     [ValidateRequestModel]
     public class MusicianController: ApiController
     {
-        private readonly IMusicianRepository _musicianRepository;
         private readonly IBaseRepository _baseRepository;
         private readonly IFunkmapNotificationService _notificationService;
         private readonly IBandUpdateService _bandUpdateService;
         private readonly IDependenciesController _dependenciesController;
 
-        public MusicianController(IMusicianRepository musicianRepository,
-                                  IBaseRepository baseRepository,
+        public MusicianController(IBaseRepository baseRepository,
                                   IFunkmapNotificationService notificationService,
                                   IBandUpdateService bandUpdateService,
                                   IDependenciesController dependenciesController)
         {
-            _musicianRepository = musicianRepository;
             _baseRepository = baseRepository;
             _notificationService = notificationService;
             _bandUpdateService = bandUpdateService;

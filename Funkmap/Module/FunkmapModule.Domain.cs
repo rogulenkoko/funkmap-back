@@ -12,8 +12,6 @@ namespace Funkmap.Module
         {
             builder.RegisterType<ParameterFactory>().As<IParameterFactory>();
 
-            builder.RegisterType<EntityUpdateService>().As<IEntityUpdateService>();
-            
             builder.RegisterType<FunkmapNotificationService>()
                 .As<IFunkmapNotificationService>()
                 .As<IEventHandler>()

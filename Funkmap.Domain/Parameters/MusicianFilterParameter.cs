@@ -9,7 +9,7 @@ namespace Funkmap.Domain.Parameters
     public class MusicianFilterParameter : IFilterParameter
     {
         public List<Instruments> Instruments { get; set; }
-        public List<Expiriences> Expirience { get; set; }
+        public List<Expiriences> Expiriences { get; set; }
         public List<Styles> Styles { get; set; }
         public EntityType EntityType => EntityType.Musician;
 
@@ -18,7 +18,7 @@ namespace Funkmap.Domain.Parameters
             var separator = ",";
             var sb = new StringBuilder();
             if (Instruments != null) sb.Append($"{String.Join(separator, Instruments)}|");
-            if (Expirience != null) sb.Append($"{String.Join(separator, Expirience)}|");
+            if (Expiriences != null) sb.Append($"{String.Join(separator, Expiriences)}|");
             if (Styles != null) sb.Append($"{String.Join(separator, Styles)}");
 
             return sb.ToString();

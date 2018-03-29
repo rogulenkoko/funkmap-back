@@ -1,6 +1,6 @@
-﻿using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Parameters;
+﻿using Funkmap.Data.Entities.Entities.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Services.Abstract

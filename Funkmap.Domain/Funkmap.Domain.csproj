@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IFilterParameter.cs" />
+    <Compile Include="Abstract\ILocationParameter.cs" />
     <Compile Include="Abstract\Repositories\IBandRepository.cs" />
     <Compile Include="Abstract\Repositories\IBaseRepository.cs" />
     <Compile Include="Abstract\Repositories\IMusicianRepository.cs" />
@@ -50,6 +51,8 @@
     <Compile Include="Enums\Sex.cs" />
     <Compile Include="Enums\Styles.cs" />
     <Compile Include="Enums\VideoTypes.cs" />
+    <Compile Include="FunkmapConstants.cs" />
+    <Compile Include="Models\AudioInfo.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\InviteBandResponse.cs" />
     <Compile Include="Models\Marker.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\Studio.cs" />
     <Compile Include="Models\UserEntitiesCountInfo.cs" />
+    <Compile Include="Models\VideoInfo.cs" />
     <Compile Include="Parameters\ChangeAvatarParameter.cs" />
     <Compile Include="Parameters\CleanDependenciesParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
@@ -71,7 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstract\IBandUpdateService.cs" />
     <Compile Include="Services\Abstract\IDependenciesController.cs" />
-    <Compile Include="Services\Abstract\IEntityUpdateService.cs" />
+    <Compile Include="Services\Abstract\IUpdateRepository.cs" />
     <Compile Include="Services\Abstract\IFunkmapNotificationService.cs" />
     <Compile Include="Services\BandUpdateService.cs" />
     <Compile Include="Services\FunkmapNotificationService.cs" />

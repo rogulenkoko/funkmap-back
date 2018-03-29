@@ -6,7 +6,7 @@ namespace Funkmap.Models.Requests
     public class FullLocationRequest
     {
         [Required]
-        public double? RadiusDeg { get; set; }
+        public double? RadiusKm { get; set; }
 
         [Required]
         /// <summary>

@@ -6,14 +6,20 @@ using MongoDB.Driver;
 
 namespace Funkmap.Common.Data.Mongo
 {
-    public abstract class Repository<T> : IRepository<T> where T : class 
+    public abstract class RepositoryBase<T> where T : class
     {
         protected readonly IMongoCollection<T> _collection;
 
-        protected Repository(IMongoCollection<T> collection)
+        protected RepositoryBase(IMongoCollection<T> collection)
         {
             _collection = collection;
         }
+    }
+
+    public abstract class Repository<T> : RepositoryBase<T>, IRepository<T> where T : class 
+    {
+
+        protected Repository(IMongoCollection<T> collection) : base(collection) { }
 
         public virtual async Task<List<T>> GetAllAsync()
         {

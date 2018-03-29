@@ -1,8 +1,10 @@
-﻿namespace Funkmap.Domain.Parameters
+﻿using Funkmap.Domain.Models;
+
+namespace Funkmap.Domain.Parameters
 {
     public class UpdateVideoParameter
     {
-        public VideoInfoEntity Info { get; set; }
+        public VideoInfo Info { get; set; }
 
         public string Login { get; set; }
     }

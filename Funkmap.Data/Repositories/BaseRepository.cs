@@ -10,6 +10,7 @@ using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Mappers;
 using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Tools;
+using Funkmap.Domain;
 using Funkmap.Domain.Abstract;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
@@ -18,7 +19,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BaseRepository : Repository<BaseEntity>, IBaseRepository
+    public class BaseRepository : RepositoryBase<BaseEntity>, IBaseRepository
     {
         private readonly IFilterFactory _filterFactory;
         private readonly IFileStorage _fileStorage;
@@ -31,19 +32,6 @@ namespace Funkmap.Data.Repositories
             _fileStorage = fileStorage;
         }
 
-        public async Task<List<Profile>> GetAllAsyns()
-        {
-            var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
-
-            var projection = Builders<BaseEntity>.Projection
-                .Exclude(x => x.Description)
-                .Exclude(x => x.Name);
-
-            var result = await _collection.Find(filter).Project<BaseEntity>(projection).ToListAsync();
-
-            return result.ToSpecificProfiles();
-        }
-
         public async Task<Profile> GetAsync(string login)
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, login);
@@ -53,14 +41,15 @@ namespace Funkmap.Data.Repositories
 
         public async Task<T> GetAsync<T>(string login) where T : Profile
         {
-            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, login);
-            var entity = await _collection.Find(filter).SingleOrDefaultAsync();
-            return entity.ToSpecificProfile() as T;
+            var profile = await GetAsync(login);
+            return profile as T;
         }
 
-        public async Task<List<Marker>> GetNearestAsync(LocationParameter parameter)
+        public async Task<List<Marker>> GetNearestMarkersAsync(LocationParameter parameter)
         {
             //db.bases.find({ loc: { $nearSphere: [50, 30], $minDistance: 0, $maxDistance: 1 } }).limit(20)
+
+            if (parameter == null) throw new ArgumentException("Location parameter can not be null");
 
             //todo придумать адекватную проекцию для геопозиции
             var projection = Builders<BaseEntity>.Projection
@@ -73,43 +62,27 @@ namespace Funkmap.Data.Repositories
                 .Exclude(x => x.SoundCloudLink)
                 .Exclude(x => x.VkLink);
 
-            List<BaseEntity> result;
-            if (parameter.Longitude == null || parameter.Latitude == null)
-            {
-                var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
-                result = await _collection.Find(filter).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
-            }
-            else
-            {
-                if (parameter.RadiusDeg == null) parameter.RadiusDeg = Int32.MaxValue;
-                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
-                    & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
-                result = await _collection.Find(filter).Limit(parameter.Take).ToListAsync();
-            }
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true) & BuildGeoFilter(parameter);
+
+            List<BaseEntity> result = await _collection.Find(filter).Project<BaseEntity>(projection).Limit(parameter.Take).ToListAsync();
+            
             return result.ToMarkers();
 
         }
 
-        public async Task<List<SearchItem>> GetFullNearestAsync(LocationParameter parameter)
+        public async Task<List<SearchItem>> GetNearestAsync(LocationParameter parameter)
         {
-            List<BaseEntity> result;
-            if (parameter.Longitude == null || parameter.Latitude == null)
-            {
-                result = await _collection.Find(x => true).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
-            }
-            else
-            {
-                if (parameter.RadiusDeg == null) parameter.RadiusDeg = Int32.MaxValue;
-                var filter = Builders<BaseEntity>.Filter.NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value, parameter.RadiusDeg)
-                             & Builders<BaseEntity>.Filter.Eq(x => x.IsActive, true);
-                result = await _collection.Find(filter).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
-            }
+            var filter = BuildGeoFilter(parameter);
+
+            List<BaseEntity> result = await _collection.Find(filter).Skip(parameter.Skip).Limit(parameter.Take).ToListAsync();
 
             return result.ToSearchItems();
         }
 
-        public async Task<List<Marker>> GetSpecificNavigationAsync(IReadOnlyCollection<string> logins)
+        public async Task<List<Marker>> GetSpecificMarkersAsync(IReadOnlyCollection<string> logins)
         {
+            if (logins == null || logins.Count == 0) return new List<Marker>();
+
             //todo придумать адекватную проекцию для геопозиции
             var projection = Builders<BaseEntity>.Projection
                 .Exclude(x => x.Description)
@@ -126,7 +99,7 @@ namespace Funkmap.Data.Repositories
             return result.ToMarkers();
         }
 
-        public async Task<List<SearchItem>> GetSpecificFullAsync(IReadOnlyCollection<string> logins)
+        public async Task<List<SearchItem>> GetSpecificAsync(IReadOnlyCollection<string> logins)
         {
             var filter = Builders<BaseEntity>.Filter.In(x => x.Login, logins);
             var result = await _collection.Find(filter).ToListAsync();
@@ -178,27 +151,15 @@ namespace Funkmap.Data.Repositories
 
         public async Task<List<Profile>> GetFilteredAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
-            var filter = CreateFilter(commonFilter, parameter);
-
-            if (commonFilter.Longitude.HasValue && commonFilter.Latitude.HasValue)
-            {
-                if (commonFilter.RadiusDeg == null) commonFilter.RadiusDeg = Int32.MaxValue;
-                filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
-            }
+            var filter = BuildFilter(commonFilter, parameter) & BuildGeoFilter(commonFilter);
 
             var result = await _collection.Find(filter).Skip(commonFilter.Skip).Limit(commonFilter.Take).ToListAsync();
             return result.ToSpecificProfiles();
         }
 
-        public async Task<List<Marker>> GetFilteredNavigationAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        public async Task<List<Marker>> GetFilteredMarkersAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
-            var filter = CreateFilter(commonFilter, parameter);
-
-            if (commonFilter.Longitude.HasValue && commonFilter.Latitude.HasValue)
-            {
-                if (commonFilter.RadiusDeg == null) commonFilter.RadiusDeg = Int32.MaxValue;
-                filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
-            }
+            var filter = BuildFilter(commonFilter, parameter) & BuildGeoFilter(commonFilter);
 
             //todo придумать адекватную проекцию для геопозиции
             var projection = Builders<BaseEntity>.Projection
@@ -215,29 +176,25 @@ namespace Funkmap.Data.Repositories
             return result.ToMarkers();
         }
 
-        public async Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter)
+        public async Task<long> GetAllFilteredCountAsync(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
-            var filter = CreateFilter(commonFilter, parameter);
+            var filter = BuildFilter(commonFilter, parameter) & BuildGeoFilter(commonFilter);
             var profection = Builders<BaseEntity>.Projection.Include(x => x.Login);
-
-            if (commonFilter.Longitude.HasValue && commonFilter.Latitude.HasValue)
-            {
-                if (commonFilter.RadiusDeg == null) commonFilter.RadiusDeg = Int32.MaxValue;
-                filter = filter & Builders<BaseEntity>.Filter.NearSphere(x => x.Location, commonFilter.Longitude.Value, commonFilter.Latitude.Value, commonFilter.RadiusDeg);
-            }
 
             var result = await _collection.Find(filter).Project<BaseEntity>(profection).Limit(commonFilter.Limit).CountAsync();
             return result;
         }
 
-        public async Task<bool> CheckIfLoginExistAsync(string login)
+        public async Task<bool> LoginExistsAsync(string login)
         {
+            if (String.IsNullOrEmpty(login)) return false;
+
             var projection = Builders<BaseEntity>.Projection.Include(x => x.Login);
             var entity = await _collection.Find(x => x.Login == login).Project(projection).FirstOrDefaultAsync();
             return entity != null;
         }
 
-        private FilterDefinition<BaseEntity> CreateFilter(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
+        private FilterDefinition<BaseEntity> BuildFilter(CommonFilterParameter commonFilter, IFilterParameter parameter = null)
         {
             var filter = Builders<BaseEntity>.Filter.Empty;
 
@@ -266,7 +223,19 @@ namespace Funkmap.Data.Repositories
             return filter;
         }
 
-        public override async Task UpdateAsync(BaseEntity entity)
+        private FilterDefinition<BaseEntity> BuildGeoFilter(ILocationParameter parameter)
+        {
+            if (!parameter.Longitude.HasValue || !parameter.Latitude.HasValue) return Builders<BaseEntity>.Filter.Empty;
+
+            if (parameter.RadiusKm == null) parameter.RadiusKm = Int32.MaxValue;
+
+            return Builders<BaseEntity>
+                .Filter
+                .NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value,
+                    parameter.RadiusKm.Value / FunkmapConstants.EarthRadius);
+        }
+
+        public async Task UpdateAsync(BaseEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -300,12 +269,12 @@ namespace Funkmap.Data.Repositories
             await UpdateAsync(entity);
         }
 
-        public override async Task<BaseEntity> DeleteAsync(string id)
+        public async Task<Profile> DeleteAsync(string id)
         {
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, id);
             var entity = await _collection.FindOneAndDeleteAsync(filter);
 
-            return entity;
+            return entity.ToSpecificProfile();
         }
 
         public async Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)

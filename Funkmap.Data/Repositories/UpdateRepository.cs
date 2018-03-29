@@ -4,23 +4,23 @@ using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Mappers;
 using Funkmap.Domain;
-using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Tools;
+using MongoDB.Driver;
 
-namespace Funkmap.Data.Services
+namespace Funkmap.Data.Repositories
 {
-    public class EntityUpdateService : IEntityUpdateService
+    public class UpdateRepository : IUpdateRepository
     {
-        private readonly IBaseRepository _baseRepository;
+        private readonly IMongoCollection<BaseEntity> _collection;
 
-        public EntityUpdateService(IBaseRepository baseRepository)
+        public UpdateRepository(IMongoCollection<BaseEntity> collection)
         {
-            _baseRepository = baseRepository;
+            _collection = collection;
         }
 
-        public async Task CreateEntity(Profile model)
+        public async Task Create(Profile model)
         {
             BaseEntity resultEntity;
 
@@ -52,13 +52,16 @@ namespace Funkmap.Data.Services
             resultEntity.IsActive = true;
             resultEntity.CreationDate = DateTime.UtcNow;
 
-            await _baseRepository.CreateAsync(resultEntity);
+            await _collection.InsertOneAsync(resultEntity);
         }
 
-        public async Task UpdateEntity(Profile model)
+        public async Task UpdateAsync(Profile model)
         {
             BaseEntity resultEntity;
-            var exictingEntity = await _baseRepository.GetAsync(model.Login);
+
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, model.Login);
+
+            var exictingEntity = await _collection.Find(filter).SingleOrDefaultAsync();
             if(exictingEntity == null) throw new InvalidOperationException("Entity doesn't exist");
 
             switch (model.EntityType)
@@ -91,7 +94,7 @@ namespace Funkmap.Data.Services
                     throw new ArgumentNullException(nameof(model.EntityType));
             }
 
-            await _baseRepository.UpdateAsync(resultEntity);
+            await _collection.ReplaceOneAsync(filter, resultEntity);
         }
     }
 }

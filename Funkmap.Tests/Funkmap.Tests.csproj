@@ -149,11 +149,11 @@
     <Compile Include="Auth\Data\AuthTestDbProvider.cs" />
     <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="FileStorage\FileStorageTest.cs" />
-    <Compile Include="Funkmap\Base\BaseRepositoryStressTest.cs" />
-    <Compile Include="Funkmap\BigData\FunkmapBigDataSeeder.cs" />
     <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
     <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
-    <Compile Include="Funkmap\Stress\FunkmapStressRandomSeeder.cs" />
+    <Compile Include="Funkmap\Data\FunkmapStressRandomSeeder.cs" />
+    <Compile Include="Funkmap\Tools\DistanceResult.cs" />
+    <Compile Include="Funkmap\Tools\TestToolRepository.cs" />
     <Compile Include="Images\ImageProvider.cs" />
     <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
     <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
@@ -207,6 +207,10 @@
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
+      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
+      <Name>Funkmap.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>

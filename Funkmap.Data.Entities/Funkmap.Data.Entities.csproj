@@ -66,11 +66,13 @@
   <ItemGroup>
     <Compile Include="Entities\Abstract\BaseEntity.cs" />
     <Compile Include="Entities\Abstract\EstablishmentEntity.cs" />
+    <Compile Include="Entities\AudioInfoEntity.cs" />
     <Compile Include="Entities\BandEntity.cs" />
     <Compile Include="Entities\MusicianEntity.cs" />
     <Compile Include="Entities\RehearsalPointEntity.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Entities\StudioEntity.cs" />
+    <Compile Include="Entities\VideoInfoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

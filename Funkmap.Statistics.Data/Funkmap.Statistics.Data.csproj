@@ -118,6 +118,10 @@
       <Project>{F0A4E106-3CDE-4CDD-B4A5-D441EFA9D07F}</Project>
       <Name>Funkmap.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
+      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
+      <Name>Funkmap.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

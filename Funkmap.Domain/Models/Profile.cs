@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Funkmap.Domain.Enums;
+﻿using System.Collections.Generic;
 
 namespace Funkmap.Domain.Models
 {
@@ -32,21 +30,4 @@ namespace Funkmap.Domain.Models
         public string SoundCloudLink { get; set; }
 
         public bool? IsActive { get; set; }
-    }
-
-    public class VideoInfo
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public VideoType Type { get; set; }
-        public DateTime SaveDateUtc { get; set; }
-    }
-
-    public class AudioInfo
-    {
-        public long Id { get; set; }
-
-        public DateTime Date { get; set; }
-    }
-}
+    }}

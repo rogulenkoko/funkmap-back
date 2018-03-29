@@ -88,7 +88,7 @@ namespace Funkmap.Mappers
                 YoutubeLink = source.YoutubeLink,
                 FacebookLink = source.FacebookLink,
                 WorkingHoursDescription = source.WorkingHoursDescription,
-                WebSite = source.WebSite,
+                WebSite = source.Website,
                 Address = source.Address,
                 UserLogin = source.UserLogin
             };

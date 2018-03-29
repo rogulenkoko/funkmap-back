@@ -1,4 +1,4 @@
-﻿using Funkmap.Data.Entities.Entities;
+﻿using Funkmap.Domain.Enums;
 
 namespace Funkmap.Statistics.Models
 {

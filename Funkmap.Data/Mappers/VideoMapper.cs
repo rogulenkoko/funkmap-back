@@ -1,8 +1,7 @@
-﻿using Funkmap.Data.Entities.Entities.Abstract;
+﻿using Funkmap.Data.Entities.Entities;
 using Funkmap.Domain.Models;
-using Funkmap.Models;
 
-namespace Funkmap.Mappers
+namespace Funkmap.Data.Mappers
 {
     public static class VideoMapper
     {
@@ -10,7 +9,7 @@ namespace Funkmap.Mappers
         {
             if (source == null) return null;
 
-            return new VideoInfoEntity()
+            return new VideoInfoEntity
             {
                 Id = source.Id,
                 Name = source.Name,
@@ -46,7 +45,7 @@ namespace Funkmap.Mappers
         public static AudioInfo ToModel(this AudioInfoEntity source)
         {
             if (source == null) return null;
-            return new AudioInfo()
+            return new AudioInfo
             {
                 Id = source.Id,
                 Date = source.SaveDateUtc

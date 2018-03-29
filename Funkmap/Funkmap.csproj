@@ -121,9 +121,9 @@
     <Compile Include="Controllers\BaseController.Navigation.cs" />
     <Compile Include="Controllers\BaseController.Update.cs" />
     <Compile Include="Controllers\MusicianController.cs" />
+    <Compile Include="Mappers\ProfileMapper.cs" />
     <Compile Include="Mappers\ProfilePreviewMapper.cs" />
     <Compile Include="Mappers\UsersEntitiesCountMapper.cs" />
-    <Compile Include="Mappers\VideoMapper.cs" />
     <Compile Include="Models\BandInviteInfo.cs" />
     <Compile Include="Models\BandPreviewModel.cs" />
     <Compile Include="Models\ChangeAvatarRequest.cs" />

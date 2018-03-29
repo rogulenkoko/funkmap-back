@@ -2,6 +2,7 @@
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Domain.Enums;
 using MongoDB.Bson.Serialization.Attributes;
+using Funkmap.Domain;
 
 namespace Funkmap.Data.Entities.Entities
 {

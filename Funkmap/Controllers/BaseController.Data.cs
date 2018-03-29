@@ -34,7 +34,6 @@ namespace Funkmap.Controllers
         /// <returns></returns>
 
         [HttpGet]
-        
         [Route("get/{login}")]
         public async Task<IHttpActionResult> GetRehearsalPoint(string login)
         {
@@ -52,7 +51,7 @@ namespace Funkmap.Controllers
         [Route("specific")]
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
-            List<SearchItem> items = await _repository.GetSpecificFullAsync(logins);
+            List<SearchItem> items = await _repository.GetSpecificAsync(logins);
             return Ok(items);
         }
 
@@ -108,7 +107,7 @@ namespace Funkmap.Controllers
         [Route("checkLogin/{login}")]
         public async Task<IHttpActionResult> CheckIfLoginExist(string login)
         {
-            var isExist = await _repository.CheckIfLoginExistAsync(login);
+            var isExist = await _repository.LoginExistsAsync(login);
             return Ok(isExist);
         }
 
@@ -139,7 +138,7 @@ namespace Funkmap.Controllers
         {
             var login = Request.GetLogin();
             List<string> favoritesLogins = await _repository.GetFavoritesLoginsAsync(login);
-            List<SearchItem> favorites = await _repository.GetSpecificFullAsync(favoritesLogins);
+            List<SearchItem> favorites = await _repository.GetSpecificAsync(favoritesLogins);
             return Ok(favorites);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Domain.Models;
 
 namespace Funkmap.Models.Responses
 {

@@ -5,6 +5,8 @@ using Funkmap.Data;
 using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Enums;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 
