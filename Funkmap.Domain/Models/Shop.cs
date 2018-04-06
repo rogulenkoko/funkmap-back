@@ -6,7 +6,7 @@
         {
             EntityType = EntityType.Shop;
         }
-        public string StoreName { get; set; }
+
         public string Website { get; set; }
 
         public string WorkingHoursDescription { get; set; }

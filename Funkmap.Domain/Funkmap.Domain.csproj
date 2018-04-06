@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,10 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICommandParameter.cs" />
+    <Compile Include="Abstract\ICommandResponse.cs" />
+    <Compile Include="Abstract\Repositories\IBaseCommandRepository.cs" />
     <Compile Include="Abstract\IFilterParameter.cs" />
     <Compile Include="Abstract\ILocationParameter.cs" />
     <Compile Include="Abstract\Repositories\IBandRepository.cs" />
-    <Compile Include="Abstract\Repositories\IBaseRepository.cs" />
+    <Compile Include="Abstract\Repositories\IBaseQueryRepository.cs" />
     <Compile Include="Abstract\Repositories\IMusicianRepository.cs" />
     <Compile Include="EntityType.cs" />
     <Compile Include="Enums\Expiriences.cs" />
@@ -55,6 +59,7 @@
     <Compile Include="Models\AudioInfo.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\InviteBandResponse.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Musician.cs" />
@@ -64,18 +69,15 @@
     <Compile Include="Models\Studio.cs" />
     <Compile Include="Models\UserEntitiesCountInfo.cs" />
     <Compile Include="Models\VideoInfo.cs" />
-    <Compile Include="Parameters\ChangeAvatarParameter.cs" />
-    <Compile Include="Parameters\CleanDependenciesParameter.cs" />
+    <Compile Include="Parameters\CommandParameter.cs" />
+    <Compile Include="Parameters\AvatarUpdateParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
     <Compile Include="Parameters\LocationParameter.cs" />
     <Compile Include="Parameters\MusicianFilterParameter.cs" />
     <Compile Include="Parameters\UpdateBandMemberParameter.cs" />
     <Compile Include="Parameters\UpdateFavoriteParameter.cs" />
-    <Compile Include="Parameters\UpdateVideoParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstract\IBandUpdateService.cs" />
-    <Compile Include="Services\Abstract\IDependenciesController.cs" />
-    <Compile Include="Services\Abstract\IUpdateRepository.cs" />
     <Compile Include="Services\Abstract\IFunkmapNotificationService.cs" />
     <Compile Include="Services\BandUpdateService.cs" />
     <Compile Include="Services\FunkmapNotificationService.cs" />
@@ -88,6 +90,10 @@
     <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
       <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
       <Name>Funkmap.Common.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
+      <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
+      <Name>Funkmap.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
       <Project>{7086848C-BD30-4677-B267-67163F296244}</Project>

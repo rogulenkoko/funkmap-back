@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Common.Abstract;
 using Funkmap.Data;
+using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Services;
@@ -17,12 +18,12 @@ using Funkmap.Tests.Funkmap.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Funkmap.Tests.Funkmap.Base
+namespace Funkmap.Tests.Funkmap
 {
     [TestClass]
-    public class EntityRepositoryTest
+    public class ProfileQueryTest
     {
-        private IBaseRepository _baseRepository;
+        private IBaseQueryRepository _baseQueryRepository;
 
         private TestToolRepository _toolRepository;
 
@@ -38,7 +39,7 @@ namespace Funkmap.Tests.Funkmap.Base
 
             var collection = db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
 
-            _baseRepository = new BaseRepository(collection, storage, factory);
+            _baseQueryRepository = new BaseQueryRepository(collection, storage, factory);
 
             _toolRepository = new TestToolRepository(collection);
         }
@@ -50,7 +51,7 @@ namespace Funkmap.Tests.Funkmap.Base
 
             foreach (var login in logins)
             {
-                Profile profile = _baseRepository.GetAsync(login).GetAwaiter().GetResult();
+                Profile profile = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
 
                 Assert.AreEqual(login, profile.Login);
                 Assert.IsFalse(String.IsNullOrEmpty(profile.Name));
@@ -71,7 +72,7 @@ namespace Funkmap.Tests.Funkmap.Base
                 RadiusKm = 100
             };
 
-            List<Marker> nearest = _baseRepository.GetNearestMarkersAsync(parameter).GetAwaiter().GetResult();
+            List<Marker> nearest = _baseQueryRepository.GetNearestMarkersAsync(parameter).GetAwaiter().GetResult();
 
             Assert.IsTrue(nearest.Count < parameter.Take);
 
@@ -83,7 +84,7 @@ namespace Funkmap.Tests.Funkmap.Base
 
             parameter.RadiusKm = null;
 
-            List<Marker> allNearest = _baseRepository.GetNearestMarkersAsync(parameter).GetAwaiter().GetResult();
+            List<Marker> allNearest = _baseQueryRepository.GetNearestMarkersAsync(parameter).GetAwaiter().GetResult();
 
             Assert.IsTrue(allNearest.Count > 0 && allNearest.Count >= nearest.Count && allNearest.Count < parameter.Take);
 
@@ -93,7 +94,7 @@ namespace Funkmap.Tests.Funkmap.Base
 
             try
             {
-                _baseRepository.GetNearestMarkersAsync(null).GetAwaiter().GetResult();
+                _baseQueryRepository.GetNearestMarkersAsync(null).GetAwaiter().GetResult();
                 Assert.Fail();
             }
             catch (ArgumentException)
@@ -108,11 +109,11 @@ namespace Funkmap.Tests.Funkmap.Base
         [TestMethod]
         public void GetSpecificNavigationTest()
         {
-            var result = _baseRepository.GetSpecificMarkersAsync(null).GetAwaiter().GetResult();
+            var result = _baseQueryRepository.GetSpecificMarkersAsync(null).GetAwaiter().GetResult();
             Assert.AreEqual(result.Count, 0);
 
             var logins = new List<string>();
-            result = _baseRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
+            result = _baseQueryRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
             Assert.AreEqual(result.Count, 0);
 
             var anyLogins = _toolRepository.GetAnyLoginsAsync(2).GetAwaiter().GetResult();
@@ -121,11 +122,11 @@ namespace Funkmap.Tests.Funkmap.Base
 
             logins.Add(anyLogins.First());
 
-            result = _baseRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
+            result = _baseQueryRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
             Assert.AreEqual(result.Count, 1);
 
             logins.Add(anyLogins.Last());
-            result = _baseRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
+            result = _baseQueryRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
             Assert.AreEqual(result.Count, anyLogins.Count);
         }
 
@@ -137,8 +138,8 @@ namespace Funkmap.Tests.Funkmap.Base
                 EntityType = EntityType.Musician
             };
 
-            List<Profile> result = _baseRepository.GetFilteredAsync(commonParameter).GetAwaiter().GetResult();
-            var count = _baseRepository.GetAllFilteredCountAsync(commonParameter).GetAwaiter().GetResult();
+            List<Profile> result = _baseQueryRepository.GetFilteredAsync(commonParameter).GetAwaiter().GetResult();
+            var count = _baseQueryRepository.GetAllFilteredCountAsync(commonParameter).GetAwaiter().GetResult();
 
             Assert.AreEqual(result.Count, count);
 
@@ -150,8 +151,8 @@ namespace Funkmap.Tests.Funkmap.Base
                 Expiriences = new List<Expiriences>() { Expiriences.Advanced }
             };
 
-            result = _baseRepository.GetFilteredAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
-            count = _baseRepository.GetAllFilteredCountAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
+            result = _baseQueryRepository.GetFilteredAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
+            count = _baseQueryRepository.GetAllFilteredCountAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
 
             Assert.AreEqual(result.Count, count);
 
@@ -167,8 +168,8 @@ namespace Funkmap.Tests.Funkmap.Base
                 Take = 100
             };
 
-            result = _baseRepository.GetFilteredAsync(commonParameter).GetAwaiter().GetResult();
-            count = _baseRepository.GetAllFilteredCountAsync(commonParameter).GetAwaiter().GetResult();
+            result = _baseQueryRepository.GetFilteredAsync(commonParameter).GetAwaiter().GetResult();
+            count = _baseQueryRepository.GetAllFilteredCountAsync(commonParameter).GetAwaiter().GetResult();
 
             Assert.AreEqual(result.Count, count);
 
@@ -197,7 +198,7 @@ namespace Funkmap.Tests.Funkmap.Base
 
             foreach (var profileUser in profileUsers)
             {
-                List<UserEntitiesCountInfo> result = _baseRepository.GetUserEntitiesCountInfoAsync(profileUser).GetAwaiter().GetResult();
+                List<UserEntitiesCountInfo> result = _baseQueryRepository.GetUserEntitiesCountInfoAsync(profileUser).GetAwaiter().GetResult();
                 Assert.AreNotEqual(result.Count, 0);
 
                 Assert.IsTrue(result.SelectMany(x => x.Logins).Any());
@@ -214,7 +215,7 @@ namespace Funkmap.Tests.Funkmap.Base
 
             foreach (var profileUser in profileUsers)
             {
-                List<string> profilesLogins = _baseRepository.GetUserEntitiesLoginsAsync(profileUser).GetAwaiter().GetResult();
+                List<string> profilesLogins = _baseQueryRepository.GetUserEntitiesLoginsAsync(profileUser).GetAwaiter().GetResult();
                 Assert.AreNotEqual(profilesLogins.Count, 0);
                 Assert.IsTrue(profilesLogins.All(x => !String.IsNullOrEmpty(x)));
             }
@@ -227,14 +228,14 @@ namespace Funkmap.Tests.Funkmap.Base
 
             foreach (var login in logins)
             {
-                var isExist = _baseRepository.LoginExistsAsync(login).GetAwaiter().GetResult();
+                var isExist = _baseQueryRepository.LoginExistsAsync(login).GetAwaiter().GetResult();
                 Assert.IsTrue(isExist);
             }
 
-            var exist = _baseRepository.LoginExistsAsync(String.Empty).GetAwaiter().GetResult();
+            var exist = _baseQueryRepository.LoginExistsAsync(String.Empty).GetAwaiter().GetResult();
             Assert.IsFalse(exist);
 
-            exist = _baseRepository.LoginExistsAsync(Guid.NewGuid().ToString()).GetAwaiter().GetResult();
+            exist = _baseQueryRepository.LoginExistsAsync(Guid.NewGuid().ToString()).GetAwaiter().GetResult();
             Assert.IsFalse(exist);
         }
     }

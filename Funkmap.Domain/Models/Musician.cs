@@ -10,7 +10,7 @@ namespace Funkmap.Domain.Models
         {
             EntityType = EntityType.Musician;
         }
-        public Sex Sex { get; set; }
+        public Sex? Sex { get; set; }
         public DateTime? BirthDate { get; set; }
         public int? Age { get; set; }
         public List<Styles> Styles { get; set; }
@@ -19,7 +19,7 @@ namespace Funkmap.Domain.Models
 
         public Expiriences Expirience { get; set; }
 
-        public ICollection<string> BandLogins { get; set; }
+        public List<string> BandLogins { get; set; }
 
        
     }

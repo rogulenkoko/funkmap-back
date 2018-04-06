@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Notifications.Contracts;
@@ -13,51 +16,92 @@ namespace Funkmap.Domain.Services
     {
         private readonly IEventBus _eventBus;
         private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
-        private readonly IDependenciesController _dependenciesController;
+        private readonly IBaseCommandRepository _commandRepository;
+        private readonly IBaseQueryRepository _queryRepository;
 
-        public FunkmapNotificationService(IEventBus eventBus,
-                                          IDependenciesController dependenciesController,
+        public FunkmapNotificationService(IBaseCommandRepository commandRepository,
+                                          IBaseQueryRepository queryRepository,
+                                          IEventBus eventBus,
                                           IFunkmapLogger<FunkmapNotificationService> logger)
         {
             _eventBus = eventBus;
+            _commandRepository = commandRepository;
+            _queryRepository = queryRepository;
             _logger = logger;
-            _dependenciesController = dependenciesController;
         }
 
         public void InitHandlers()
         {
-            var options = new MessageQueueOptions()
+            var options = new MessageQueueOptions
             {
                 SpecificKey = NotificationType.BandInvite,
                 SerializerOptions = new SerializerOptions { HasAbstractMember = true }
             };
+
             _eventBus.Subscribe<NotificationAnswer>(Handle, options);
         }
 
-        public async Task Handle(NotificationAnswer request)
+        public async Task Handle(NotificationAnswer answer)
         {
-            var inviteRequest = request.Notification as BandInviteNotification;
+            var inviteRequest = answer.Notification as BandInviteNotification;
+            
             if (inviteRequest == null)
             {
-                _logger.Info("Обратный запрос неопределен или не соответстует нужному типу. Ответ будет проигнорирован");
+                _logger.Info("Response is null or has invalid type. Answer will be ignored.");
                 return;
             }
 
-            var updateRequest = new UpdateBandMemberParameter()
-            {
-                MusicianLogin = inviteRequest.InvitedMusicianLogin,
-                BandLogin = inviteRequest.BandLogin
-            };
-            await _dependenciesController.CreateDependenciesAsync(updateRequest, request.Answer);
+            var band = await _queryRepository.GetAsync<Band>(inviteRequest.BandLogin);
 
-            var confirmation = new BandInviteConfirmationNotification()
+            if (band.InvitedMusicians == null) band.InvitedMusicians = new List<string>();
+
+            Band bandUpdate;
+
+            if (answer.Answer)
+            {
+                if (band.Musicians == null) band.Musicians = new List<string>();
+
+                band.Musicians.Add(inviteRequest.InvitedMusicianLogin);
+                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
+
+                bandUpdate = new Band
+                {
+                    Login = band.Login,
+                    Musicians = band.Musicians,
+                    InvitedMusicians = band.InvitedMusicians
+                };
+            }
+            else
+            {
+                band.InvitedMusicians.Remove(inviteRequest.InvitedMusicianLogin);
+                bandUpdate = new Band
+                {
+                    Login = band.Login,
+                    InvitedMusicians = band.InvitedMusicians
+                };
+            }
+
+            CommandParameter<Profile> updateParameter = new CommandParameter<Profile>()
+            {
+                UserLogin = inviteRequest.SenderLogin,
+                Parameter = bandUpdate
+            };
+
+            var updateResult = await _commandRepository.UpdateAsync(updateParameter);
+
+            if (!updateResult.Success)
+            {
+                return;
+            }
+
+            var confirmation = new BandInviteConfirmationNotification
             {
                 RecieverLogin = inviteRequest.SenderLogin,
                 SenderLogin = inviteRequest.RecieverLogin,
                 BandLogin = inviteRequest.BandLogin,
                 BandName = inviteRequest.BandName,
                 InvitedMusicianLogin = inviteRequest.InvitedMusicianLogin,
-                Answer = request.Answer
+                Answer = answer.Answer
             };
 
             ConfirmBandInvite(confirmation);

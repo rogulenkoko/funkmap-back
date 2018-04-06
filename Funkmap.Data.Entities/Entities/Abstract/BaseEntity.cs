@@ -18,10 +18,14 @@ namespace Funkmap.Data.Entities.Entities.Abstract
     public class BaseEntity
     {
 
-        [BsonId]
-        public ObjectId Id { get; set; }
+        public BaseEntity()
+        {
+            FavoriteFor = new List<string>();
+            VideoInfos = new List<VideoInfoEntity>();
+            SoundCloudTracks = new List<AudioInfoEntity>();
+        }
 
-        [BsonElement("log")]
+        [BsonId]
         public string Login { get; set; }
 
         [BsonElement("user")]

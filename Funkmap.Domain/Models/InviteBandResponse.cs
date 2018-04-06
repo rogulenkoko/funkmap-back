@@ -7,11 +7,18 @@ namespace Funkmap.Domain.Models
 
         public string Error { get; set; }
 
+
+        /// <summary>
+        /// Owner of the musician (user).
+        /// If you invite your own musician you haven't to confirm invitation.
+        /// </summary>
         public bool IsOwner { get; set; }
 
+        /// <summary>
+        /// Musician's owner login
+        /// </summary>
         public string OwnerLogin { get; set; }
-
-        //todo подумать может убрать
+        
         public string BandName { get; set; }
 
         public string MusicianLogin { get; set; }

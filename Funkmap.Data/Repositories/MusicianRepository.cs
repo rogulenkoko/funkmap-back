@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Entities;
@@ -15,21 +16,46 @@ namespace Funkmap.Data.Repositories
         {
         }
 
-        public async Task CleanBandDependencies(Band band, string musicianLogin = null)
+        public async Task ProcessBandDependenciesAsync(Band band, Band updatedBand = null)
         {
-            if (band?.Musicians == null || band.Musicians.Count == 0) return;
-
-            FilterDefinition<MusicianEntity> musicianFilter;
-            UpdateDefinition<MusicianEntity> musicianUpdate = Builders<MusicianEntity>.Update.Pull(x => x.BandLogins, band.Login);
-
-            if (!String.IsNullOrEmpty(musicianLogin))
+            if (band.Musicians == null)
             {
-                musicianFilter = Builders<MusicianEntity>.Filter.Eq(x=>x.Login, musicianLogin) & Builders<MusicianEntity>.Filter.Eq(x=>x.EntityType, EntityType.Musician);
-                await _collection.UpdateOneAsync(musicianFilter, musicianUpdate);
+                band.Musicians = new List<string>();
+            }
+
+            List<string> updatedBandMusicianLogins;
+
+            if (updatedBand?.Musicians == null)
+            {
+                updatedBandMusicianLogins = new List<string>();
             }
             else
             {
-                musicianFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) & Builders<MusicianEntity>.Filter.In(x => x.Login, band.Musicians);
+                updatedBandMusicianLogins = updatedBand.Musicians;
+            }
+
+            var addedMusicianLogins = updatedBandMusicianLogins.Except(band.Musicians).ToList();
+            var deletedMusicianLogins = band.Musicians.Except(updatedBandMusicianLogins).ToList();
+
+            if (addedMusicianLogins.Any())
+            {
+                var musicianUpdate = Builders<MusicianEntity>.Update.Push(x => x.BandLogins, band.Login);
+
+                var musicianFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) 
+                                     & Builders<MusicianEntity>.Filter.In(x => x.Login, addedMusicianLogins)
+                                     & Builders<MusicianEntity>.Filter.Where(x => !x.BandLogins.Contains(band.Login));
+
+                await _collection.UpdateManyAsync(musicianFilter, musicianUpdate);
+            }
+
+            if (deletedMusicianLogins.Any())
+            {
+                var musicianUpdate = Builders<MusicianEntity>.Update.Pull(x => x.BandLogins, band.Login);
+
+                var musicianFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) 
+                                     & Builders<MusicianEntity>.Filter.In(x => x.Login, deletedMusicianLogins)
+                                     & Builders<MusicianEntity>.Filter.AnyEq(x => x.BandLogins, band.Login);
+
                 await _collection.UpdateManyAsync(musicianFilter, musicianUpdate);
             }
         }

@@ -6,11 +6,9 @@ namespace Funkmap.Domain.Abstract.Repositories
     public interface IMusicianRepository
     {
         /// <summary>
-        /// Чистит все зависимости от группы
+        /// Process all Mongo band-musician dependencies
         /// </summary>
-        /// <param name="band"></param>
-        /// <param name="musicianLogin">Если null, то чистит зависимости всех музыкантов. Если указан, то для конкретного музыканта</param>
         /// <returns></returns>
-        Task CleanBandDependencies(Band band, string musicianLogin = null);
+        Task ProcessBandDependenciesAsync(Band band, Band updatedBand = null);
     }
 }

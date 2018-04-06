@@ -6,15 +6,18 @@ using Autofac.Features.AttributeFilters;
 using Funkmap.Common;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Caches.Base;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories;
+using Funkmap.Data.Repositories.Decorators;
 using Funkmap.Data.Services;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Data.Services.Update;
 using Funkmap.Domain.Abstract.Repositories;
-using Funkmap.Domain.Services.Abstract;
+using Funkmap.Domain.Events;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -57,7 +60,6 @@ namespace Funkmap.Data
 
 
             //MongoDb Indexes
-            var loginBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.Login), new CreateIndexOptions() { Unique = true });
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));
             var geoBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Geo2DSphere(x => x.Location));
 
@@ -68,62 +70,88 @@ namespace Funkmap.Data
                 var collection = c.Resolve<IMongoCollection<BaseEntity>>();
                 await collection.Indexes.CreateManyAsync(new List<CreateIndexModel<BaseEntity>>
                 {
-                    loginBaseIndexModel,
                     entityTypeBaseIndexModel,
                     geoBaseIndexModel,
                 });
             });
 
             //Repositories
-            var baseRepositoryName = nameof(IBaseRepository);
+            var baseRepositoryName = nameof(IBaseQueryRepository);
 
-            builder.RegisterType<BaseRepository>().SingleInstance().Named<IBaseRepository>(baseRepositoryName).WithAttributeFiltering();
+            builder.RegisterType<BaseQueryRepository>()
+                .Named<IBaseQueryRepository>(baseRepositoryName).WithAttributeFiltering();
 
-            builder.RegisterDecorator<IBaseRepository>((container, inner) =>
+            builder.RegisterDecorator<IBaseQueryRepository>((container, inner) =>
             {
                 var favoriteService = container.Resolve<IFavoriteCacheService>();
-                return new BaseCacheRepository(favoriteService, inner);
-            }, fromKey: baseRepositoryName).As<IBaseRepository>();
+                return new BaseQueryCacheRepository(favoriteService, inner);
+            }, fromKey: baseRepositoryName);
 
-            builder.RegisterType<MusicianRepository>().As<IMusicianRepository>().SingleInstance();
-            builder.RegisterType<BandRepository>().As<IBandRepository>().SingleInstance();
-            builder.RegisterType<UpdateRepository>().As<IUpdateRepository>();
+            builder.RegisterType<MusicianRepository>().As<IMusicianRepository>();
+            builder.RegisterType<BandRepository>().As<IBandRepository>();
+
+
+            var baseCommandRepositoryName = nameof(IBaseCommandRepository);
+            builder.RegisterType<BaseCommandRepository>()
+                .Named<IBaseCommandRepository>(baseCommandRepositoryName).WithAttributeFiltering();
+            
+            builder.RegisterDecorator<IBaseCommandRepository>((container, inner) =>
+            {
+                var collection = container.Resolve<IMongoCollection<BaseEntity>>();
+                return new BaseCommandAuthRepository(collection, inner);
+            }, fromKey: baseCommandRepositoryName);
+
+
+            builder.RegisterType<BaseQueryRepository>().As<IBaseQueryRepository>().WithAttributeFiltering();
 
             //Cache Services
             builder.RegisterType<FavoriteCacheService>().As<IFavoriteCacheService>();
             builder.RegisterType<FilteredCacheService>().As<IFilteredCacheService>();
-
+            
             //Filter Tools
             builder.RegisterType<FilterFactory>().As<IFilterFactory>();
             builder.RegisterType<BandFilterService>().As<IFilterService>();
             builder.RegisterType<MusicianFilterService>().As<IFilterService>();
+
+            builder.RegisterType<MusicianUpdateDefenitionBuilder>().As<IUpdateDefenitionBuilder>();
+            builder.RegisterType<BandUpdateDefenitionBuilder>().As<IUpdateDefenitionBuilder>();
+            builder.RegisterType<ShopUpdateDefenitionBuilder>().As<IUpdateDefenitionBuilder>();
+
+
+            //Event handlers
+            builder.RegisterType<BandDependenciesController>()
+                .As<IEventHandler<ProfileDeletedEvent>>()
+                .As<IEventHandler<ProfileUpdatedEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
 
             //FileStorage
             StorageType storageType = (StorageType)Enum.Parse(typeof(StorageType), ConfigurationManager.AppSettings["file-storage"]);
 
             switch (storageType)
             {
-                    case StorageType.Azure:
-                        builder.Register(container =>
-                        {
-                            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azure-storage"));
-                            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                            return new AzureFileStorage(blobClient, CollectionNameProvider.StorageName);
-                        }).Keyed<IFileStorage>(CollectionNameProvider.StorageName).SingleInstance();
+                case StorageType.Azure:
+                    builder.Register(container =>
+                    {
+                        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azure-storage"));
+                        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                        return new AzureFileStorage(blobClient, CollectionNameProvider.StorageName);
+                    }).Keyed<IFileStorage>(CollectionNameProvider.StorageName).SingleInstance();
                     break;
 
-                    case StorageType.GridFs:
+                case StorageType.GridFs:
 
-                        builder.Register(container =>
-                        {
-                            var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
-                            var gridFs = new GridFSBucket(database);
-                            return new GridFsFileStorage(gridFs);
-                        }).Keyed<GridFsFileStorage>(CollectionNameProvider.StorageName);
+                    builder.Register(container =>
+                    {
+                        var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+                        var gridFs = new GridFSBucket(database);
+                        return new GridFsFileStorage(gridFs);
+                    }).Keyed<GridFsFileStorage>(CollectionNameProvider.StorageName);
 
-                        builder.Register(context => context.ResolveNamed<GridFsFileStorage>(CollectionNameProvider.StorageName))
-                            .Keyed<IFileStorage>(CollectionNameProvider.StorageName)
-                            .InstancePerDependency();
+                    builder.Register(context => context.ResolveNamed<GridFsFileStorage>(CollectionNameProvider.StorageName))
+                        .Keyed<IFileStorage>(CollectionNameProvider.StorageName)
+                        .InstancePerDependency();
                     break;
 
                 default:

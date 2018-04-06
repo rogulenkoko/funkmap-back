@@ -20,8 +20,6 @@ namespace Funkmap.Module
                 .AutoActivate();
             
             builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
-            builder.RegisterType<BandUpdateService>().As<IDependenciesController>();
-            
         }
     }
 }

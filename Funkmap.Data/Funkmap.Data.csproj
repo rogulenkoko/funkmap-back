@@ -142,7 +142,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caches\Base\BaseCacheRepository.cs" />
+    <Compile Include="Caches\Base\BaseQueryCacheRepository.cs" />
     <Compile Include="Caches\Base\FavoriteCacheService.cs" />
     <Compile Include="Caches\Base\FilteredCacheService.cs" />
     <Compile Include="CollectionNameProvider.cs" />
@@ -158,20 +158,31 @@
     <Compile Include="Mappers\VideoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BandRepository.cs" />
-    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\BaseQueryRepository.cs" />
+    <Compile Include="Repositories\Decorators\BaseCommandAuthRepository.cs" />
     <Compile Include="Repositories\MusicianRepository.cs" />
     <Compile Include="Services\Abstract\IFilterFactory.cs" />
     <Compile Include="Services\Abstract\IFilterService.cs" />
+    <Compile Include="Services\Abstract\IUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\BandDependenciesController.cs" />
     <Compile Include="Services\BandFilterService.cs" />
-    <Compile Include="Repositories\UpdateRepository.cs" />
+    <Compile Include="Repositories\BaseCommandRepository.cs" />
+    <Compile Include="Services\Update\BandUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Update\FunkmapUpdateDefinitionBuilder.cs" />
     <Compile Include="Services\MusicianFilterService.cs" />
     <Compile Include="Services\FilterFactory.cs" />
+    <Compile Include="Services\Update\MusicianUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Update\ShopUpdateDefenitionBuilder.cs" />
     <Compile Include="Tools\ImageNameBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
@@ -188,6 +199,10 @@
     <ProjectReference Include="..\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">
       <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
       <Name>Funkmap.Data.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain.Events\Funkmap.Domain.Events.csproj">
+      <Project>{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}</Project>
+      <Name>Funkmap.Domain.Events</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
       <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>

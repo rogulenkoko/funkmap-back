@@ -8,10 +8,7 @@ namespace Funkmap.Domain.Abstract.Repositories
         /// <summary>
         /// Чистит все зависимости от музыканта
         /// </summary>
-        /// <param name="musician"></param>
-        /// <param name=""></param>
-        /// <param name="bandLogin">Если null, то чистит зависимости всех групп. Если указан, то для конкретной группы</param>
         /// <returns></returns>
-        Task CleanMusiciansDependencies(Musician musician, string bandLogin = null);
+        Task ProcessMusicianDependenciesAsync(Musician musician, Musician updatedMusician = null);
     }
 }

@@ -56,9 +56,9 @@ namespace Funkmap.Notifications.Controllers
         [Route("answer")]
         public async Task<IHttpActionResult> AnswerNotification(NotificationAnswerModel answer)
         {
-
+            //todo удалять после подтверждения
             var notification = await _notificationRepository.GetAsync(answer.NotificationId);
-            await _notificationRepository.DeleteAsync(answer.NotificationId);
+            //await _notificationRepository.DeleteAsync(answer.NotificationId);
             
             var back = new NotificationAnswer()
             {

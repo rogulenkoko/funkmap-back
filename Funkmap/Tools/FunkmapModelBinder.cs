@@ -27,11 +27,18 @@ namespace Funkmap.Tools
             switch (entityTypeModel.EntityType)
             {
                 case EntityType.Musician:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Musician>(body);
+                    var musician = Newtonsoft.Json.JsonConvert.DeserializeObject<Musician>(body);
+                    //blocking bands update
+                    musician.BandLogins = null;
+                    bindingContext.Model = musician;
                     break;
 
                 case EntityType.Band:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Band>(body);
+                    var band = Newtonsoft.Json.JsonConvert.DeserializeObject<Band>(body);
+                    //blocking musicians updates
+                    band.Musicians = null;
+                    band.InvitedMusicians = null;
+                    bindingContext.Model = band;
                     break;
 
                 case EntityType.Shop:

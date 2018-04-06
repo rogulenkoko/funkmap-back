@@ -117,9 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BandController.cs" />
-    <Compile Include="Controllers\BaseController.Data.cs" />
+    <Compile Include="Controllers\BaseController.Profile.cs" />
     <Compile Include="Controllers\BaseController.Navigation.cs" />
-    <Compile Include="Controllers\BaseController.Update.cs" />
+    <Compile Include="Controllers\BaseController.Favorite.cs" />
     <Compile Include="Controllers\MusicianController.cs" />
     <Compile Include="Mappers\ProfileMapper.cs" />
     <Compile Include="Mappers\ProfilePreviewMapper.cs" />
@@ -131,7 +131,6 @@
     <Compile Include="Models\Notifications\BandInviteNotificationAnswer.cs" />
     <Compile Include="Models\ProfilePreview.cs" />
     <Compile Include="Models\RehearsalPointPreviewModel.cs" />
-    <Compile Include="Models\Requests\BandInviteInfoRequest.cs" />
     <Compile Include="Models\Requests\UpdateAvatarRequest.cs" />
     <Compile Include="Models\Requests\UpdateBandMembersRequest.cs" />
     <Compile Include="Models\Requests\UpdateFavoriteRequest.cs" />

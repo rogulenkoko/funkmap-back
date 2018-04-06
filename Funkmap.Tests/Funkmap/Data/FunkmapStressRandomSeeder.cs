@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Funkmap.Data;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Domain;
@@ -10,7 +9,7 @@ using Funkmap.Domain.Enums;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace Funkmap.Tests.Funkmap.Stress
+namespace Funkmap.Tests.Funkmap.Data
 {
     public class FunkmapStressRandomSeeder
     {

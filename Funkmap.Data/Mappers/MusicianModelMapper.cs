@@ -16,8 +16,7 @@ namespace Funkmap.Data.Mappers
             {
                 Login = source.Login,
                 Description = source.Description,
-                Latitude = source.Location.Coordinates.Latitude,
-                Longitude = source.Location.Coordinates.Longitude,
+                Location = new Location(source.Location.Coordinates.Latitude, source.Location.Coordinates.Longitude),
                 Name = source.Name,
                 Sex = source.Sex,
                 BirthDate = source.BirthDate,
@@ -36,7 +35,7 @@ namespace Funkmap.Data.Mappers
                 Address = source.Address,
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive,
-                BandLogins = source.BandLogins
+                BandLogins = source.BandLogins,
             };
         }
 
@@ -44,13 +43,15 @@ namespace Funkmap.Data.Mappers
         {
             if (source == null) return null;
             
-            return new MusicianEntity()
+            return new MusicianEntity
             {
                 Login = source.Login,
                 Description = source.Description,
-                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
+                Location = source.Location == null 
+                            ? null 
+                            : new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Location.Longitude, source.Location.Latitude)),
                 Name = source.Name,
-                Sex = source.Sex,
+                Sex = source.Sex.GetValueOrDefault(),
                 BirthDate = source.BirthDate,
                 Styles = source.Styles,
                 VideoInfos = source.VideoInfos?.Select(x=>x.ToEntity()).ToList(),

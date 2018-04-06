@@ -14,6 +14,8 @@ namespace Funkmap.Data.Entities.Entities
             EntityType = EntityType.Musician;
             Sex = Sex.None;
             Instrument = Instruments.None;
+            BandLogins = new List<string>();
+            Styles = new List<Styles>();
         }
 
         [BsonElement("intsr")]
@@ -24,6 +26,7 @@ namespace Funkmap.Data.Entities.Entities
 
         [BsonElement("bd")]
         [BsonIgnoreIfDefault]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Unspecified)]
         public DateTime? BirthDate { get; set; }
 
         [BsonElement("stls")]

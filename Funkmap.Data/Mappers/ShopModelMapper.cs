@@ -11,9 +11,7 @@ namespace Funkmap.Data.Mappers
             if (source == null) return null;
             return new Shop
             {
-                StoreName = source.Name,
-                Latitude = source.Location.Coordinates.Latitude,
-                Longitude = source.Location.Coordinates.Longitude,
+                Location = new Location(source.Location.Coordinates.Latitude, source.Location.Coordinates.Longitude),
                 Website = source.Website,
                 Login = source.Login,
                 Name = source.Name,
@@ -39,7 +37,9 @@ namespace Funkmap.Data.Mappers
                 Login = source.Login,
                 Description = source.Description,
                 FacebookLink = source.FacebookLink,
-                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
+                Location = source.Location == null
+                    ? null
+                    : new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Location.Longitude, source.Location.Latitude)),
                 Name = source.Name,
                 SoundCloudLink = source.SoundCloudLink,
                 VkLink = source.VkLink,

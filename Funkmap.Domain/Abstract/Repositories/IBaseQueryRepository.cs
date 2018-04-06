@@ -5,7 +5,7 @@ using Funkmap.Domain.Parameters;
 
 namespace Funkmap.Domain.Abstract.Repositories
 {
-    public interface IBaseRepository
+    public interface IBaseQueryRepository
     {
         Task<Profile> GetAsync(string login);
 
@@ -32,13 +32,8 @@ namespace Funkmap.Domain.Abstract.Repositories
         Task<List<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin);
 
         Task<byte[]> GetFileAsync(string fileId);
-
-        Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter);
-
+        
         Task<List<string>> GetFavoritesLoginsAsync(string userLogin);
-
-        Task UpdateAvatarAsync(string login, byte[] imageBytes);
-
-        Task<Profile> DeleteAsync(string id);
+        
     }
 }

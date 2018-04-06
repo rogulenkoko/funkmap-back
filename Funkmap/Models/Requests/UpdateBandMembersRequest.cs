@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Funkmap.Domain.Parameters;
 using Microsoft.Build.Framework;
 
 namespace Funkmap.Models.Requests

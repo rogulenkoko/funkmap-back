@@ -36,7 +36,6 @@ namespace Funkmap.Statistics.Data.Repositories
                 .Project(entity => new TopEntityStatistic()
                 {
                     Login = entity.Login,
-                    Id = entity.Id,
                     EntityType = entity.EntityType,
                     Count = entity.FavoriteFor.Count
                 })

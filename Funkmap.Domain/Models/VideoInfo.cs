@@ -10,5 +10,12 @@ namespace Funkmap.Domain.Models
         public string Description { get; set; }
         public VideoType Type { get; set; }
         public DateTime SaveDateUtc { get; set; }
+
+
+        public override bool Equals(object obj)
+        {
+            var video = obj as VideoInfo;
+            return video?.Id == Id && video?.Type == Type;
+        }
     }
 }

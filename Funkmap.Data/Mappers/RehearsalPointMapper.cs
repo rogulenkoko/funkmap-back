@@ -23,8 +23,7 @@ namespace Funkmap.Data.Mappers
                 Description = source.Description,
                 Address = source.Address,
                 SoundCloudLink = source.SoundCloudLink,
-                Longitude = source.Location.Coordinates.Longitude,
-                Latitude = source.Location.Coordinates.Latitude,
+                Location = new Location(source.Location.Coordinates.Latitude, source.Location.Coordinates.Longitude),
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive
             };
@@ -40,7 +39,9 @@ namespace Funkmap.Data.Mappers
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
                 VkLink = source.VkLink,
-                Location = source.Longitude != 0 && source.Latitude != 0 ? new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Longitude, source.Latitude)) : null,
+                Location = source.Location == null
+                    ? null
+                    : new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(source.Location.Longitude, source.Location.Latitude)),
                 Name = source.Name,
                 YouTubeLink = source.YoutubeLink,
                 Address = source.Address,

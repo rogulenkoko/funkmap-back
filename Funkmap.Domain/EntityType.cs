@@ -2,6 +2,7 @@
 {
     public enum EntityType
     {
+        None = 0,
         Musician = 1,
         Shop = 2,
         Band = 3,

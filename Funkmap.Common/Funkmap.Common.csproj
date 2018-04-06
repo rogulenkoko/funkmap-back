@@ -98,6 +98,7 @@
     <Compile Include="Filters\LanguageFilterAttribute.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Models\BaseResponse.cs" />
+    <Compile Include="Models\ImageProcessorOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Settings\ISettingsService.cs" />

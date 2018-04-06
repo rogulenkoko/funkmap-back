@@ -6,12 +6,12 @@ namespace Funkmap.Data.Tools
     {
         public static string BuildAvatarName(string login)
         {
-            return $"Avatar_{login}_{DateTime.UtcNow:yyyyMMddhhmmss}.png";
+            return $"Avatar_{login}.png";
         }
 
         public static string BuildAvatarMiniName(string login)
         {
-            return $"AvatarMini_{login}_{DateTime.UtcNow:yyyyMMddhhmmss}.png";
+            return $"AvatarMini_{login}.png";
         }
     }
 }

@@ -149,14 +149,19 @@
     <Compile Include="Auth\Data\AuthTestDbProvider.cs" />
     <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="FileStorage\FileStorageTest.cs" />
+    <Compile Include="Funkmap\BandDependencyTest.cs" />
+    <Compile Include="Funkmap\MusicianDependencyTest.cs" />
+    <Compile Include="Funkmap\ProfileAvatarUpdateTest.cs" />
+    <Compile Include="Funkmap\FavoriteProfilesTest.cs" />
+    <Compile Include="Funkmap\ProfileDeleteTest.cs" />
+    <Compile Include="Funkmap\ProfileUpdateTest.cs" />
     <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
     <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
     <Compile Include="Funkmap\Data\FunkmapStressRandomSeeder.cs" />
     <Compile Include="Funkmap\Tools\DistanceResult.cs" />
     <Compile Include="Funkmap\Tools\TestToolRepository.cs" />
     <Compile Include="Images\ImageProvider.cs" />
-    <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
-    <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
+    <Compile Include="Funkmap\ProfileQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +180,10 @@
     <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
