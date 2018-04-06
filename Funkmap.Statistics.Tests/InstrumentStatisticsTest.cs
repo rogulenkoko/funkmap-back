@@ -78,7 +78,7 @@ namespace Funkmap.Statistics.Tests
                 Name = "qweqwe",
                 CreationDate = DateTime.UtcNow
             };
-            _profilesRepository.CreateAsync(newEntity).GetAwaiter().GetResult();
+            //_profilesRepository.CreateAsync(newEntity).GetAwaiter().GetResult();
 
             _merger.MergeStatistics().GetAwaiter().GetResult();
             var newMergedStatistics = _repository.GetAsync(fullStatistics.Id.ToString()).GetAwaiter().GetResult();

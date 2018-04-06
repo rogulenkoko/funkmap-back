@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac.Extras.Moq;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Data;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Repositories;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
 using Funkmap.Statistics.Data.Entities;
 using Funkmap.Statistics.Data.Repositories;
 using Funkmap.Statistics.Data.Repositories.Abstract;
@@ -15,6 +18,7 @@ using Funkmap.Statistics.Data.Services;
 using Funkmap.Statistics.Tests.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver.GridFS;
+using Moq;
 
 namespace Funkmap.Statistics.Tests
 {
@@ -23,7 +27,7 @@ namespace Funkmap.Statistics.Tests
     {
         private CityStatisticsRepository _repository;
 
-        private BaseRepository _profilesRepository;
+        private BaseCommandRepository _commandRepository;
 
         private StatisticsMerger _merger;
 
@@ -41,13 +45,11 @@ namespace Funkmap.Statistics.Tests
             var citiesProvider = new CitiesInfoProvider();
             _repository = new CityStatisticsRepository(typeStatisticsCollection, profilesCollection, citiesProvider);
 
-            using (var mock = AutoMock.GetLoose())
-            {
-                var fileStorage = mock.Mock<IFileStorage>();
-                var filterFactory = mock.Mock<IFilterFactory>();
+            var fileStorage = new Mock<IFileStorage>().Object;
+            var eventBus = new Mock<IEventBus>().Object;
 
-                _profilesRepository = new BaseRepository(profilesCollection, fileStorage.Object, filterFactory.Object);
-            }
+            _commandRepository = new BaseCommandRepository(profilesCollection, fileStorage, new List<IUpdateDefenitionBuilder>(), eventBus);
+
 
             var statisticsCollection = db.GetCollection<BaseStatisticsEntity>(StatisticsCollectionNameProvider.StatisticsCollectionName);
 
@@ -82,13 +84,13 @@ namespace Funkmap.Statistics.Tests
             Assert.IsTrue(CompareStatistics(mergedStatistics, fullStatistics));
 
 
-            var newEntity = new BandEntity()
+            var newEntity = new Band()
             {
                 Login = Guid.NewGuid().ToString(),
                 Name = "qweqwe",
-                CreationDate = DateTime.UtcNow
+                Location = new Location(31, 13)
             };
-            _profilesRepository.CreateAsync(newEntity).GetAwaiter().GetResult();
+            _commandRepository.CreateAsync(new CommandParameter<Profile>() { Parameter = newEntity, UserLogin = "rogulenkoko" }).GetAwaiter().GetResult();
 
             _merger.MergeStatistics().GetAwaiter().GetResult();
             var newMergedStatistics = _repository.GetAsync(fullStatistics.Id.ToString()).GetAwaiter().GetResult();

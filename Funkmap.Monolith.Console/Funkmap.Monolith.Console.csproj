@@ -187,14 +187,6 @@
       <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
       <Name>Funkmap.Notifications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics.Data\Funkmap.Statistics.Data.csproj">
-      <Project>{f6396fb7-546e-4ed1-87fe-bbc7ca9e8cd0}</Project>
-      <Name>Funkmap.Statistics.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics\Funkmap.Statistics.csproj">
-      <Project>{3cf25728-25d4-4962-861e-1dc38fe40066}</Project>
-      <Name>Funkmap.Statistics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
       <Name>Funkmap</Name>

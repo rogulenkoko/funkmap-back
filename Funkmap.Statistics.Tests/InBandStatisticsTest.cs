@@ -68,7 +68,7 @@ namespace Funkmap.Statistics.Tests
                 CreationDate = DateTime.UtcNow
                 //BandLogins = new List<string>()
             };
-            _profilesRepository.CreateAsync(newEntity).GetAwaiter().GetResult();
+            //_profilesRepository.CreateAsync(newEntity).GetAwaiter().GetResult();
 
             _merger.MergeStatistics().GetAwaiter().GetResult();
             var newMergedStatistics = _repository.GetAsync(fullStatistics.Id.ToString()).GetAwaiter().GetResult();
