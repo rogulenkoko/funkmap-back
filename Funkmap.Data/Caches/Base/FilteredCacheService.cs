@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Abstract;
 using Funkmap.Domain.Abstract;
 using Funkmap.Domain.Parameters;
 

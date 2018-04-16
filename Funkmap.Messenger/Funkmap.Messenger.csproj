@@ -187,10 +187,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
-      <Project>{02251e80-52a1-4b3e-824b-3da229dd9ea6}</Project>
-      <Name>Funkmap.Auth.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>

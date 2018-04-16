@@ -1469,7 +1469,7 @@
         </xs:attribute>
         <xs:attribute name="password" type="xs:string">
           <xs:annotation>
-            <xs:documentation>User account password.</xs:documentation>
+            <xs:documentation>User account hashedPassword.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="revertToSelf" type="xs:boolean">

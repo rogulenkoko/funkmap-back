@@ -2,7 +2,7 @@
 using System.Collections;
 using Microsoft.VisualBasic.CompilerServices;
 
-namespace Funkmap.Tools
+namespace Funkmap.Common.Tools
 {
     public static class EntityUpdateExtension
     {

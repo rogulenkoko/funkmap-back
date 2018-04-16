@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Auth.Data.Abstract;
+using System.Web.Http.Description;
+using Funkmap.Auth.Domain.Abstract;
+using Funkmap.Auth.Domain.Models;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
@@ -21,44 +23,29 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         [HttpGet]
+        [ResponseType(typeof(UserResponse))]
         [Route("user/{login}")]
         public async Task<IHttpActionResult> GetUser(string login)
         {
-            if (String.IsNullOrEmpty(login)) return BadRequest("invalid login");
-            var userEntity = await _authRepository.GetAsync(login);
+            var user = await _authRepository.GetAsync(login);
 
-            if (userEntity == null)
+            if (user == null)
             {
-                return Ok(new UserPreview() {IsExist = false});
+                return Ok(new UserResponse() { IsExists = false });
             }
 
-            var model = new UserPreview()
+            var response = new UserResponse()
             {
-                Login = userEntity.Login,
-                Avatar = userEntity.AvatarId,
-                Name = userEntity.Name,
-                IsExist = true
+                IsExists = true,
+                User = user
             };
-
-            return Ok(model);
-        }
-
-
-        [HttpGet]
-        [Authorize]
-        [Route("lastVisit")]
-        public async Task<IHttpActionResult> UpdateLastVisitDate()
-        {
-            var response = new BaseResponse();
-            var login = Request.GetLogin();
-            await _authRepository.UpdateLastVisitDateAsync(login, DateTime.UtcNow);
 
             return Ok(response);
         }
 
         [HttpPost]
         [Authorize]
-        [Route("updateLocale")]
+        [Route("locale")]
         public async Task<IHttpActionResult> UpdateLocale(UpdateLocaleRequest request)
         {
             var response = new BaseResponse();
@@ -67,7 +54,7 @@ namespace Funkmap.Module.Auth.Controllers
 
             return Ok(response);
         }
-        
+
 
         [HttpGet]
         [Route("avatar/{login}")]
@@ -78,11 +65,11 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         [HttpPost]
-        [Route("saveAvatar")]
+        [Route("avatar")]
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
         {
             var response = new AvatarUpdateResponse();
-            
+
             var path = await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
             response.Success = true;
             response.AvatarPath = path;

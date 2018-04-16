@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Abstract;
 
 namespace Funkmap.Data.Caches.Base
 {

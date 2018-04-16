@@ -67,6 +67,7 @@
     <Compile Include="Abstract\IQueryExecutor.cs" />
     <Compile Include="CommandHandlerResolver.cs" />
     <Compile Include="Envelope.cs" />
+    <Compile Include="ICommandResponse.cs" />
     <Compile Include="InMemoryCommandBus.cs" />
     <Compile Include="InMemoryEventBus.cs" />
     <Compile Include="MessageQueueOptions.cs" />

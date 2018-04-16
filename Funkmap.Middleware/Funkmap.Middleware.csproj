@@ -241,9 +241,9 @@
       <Project>{a1388a76-7550-4c06-9486-2fe5a4ad6ed5}</Project>
       <Name>Funkmap.Auth.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
+    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
-      <Name>Funkmap.Module.Auth</Name>
+      <Name>Funkmap.Auth</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
       <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>

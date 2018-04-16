@@ -7,6 +7,7 @@ using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
+using Funkmap.Auth.Data;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
@@ -99,11 +100,12 @@ namespace Funkmap.Middleware
             
 
             Assembly.Load(typeof(AuthFunkmapModule).Assembly.FullName);
+            Assembly.Load(typeof(AuthMongoModule).Assembly.FullName);
+
             Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName); 
             Assembly.Load(typeof(Messenger.Command.MessengerCommandModule).Assembly.FullName);
             Assembly.Load(typeof(Messenger.Query.MessengerQueryModule).Assembly.FullName);
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
-            Assembly.Load(typeof(Statistics.StatisticsModule).Assembly.FullName); 
             Assembly.Load(typeof(Feedback.FeedbackModule).Assembly.FullName);
             Assembly.Load(typeof(Feedback.Command.FeedbackCommandModule).Assembly.FullName);
 

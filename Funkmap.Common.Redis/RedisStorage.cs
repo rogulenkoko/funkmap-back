@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Redis.Abstract;
 using StackExchange.Redis;
 
 namespace Funkmap.Common.Redis
@@ -27,7 +27,11 @@ namespace Funkmap.Common.Redis
         {
             var value = await _database.StringGetAsync(key);
             return _serializer.Deserialize<T>(value);
+        }
 
+        public async Task<bool> RemoveAsync(string key)
+        {
+            return await _database.KeyDeleteAsync(key);
         }
     }
 }
