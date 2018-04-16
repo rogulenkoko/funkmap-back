@@ -56,6 +56,13 @@ namespace Funkmap.Module.Auth.Services
                 return new CommandResponse(false) { Error = "Registration context is already exists." };
             }
 
+            var bookedEmails = await _authRepository.GetBookedEmailsAsync();
+
+            if (bookedEmails.Contains(creds.Email))
+            {
+                return new CommandResponse(false) {Error = "User with such email already exists."};
+            }
+
             var user = new User { Login = creds.Login, Name = creds.Name, Email = creds.Email, Locale = creds.Locale };
 
             var context = new RegistrationContext(user, creds.Password)
@@ -87,6 +94,13 @@ namespace Funkmap.Module.Auth.Services
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(code))
             {
                 return new CommandResponse(false) { Error = "Invalid login or confirmation code." };
+            }
+
+            var bookedEmails = await _authRepository.GetBookedEmailsAsync();
+
+            if (bookedEmails.Contains(email))
+            {
+                return new CommandResponse(false) { Error = "User with such email already exists." };
             }
 
             var hash = CryptoProvider.ComputeHash($"{email}_{login}");

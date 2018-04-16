@@ -48,6 +48,11 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Registration confirmation with code
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("signup/confirm")]
         public async Task<IHttpActionResult> Confirm(ConfirmationRequest request)
@@ -68,6 +73,11 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Password restore
+        /// </summary>
+        /// <param name="email">Users's email (also can be login)</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("restore/{email}")]
         public async Task<IHttpActionResult> AskRestore(string email)
@@ -82,6 +92,11 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(new BaseResponse() {Success = true});
         }
 
+        /// <summary>
+        /// Passwrd restore confirmation
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("restore/cofirm")]
         public async Task<IHttpActionResult> ConfirmRestore(ConfirmRestoreRequest request)

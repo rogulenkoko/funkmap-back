@@ -10,6 +10,9 @@ namespace Funkmap.Module.Auth.Models
         [Required]
         public string Email { get; set; }
 
+        /// <summary>
+        /// Confirmation code from email
+        /// </summary>
         [Required]
         public string Code { get; set; }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac.Extras.Moq;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Auth.Domain.Abstract;
@@ -23,6 +22,7 @@ namespace Funkmap.Auth.Tests
     public class RegistrationTest
     {
         private IRegistrationContextManager _contextManager;
+        private IAuthRepository _authRepository;
 
         [TestInitialize]
         public void Initialize()
@@ -32,14 +32,14 @@ namespace Funkmap.Auth.Tests
             var collection = database.GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName);
 
             var fileStorage = new Mock<IFileStorage>().Object;
-            var authRepository = new AuthRepository(collection, fileStorage);
+            _authRepository = new AuthRepository(collection, fileStorage);
 
             var notificationService = new FakeExternalNotificationService();
 
             var logger = new Mock<ILogger>().Object;
             var funkmapLogger = new FunkmapLogger<RegistrationContextManager>(logger);
 
-            _contextManager = new RegistrationContextManager(authRepository, notificationService, new InMemoryStorage(), new FakeCodeGenerator(), funkmapLogger);
+            _contextManager = new RegistrationContextManager(_authRepository, notificationService, new InMemoryStorage(), new FakeCodeGenerator(), funkmapLogger);
 
         }
 
@@ -55,6 +55,9 @@ namespace Funkmap.Auth.Tests
                 Password = Guid.NewGuid().ToString()
             };
 
+            var existingUser = _authRepository.GetAsync(request.Login).GetAwaiter().GetResult();
+            Assert.IsNull(existingUser);
+
             var result = _contextManager.TryCreateContextAsync(request).GetAwaiter().GetResult();
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Success);
@@ -62,6 +65,20 @@ namespace Funkmap.Auth.Tests
             result = _contextManager.TryCreateContextAsync(request).GetAwaiter().GetResult();
             Assert.IsNotNull(result);
             Assert.IsFalse(result.Success);
+
+            var confirmationResult = _contextManager.TryConfirmAsync(request.Login, request.Email, $"{FakeCodeGenerator.Code}_1").GetAwaiter().GetResult();
+            Assert.IsNotNull(confirmationResult);
+            Assert.IsFalse(confirmationResult.Success);
+
+            confirmationResult = _contextManager.TryConfirmAsync(request.Login, request.Email, FakeCodeGenerator.Code).GetAwaiter().GetResult();
+            Assert.IsNotNull(confirmationResult);
+            Assert.IsTrue(confirmationResult.Success);
+
+            existingUser = _authRepository.GetAsync(request.Login).GetAwaiter().GetResult();
+
+            Assert.IsNotNull(existingUser);
+            Assert.AreEqual(existingUser.Login, request.Login);
+            Assert.AreEqual(existingUser.Email, request.Email);
         }
     }
 

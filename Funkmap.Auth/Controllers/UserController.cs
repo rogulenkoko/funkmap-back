@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Funkmap.Auth.Domain.Abstract;
-using Funkmap.Auth.Domain.Models;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
@@ -22,6 +20,11 @@ namespace Funkmap.Module.Auth.Controllers
             _authRepository = authRepository;
         }
 
+        /// <summary>
+        /// Get user's full information (if exists)
+        /// </summary>
+        /// <param name="login">Users's login</param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(UserResponse))]
         [Route("user/{login}")]
@@ -43,6 +46,11 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Update user locale
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [Route("locale")]
@@ -55,7 +63,11 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(response);
         }
 
-
+        /// <summary>
+        /// Get user's avatar (bytes or base64 string)
+        /// </summary>
+        /// <param name="login">Users's login</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("avatar/{login}")]
         public async Task<IHttpActionResult> GetAvatar(string login)
@@ -64,6 +76,11 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(image);
         }
 
+        /// <summary>
+        /// Update users's avatar
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("avatar")]
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
