@@ -27,9 +27,13 @@ namespace Funkmap.Notifications.Controllers
             _notificationService = notificationService;
         }
 
+        /// <summary>
+        /// Get all existing users's notifications
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
-        [Route("getNotifications")]
+        [Route("")]
         public async Task<IHttpActionResult> GetNotifications()
         {
             var login = Request.GetLogin();
@@ -39,9 +43,13 @@ namespace Funkmap.Notifications.Controllers
             return Content(HttpStatusCode.OK, result);
         }
 
+        /// <summary>
+        /// Get count of fresh notifications
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
-        [Route("getNewNotificationsCount")]
+        [Route("new/count")]
         public async Task<IHttpActionResult> GetNewNotificationsCount()
         {
             var login = Request.GetLogin();
@@ -50,7 +58,11 @@ namespace Funkmap.Notifications.Controllers
             return Content(HttpStatusCode.OK, notificationsCount);
         }
 
-
+        /// <summary>
+        /// Answer notification if it's possible
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [Route("answer")]
