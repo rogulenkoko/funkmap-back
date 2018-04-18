@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Auth.Domain.Models;
 using Funkmap.Module.Auth.Abstract;
 
 namespace Funkmap.Module.Auth.Services
@@ -16,30 +17,6 @@ namespace Funkmap.Module.Auth.Services
         public bool ValidateClient(string clientId, string clientSecret)
         {
             return _clients.Contains(new ClientSecrets(clientId, clientSecret));
-        }
-    }
-
-    public class ClientSecrets
-    {
-        public ClientSecrets(string clientId, string clientSecret)
-        {
-            ClientId = clientId;
-            ClientSecret = clientSecret;
-        }
-        public string ClientId { get; }
-        public string ClientSecret { get; }
-
-        public override bool Equals(object obj)
-        {
-            var clientSecret = obj as ClientSecrets;
-            if (clientSecret == null) return false;
-
-            return clientSecret.ClientId.Equals(ClientId) && clientSecret.ClientSecret.Equals(ClientSecret);
-        }
-
-        public override int GetHashCode()
-        {
-            return ClientId.GetHashCode() ^ ClientSecret.GetHashCode();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Common.Filters;
@@ -24,41 +23,38 @@ namespace Funkmap.Module.Auth.Controllers
             _restoreContextManager = restoreContextManager;
         }
 
-        [HttpGet]
-        [Route("validate/{login}")]
-        public async Task<IHttpActionResult> Register(string login)
-        {
-            var creationContetResult = await _contextManager.ValidateLogin(login);
-
-            var response = new RegistrationResponse()
-            {
-                Success = creationContetResult
-            };
-
-            return Ok(response);
-        }
-
+        /// <summary>
+        /// Signup user and send confirmation code to email.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("sendEmail")]
+        [Route("signup")]
         public async Task<IHttpActionResult> SendEmail(RegistrationRequest request)
         {
             if (String.IsNullOrEmpty(request.Email) || !(new EmailAddressAttribute().IsValid(request.Email)))
             {
-                return BadRequest("invalid email");
+                return BadRequest("Invalid email.");
             }
 
-            var codeSentresult = await _contextManager.TryCreateContextAsync(request);
+            var codeSentResult = await _contextManager.TryCreateContextAsync(request);
 
             var response = new BaseResponse
             {
-                Success = codeSentresult
+                Success = codeSentResult.Success,
+                Error = codeSentResult.Error
             };
 
             return Ok(response);
         }
 
+        /// <summary>
+        /// Registration confirmation with code
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("confirm")]
+        [Route("signup/confirm")]
         public async Task<IHttpActionResult> Confirm(ConfirmationRequest request)
         {
             if (String.IsNullOrEmpty(request.Email) || !(new EmailAddressAttribute().IsValid(request.Email)))
@@ -68,14 +64,20 @@ namespace Funkmap.Module.Auth.Controllers
 
             var confirmationResult = await _contextManager.TryConfirmAsync(request.Login, request.Email, request.Code);
 
-            var response = new RegistrationResponse()
+            var response = new RegistrationResponse
             {
-                Success = confirmationResult
+                Success = confirmationResult.Success,
+                Error = confirmationResult.Error
             };
 
             return Ok(response);
         }
 
+        /// <summary>
+        /// Password restore
+        /// </summary>
+        /// <param name="email">Users's email (also can be login)</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("restore/{email}")]
         public async Task<IHttpActionResult> AskRestore(string email)
@@ -90,8 +92,13 @@ namespace Funkmap.Module.Auth.Controllers
             return Ok(new BaseResponse() {Success = true});
         }
 
+        /// <summary>
+        /// Passwrd restore confirmation
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("confirmRestore")]
+        [Route("restore/cofirm")]
         public async Task<IHttpActionResult> ConfirmRestore(ConfirmRestoreRequest request)
         {
             var result = await _restoreContextManager.TryConfirmRestoreAsync(request.LoginOrEmail, request.Code, request.Password);

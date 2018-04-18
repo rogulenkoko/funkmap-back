@@ -1,5 +1,6 @@
-﻿using Funkmap.Data.Entities;
-using Funkmap.Data.Parameters;
+﻿using Funkmap.Domain;
+using Funkmap.Domain.Abstract;
+using Funkmap.Domain.Parameters;
 using Funkmap.Models.Requests;
 using Funkmap.Tools.Abstract;
 
@@ -15,7 +16,7 @@ namespace Funkmap.Tools
                     return new MusicianFilterParameter()
                     {
                         Styles = request.Styles,
-                        Expirience = request.Expirience,
+                        Expiriences = request.Expirience,
                         Instruments = request.Instruments
                     };
 

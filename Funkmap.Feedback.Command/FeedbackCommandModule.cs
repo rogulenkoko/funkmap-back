@@ -19,7 +19,7 @@ namespace Funkmap.Feedback.Command
 
             builder.Register(container =>
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azure-storage"));
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 return new AzureFileStorage(blobClient, FeedbackCollectionNameProvider.FeedbackStorage);
             }).Keyed<AzureFileStorage>(FeedbackCollectionNameProvider.FeedbackStorage).SingleInstance();

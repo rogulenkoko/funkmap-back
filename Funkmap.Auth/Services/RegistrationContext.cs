@@ -1,6 +1,5 @@
-﻿
-using System;
-using Funkmap.Auth.Data.Entities;
+﻿using System;
+using Funkmap.Auth.Domain.Models;
 
 namespace Funkmap.Module.Auth.Services
 {
@@ -8,16 +7,25 @@ namespace Funkmap.Module.Auth.Services
     {
         public string Code { get; set; }
 
-        public UserEntity User { get; }
+        public User User { get; }
+        
+        private string _password;
 
-        public RegistrationContext(UserEntity user)
+        public string Password
+        {
+            get { return CryptoProvider.ComputeHash(_password); }
+            private set { _password = value; }
+        }
+
+        public RegistrationContext(User user, string password)
         {
             if (user == null)
             {
-                throw new ArgumentException("user is null");
+                throw new ArgumentException("User can not be null.");
             }
             
             User = user;
+            Password = password;
         }
     }
 }

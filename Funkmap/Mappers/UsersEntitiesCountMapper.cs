@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Objects;
+using Funkmap.Domain;
+using Funkmap.Domain.Models;
 using Funkmap.Models;
 
 namespace Funkmap.Mappers
@@ -19,7 +19,7 @@ namespace Funkmap.Mappers
             foreach (var type in types)
             {
                 var withExistingCount = source.FirstOrDefault(x => x.EntityType == type);
-                result.Add(new UsersEntitiesCountModel()
+                result.Add(new UsersEntitiesCountModel
                 {
                     Type = type,
                     Count = withExistingCount?.Count ?? 0,

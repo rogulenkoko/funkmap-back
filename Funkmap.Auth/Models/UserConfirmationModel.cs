@@ -1,10 +1,10 @@
-﻿using Funkmap.Auth.Data.Entities;
+﻿using Funkmap.Auth.Domain.Models;
 
 namespace Funkmap.Module.Auth.Models
 {
     public class UserConfirmationModel
     {
-        public UserEntity User { get; set; }
+        public User User { get; set; }
         public string Code { get; set; }
     }
 }

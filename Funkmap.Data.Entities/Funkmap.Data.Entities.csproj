@@ -66,12 +66,13 @@
   <ItemGroup>
     <Compile Include="Entities\Abstract\BaseEntity.cs" />
     <Compile Include="Entities\Abstract\EstablishmentEntity.cs" />
+    <Compile Include="Entities\AudioInfoEntity.cs" />
     <Compile Include="Entities\BandEntity.cs" />
     <Compile Include="Entities\MusicianEntity.cs" />
     <Compile Include="Entities\RehearsalPointEntity.cs" />
     <Compile Include="Entities\ShopEntity.cs" />
     <Compile Include="Entities\StudioEntity.cs" />
-    <Compile Include="EntityType.cs" />
+    <Compile Include="Entities\VideoInfoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +83,10 @@
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
       <Name>Funkmap.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
+      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
+      <Name>Funkmap.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Parameters;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Domain.Abstract;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Services
@@ -24,6 +24,7 @@ namespace Funkmap.Data.Services
             }
 
             var service = _filterServices.FirstOrDefault(x => x.EntityType == parameter.EntityType);
+
             if (service == null)
             {
                 return Builders<BaseEntity>.Filter.Empty;

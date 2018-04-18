@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Notifications.Data
 {
-    public class NotificationRepository : MongoRepository<NotificationEntity>, INotificationRepository
+    public class NotificationRepository : Repository<NotificationEntity>, INotificationRepository
     {
         public NotificationRepository(IMongoCollection<NotificationEntity> collection) : base(collection)
         {

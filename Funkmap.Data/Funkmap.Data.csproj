@@ -50,8 +50,32 @@
       <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.8.6.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -97,6 +121,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
@@ -114,38 +142,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caches\Base\BaseCacheRepository.cs" />
+    <Compile Include="Caches\Base\BaseQueryCacheRepository.cs" />
     <Compile Include="Caches\Base\FavoriteCacheService.cs" />
     <Compile Include="Caches\Base\FilteredCacheService.cs" />
     <Compile Include="CollectionNameProvider.cs" />
-    <Compile Include="Objects\UserEntitiesCountInfo.cs" />
-    <Compile Include="Parameters\ChangeAvatarParameter.cs" />
-    <Compile Include="Parameters\CommonFilterParameter.cs" />
-    <Compile Include="Parameters\MusicianFilterParameter.cs" />
-    <Compile Include="Parameters\UpdateFavoriteParameter.cs" />
-    <Compile Include="Parameters\UpdateVideoParameter.cs" />
-    <Compile Include="Repositories\Abstract\IRehearsalPointRepository.cs" />
-    <Compile Include="Repositories\Abstract\IShopRepository.cs" />
-    <Compile Include="Parameters\LocationParameter.cs" />
-    <Compile Include="Repositories\Abstract\IBandRepository.cs" />
-    <Compile Include="Repositories\Abstract\IBaseRepository.cs" />
+    <Compile Include="FunkmapMongoModule.cs" />
+    <Compile Include="Mappers\BandModelMapper.cs" />
+    <Compile Include="Mappers\BaseModelMapper.cs" />
+    <Compile Include="Mappers\MarkerModelMapper.cs" />
+    <Compile Include="Mappers\MusicianModelMapper.cs" />
+    <Compile Include="Mappers\RehearsalPointMapper.cs" />
+    <Compile Include="Mappers\SearchItemMapper.cs" />
+    <Compile Include="Mappers\ShopModelMapper.cs" />
+    <Compile Include="Mappers\StudioModelMapper.cs" />
+    <Compile Include="Mappers\VideoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Abstract\IMusicianRepository.cs" />
-    <Compile Include="Repositories\Abstract\IStudioRepository.cs" />
     <Compile Include="Repositories\BandRepository.cs" />
-    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\BaseQueryRepository.cs" />
+    <Compile Include="Repositories\Decorators\BaseCommandAuthRepository.cs" />
     <Compile Include="Repositories\MusicianRepository.cs" />
-    <Compile Include="Repositories\RehearsalPointRepository.cs" />
-    <Compile Include="Repositories\ShopRepository.cs" />
-    <Compile Include="Repositories\StudioRepository.cs" />
     <Compile Include="Services\Abstract\IFilterFactory.cs" />
     <Compile Include="Services\Abstract\IFilterService.cs" />
+    <Compile Include="Services\Abstract\IUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\BandDependenciesController.cs" />
     <Compile Include="Services\BandFilterService.cs" />
+    <Compile Include="Repositories\BaseCommandRepository.cs" />
+    <Compile Include="Services\Update\BandUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Update\FunkmapUpdateDefinitionBuilder.cs" />
     <Compile Include="Services\MusicianFilterService.cs" />
     <Compile Include="Services\FilterFactory.cs" />
+    <Compile Include="Services\Update\MusicianUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Update\ShopUpdateDefenitionBuilder.cs" />
     <Compile Include="Tools\ImageNameBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
+      <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
+      <Name>Funkmap.Common.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
@@ -161,6 +199,14 @@
     <ProjectReference Include="..\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">
       <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
       <Name>Funkmap.Data.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain.Events\Funkmap.Domain.Events.csproj">
+      <Project>{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}</Project>
+      <Name>Funkmap.Domain.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
+      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
+      <Name>Funkmap.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

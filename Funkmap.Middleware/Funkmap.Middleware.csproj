@@ -250,9 +250,9 @@
       <Project>{a1388a76-7550-4c06-9486-2fe5a4ad6ed5}</Project>
       <Name>Funkmap.Auth.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
+    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
-      <Name>Funkmap.Module.Auth</Name>
+      <Name>Funkmap.Auth</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
       <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
@@ -309,14 +309,6 @@
     <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
       <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
       <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics.Data\Funkmap.Statistics.Data.csproj">
-      <Project>{f6396fb7-546e-4ed1-87fe-bbc7ca9e8cd0}</Project>
-      <Name>Funkmap.Statistics.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics\Funkmap.Statistics.csproj">
-      <Project>{3cf25728-25d4-4962-861e-1dc38fe40066}</Project>
-      <Name>Funkmap.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>

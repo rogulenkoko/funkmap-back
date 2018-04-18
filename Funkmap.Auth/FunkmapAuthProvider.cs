@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Funkmap.Auth.Data.Abstract;
-using Funkmap.Auth.Data.Entities;
+using Funkmap.Auth.Domain.Abstract;
+using Funkmap.Auth.Domain.Models;
 using Funkmap.Module.Auth.Services;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
@@ -27,7 +27,7 @@ namespace Funkmap.Module.Auth
         {
             var password = CryptoProvider.ComputeHash(context.Password);
 
-            UserEntity user = await _repository.LoginAsync(context.UserName, password);
+            User user = await _repository.LoginAsync(context.UserName, password);
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");

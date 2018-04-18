@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Funkmap.Data.Entities;
+using Funkmap.Domain;
 
 namespace Funkmap.Models
 {

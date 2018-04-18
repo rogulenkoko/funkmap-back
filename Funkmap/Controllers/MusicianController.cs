@@ -1,108 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Funkmap.Common;
+using System.Web.Http.Description;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Repositories.Abstract;
-using Funkmap.Mappers;
-using Funkmap.Models;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
+using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models.Requests;
-using Funkmap.Models.Responses;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;
-using Funkmap.Services.Abstract;
 
 namespace Funkmap.Controllers
 {
     [RoutePrefix("api/musician")]
     [ValidateRequestModel]
-    public class MusicianController: ApiController
+    public class MusicianController : ApiController
     {
-        private readonly IMusicianRepository _musicianRepository;
+        private readonly IBaseQueryRepository _baseQueryRepository;
         private readonly IFunkmapNotificationService _notificationService;
         private readonly IBandUpdateService _bandUpdateService;
-        private readonly IDependenciesController _dependenciesController;
+        private readonly IBaseCommandRepository _commandRepository;
 
-        public MusicianController(IMusicianRepository musicianRepository,
+        public MusicianController(IBaseQueryRepository baseQueryRepository,
                                   IFunkmapNotificationService notificationService,
                                   IBandUpdateService bandUpdateService,
-                                  IDependenciesController dependenciesController)
+                                  IBaseCommandRepository commandRepository)
         {
-            _musicianRepository = musicianRepository;
+            _baseQueryRepository = baseQueryRepository;
             _notificationService = notificationService;
             _bandUpdateService = bandUpdateService;
-            _dependenciesController = dependenciesController;
+            _commandRepository = commandRepository;
         }
 
         /// <summary>
-        /// Приглашение музыканта в группу
+        /// Invite musicians to the band
         /// </summary>
         /// <param name="membersRequest"></param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
+        [ResponseType(typeof(List<InviteBandResponse>))]
         [Route("invite")]
-        public async Task<IHttpActionResult> InviteMusician(UpdateBandMemberRequest membersRequest)
-        {
-            if (String.IsNullOrEmpty(membersRequest.BandLogin) || String.IsNullOrEmpty(membersRequest.MusicianLogin))
-            {
-                return BadRequest("ivalid membersRequest parameter");
-            }
-
-            var login = Request.GetLogin();
-
-            InviteBandResponse inviteResponse = await _bandUpdateService.HandleInviteBandChanges(membersRequest, login);
-            
-            if (!inviteResponse.IsOwner)
-            {
-                var requestMessage = new BandInviteNotification()
-                {
-                    BandLogin = membersRequest.BandLogin,
-                    InvitedMusicianLogin = membersRequest.MusicianLogin,
-                    SenderLogin = login,
-                    RecieverLogin = inviteResponse.OwnerLogin,
-                    BandName = inviteResponse.BandName
-                };
-
-                _notificationService.NotifyBandInvite(requestMessage);
-            }
-            
-            return Ok(inviteResponse);
-        }
-
-        /// <summary>
-        /// Приглашение музыкантов в группу
-        /// </summary>
-        /// <param name="membersRequest"></param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpPost]
-        [Route("inviteMany")]
         public async Task<IHttpActionResult> InviteManyMusician(UpdateBandMembersRequest membersRequest)
         {
-            if (String.IsNullOrEmpty(membersRequest.BandLogin) || membersRequest.MusicianLogins == null || membersRequest.MusicianLogins.Count == 0)
-            {
-                return BadRequest("ivalid membersRequest parameter");
-            }
-
             var login = Request.GetLogin();
-
 
             var response = new List<InviteBandResponse>();
 
             foreach (var musicianLogin in membersRequest.MusicianLogins)
             {
-                var request = new UpdateBandMemberRequest() {MusicianLogin = musicianLogin, BandLogin = membersRequest.BandLogin};
+                var parameter = new UpdateBandMemberParameter
+                {
+                    MusicianLogin = musicianLogin,
+                    BandLogin = membersRequest.BandLogin
+                };
 
-                InviteBandResponse inviteResponse = await _bandUpdateService.HandleInviteBandChanges(request, login);
+                InviteBandResponse inviteResponse = await _bandUpdateService.HandleInviteBandChanges(parameter, login);
 
                 if (!inviteResponse.IsOwner)
                 {
-                    var requestMessage = new BandInviteNotification()
+                    var requestMessage = new BandInviteNotification
                     {
                         BandLogin = membersRequest.BandLogin,
                         InvitedMusicianLogin = musicianLogin,
@@ -116,34 +76,40 @@ namespace Funkmap.Controllers
 
                 response.Add(inviteResponse);
             }
-            
+
             return Ok(response);
         }
 
         /// <summary>
-        /// Удаление музыканта из группы
+        /// Leave band (if musician is a participant of the band)
         /// </summary>
         /// <param name="membersRequest"></param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        [Route("leaveBand")]
+        [ResponseType(typeof(BaseResponse))]
+        [Route("remove-band")]
         public async Task<IHttpActionResult> LeaveBand(UpdateBandMemberRequest membersRequest)
         {
             var userLogin = Request.GetLogin();
-            var musician = await _musicianRepository.GetAsync(membersRequest.MusicianLogin);
-            if (musician.UserLogin != userLogin) return BadRequest("is not your musician");
+            var musician = await _baseQueryRepository.GetAsync<Musician>(membersRequest.MusicianLogin);
 
-            var parameter = new CleanDependenciesParameter()
+            var musicianUpdate = new Musician
             {
-                EntityType = EntityType.Band,
-                EntityLogin = membersRequest.BandLogin,
-                FromEntityLogin = membersRequest.MusicianLogin
+                Login = musician.Login,
+                EntityType = musician.EntityType,
+                BandLogins = musician.BandLogins.Except(new List<string>() { membersRequest.BandLogin }).ToList()
             };
 
-            await _dependenciesController.CleanDependenciesAsync(parameter);
+            var parameter = new CommandParameter<Profile>()
+            {
+                UserLogin = userLogin,
+                Parameter = musicianUpdate
+            };
 
-            return Ok(new BaseResponse() {Success = true});
+            var result = await _commandRepository.UpdateAsync(parameter);
+
+            return Ok(new BaseResponse() { Success = result.Success, Error = result.Error });
         }
     }
 }

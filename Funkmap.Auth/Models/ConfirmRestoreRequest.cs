@@ -7,9 +7,15 @@ namespace Funkmap.Module.Auth.Models
         [Required]
         public string LoginOrEmail { get; set; }
 
+        /// <summary>
+        /// Confirmation code
+        /// </summary>
         [Required]
         public string Code { get; set; }
 
+        /// <summary>
+        /// New password
+        /// </summary>
         [Required]
         public string Password { get; set; }
     }

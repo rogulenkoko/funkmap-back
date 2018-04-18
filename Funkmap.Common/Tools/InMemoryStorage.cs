@@ -3,7 +3,7 @@ using System.Timers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common.Redis.Abstract;
+using Funkmap.Common.Abstract;
 
 namespace Funkmap.Common.Tools
 {
@@ -38,6 +38,14 @@ namespace Funkmap.Common.Tools
             object value;
             _cache.TryGetValue(key, out value);
             return (T) value;
+        }
+
+        public async Task<bool> RemoveAsync(string key)
+        {
+            await Task.Yield();
+
+            object o;
+            return _cache.TryRemove(key, out o);
         }
     }
 }

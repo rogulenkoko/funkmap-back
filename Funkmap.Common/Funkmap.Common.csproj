@@ -98,12 +98,14 @@
     <Compile Include="Filters\LanguageFilterAttribute.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Models\BaseResponse.cs" />
+    <Compile Include="Models\ImageProcessorOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Settings\ISettingsService.cs" />
     <Compile Include="SignalR\Abstract\IConnectionService.cs" />
     <Compile Include="SignalR\ConnectionService.cs" />
     <Compile Include="SignalR\UserConnection.cs" />
+    <Compile Include="StorageType.cs" />
     <Compile Include="Tools\EntityUpdateExtension.cs" />
     <Compile Include="Tools\FunkmapImageProcessor.cs" />
     <Compile Include="Tools\InMemoryStorage.cs" />

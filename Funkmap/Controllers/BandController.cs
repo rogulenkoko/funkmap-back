@@ -1,95 +1,99 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Funkmap.Common.Auth;
-using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Models;
-using Funkmap.Data.Entities;
-using Funkmap.Data.Entities.Entities;
-using Funkmap.Data.Parameters;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
+using Funkmap.Domain.Parameters;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
-using Funkmap.Services.Abstract;
 
 namespace Funkmap.Controllers
 {
     [RoutePrefix("api/band")]
-    public class BandController: ApiController
+    public class BandController : ApiController
     {
-        private readonly IBandRepository _bandRepository;
-        private readonly IBaseRepository _baseRepository;
-        private readonly IDependenciesController _dependenciesController;
-        
+        private readonly IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseCommandRepository _commandRepository;
 
-
-        public BandController(IBandRepository bandRepository, IBaseRepository baseRepository, IDependenciesController dependenciesController)
+        public BandController(IBaseQueryRepository baseQueryRepository, IBaseCommandRepository commandRepository)
         {
-            _bandRepository = bandRepository;
-            _baseRepository = baseRepository;
-            _dependenciesController = dependenciesController;
+            _baseQueryRepository = baseQueryRepository;
+            _commandRepository = commandRepository;
         }
-        
+
 
         /// <summary>
-        /// Информация о группах, в которые можно пригласить музыканта 
-        /// (музыкант не состоит в ней или еще не приглашен)
+        /// Information about bands you can  invited musicians.
+        /// (Musician is not a participant of the band and haven't invited yet.)
         /// </summary>
-        /// <param name="request">Логин приглашаемого музыканта</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        [Route("getInviteInfo")]
-        public async Task<IHttpActionResult> GetInviteMusicianInfo(BandInviteInfoRequest request)
+        [ResponseType(typeof(BandInviteInfo))]
+        [Route("invite/{login}")]
+        public async Task<IHttpActionResult> GetInviteMusicianInfo(string login)
         {
-            var login = Request.GetLogin();
+            var userLogin = Request.GetLogin();
 
-            var parameter = new CommonFilterParameter()
+            var parameter = new CommonFilterParameter
             {
                 EntityType = EntityType.Band,
-                UserLogin = login,
+                UserLogin = userLogin,
                 Skip = 0,
                 Take = Int32.MaxValue
             };
-            var bandEntities = await _baseRepository.GetFilteredAsync(parameter);
-            var availableBands = bandEntities.Cast<BandEntity>()
-                .Where(x=>(x.MusicianLogins == null && x.InvitedMusicians == null) 
-                    || ((x.MusicianLogins == null || !x.MusicianLogins.Contains(request.InvitedMusician))) 
-                    && (x.InvitedMusicians == null || !x.InvitedMusicians.Contains(request.InvitedMusician)))
-                .Select(x=>x.ToPreviewModel()).ToList();
+
+            var bandEntities = await _baseQueryRepository.GetFilteredAsync(parameter);
+            var availableBands = bandEntities.Cast<Band>()
+                .Where(x => (x.Musicians == null && x.InvitedMusicians == null)
+                    || ((x.Musicians == null || !x.Musicians.Contains(login)))
+                    && (x.InvitedMusicians == null || !x.InvitedMusicians.Contains(login)))
+                .Select(x => x.ToPreviewModel()).ToList();
 
             var info = new BandInviteInfo()
             {
                 AvailableBands = availableBands
             };
+
             return Ok(info);
         }
 
         /// <summary>
-        /// Удаление музыканта из группы
+        /// Remove musician from band
         /// </summary>
-        /// <param name="membersRequest">Логин группы (из которой надо удалить музыканта) и логин музыканта</param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        [Route("removeMusician")]
+        [ResponseType(typeof(BaseResponse))]
+        [Route("remove-musician")]
         public async Task<IHttpActionResult> RemoveMusicianFromBand(UpdateBandMemberRequest membersRequest)
         {
             var userLogin = Request.GetLogin();
-            var band = await _bandRepository.GetAsync(membersRequest.BandLogin);
-            if (band.UserLogin != userLogin) return BadRequest("is not your band");
+            var band = await _baseQueryRepository.GetAsync<Band>(membersRequest.BandLogin);
 
-            var parameter = new CleanDependenciesParameter()
+            var bandUpdate = new Band
             {
-                EntityType = EntityType.Musician,
-                EntityLogin = membersRequest.MusicianLogin,
-                FromEntityLogin = membersRequest.BandLogin
+                Login = band.Login,
+                EntityType = band.EntityType,
+                Musicians = band.Musicians.Except(new List<string>() { membersRequest.MusicianLogin }).ToList()
             };
-            await _dependenciesController.CleanDependenciesAsync(parameter);
 
-            return Ok(new BaseResponse() { Success = true });
+            var parameter = new CommandParameter<Profile>
+            {
+                UserLogin = userLogin,
+                Parameter = bandUpdate
+            };
+
+            var result = await _commandRepository.UpdateAsync(parameter);
+
+            return Ok(new BaseResponse() { Success = result.Success, Error = result.Error });
         }
     }
 }

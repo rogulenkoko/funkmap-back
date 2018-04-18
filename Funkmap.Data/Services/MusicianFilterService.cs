@@ -1,10 +1,10 @@
 ﻿using System;
-using Funkmap.Common;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;
-using Funkmap.Data.Parameters;
 using Funkmap.Data.Services.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract;
+using Funkmap.Domain.Parameters;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Services
@@ -16,12 +16,12 @@ namespace Funkmap.Data.Services
 
         public FilterDefinition<BaseEntity> CreateFilter(IFilterParameter parameter)
         {
-            if (!(parameter is MusicianFilterParameter))
+            var musicianParameter = parameter as MusicianFilterParameter;
+
+            if (musicianParameter == null)
             {
                 throw new InvalidOperationException(nameof(parameter));
             }
-
-            var musicianParameter = parameter as MusicianFilterParameter;
 
             //db.bases.find({t:1, stls:{$all:[1,3]}, exp:1, intsr:{$in:[1,2]} })
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician); //todo подумать как для каждого репозитория вынести этот фильтр
@@ -31,9 +31,9 @@ namespace Funkmap.Data.Services
                 filter = filter & Builders<BaseEntity>.Filter.All(x => (x as MusicianEntity).Styles, musicianParameter.Styles);
             }
 
-            if (musicianParameter.Expirience != null && musicianParameter.Expirience.Count != 0)
+            if (musicianParameter.Expiriences != null && musicianParameter.Expiriences.Count != 0)
             {
-                filter = filter & Builders<BaseEntity>.Filter.In(x => (x as MusicianEntity).ExpirienceType, musicianParameter.Expirience);
+                filter = filter & Builders<BaseEntity>.Filter.In(x => (x as MusicianEntity).ExpirienceType, musicianParameter.Expiriences);
             }
 
             if (musicianParameter.Instruments != null && musicianParameter.Instruments.Count != 0)

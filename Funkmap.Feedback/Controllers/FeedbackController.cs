@@ -19,8 +19,13 @@ namespace Funkmap.Feedback.Controllers
             _commandBus = commandBus;
         }
         
+        /// <summary>
+        /// Send feedback
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("save")]
+        [Route("")]
         public IHttpActionResult SaveFeedback(FeedbackItem item)
         {
             _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message)

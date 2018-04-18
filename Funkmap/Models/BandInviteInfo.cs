@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Funkmap.Models
 {
     public class BandInviteInfo
     {
-        public ICollection<BandModelPreview> AvailableBands { get; set; }
-
-
+        /// <summary>
+        /// Bands in which you can invite musicians
+        /// </summary>
+        public ICollection<BandPreviewModel> AvailableBands { get; set; }
     }
 }

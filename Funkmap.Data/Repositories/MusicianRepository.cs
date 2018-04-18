@@ -1,51 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
-using Funkmap.Data.Entities;
 using Funkmap.Data.Entities.Entities;
-using Funkmap.Data.Repositories.Abstract;
+using Funkmap.Domain;
+using Funkmap.Domain.Abstract.Repositories;
+using Funkmap.Domain.Models;
 using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class MusicianRepository : MongoLoginRepository<MusicianEntity>, IMusicianRepository
+    public class MusicianRepository : RepositoryBase<MusicianEntity>, IMusicianRepository
     {
         public MusicianRepository(IMongoCollection<MusicianEntity> collection) : base(collection)
         {
         }
 
-        public override Task UpdateAsync(MusicianEntity entity)
+        public async Task ProcessBandDependenciesAsync(Band band, Band updatedBand = null)
         {
-            throw new NotImplementedException("Использовать для обновления BaseRepository");
-        }
-
-        public override async Task<List<MusicianEntity>> GetAllAsync()
-        {
-            var filter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician);
-            var result = await _collection.Find(filter).ToListAsync();
-            return result;
-        }
-
-        public async Task CleanBandDependencies(BandEntity band, string musicianLogin = null)
-        {
-            if (band?.MusicianLogins == null || band.MusicianLogins.Count == 0) return;
-
-            FilterDefinition<MusicianEntity> musicianFilter;
-            UpdateDefinition<MusicianEntity> musicianUpdate = Builders<MusicianEntity>.Update.Pull(x => x.BandLogins, band.Login);
-
-            if (!String.IsNullOrEmpty(musicianLogin))
+            if (band.Musicians == null)
             {
-                musicianFilter = Builders<MusicianEntity>.Filter.Eq(x=>x.Login, musicianLogin) & Builders<MusicianEntity>.Filter.Eq(x=>x.EntityType, EntityType.Musician);
-                await _collection.UpdateOneAsync(musicianFilter, musicianUpdate);
+                band.Musicians = new List<string>();
+            }
+
+            List<string> updatedBandMusicianLogins;
+
+            if (updatedBand?.Musicians == null)
+            {
+                updatedBandMusicianLogins = new List<string>();
             }
             else
             {
-                musicianFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) & Builders<MusicianEntity>.Filter.In(x => x.Login, band.MusicianLogins);
+                updatedBandMusicianLogins = updatedBand.Musicians;
+            }
+
+            var addedMusicianLogins = updatedBandMusicianLogins.Except(band.Musicians).ToList();
+            var deletedMusicianLogins = band.Musicians.Except(updatedBandMusicianLogins).ToList();
+
+            if (addedMusicianLogins.Any())
+            {
+                var musicianUpdate = Builders<MusicianEntity>.Update.Push(x => x.BandLogins, band.Login);
+
+                var musicianFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) 
+                                     & Builders<MusicianEntity>.Filter.In(x => x.Login, addedMusicianLogins)
+                                     & Builders<MusicianEntity>.Filter.Where(x => !x.BandLogins.Contains(band.Login));
+
                 await _collection.UpdateManyAsync(musicianFilter, musicianUpdate);
             }
-           
-            
+
+            if (deletedMusicianLogins.Any())
+            {
+                var musicianUpdate = Builders<MusicianEntity>.Update.Pull(x => x.BandLogins, band.Login);
+
+                var musicianFilter = Builders<MusicianEntity>.Filter.Eq(x => x.EntityType, EntityType.Musician) 
+                                     & Builders<MusicianEntity>.Filter.In(x => x.Login, deletedMusicianLogins)
+                                     & Builders<MusicianEntity>.Filter.AnyEq(x => x.BandLogins, band.Login);
+
+                await _collection.UpdateManyAsync(musicianFilter, musicianUpdate);
+            }
         }
     }
 }

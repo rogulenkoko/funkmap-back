@@ -195,9 +195,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
+    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
-      <Name>Funkmap.Module.Auth</Name>
+      <Name>Funkmap.Auth</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
       <Project>{cc5b36a9-d49f-4583-b74c-d2f3a17087a4}</Project>
@@ -214,10 +214,6 @@
     <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
       <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
       <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics\Funkmap.Statistics.csproj">
-      <Project>{3cf25728-25d4-4962-861e-1dc38fe40066}</Project>
-      <Name>Funkmap.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>

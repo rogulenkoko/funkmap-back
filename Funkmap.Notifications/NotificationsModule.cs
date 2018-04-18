@@ -6,7 +6,6 @@ using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Redis.Abstract;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;

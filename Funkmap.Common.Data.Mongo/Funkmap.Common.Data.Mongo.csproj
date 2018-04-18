@@ -68,11 +68,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IMongoRepository.cs" />
+    <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\MongoEntity.cs" />
     <Compile Include="Entities\ImageInfo.cs" />
     <Compile Include="GridFsFileStorage.cs" />
-    <Compile Include="MongoRepository.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

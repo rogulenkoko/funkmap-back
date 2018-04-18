@@ -2,8 +2,8 @@
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
-using Funkmap.Data.Entities;
-using Funkmap.Models;
+using Funkmap.Domain;
+using Funkmap.Domain.Models;
 
 namespace Funkmap.Tools
 {
@@ -27,23 +27,30 @@ namespace Funkmap.Tools
             switch (entityTypeModel.EntityType)
             {
                 case EntityType.Musician:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<MusicianModel>(body);
+                    var musician = Newtonsoft.Json.JsonConvert.DeserializeObject<Musician>(body);
+                    //blocking bands update
+                    musician.BandLogins = null;
+                    bindingContext.Model = musician;
                     break;
 
                 case EntityType.Band:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<BandModel>(body);
+                    var band = Newtonsoft.Json.JsonConvert.DeserializeObject<Band>(body);
+                    //blocking musicians updates
+                    band.Musicians = null;
+                    band.InvitedMusicians = null;
+                    bindingContext.Model = band;
                     break;
 
                 case EntityType.Shop:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<ShopModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Shop>(body);
                     break;
 
                 case EntityType.RehearsalPoint:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<RehearsalPointModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<RehearsalPoint>(body);
                     break;
 
                 case EntityType.Studio:
-                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<StudioModel>(body);
+                    bindingContext.Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Studio>(body);
                     break;
             }
             return true;

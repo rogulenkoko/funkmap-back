@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Auth.Data.Abstract;
-using Funkmap.Auth.Data.Entities;
+using Funkmap.Auth.Domain.Abstract;
+using Funkmap.Auth.Domain.Models;
+using Funkmap.Common.Abstract;
+using Funkmap.Common.Cqrs;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Notifications.Notification.Abstract;
 using Funkmap.Module.Auth.Abstract;
@@ -15,168 +15,116 @@ namespace Funkmap.Module.Auth.Services
 
     public class RegistrationContextManager : IRegistrationContextManager, IRestoreContextManager
     {
-        //todo timer
         private readonly IAuthRepository _authRepository;
 
         private readonly IExternalNotificationService _externalNotificationService;
 
-        private readonly ConcurrentDictionary<string, RegistrationContext> _contexts;
+        private readonly IStorage _storage;
 
-        private readonly ConcurrentDictionary<string, RestoreContext> _restoreContexts;
+        private readonly IConfirmationCodeGenerator _codeGenerator;
 
         private readonly IFunkmapLogger<RegistrationContextManager> _logger;
 
+        private readonly TimeSpan _sessionTimeSpan = TimeSpan.FromMinutes(15);
+
+        private const string RegistrationContextsKey = "registration_contexts";
+        private const string RestoreContextsKey = "restore_contexts";
+
         public RegistrationContextManager(IAuthRepository authRepository, IExternalNotificationService externalNotificationService,
+            IStorage storage,
+            IConfirmationCodeGenerator codeGenerator,
             IFunkmapLogger<RegistrationContextManager> logger)
         {
             _authRepository = authRepository;
             _externalNotificationService = externalNotificationService;
             _logger = logger;
-            _contexts = new ConcurrentDictionary<string, RegistrationContext>();
-            _restoreContexts = new ConcurrentDictionary<string, RestoreContext>();
+            _storage = storage;
+            _codeGenerator = codeGenerator;
         }
 
         #region IRegistrationContextManager
 
-        public async Task<bool> ValidateLogin(string login)
-        {
-            var isExist = await _authRepository.CheckIfExistAsync(login);
-
-            if (isExist)
-            {
-                return false;
-            }
-
-            if (_contexts.Any(x => x.Value.User.Login == login))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public async Task<bool> Validate(string login, string email)
-        {
-            var loginValidation = await ValidateLogin(login);
-
-            var bookedContextEmails = _contexts.Where(x => !String.IsNullOrEmpty(x.Value.User.Email)).Select(x => x.Value.User.Email);
-
-            var bookedDbEmails = await _authRepository.GetBookedEmailsAsync();
-
-            var allBookedEmails = bookedDbEmails.Concat(bookedContextEmails);
-
-            if (!loginValidation || allBookedEmails.Any(x => x == email))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public async Task<bool> TryCreateContextAsync(RegistrationRequest creds)
+        public async Task<CommandResponse> TryCreateContextAsync(RegistrationRequest creds)
         {
             var hash = CryptoProvider.ComputeHash($"{creds.Email}_{creds.Login}");
+            var key = $"{RegistrationContextsKey}_{hash}";
 
-            if (_contexts.ContainsKey(hash))
+            var existingContext = await _storage.GetAsync<RegistrationContext>(key);
+
+            if (existingContext != null)
             {
-                return false;
+                return new CommandResponse(false) { Error = "Registration context is already exists." };
             }
 
-            var isValid = await Validate(creds.Login, creds.Email);
+            var bookedEmails = await _authRepository.GetBookedEmailsAsync();
 
-            if (!isValid)
+            if (bookedEmails.Contains(creds.Email))
             {
-                return false;
+                return new CommandResponse(false) {Error = "User with such email already exists."};
             }
 
+            var user = new User { Login = creds.Login, Name = creds.Name, Email = creds.Email, Locale = creds.Locale };
 
-            var password = CryptoProvider.ComputeHash(creds.Password);
-
-            var user = new UserEntity() { Login = creds.Login, Password = password, Name = creds.Name, Email = creds.Email, Locale = creds.Locale };
-
-            var context = new RegistrationContext(user)
+            var context = new RegistrationContext(user, creds.Password)
             {
-                Code = new Random().Next(100000, 999999).ToString()
+                Code = _codeGenerator.Generate()
             };
-
 
             var notification = new ConfirmationNotification(context.User.Email, context.User.Name, context.Code);
             var sendResult = await _externalNotificationService.TrySendNotificationAsync(notification);
 
             if (!sendResult)
             {
-                return false;
+                return new CommandResponse(false) { Error = "Can't send notification. Check your email." };
             }
 
-            _contexts.TryAdd(hash, context);
-
-            return true;
+            try
+            {
+                await _storage.SetAsync(key, context, _sessionTimeSpan);
+                return new CommandResponse(true);
+            }
+            catch (Exception e)
+            {
+                return new CommandResponse(false) { Error = e.Message };
+            }
         }
 
-        public async Task<bool> TryConfirmAsync(string login, string email, string code)
+        public async Task<CommandResponse> TryConfirmAsync(string login, string email, string code)
         {
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(code))
             {
-                throw new ArgumentException("empty login or code");
+                return new CommandResponse(false) { Error = "Invalid login or confirmation code." };
             }
 
-            RegistrationContext context;
+            var bookedEmails = await _authRepository.GetBookedEmailsAsync();
+
+            if (bookedEmails.Contains(email))
+            {
+                return new CommandResponse(false) { Error = "User with such email already exists." };
+            }
 
             var hash = CryptoProvider.ComputeHash($"{email}_{login}");
+            var key = $"{RegistrationContextsKey}_{hash}";
 
-            _contexts.TryGetValue(hash, out context);
+            RegistrationContext context = await _storage.GetAsync<RegistrationContext>(key);
 
-            if (context == null) return false;
+            if (context == null) return new CommandResponse(false) { Error = "There is no registration context. You should ask for confirmation code." };
 
-            if (context.Code != code) return false;
+            if (context.Code != code) return new CommandResponse(false) { Error = "The confirmation code is invalid." };
 
             context.User.LastVisitDateUtc = DateTime.UtcNow;
 
 
-            try
-            {
-                await _authRepository.CreateAsync(context.User);
+            var response = await _authRepository.TryCreateAsync(context.User, context.Password);
 
-                RegistrationContext deletedContext;
-                _contexts.TryRemove(hash, out deletedContext);
+            if (response.Success)
+            {
+                await _storage.RemoveAsync(key);
 
                 _logger.Info($"{context.User.Login} has registered");
             }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-                _logger.Info($"{context.User.Login}'s registration failed");
-                return false;
-            }
 
-            return true;
-        }
-
-        public async Task<bool> TryRegisterExternal(UserEntity user, AuthProviderType providerType)
-        {
-            if (user == null) throw new ArgumentNullException("Invalid user");
-
-            user.ProviderType = providerType;
-
-            var password = CryptoProvider.ComputeHash(Guid.NewGuid().ToString());
-            user.Password = password;
-
-            var isValid = await ValidateLogin(user.Login);
-
-            if (!isValid)
-            {
-                return false;
-            }
-
-            try
-            {
-                await _authRepository.CreateAsync(user);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return response;
         }
 
         #endregion
@@ -185,7 +133,7 @@ namespace Funkmap.Module.Auth.Services
 
         public async Task<bool> TryCreateRestoreContextAsync(string loginOrEmail)
         {
-            UserEntity user = await _authRepository.GetUserByEmailOrLoginAsync(loginOrEmail);
+            User user = await _authRepository.GetAsync(loginOrEmail);
 
             if (user == null)
             {
@@ -204,23 +152,21 @@ namespace Funkmap.Module.Auth.Services
 
             var context = new RestoreContext() { Email = user.Email, Code = code };
 
-            _restoreContexts.TryAdd(user.Email, context);
+            await _storage.SetAsync($"{RestoreContextsKey}_{user.Email}", context, _sessionTimeSpan);
 
             return true;
         }
 
         public async Task<bool> TryConfirmRestoreAsync(string loginOrEmail, string code, string newPassword)
         {
-            UserEntity user = await _authRepository.GetUserByEmailOrLoginAsync(loginOrEmail);
-
+            User user = await _authRepository.GetAsync(loginOrEmail);
 
             if (user == null)
             {
                 return false;
             }
 
-            RestoreContext context;
-            _restoreContexts.TryGetValue(user.Email, out context);
+            RestoreContext context = await _storage.GetAsync<RestoreContext>($"{RestoreContextsKey}_{user.Email}");
 
             if (context == null)
             {
@@ -234,11 +180,9 @@ namespace Funkmap.Module.Auth.Services
 
             var newPasswordHash = CryptoProvider.ComputeHash(newPassword);
 
-            user.Password = newPasswordHash;
-
             try
             {
-                await _authRepository.UpdateAsync(user);
+                await _authRepository.UpdatePasswordAsync(user.Login, newPasswordHash);
             }
             catch (Exception e)
             {
@@ -250,10 +194,7 @@ namespace Funkmap.Module.Auth.Services
 
         }
 
-
         #endregion
-
-
     }
 }
 

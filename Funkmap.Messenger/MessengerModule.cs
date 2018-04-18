@@ -67,7 +67,7 @@ namespace Funkmap.Messenger
 
             builder.Register(container =>
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azureStorage"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azure-storage"));
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 return new AzureFileStorage(blobClient, MessengerCollectionNameProvider.MessengerStorage);
             }).Keyed<AzureFileStorage>(MessengerCollectionNameProvider.MessengerStorage).SingleInstance();

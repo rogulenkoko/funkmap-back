@@ -144,37 +144,38 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Auth\Data\AuthDataSeeder.cs" />
-    <Compile Include="Auth\AuthRepositoryTest.cs" />
-    <Compile Include="Auth\Data\AuthTestDbProvider.cs" />
-    <Compile Include="Auth\NotificationTest.cs" />
     <Compile Include="FileStorage\FileStorageTest.cs" />
-    <Compile Include="Funkmap\Base\BaseRepositoryStressTest.cs" />
-    <Compile Include="Funkmap\BigData\FunkmapBigDataSeeder.cs" />
-    <Compile Include="Funkmap\Data\FunkmapTestDbProvider.cs" />
-    <Compile Include="Funkmap\Data\FunkmapDataSeeder.cs" />
-    <Compile Include="Funkmap\Stress\FunkmapStressRandomSeeder.cs" />
+    <Compile Include="BandDependencyTest.cs" />
+    <Compile Include="MusicianDependencyTest.cs" />
+    <Compile Include="ProfileAvatarUpdateTest.cs" />
+    <Compile Include="FavoriteProfilesTest.cs" />
+    <Compile Include="ProfileDeleteTest.cs" />
+    <Compile Include="ProfileUpdateTest.cs" />
+    <Compile Include="Data\FunkmapTestDbProvider.cs" />
+    <Compile Include="Data\FunkmapDataSeeder.cs" />
+    <Compile Include="Data\FunkmapStressRandomSeeder.cs" />
+    <Compile Include="Tools\DistanceResult.cs" />
+    <Compile Include="Tools\TestToolRepository.cs" />
     <Compile Include="Images\ImageProvider.cs" />
-    <Compile Include="Funkmap\Base\BaseRepositoryTest.cs" />
-    <Compile Include="Funkmap\Musician\MusicianRepositoryTest.cs" />
+    <Compile Include="ProfileQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
-      <Project>{02251e80-52a1-4b3e-824b-3da229dd9ea6}</Project>
-      <Name>Funkmap.Auth.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
       <Project>{a1388a76-7550-4c06-9486-2fe5a4ad6ed5}</Project>
       <Name>Funkmap.Auth.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Module.Auth.csproj">
+    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
-      <Name>Funkmap.Module.Auth</Name>
+      <Name>Funkmap.Auth</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
@@ -208,6 +209,10 @@
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
+      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
+      <Name>Funkmap.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
       <Name>Funkmap.Messenger</Name>
@@ -227,14 +232,6 @@
     <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
       <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
       <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics.Data\Funkmap.Statistics.Data.csproj">
-      <Project>{F6396FB7-546E-4ED1-87FE-BBC7CA9E8CD0}</Project>
-      <Name>Funkmap.Statistics.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Statistics\Funkmap.Statistics.csproj">
-      <Project>{3cf25728-25d4-4962-861e-1dc38fe40066}</Project>
-      <Name>Funkmap.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
