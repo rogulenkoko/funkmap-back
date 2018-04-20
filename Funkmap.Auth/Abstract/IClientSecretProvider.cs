@@ -1,5 +1,5 @@
 ﻿
-namespace Funkmap.Module.Auth.Abstract
+namespace Funkmap.Auth.Abstract
 {
     public interface IClientSecretProvider
     {

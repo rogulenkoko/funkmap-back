@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Funkmap.Module.Auth.Services
+namespace Funkmap.Auth.Services
 {
     public static class CryptoProvider
     {

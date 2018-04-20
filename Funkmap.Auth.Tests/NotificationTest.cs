@@ -1,8 +1,8 @@
 ﻿using Autofac.Extras.Moq;
+using Funkmap.Auth.Notifications;
 using Funkmap.Common.Notifications.Notification;
 using Funkmap.Common.Settings;
 using Funkmap.Middleware.Settings;
-using Funkmap.Module.Auth.Notifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Funkmap.Auth.Tests

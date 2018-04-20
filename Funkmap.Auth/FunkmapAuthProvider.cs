@@ -3,11 +3,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Funkmap.Auth.Domain.Abstract;
 using Funkmap.Auth.Domain.Models;
-using Funkmap.Module.Auth.Services;
+using Funkmap.Auth.Services;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
-namespace Funkmap.Module.Auth
+namespace Funkmap.Auth
 {
     public class FunkmapAuthProvider : OAuthAuthorizationServerProvider
     {

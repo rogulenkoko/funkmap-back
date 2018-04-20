@@ -11,7 +11,7 @@ namespace Funkmap.Auth.Data.Mappers
             return new User()
             {
                 Login = source.Login,
-                Name = source.AvatarUrl,
+                Name = source.Name,
                 AvatarUrl = source.AvatarUrl,
                 Email = source.Email,
                 Locale = source.Locale,

@@ -1,7 +1,7 @@
 ﻿using System;
 using Funkmap.Auth.Domain.Models;
 
-namespace Funkmap.Module.Auth.Services
+namespace Funkmap.Auth.Services
 {
     public class RegistrationContext
     {

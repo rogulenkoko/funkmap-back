@@ -1,9 +1,6 @@
-﻿
+﻿using System.Threading.Tasks;
 
-using System.Threading.Tasks;
-using Funkmap.Module.Auth.Models;
-
-namespace Funkmap.Module.Auth.Abstract
+namespace Funkmap.Auth.Abstract
 {
     public interface IRestoreContextManager
     {

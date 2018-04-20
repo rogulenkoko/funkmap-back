@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Funkmap.Auth.Abstract;
+using Funkmap.Auth.Models;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Module.Auth.Abstract;
-using Funkmap.Module.Auth.Models;
 
-namespace Funkmap.Module.Auth.Controllers
+namespace Funkmap.Auth.Controllers
 {
     [RoutePrefix("api/auth")]
     [ValidateRequestModel]
@@ -49,7 +49,7 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Registration confirmation with code
+        /// Registration confirmation with the email code.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -74,12 +74,12 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Password restore
+        /// Ask for password restore.
         /// </summary>
-        /// <param name="email">Users's email (also can be login)</param>
+        /// <param name="email">Users's email (also can be login).</param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("restore/{email}")]
+        [HttpPost]
+        [Route("restore")]
         public async Task<IHttpActionResult> AskRestore(string email)
         {
             var result = await _restoreContextManager.TryCreateRestoreContextAsync(email);
@@ -93,7 +93,7 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Passwrd restore confirmation
+        /// Password restore confirmation with the email code.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

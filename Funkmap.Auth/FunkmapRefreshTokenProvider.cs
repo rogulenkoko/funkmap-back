@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Owin.Security.Infrastructure;
 
-namespace Funkmap.Module.Auth
+namespace Funkmap.Auth
 {
     public class FunkmapRefreshTokenProvider : AuthenticationTokenProvider
     {

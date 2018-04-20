@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Funkmap.Feedback</name>
+    </assembly>
+    <members>
+        <member name="M:Funkmap.Feedback.Controllers.FeedbackController.SaveFeedback(Funkmap.Feedback.Models.FeedbackItem)">
+            <summary>
+            Send feedback
+            </summary>
+            <param name="item"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

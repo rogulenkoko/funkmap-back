@@ -3,11 +3,11 @@ using System.Net.Http;
 using System.Reflection;
 using Autofac;
 using Autofac.Integration.WebApi;
+using Funkmap.Auth.Abstract;
+using Funkmap.Auth.Services;
 using Funkmap.Common.Abstract;
-using Funkmap.Module.Auth.Abstract;
-using Funkmap.Module.Auth.Services;
 
-namespace Funkmap.Module.Auth
+namespace Funkmap.Auth
 {
     public class AuthFunkmapModule : IFunkmapModule
     {

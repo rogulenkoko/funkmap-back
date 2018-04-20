@@ -1,6 +1,6 @@
 ﻿using Funkmap.Auth.Domain.Models;
 
-namespace Funkmap.Module.Auth.Models
+namespace Funkmap.Auth.Models
 {
     public class UserConfirmationModel
     {

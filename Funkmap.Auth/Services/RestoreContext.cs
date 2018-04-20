@@ -1,4 +1,4 @@
-﻿namespace Funkmap.Module.Auth.Services
+﻿namespace Funkmap.Auth.Services
 {
     public class RestoreContext
     {

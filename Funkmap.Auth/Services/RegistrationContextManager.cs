@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Funkmap.Auth.Abstract;
 using Funkmap.Auth.Domain.Abstract;
 using Funkmap.Auth.Domain.Models;
+using Funkmap.Auth.Models;
+using Funkmap.Auth.Notifications;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs;
 using Funkmap.Common.Logger;
 using Funkmap.Common.Notifications.Notification.Abstract;
-using Funkmap.Module.Auth.Abstract;
-using Funkmap.Module.Auth.Models;
-using Funkmap.Module.Auth.Notifications;
 
-namespace Funkmap.Module.Auth.Services
+namespace Funkmap.Auth.Services
 {
 
     public class RegistrationContextManager : IRegistrationContextManager, IRestoreContextManager

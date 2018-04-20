@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Funkmap.Auth</name>
+    </assembly>
+    <members>
+        <member name="P:Funkmap.Auth.Models.ConfirmRestoreRequest.Code">
+            <summary>
+            Confirmation code
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.ConfirmRestoreRequest.Password">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.ConfirmationRequest.Code">
+            <summary>
+            Confirmation code from email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.RegistrationRequest.Login">
+            <summary>
+            Uniq user login
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.RegistrationRequest.Password">
+            <summary>
+            Not empty password
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.RegistrationRequest.Email">
+            <summary>
+            Uniq user email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.SaveImageRequest.Avatar">
+            <summary>
+            Image bytes or base64 string
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.SendEmail(Funkmap.Auth.Models.RegistrationRequest)">
+            <summary>
+            Signup user and send confirmation code to email.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.Confirm(Funkmap.Auth.Models.ConfirmationRequest)">
+            <summary>
+            Registration confirmation with the email code.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.AskRestore(System.String)">
+            <summary>
+            Ask for password restore.
+            </summary>
+            <param name="email">Users's email (also can be login).</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.ConfirmRestore(Funkmap.Auth.Models.ConfirmRestoreRequest)">
+            <summary>
+            Password restore confirmation with the email code.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.GetUser(System.String)">
+            <summary>
+            Get user's full information (if exists).
+            </summary>
+            <param name="login">Users's login</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.UpdateLocale(Funkmap.Auth.Models.UpdateLocaleRequest)">
+            <summary>
+            Update user locale (available: 'ru', 'en').
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.GetAvatar(System.String)">
+            <summary>
+            Get user's avatar (bytes or base64 string).
+            </summary>
+            <param name="login">Users's login</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.SaveAvatar(Funkmap.Auth.Models.SaveImageRequest)">
+            <summary>
+            Update users's avatar.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

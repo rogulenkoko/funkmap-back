@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Funkmap.Auth.Models;
 using Funkmap.Common.Cqrs;
-using Funkmap.Module.Auth.Models;
 
-namespace Funkmap.Module.Auth.Abstract
+namespace Funkmap.Auth.Abstract
 {
     public interface IRegistrationContextManager
     {

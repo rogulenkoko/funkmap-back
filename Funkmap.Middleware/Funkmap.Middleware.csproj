@@ -250,6 +250,10 @@
       <Project>{a1388a76-7550-4c06-9486-2fe5a4ad6ed5}</Project>
       <Name>Funkmap.Auth.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj">
+      <Project>{76e41eed-021e-4198-b25c-1fff0d2a053d}</Project>
+      <Name>Funkmap.Auth.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Auth\Funkmap.Auth.csproj">
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
       <Name>Funkmap.Auth</Name>

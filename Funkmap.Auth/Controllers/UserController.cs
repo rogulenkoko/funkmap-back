@@ -2,12 +2,12 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using Funkmap.Auth.Domain.Abstract;
+using Funkmap.Auth.Models;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Module.Auth.Models;
 
-namespace Funkmap.Module.Auth.Controllers
+namespace Funkmap.Auth.Controllers
 {
     [RoutePrefix("api/user")]
     [ValidateRequestModel]
@@ -21,13 +21,13 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Get user's full information (if exists)
+        /// Get user's full information (if exists).
         /// </summary>
         /// <param name="login">Users's login</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(UserResponse))]
-        [Route("user/{login}")]
+        [Route("{login}")]
         public async Task<IHttpActionResult> GetUser(string login)
         {
             var user = await _authRepository.GetAsync(login);
@@ -47,7 +47,7 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Update user locale
+        /// Update user locale (available: 'ru', 'en').
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -64,7 +64,7 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Get user's avatar (bytes or base64 string)
+        /// Get user's avatar (bytes or base64 string).
         /// </summary>
         /// <param name="login">Users's login</param>
         /// <returns></returns>
@@ -77,7 +77,7 @@ namespace Funkmap.Module.Auth.Controllers
         }
 
         /// <summary>
-        /// Update users's avatar
+        /// Update users's avatar.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

@@ -1,6 +1,6 @@
 ﻿using Funkmap.Common.Models;
 
-namespace Funkmap.Module.Auth.Models
+namespace Funkmap.Auth.Models
 {
     public class AvatarUpdateResponse : BaseResponse
     {

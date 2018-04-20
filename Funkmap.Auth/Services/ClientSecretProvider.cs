@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Auth.Abstract;
 using Funkmap.Auth.Domain.Models;
-using Funkmap.Module.Auth.Abstract;
 
-namespace Funkmap.Module.Auth.Services
+namespace Funkmap.Auth.Services
 {
     public class ClientSecretProvider : IClientSecretProvider
     {

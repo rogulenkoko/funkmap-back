@@ -1,7 +1,7 @@
 ﻿using System;
-using Funkmap.Module.Auth.Abstract;
+using Funkmap.Auth.Abstract;
 
-namespace Funkmap.Module.Auth.Services
+namespace Funkmap.Auth.Services
 {
     public class ConfirmationCodeGenerator : IConfirmationCodeGenerator
     {

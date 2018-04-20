@@ -1,6 +1,6 @@
 ﻿using Funkmap.Common.Notifications.Notification;
 
-namespace Funkmap.Module.Auth.Notifications
+namespace Funkmap.Auth.Notifications
 {
     public class PasswordRecoverNotification : Notification
     {
