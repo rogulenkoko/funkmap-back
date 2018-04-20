@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
@@ -20,20 +23,28 @@ namespace Funkmap.Feedback.Controllers
         }
         
         /// <summary>
-        /// Send feedback
+        /// Send feedback.
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
+        [ResponseType(typeof(BaseResponse))]
         [Route("")]
-        public IHttpActionResult SaveFeedback(FeedbackItem item)
+        public async Task<IHttpActionResult> SaveFeedback(FeedbackItem item)
         {
-            _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message)
+            try
             {
-                Content = item.Content?.Select(x=> new FeedbackContent() {Name = x.Name,Data = x.Data}).ToList()
-            });
+                await _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message)
+                {
+                    Content = item.Content?.Select(x => new FeedbackContent() { Name = x.Name, Data = x.Data }).ToList()
+                });
 
-            return Ok(new BaseResponse() {Success = true});
+                return Ok(new BaseResponse() { Success = true });
+            }
+            catch (Exception e)
+            {
+                return Ok(new BaseResponse() { Success = false });
+            }
         }
     }
 }

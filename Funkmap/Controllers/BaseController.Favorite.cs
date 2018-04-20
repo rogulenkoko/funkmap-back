@@ -13,7 +13,7 @@ namespace Funkmap.Controllers
     public partial class BaseController
     {
         /// <summary>
-        /// Marked as favourite profile's base inforamation
+        /// Get marked as favourite profile's base inforamation.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -29,7 +29,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Marked as favourite profile's logins
+        /// Get marked as favourite profile's logins.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -43,7 +43,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Add or delete favourite profile
+        /// Add or delete favourite profile.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

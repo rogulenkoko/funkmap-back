@@ -6,19 +6,19 @@
     <members>
         <member name="M:Funkmap.Notifications.Controllers.NotificationsController.GetNotifications">
             <summary>
-            Get all existing users's notifications
+            Get all existing users's notifications.
             </summary>
             <returns></returns>
         </member>
         <member name="M:Funkmap.Notifications.Controllers.NotificationsController.GetNewNotificationsCount">
             <summary>
-            Get count of fresh notifications
+            Get count of fresh notifications.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Funkmap.Notifications.Controllers.NotificationsController.AnswerNotification(Funkmap.Notifications.Models.NotificationAnswerModel)">
+        <member name="M:Funkmap.Notifications.Controllers.NotificationsController.AnswerNotification(Funkmap.Notifications.Domain.Models.NotificationAnswerRequest)">
             <summary>
-            Answer notification if it's possible
+            Answer notification if it's possible.
             </summary>
             <param name="answer"></param>
             <returns></returns>

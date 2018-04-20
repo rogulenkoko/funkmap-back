@@ -15,6 +15,7 @@ using Funkmap.Common.Tools;
 using Funkmap.Data;
 using Funkmap.Middleware.Handlers;
 using Funkmap.Module;
+using Funkmap.Notifications.Data;
 using Metrics;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
@@ -28,7 +29,7 @@ namespace Funkmap.Middleware
 {
     public partial class Startup
     {
-        
+
         public void Configuration(IAppBuilder appBuilder)
         {
             HttpConfiguration config = new HttpConfiguration();
@@ -65,7 +66,7 @@ namespace Funkmap.Middleware
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/api/token"),
-                
+
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = container.Resolve<FunkmapAuthProvider>(),
                 RefreshTokenProvider = new FunkmapRefreshTokenProvider()
@@ -79,8 +80,9 @@ namespace Funkmap.Middleware
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute("Swagger UI", "", null, null, new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
 
+#if DEBUG
+            //Metrics
             config.MessageHandlers.Add(new MetricsHandler());
-
             Metric.Config
                 .WithAllCounters()
                 .WithOwin(middleware => appBuilder.Use(middleware), metricsConfig => metricsConfig
@@ -89,7 +91,7 @@ namespace Funkmap.Middleware
                 );
 
             appBuilder.UseWebApi(config);
-
+#endif
             //SignalR
 
             var dependencyResolver = new AutofacDependencyResolver(container);
@@ -108,23 +110,24 @@ namespace Funkmap.Middleware
         {
             Assembly.Load(typeof(FunkmapModule).Assembly.FullName);
             Assembly.Load(typeof(FunkmapMongoModule).Assembly.FullName);
-            
+
 
             Assembly.Load(typeof(AuthFunkmapModule).Assembly.FullName);
             Assembly.Load(typeof(AuthMongoModule).Assembly.FullName);
 
-            Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName); 
+            Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName);
             Assembly.Load(typeof(Messenger.Command.MessengerCommandModule).Assembly.FullName);
             Assembly.Load(typeof(Messenger.Query.MessengerQueryModule).Assembly.FullName);
+
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
+            Assembly.Load(typeof(NotificationsMongoModule).Assembly.FullName);
+            
             Assembly.Load(typeof(Feedback.FeedbackModule).Assembly.FullName);
             Assembly.Load(typeof(Feedback.Command.FeedbackCommandModule).Assembly.FullName);
 
             //Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
             Assembly.Load(typeof(LoggerModule).Assembly.FullName);
             Assembly.Load(typeof(Common.Notifications.NotificationToolModule).Assembly.FullName);
-
-
         }
 
         private void RegisterModules(ContainerBuilder builder)
@@ -144,7 +147,7 @@ namespace Funkmap.Middleware
 
                 swaggerConfig.DescribeAllEnumsAsStrings();
 
-                string executablePath = AppDomain.CurrentDomain.BaseDirectory;
+                string executablePath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
 
                 AppDomain.CurrentDomain.GetAssemblies()
                     .Where(x => x.FullName.Contains("Funkmap"))

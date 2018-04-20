@@ -310,6 +310,10 @@
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
       <Name>Funkmap.Messenger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
+      <Project>{6a86c558-8133-4f9f-857a-60df8496ceb4}</Project>
+      <Name>Funkmap.Notifications.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
       <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
       <Name>Funkmap.Notifications</Name>

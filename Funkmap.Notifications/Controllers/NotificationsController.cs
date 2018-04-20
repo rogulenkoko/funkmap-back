@@ -1,15 +1,16 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Funkmap.Common.Auth;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
-using Funkmap.Notifications.Contracts;
-using Funkmap.Notifications.Data.Abstract;
-using Funkmap.Notifications.Mappers;
-using Funkmap.Notifications.Models;
-using Funkmap.Notifications.Services.Abstract;
+using Funkmap.Notifications.Domain.Abstract;
+using Funkmap.Notifications.Domain.Models;
+using Funkmap.Notifications.Domain.Services.Abstract;
+using NotificationAnswer = Funkmap.Notifications.Contracts.NotificationAnswer;
 
 namespace Funkmap.Notifications.Controllers
 {
@@ -28,27 +29,28 @@ namespace Funkmap.Notifications.Controllers
         }
 
         /// <summary>
-        /// Get all existing users's notifications
+        /// Get all existing users's notifications.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Authorize]
+        [ResponseType(typeof(List<Notification>))]
         [Route("")]
         public async Task<IHttpActionResult> GetNotifications()
         {
             var login = Request.GetLogin();
 
             var notifications = await _notificationRepository.GetUserNotificationsAsync(login);
-            var result = notifications.Select(x => x.ToNotificationModel());
-            return Content(HttpStatusCode.OK, result);
+            return Content(HttpStatusCode.OK, notifications);
         }
 
         /// <summary>
-        /// Get count of fresh notifications
+        /// Get count of fresh notifications.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Authorize]
+        [ResponseType(typeof(int))]
         [Route("new/count")]
         public async Task<IHttpActionResult> GetNewNotificationsCount()
         {
@@ -59,18 +61,17 @@ namespace Funkmap.Notifications.Controllers
         }
 
         /// <summary>
-        /// Answer notification if it's possible
+        /// Answer notification if it's possible.
         /// </summary>
         /// <param name="answer"></param>
         /// <returns></returns>
         [HttpPost]
         [Authorize]
+        [ResponseType(typeof(BaseResponse))]
         [Route("answer")]
-        public async Task<IHttpActionResult> AnswerNotification(NotificationAnswerModel answer)
+        public async Task<IHttpActionResult> AnswerNotification(NotificationAnswerRequest answer)
         {
-            //todo удалять после подтверждения
             var notification = await _notificationRepository.GetAsync(answer.NotificationId);
-            //await _notificationRepository.DeleteAsync(answer.NotificationId);
             
             var back = new NotificationAnswer()
             {

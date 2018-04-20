@@ -1,6 +1,6 @@
-﻿namespace Funkmap.Notifications.Models
+﻿namespace Funkmap.Notifications.Domain.Models
 {
-    public class NotificationAnswerModel
+    public class NotificationAnswerRequest
     {
         public bool Answer { get; set; }
         public string NotificationId { get; set; }

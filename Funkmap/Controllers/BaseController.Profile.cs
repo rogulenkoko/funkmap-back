@@ -19,7 +19,7 @@ namespace Funkmap.Controllers
     public partial class BaseController
     {
         /// <summary>
-        /// Full profile information
+        /// Get full profile information.
         /// </summary>
         /// <param name="login">Profile login</param>
         /// <returns></returns>
@@ -35,7 +35,7 @@ namespace Funkmap.Controllers
         
 
         /// <summary>
-        /// Create a profile
+        /// Create a profile.
         /// </summary>
         /// <param name="model">Profile</param>
         /// <returns></returns>
@@ -62,7 +62,7 @@ namespace Funkmap.Controllers
 
 
         /// <summary>
-        /// Update a profile
+        /// Update a profile.
         /// You can't modify EntityType, Login, UserLogin, AvatarId. For avatar updating use "base/avatar" POST method.
         /// You can't modify band participants and musician's band. You should use specific API methods.
         /// </summary>
@@ -87,7 +87,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Profile deletion
+        /// Delete profile.
         /// </summary>
         /// <param name="login">Profile login</param>
         /// <returns></returns>
@@ -105,11 +105,10 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Base profile information (specific for each profile type)
+        /// Profile's base information (specific for each profile type).
         /// </summary>
-        /// <param name="login">Логин профиля</param>
+        /// <param name="login">Profile's login</param>
         /// <returns></returns>
-
         [HttpGet]
         [ResponseType(typeof(ProfilePreview))]
         [Route("profile-preview/{login}")]
@@ -120,10 +119,10 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Profile avatar
+        /// Get profile avatar.
         /// (Byte array or base64 string)
         /// </summary>
-        /// <param name="login">Логин профиля</param>
+        /// <param name="login">Profile's login</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(byte[]))]
@@ -135,8 +134,8 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Update profile avatar
-        /// (put null or empty byte array for avatar deleting)
+        /// Update profile's avatar.
+        /// (Put null or empty byte array for avatar deleting)
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -161,7 +160,7 @@ namespace Funkmap.Controllers
 
 
         /// <summary>
-        /// Profile's logins which belongs to user
+        /// Profile's logins which belongs to authorized user.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -175,9 +174,9 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Check login for existance
+        /// Check login for existance.
         /// </summary>
-        /// <param name="login">Логин профиля</param>
+        /// <param name="login">Profile's login</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(bool))]

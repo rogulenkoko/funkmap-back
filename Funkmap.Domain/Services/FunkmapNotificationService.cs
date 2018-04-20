@@ -8,6 +8,7 @@ using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Events;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;
 
 namespace Funkmap.Domain.Services
@@ -109,12 +110,21 @@ namespace Funkmap.Domain.Services
 
         public void NotifyBandInvite(BandInviteNotification notification)
         {
-            _eventBus.PublishAsync(notification);
+            var @event = new NotificationRecievedEvent()
+            {
+                NotificationBase = notification
+            };
+            _eventBus.PublishAsync(@event);
         }
 
         public void ConfirmBandInvite(BandInviteConfirmationNotification notification)
         {
-            _eventBus.PublishAsync(notification);
+            var @event = new NotificationRecievedEvent()
+            {
+                NotificationBase = notification
+            };
+
+            _eventBus.PublishAsync(@event);
         }
     }
 }

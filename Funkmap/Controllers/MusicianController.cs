@@ -36,7 +36,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Invite musicians to the band
+        /// Invite musicians to the band.
         /// </summary>
         /// <param name="membersRequest"></param>
         /// <returns></returns>
@@ -81,7 +81,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Leave band (if musician is a participant of the band)
+        /// Leave band (if musician is a participant of the band).
         /// </summary>
         /// <param name="membersRequest"></param>
         /// <returns></returns>

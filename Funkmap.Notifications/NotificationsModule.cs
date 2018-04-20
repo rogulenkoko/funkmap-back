@@ -7,11 +7,10 @@ using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Notifications.Data;
-using Funkmap.Notifications.Data.Abstract;
-using Funkmap.Notifications.Data.Entities;
-using Funkmap.Notifications.Services;
-using Funkmap.Notifications.Services.Abstract;
-using MongoDB.Driver;
+using Funkmap.Notifications.Domain.Abstract;
+using Funkmap.Notifications.Domain.Services;
+using Funkmap.Notifications.Domain.Services.Abstract;
+using Funkmap.Notifications.SignalR;
 
 namespace Funkmap.Notifications
 {
@@ -19,24 +18,18 @@ namespace Funkmap.Notifications
     {
         public void Register(ContainerBuilder builder)
         {
-
-            var connectionString = ConfigurationManager.ConnectionStrings["FunkmapNotificationsMongoConnection"].ConnectionString;
-            var databaseName = ConfigurationManager.AppSettings["FunkmapNotificationsDbName"];
-            var mongoClient = new MongoClient(connectionString);
-
-            var databaseIocName = "notifications";
-
-            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
-            
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<NotificationEntity>(NotificationsCollectionNameProvider.BaseCollectionName))
-                .As<IMongoCollection<NotificationEntity>>();
-
             builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
             builder.RegisterType<NotificationsConnectionService>().As<INotificationsConnectionService>().SingleInstance();
 
             builder.RegisterType<NotificationService>()
                 .As<IEventHandler>()
                 .As<INotificationService>()
+                .SingleInstance()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+            builder.RegisterType<NotificationsSignalRHandler>()
+                .As<IEventHandler>()
                 .SingleInstance()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();

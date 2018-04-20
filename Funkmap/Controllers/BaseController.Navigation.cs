@@ -33,7 +33,7 @@ namespace Funkmap.Controllers
 
 
         /// <summary>
-        /// Nearest profiles base information
+        /// Get nearest profiles base information.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -56,7 +56,7 @@ namespace Funkmap.Controllers
 
 
         /// <summary>
-        /// Nearest profiles navigation information
+        /// Get nearest profiles navigation information.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -79,7 +79,7 @@ namespace Funkmap.Controllers
         
 
         /// <summary>
-        /// Profiles base information
+        /// Get profiles base information.
         /// </summary>
         /// <param name="request">Filtration parameters</param>
         /// <returns></returns>
@@ -115,7 +115,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Profiles navigation information
+        /// Get profiles navigation information.
         /// </summary>
         /// <param name="request">Filtration parameters</param>
         /// <returns></returns>
@@ -143,7 +143,7 @@ namespace Funkmap.Controllers
         
 
         /// <summary>
-        /// Base information about specific profiles
+        /// Get base information about specific profiles.
         /// </summary>
         /// <param name="logins">Profile's logins</param>
         /// <returns></returns>
@@ -157,9 +157,9 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Информация о навигации некоторых профилях
+        /// Get navigation information of specific profiles
         /// </summary>
-        /// <param name="logins">Логины профилей</param>
+        /// <param name="logins">Specefic profiles logins</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(List<Marker>))]

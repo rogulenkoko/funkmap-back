@@ -1,35 +1,46 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Funkmap.Common.Cqrs;
 using Funkmap.Common.Data.Mongo;
-using Funkmap.Notifications.Contracts;
-using Funkmap.Notifications.Data.Abstract;
 using Funkmap.Notifications.Data.Entities;
+using Funkmap.Notifications.Data.Mappers;
+using Funkmap.Notifications.Domain.Abstract;
+using Funkmap.Notifications.Domain.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Funkmap.Notifications.Data
 {
-    public class NotificationRepository : Repository<NotificationEntity>, INotificationRepository
+    public class NotificationRepository : RepositoryBase<NotificationEntity>, INotificationRepository
     {
         public NotificationRepository(IMongoCollection<NotificationEntity> collection) : base(collection)
         {
         }
 
-        public override Task UpdateAsync(NotificationEntity entity)
+        public async Task<Notification> GetAsync(string id)
         {
-            throw new System.NotImplementedException();
+            var entity = await _collection.Find(x => x.Id == new ObjectId(id)).SingleOrDefaultAsync();
+            return entity.ToNotification();
         }
 
-        public async Task<List<NotificationEntity>> GetUserNotificationsAsync(string login)
+        public async Task<Notification> CreateAsync(Notification notification)
+        {
+            var entity = notification.ToEntity();
+            await _collection.InsertOneAsync(entity);
+            return entity.ToNotification();
+        }
+
+        public async Task<List<Notification>> GetUserNotificationsAsync(string login)
         {
             var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login);
             var sort = Builders<NotificationEntity>.Sort.Descending(x => x.Date);
             var notifications = await _collection.Find(filter).Sort(sort).ToListAsync();
 
+            var updateFilter = filter & Builders<NotificationEntity>.Filter.Eq(x => x.NeedAnswer, false);
             var update = Builders<NotificationEntity>.Update.Set(x => x.IsRead, true);
-            _collection.UpdateManyAsync(filter, update);
+            _collection.UpdateManyAsync(updateFilter, update);
 
-
-            return notifications;
+            return notifications.ToNotifications();
         }
 
         public async Task<long> GetNewNotificationsCountAsync(string login)

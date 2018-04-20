@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Funkmap.Common.Filters;
-using Funkmap.Notifications.Services.Abstract;
+using Funkmap.Notifications.Domain.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 

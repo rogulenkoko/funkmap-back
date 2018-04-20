@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Notifications.Contracts.Abstract
 {
-    //todo как-то разрулить эти наследования
+    //todo как-то разрулить эти наследования для сериализации
     [BsonKnownTypes(typeof(BandInviteNotification), typeof(BandInviteConfirmationNotification))]
     public abstract class NotificationBase
     {

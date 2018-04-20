@@ -2,9 +2,9 @@
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
 
-namespace Funkmap.Notifications.Models
+namespace Funkmap.Notifications.Domain.Models
 {
-    public class NotificationModel
+    public class Notification
     {
         public string Id { get; set; }
         public NotificationType NotificationType { get; set; }

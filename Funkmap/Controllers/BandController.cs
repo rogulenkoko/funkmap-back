@@ -30,7 +30,7 @@ namespace Funkmap.Controllers
 
 
         /// <summary>
-        /// Information about bands you can  invited musicians.
+        /// Get information about bands in which you can invite musicians.
         /// (Musician is not a participant of the band and haven't invited yet.)
         /// </summary>
         /// <returns></returns>
@@ -66,7 +66,7 @@ namespace Funkmap.Controllers
         }
 
         /// <summary>
-        /// Remove musician from band
+        /// Remove musician from band.
         /// </summary>
         /// <returns></returns>
         [Authorize]
