@@ -17,7 +17,7 @@ namespace Funkmap.Messenger.Tests.Tools
             _dialogsCollection = dialogsCollection;
         }
 
-        public async Task<DialogEntity> GetAnyDialog()
+        public async Task<DialogEntity> GetAnyDialogAsync()
         {
             var dialogs = await _dialogsCollection.Find(x => true).ToListAsync();
             var random = new Random();

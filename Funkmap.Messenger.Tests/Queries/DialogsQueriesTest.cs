@@ -29,8 +29,6 @@ namespace Funkmap.Messenger.Tests.Queries
 
         private IQueryContext _queryContext;
 
-        private ICommandBus _commandBus;
-
         private TestToolRepository _testToolRepository;
 
         [TestInitialize]
@@ -63,7 +61,6 @@ namespace Funkmap.Messenger.Tests.Queries
             var container = builder.Build();
 
             _queryContext = container.Resolve<IQueryContext>();
-            _commandBus = container.Resolve<ICommandBus>();
 
             _testToolRepository = new TestToolRepository(dialogsCollection);
         }
@@ -71,7 +68,7 @@ namespace Funkmap.Messenger.Tests.Queries
         [TestMethod]
         public void GetUserDialogsTest()
         {
-            var login = _testToolRepository.GetAnyDialog().GetAwaiter().GetResult().Participants.First();
+            var login = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult().Participants.First();
             
             var query = new UserDialogsQuery(login);
             var queryResult = _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult();
@@ -84,7 +81,7 @@ namespace Funkmap.Messenger.Tests.Queries
         [TestMethod]
         public void GetDialogMessages()
         {
-            var dialog = _testToolRepository.GetAnyDialog().GetAwaiter().GetResult();
+            var dialog = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult();
 
             var query = new DialogMessagesQuery
             {
@@ -103,7 +100,7 @@ namespace Funkmap.Messenger.Tests.Queries
         [TestMethod]
         public void GetDialogsNewMessagesCount()
         {
-            var dialog = _testToolRepository.GetAnyDialog().GetAwaiter().GetResult();
+            var dialog = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult();
             var user = dialog.Participants.First();
             var query = new DialogsNewMessagesCountQuery(user);
 

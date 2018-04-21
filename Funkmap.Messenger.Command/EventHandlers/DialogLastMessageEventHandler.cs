@@ -27,7 +27,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
             {
                 Message = @event.Message
             };
-            await _commandBus.Execute(command);
+            await _commandBus.ExecuteAsync(command);
         }
 
 

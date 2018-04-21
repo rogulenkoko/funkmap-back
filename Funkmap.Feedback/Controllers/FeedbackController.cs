@@ -34,7 +34,7 @@ namespace Funkmap.Feedback.Controllers
         {
             try
             {
-                await _commandBus.Execute(new FeedbackCommand(item.FeedbackType, item.Message)
+                await _commandBus.ExecuteAsync(new FeedbackCommand(item.FeedbackType, item.Message)
                 {
                     Content = item.Content?.Select(x => new FeedbackContent() { Name = x.Name, Data = x.Data }).ToList()
                 });

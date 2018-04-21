@@ -34,7 +34,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                     //todo подумать о локализации
                     Text = $"{@event.Dialog.CreatorLogin} создал беседу {@event.Dialog.Name} из {@event.Dialog.Participants.Count} участников"
                 };
-                await _commandBus.Execute(saveMessageCommand);
+                await _commandBus.ExecuteAsync(saveMessageCommand);
             }
         }
         

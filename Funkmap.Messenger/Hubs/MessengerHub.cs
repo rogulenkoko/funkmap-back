@@ -42,7 +42,7 @@ namespace Funkmap.Messenger.Hubs
                 return new BaseResponse() {Success = true};
             }
 
-            _commandBus.Execute(new ReadMessagesCommand
+            _commandBus.ExecuteAsync(new ReadMessagesCommand
             {
                 DialogId = dialogId,
                 UserLogin = login,

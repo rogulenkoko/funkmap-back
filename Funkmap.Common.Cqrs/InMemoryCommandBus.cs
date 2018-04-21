@@ -21,16 +21,16 @@ namespace Funkmap.Common.Cqrs
                 throw new ArgumentException("command is null");
             }
 
-            await Execute(command.Body);
+            await ExecuteAsync(command.Body);
         }
 
-        public async Task Execute<TCommand>(TCommand commandBody) where TCommand : class
+        public async Task ExecuteAsync<TCommand>(TCommand commandBody) where TCommand : class
         {
             ICommandHandler<TCommand> handler = _commandHandlerResolver.ResolveCommandHandler<ICommandHandler<TCommand>>();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                handler.Execute(commandBody);
+                await handler.Execute(commandBody);
             }).ConfigureAwait(false);
         }
     }

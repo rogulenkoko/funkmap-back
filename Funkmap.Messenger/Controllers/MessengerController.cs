@@ -64,7 +64,7 @@ namespace Funkmap.Messenger.Controllers
                 Content = message.Content?.Select(x => x.ToEntity()).ToList(),
                 UsersWithOpenedCurrentDialog = usersWithOpenedCurrentDialog
             };
-            _commandBus.Execute<SaveMessageCommand>(command);
+            _commandBus.ExecuteAsync<SaveMessageCommand>(command);
 
             response.Success = true;
             return Ok(response);
@@ -84,7 +84,7 @@ namespace Funkmap.Messenger.Controllers
             var login = Request.GetLogin();
             var command = new StartUploadContentCommand(contentItemModel.ContentType, contentItemModel.Name, contentItemModel.Data, login);
 
-            _commandBus.Execute(command);
+            _commandBus.ExecuteAsync(command);
 
             return Ok(new BaseResponse() {Success = true});
         }
@@ -228,7 +228,7 @@ namespace Funkmap.Messenger.Controllers
                 DialogName = request.Name
             };
 
-            _commandBus.Execute(command);
+            _commandBus.ExecuteAsync(command);
 
             return Ok(new DialogResponse() { Success = true });
         }
@@ -244,7 +244,7 @@ namespace Funkmap.Messenger.Controllers
         public IHttpActionResult InviteParticipants(InviteParticipantsRequest request)
         {
             var login = Request.GetLogin();
-            _commandBus.Execute(new InviteParticipantsCommand(login, request.InvitedUserLogins, request.DialogId));
+            _commandBus.ExecuteAsync(new InviteParticipantsCommand(login, request.InvitedUserLogins, request.DialogId));
             return Ok(new BaseResponse() { Success = true });
         }
 
@@ -260,7 +260,7 @@ namespace Funkmap.Messenger.Controllers
         {
             var login = Request.GetLogin();
 
-            _commandBus.Execute(new UpdateDialogInfoCommand()
+            _commandBus.ExecuteAsync(new UpdateDialogInfoCommand()
             {
                 Avatar = request.Avatar,
                 DialogId = request.DialogId,
@@ -283,7 +283,7 @@ namespace Funkmap.Messenger.Controllers
         {
             var userLogin = Request.GetLogin();
 
-            _commandBus.Execute(new LeaveDialogCommand(request.DialogId, request.Login, userLogin));
+            _commandBus.ExecuteAsync(new LeaveDialogCommand(request.DialogId, request.Login, userLogin));
 
             return Ok(new DialogResponse() { Success = true });
         }

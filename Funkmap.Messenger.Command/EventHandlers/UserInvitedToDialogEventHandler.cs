@@ -39,7 +39,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 Text = $"{@event.UserLogin} пригласил {addedParticipantsString}"//todo подумать о локализации
             };
 
-            await _commandBus.Execute(command);
+            await _commandBus.ExecuteAsync(command);
         }
 
         

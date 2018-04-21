@@ -52,7 +52,7 @@ namespace Funkmap.Messenger.Command.EventHandlers
                 };
             }
 
-            await _commandBus.Execute(command);
+            await _commandBus.ExecuteAsync(command);
         }
     }
 }
