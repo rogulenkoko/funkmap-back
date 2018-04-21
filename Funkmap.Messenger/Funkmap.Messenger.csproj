@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MessengerController.cs" />
+    <Compile Include="Handlers\CommandFailedEventHandler.cs" />
     <Compile Include="Handlers\SignalrEventHandler.cs" />
     <Compile Include="Hubs\Abstract\IMessengerHub.cs" />
     <Compile Include="Mappers\ContentItemMapper.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Mappers\MessageMapper.cs" />
     <Compile Include="Hubs\MessengerHub.cs" />
     <Compile Include="MessengerModule.cs" />
+    <Compile Include="Models\CommandErrorModel.cs" />
     <Compile Include="Models\ContentItemModel.cs" />
     <Compile Include="Models\DialogModel.cs" />
     <Compile Include="Models\DialogAvatarInfoModel.cs" />
@@ -200,6 +202,10 @@
     <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+      <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
+      <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>

@@ -53,5 +53,12 @@ namespace Funkmap.Messenger.Hubs.Abstract
         /// <param name="itemModel"></param>
         /// <returns></returns>
         Task OnContentLoaded(ContentItemModel itemModel);
+
+        /// <summary>
+        /// Treiggers when error appers in command processing.
+        /// </summary>
+        /// <param name="errorModel"></param>
+        /// <returns></returns>
+        Task OnError(CommandErrorModel errorModel);
     }
 }

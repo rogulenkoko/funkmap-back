@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
@@ -13,13 +13,11 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class InviteParticipantsCommandHandler : ICommandHandler<InviteParticipantsCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<InviteParticipantsCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public InviteParticipantsCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<InviteParticipantsCommandHandler> logger, IEventBus eventBus)
+        public InviteParticipantsCommandHandler(IMessengerCommandRepository messengerRepository, IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
-            _logger = logger;
             _eventBus = eventBus;
         }
 
@@ -66,14 +64,24 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             }
             catch (InvalidDataException ex)
             {
-                _logger.Error(ex, "Validation failed");
+                var error = $"{nameof(InviteParticipantsCommand)} validation failed.";
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = ex.Message,
+                    Sender = command.UserLogin
+                });
             }
             catch (Exception e)
             {
-                _logger.Error(e);
+                var error = "Invitation failed.";
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = e.Message,
+                    Sender = command.UserLogin
+                });
             }
-            
-
         }
     }
 }

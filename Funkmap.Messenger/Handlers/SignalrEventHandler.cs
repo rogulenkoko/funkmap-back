@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Dialogs;
 using Funkmap.Messenger.Events.Messages;
 using Funkmap.Messenger.Hubs;
@@ -17,7 +19,8 @@ namespace Funkmap.Messenger.Handlers
                                        IEventHandler<MessageSavedCompleteEvent>, 
                                        IEventHandler<MessagesReadEvent>,
                                        IEventHandler<DialogCreatedEvent>,
-                                       IEventHandler<ContentUploadedEvent>
+                                       IEventHandler<ContentUploadedEvent>,
+                                       IEventHandler<MessengerCommandFailedEvent>
     {
         private readonly IEventBus _eventBus;
         private readonly IMessengerConnectionService _connectionService;
@@ -29,7 +32,6 @@ namespace Funkmap.Messenger.Handlers
             _connectionService = connectionService;
             _queryContext = queryContext;
         }
-
         
 
         public void InitHandlers()
@@ -39,6 +41,7 @@ namespace Funkmap.Messenger.Handlers
             _eventBus.Subscribe<MessagesReadEvent>(Handle);
             _eventBus.Subscribe<DialogCreatedEvent>(Handle);
             _eventBus.Subscribe<ContentUploadedEvent>(Handle);
+            _eventBus.Subscribe<MessengerCommandFailedEvent>(Handle);
         }
 
         public async Task Handle(MessageSavedCompleteEvent @event)
@@ -111,6 +114,17 @@ namespace Funkmap.Messenger.Handlers
                 .Clients.Clients(connectionIds)
                 .OnContentLoaded(new ContentItemModel() {Name = @event.Name, DataUrl = @event.DataUrl, ContentType = @event.ContentType});
 
+        }
+
+        public async Task Handle(MessengerCommandFailedEvent @event)
+        {
+            if (String.IsNullOrEmpty(@event.Sender)) return;
+
+            var connectionIds = _connectionService.GetConnectionIdsByLogin(@event.Sender);
+
+            await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+                .Clients.Clients(connectionIds)
+                .OnError(new CommandErrorModel() {Error = @event.Error, ExceptionMessage = @event.ExceptionMessage});
         }
     }
 }

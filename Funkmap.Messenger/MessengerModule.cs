@@ -8,6 +8,7 @@ using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
+using Funkmap.Common.Cqrs;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Command;
@@ -113,9 +114,16 @@ namespace Funkmap.Messenger
                 .As<IEventHandler<MessageSavedCompleteEvent>>()
                 .As<IEventHandler<MessagesReadEvent>>()
                 .As<IEventHandler<DialogCreatedEvent>>()
+                .As<IEventHandler<CommandFailedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
-                .AutoActivate(); 
+                .AutoActivate();
+
+            builder.RegisterType<CommandFailedEventHandler>()
+                .As<IEventHandler<CommandFailedEvent>>()
+                .As<IEventHandler>()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
 
             builder.RegisterType<UserLeavedDialogEventHandler>()
                 .As<IEventHandler<UserLeavedDialogEvent>>()

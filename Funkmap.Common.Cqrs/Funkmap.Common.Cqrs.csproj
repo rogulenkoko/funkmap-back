@@ -65,6 +65,7 @@
     <Compile Include="Abstract\IQueryContext.cs" />
     <Compile Include="Abstract\ISerializer.cs" />
     <Compile Include="Abstract\IQueryExecutor.cs" />
+    <Compile Include="CommandFailedEvent.cs" />
     <Compile Include="CommandHandlerResolver.cs" />
     <Compile Include="Envelope.cs" />
     <Compile Include="ICommandResponse.cs" />

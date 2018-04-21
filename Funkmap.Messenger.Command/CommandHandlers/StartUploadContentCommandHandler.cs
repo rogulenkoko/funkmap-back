@@ -4,27 +4,23 @@ using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Messages;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {
     internal class StartUploadContentCommandHandler : ICommandHandler<StartUploadContentCommand>
     {
-
-        private readonly IFunkmapLogger<StartUploadContentCommandHandler> _logger;
         private readonly IEventBus _eventBus;
         private readonly IFileStorage _fileStorage;
 
-        public StartUploadContentCommandHandler(IFunkmapLogger<StartUploadContentCommandHandler> logger, 
-                                                IEventBus eventBus,
+        public StartUploadContentCommandHandler(IEventBus eventBus,
                                                 [KeyFilter(MessengerCollectionNameProvider.MessengerStorage)]
                                                 IFileStorage fileStorage)
         {
-            _logger = logger;
             _eventBus = eventBus;
             _fileStorage = fileStorage;
         }
@@ -49,9 +45,25 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
                 await _eventBus.PublishAsync(new ContentUploadedEvent(command.ContentType, command.FileName, fileId, command.Sender));
             }
+            catch (InvalidDataException ex)
+            {
+                var error = $"{nameof(StartUploadContentCommand)} validation failed.";
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = ex.Message,
+                    Sender = command.Sender
+                });
+            }
             catch (Exception e)
             {
-                _logger.Error(e);
+                var error = "Content uploading failed.";
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = e.Message,
+                    Sender = command.Sender
+                });
             }
         }
     }

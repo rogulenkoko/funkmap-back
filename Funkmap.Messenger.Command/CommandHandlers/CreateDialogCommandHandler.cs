@@ -6,6 +6,7 @@ using Funkmap.Common.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
@@ -13,13 +14,11 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class CreateDialogCommandHandler : ICommandHandler<CreateDialogCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<CreateDialogCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
-        public CreateDialogCommandHandler(IMessengerCommandRepository messengerRepository, IFunkmapLogger<CreateDialogCommandHandler> logger, IEventBus eventBus)
+        public CreateDialogCommandHandler(IMessengerCommandRepository messengerRepository, IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
-            _logger = logger;
             _eventBus = eventBus;
         }
 
@@ -52,11 +51,11 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     var existingDialog = await _messengerRepository.GetDialogByParticipants(command.Participants);
                     if (existingDialog != null)
                     {
-                        await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = existingDialog, Sender = command.CreatorLogin});
+                        await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = existingDialog, Sender = command.CreatorLogin });
                         return;
                     }
                 }
-                
+
 
                 var dialog = new DialogEntity
                 {
@@ -67,18 +66,29 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                 };
 
                 await _messengerRepository.AddDialogAsync(dialog);
-                await _eventBus.PublishAsync(new DialogCreatedEvent() {Dialog = dialog, Sender = dialog.CreatorLogin});
+                await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = dialog, Sender = dialog.CreatorLogin });
             }
             catch (InvalidDataException e)
             {
-                var error = "Command validation failed";
-                _logger.Error(e, error);
-                await _eventBus.PublishAsync(new DialogCreationFailedEvent() {Error = error});
+                var error = $"{nameof(CreateDialogCommand)} validation failed.";
+                await _eventBus.PublishAsync(new DialogCreationFailedEvent() { Error = error });
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = e.Message,
+                    Sender = command.CreatorLogin
+                });
             }
             catch (Exception e)
             {
-                _logger.Error(e);
+                var error = "Dialog creation failed.";
                 await _eventBus.PublishAsync(new DialogCreationFailedEvent() { Error = e.Message });
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = e.Message,
+                    Sender = command.CreatorLogin
+                });
             }
         }
     }

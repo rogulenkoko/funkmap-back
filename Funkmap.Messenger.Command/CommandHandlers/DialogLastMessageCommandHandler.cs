@@ -2,9 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
@@ -12,15 +12,12 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class DialogLastMessageCommandHandler : ICommandHandler<UpdateDialogLastMessageCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<DialogLastMessageCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
         public DialogLastMessageCommandHandler(IMessengerCommandRepository messengerRepository,
-                                               IFunkmapLogger<DialogLastMessageCommandHandler> logger,
                                                IEventBus eventBus)
         {
             _messengerRepository = messengerRepository;
-            _logger = logger;
             _eventBus = eventBus;
         }
 
@@ -30,14 +27,14 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             {
                 if (String.IsNullOrEmpty(command.DialogId))
                 {
-                    throw new InvalidDataException("Command validation failed");
+                    throw new InvalidDataException("Command validation failed.");
                 }
                 
                 var dialog = await _messengerRepository.UpdateLastMessageDateAsync(command.DialogId, command.LastMesssageDateTime);
 
                 if (dialog == null)
                 {
-                    throw new InvalidDataException("Dialog is not exist");
+                    throw new InvalidDataException("Dialog is not exist.");
                 }
 
                 dialog.LastMessage = command.Message;
@@ -46,11 +43,13 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             }
             catch (InvalidDataException ex)
             {
-                _logger.Error(ex, "Validation failed");
+                var error = $"{nameof(UpdateDialogLastMessageCommand)} validation failed.";
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent() { Error = error, ExceptionMessage = ex.Message});
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Dialog update failed");
+                var error = "Dialog last messages update failed.";
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent() { Error = error, ExceptionMessage = ex.Message});
             }
 
         }

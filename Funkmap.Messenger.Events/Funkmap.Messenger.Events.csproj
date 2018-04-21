@@ -49,9 +49,14 @@
     <Compile Include="Messages\MessageSavedCompleteEvent.cs" />
     <Compile Include="Messages\MessageSavedFailEvent.cs" />
     <Compile Include="Messages\MessagesReadEvent.cs" />
+    <Compile Include="MessengerCommandFailedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj">
       <Project>{16A45066-051D-487E-86AA-0D1495E482A7}</Project>
       <Name>Funkmap.Messenger.Entities</Name>

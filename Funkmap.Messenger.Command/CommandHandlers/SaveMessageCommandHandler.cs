@@ -7,6 +7,7 @@ using Funkmap.Common.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Messages;
 using MongoDB.Bson;
 
@@ -15,13 +16,11 @@ namespace Funkmap.Messenger.Command.CommandHandlers
     internal class SaveMessageCommandHandler : ICommandHandler<SaveMessageCommand>
     {
         private readonly IMessengerCommandRepository _messengerRepository;
-        private readonly IFunkmapLogger<SaveMessageCommandHandler> _logger;
         private readonly IEventBus _eventBus;
 
         public SaveMessageCommandHandler(IMessengerCommandRepository messengerRepository, IEventBus eventBus, IFunkmapLogger<SaveMessageCommandHandler> logger)
         {
             _messengerRepository = messengerRepository;
-            _logger = logger;
             _eventBus = eventBus;
         }
 
@@ -80,14 +79,25 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             }
             catch (InvalidDataException ex)
             {
-                var error = "Message validation failed";
+                var error = $"{nameof(SaveMessageCommand)} validation failed.";
                 await _eventBus.PublishAsync(new MessageSavedFailEvent() {Error = error});
-                _logger.Error(ex, error);
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = ex.Message,
+                    Sender = command.Sender
+                });
             }
             catch (Exception e)
             {
+                var error = "Message saving failed.";
                 await _eventBus.PublishAsync(new MessageSavedFailEvent());
-                _logger.Error(e);
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                {
+                    Error = error,
+                    ExceptionMessage = e.Message,
+                    Sender = command.Sender
+                });
             }
         }
     }
