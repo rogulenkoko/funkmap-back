@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Events.Dialogs;

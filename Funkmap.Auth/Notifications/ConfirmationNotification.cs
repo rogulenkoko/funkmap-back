@@ -15,23 +15,22 @@ namespace Funkmap.Auth.Notifications
 
         private string GetSubject()
         {
-            return "Подтверждение регистрации";
+            return Resources.Resource.Registration_Confirmation;
         }
 
         private string GetConfirmationTitle(string name)
         {
-            return $"Приветствую, {name}";
+            return $"{Resources.Resource.Registration_Greeting}, {name}";
         }
 
         private string GetConfirmationMainContent()
         {
-            //todo локализация, вынести в ресурсы
-            return "Спасибо, что зарегистрировались на  Band Map. <br>Каждый новый пользователь улучшает и развивает сервис,<br> делая его более обширным. Мы ценим Вас и Ваш выбор. <br><br> Добро пожаловать на самую крупную площадку <br> по поиску музыкантов и всего, что связывает их.";
+            return $"{Resources.Resource.Registration_Gratitude}. <br> {Resources.Resource.Registration_Appreciate} <br><br> {Resources.Resource.Registration_Welcome}.";
         }
 
         private string GetConfirmationFooter(string code)
         {
-            return "Код для подтверждения регистрации: " + $"<span style=\"font-family: 'Roboto', Arial, sans-serif; margin: 0 0 0; font-size: 26px; line-height: 29px; color:#ee9117;\"> {code} </span>";
+            return $"{Resources.Resource.Registration_ConfirmationCode}: " + $"<span style=\"font-family: 'Roboto', Arial, sans-serif; margin: 0 0 0; font-size: 26px; line-height: 29px; color:#ee9117;\"> {code} </span>";
         }
     }
 }

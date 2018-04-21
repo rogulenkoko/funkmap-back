@@ -57,7 +57,7 @@ namespace Funkmap.Middleware
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             config.Filters.Add(new ValidateRequestModelAttribute());
-            config.Filters.Add(new LanguageFilterAttribute());
+            config.MessageHandlers.Add(new LanguageDelegateHandler());
 
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);

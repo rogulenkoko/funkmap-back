@@ -12,6 +12,12 @@ namespace Funkmap.Notifications.SignalR
         private readonly IEventBus _messageBus;
         private readonly INotificationsConnectionService _connectionService;
 
+        public NotificationsSignalRHandler(IEventBus messageBus, INotificationsConnectionService connectionService)
+        {
+            _messageBus = messageBus;
+            _connectionService = connectionService;
+        }
+
         public void InitHandlers()
         {
             _messageBus.Subscribe<NotificationSavedEvent>(Handle);
