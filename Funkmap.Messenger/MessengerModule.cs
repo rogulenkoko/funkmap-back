@@ -14,6 +14,7 @@ using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Command;
 using Funkmap.Messenger.Command.EventHandlers;
 using Funkmap.Messenger.Entities;
+using Funkmap.Messenger.Events;
 using Funkmap.Messenger.Events.Dialogs;
 using Funkmap.Messenger.Events.Messages;
 using Funkmap.Messenger.Handlers;
@@ -114,13 +115,13 @@ namespace Funkmap.Messenger
                 .As<IEventHandler<MessageSavedCompleteEvent>>()
                 .As<IEventHandler<MessagesReadEvent>>()
                 .As<IEventHandler<DialogCreatedEvent>>()
-                .As<IEventHandler<CommandFailedEvent>>()
+                .As<IEventHandler<MessengerCommandFailedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
 
             builder.RegisterType<CommandFailedEventHandler>()
-                .As<IEventHandler<CommandFailedEvent>>()
+                .As<IEventHandler<MessengerCommandFailedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();

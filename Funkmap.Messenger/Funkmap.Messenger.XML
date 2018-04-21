@@ -78,5 +78,61 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnUserConnected(System.String)">
+            <summary>
+            Triggers when any user connects to Hub.
+            </summary>
+            <param name="userLogin">User's login.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnUserDisconnected(System.String)">
+            <summary>
+            Triggers when any user disconnects from Hub.
+            </summary>
+            <param name="userLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnMessageSent(Funkmap.Messenger.Models.MessageModel)">
+            <summary>
+            Triggers when message was recieved (user who has sent message also will get it).
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnDialogCreated(Funkmap.Messenger.Models.DialogModel)">
+            <summary>
+            Triggers when dialog was created (available for a dialog creator because dialog is empty during the creation).
+            </summary>
+            <param name="dialog"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnDialogUpdated(Funkmap.Messenger.Models.DialogModel)">
+            <summary>
+            Triggers when dialog was updated (created for reciever, updated avatar, name etc.).
+            </summary>
+            <param name="dialog"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnDialogRead(Funkmap.Messenger.Models.DialogReadModel)">
+            <summary>
+            Trigger when user opens dialog and it means user has read new messages.
+            </summary>
+            <param name="dialogRead"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnContentLoaded(Funkmap.Messenger.Models.ContentItemModel)">
+            <summary>
+            Triggers when one item of content has been loaded to file storage.
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Hubs.Abstract.IMessengerHub.OnError(Funkmap.Messenger.Models.CommandErrorModel)">
+            <summary>
+            Treiggers when error appers in command processing.
+            </summary>
+            <param name="errorModel"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

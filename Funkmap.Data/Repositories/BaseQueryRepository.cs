@@ -241,15 +241,6 @@ namespace Funkmap.Data.Repositories
                 .NearSphere(x => x.Location, parameter.Longitude.Value, parameter.Latitude.Value,
                     parameter.RadiusKm.Value / FunkmapConstants.EarthRadius);
         }
-
-        public async Task UpdateAsync(BaseEntity entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, entity.Login) & Builders<BaseEntity>.Filter.Eq(x => x.EntityType, entity.EntityType);
-
-            await _collection.ReplaceOneAsync(filter, entity);
-        }
         
     }
 }
