@@ -14,17 +14,17 @@ namespace Funkmap.Auth.Notifications
 
         private string GetSubject()
         {
-            return "Восстановление пароля";
+            return Resources.Resource.PasswordRecovery;
         }
 
         private string GetConfirmationTitle(string name)
         {
-            return $"Приветствую, {name}";
+            return $"{Resources.Resource.Registration_Greeting}, {name}";
         }
 
         private string GetFooter(string code)
         {
-            return "Код для восстановления пароля: " + $"<span style=\"font-family: 'Roboto', Arial, sans-serif; margin: 0 0 0; font-size: 26px; line-height: 29px; color:#ee9117;\"> {code} </span>";
+            return $"{Resources.Resource.PasswordRecovery_Code}: " + $"<span style=\"font-family: 'Roboto', Arial, sans-serif; margin: 0 0 0; font-size: 26px; line-height: 29px; color:#ee9117;\"> {code} </span>";
         }
     }
 }

@@ -79,7 +79,7 @@ namespace Funkmap.Auth.Controllers
         /// <param name="email">Users's email (also can be login).</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("restore")]
+        [Route("restore/{email}")]
         public async Task<IHttpActionResult> AskRestore(string email)
         {
             var result = await _restoreContextManager.TryCreateRestoreContextAsync(email);

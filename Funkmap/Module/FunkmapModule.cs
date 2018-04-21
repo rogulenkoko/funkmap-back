@@ -13,7 +13,7 @@ namespace Funkmap.Module
             RegisterDomainDependiences(builder);
             
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            Console.WriteLine("Загружен основной модуль");
+            Console.WriteLine("Funkmap module has been loaded.");
         }
     }
 }

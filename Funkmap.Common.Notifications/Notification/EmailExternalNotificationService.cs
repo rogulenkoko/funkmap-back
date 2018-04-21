@@ -36,7 +36,7 @@ namespace Funkmap.Common.Notifications.Notification
 
             try
             {
-                _logger.Info($"Email has been sent by email {notification.Receiver}");
+                _logger.Info($"Email has been sent by email {notification.Receiver}.");
 
 
                 MailMessage message;
@@ -73,9 +73,6 @@ namespace Funkmap.Common.Notifications.Notification
                     };
                 }
 
-                
-
-               
 
                 var smtpClient = new SmtpClient();
                 smtpClient.Host = "smtp.mail.ru";

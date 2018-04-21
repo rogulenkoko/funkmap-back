@@ -61,6 +61,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password recovery.
+        /// </summary>
+        public static string PasswordRecovery {
+            get {
+                return ResourceManager.GetString("PasswordRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password recovery code.
+        /// </summary>
+        public static string PasswordRecovery_Code {
+            get {
+                return ResourceManager.GetString("PasswordRecovery_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Each new user improves and develops the service, making it more extensive. We appreciate you and your choice..
         /// </summary>
         public static string Registration_Appreciate {

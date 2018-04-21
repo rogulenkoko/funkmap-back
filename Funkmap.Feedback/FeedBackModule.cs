@@ -36,7 +36,7 @@ namespace Funkmap.Feedback
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            Console.WriteLine("Загружен модуль обратной связи");
+            Console.WriteLine("Feedback module has been loaded.");
         }
     }
 }

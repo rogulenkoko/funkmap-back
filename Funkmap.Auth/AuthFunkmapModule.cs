@@ -20,7 +20,7 @@ namespace Funkmap.Auth
             builder.RegisterType<ClientSecretProvider>().As<IClientSecretProvider>().SingleInstance();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            Console.WriteLine("Загружен модуль авторизации");
+            Console.WriteLine("Authorization module has been loaded.");
         }
     }
 }

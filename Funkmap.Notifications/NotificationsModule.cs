@@ -36,7 +36,7 @@ namespace Funkmap.Notifications
 
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            Console.WriteLine("Загружен модуль уведомлений");
+            Console.WriteLine("Notifications module has been loaded.");
         }
     }
 }

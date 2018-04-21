@@ -15,7 +15,7 @@ namespace Funkmap.Console
 
             using (WebApp.Start<Startup>(baseAddress))
             {
-                System.Console.WriteLine($"Сервер запущен по адерсу {baseAddress}");
+                System.Console.WriteLine($"Server has been started on {baseAddress}.");
                 System.Console.ReadLine();
             }
         }

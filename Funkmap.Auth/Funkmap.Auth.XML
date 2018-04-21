@@ -111,6 +111,16 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:Resources.Resource.PasswordRecovery">
+            <summary>
+              Looks up a localized string similar to Password recovery.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.PasswordRecovery_Code">
+            <summary>
+              Looks up a localized string similar to Password recovery code.
+            </summary>
+        </member>
         <member name="P:Resources.Resource.Registration_Appreciate">
             <summary>
               Looks up a localized string similar to Each new user improves and develops the service, making it more extensive. We appreciate you and your choice..
@@ -133,7 +143,7 @@
         </member>
         <member name="P:Resources.Resource.Registration_Greeting">
             <summary>
-              Looks up a localized string similar to Hello,.
+              Looks up a localized string similar to Hello.
             </summary>
         </member>
         <member name="P:Resources.Resource.Registration_Welcome">

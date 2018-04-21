@@ -135,7 +135,7 @@ namespace Funkmap.Messenger
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
 
-            Console.WriteLine("Загружен модуль мессенджера");
+            Console.WriteLine("Mesenger module has been loaded.");
         }
     }
 }
