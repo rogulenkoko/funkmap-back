@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Funkmap.Messenger</name>
+    </assembly>
+    <members>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.SendMessage(Funkmap.Messenger.Models.MessageModel)">
+            <summary>
+            Send message (you can get saved message from SignalR hub as a push-notification).
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.StartUploadContent(Funkmap.Messenger.Models.ContentItemModel)">
+            <summary>
+            Start uploading dialog content (you can get uploading status from SignalR hub as a push-notification)
+            </summary>
+            <param name="contentItemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.GetDialogs">
+            <summary>
+            Get all users's (not empty) dialogs.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.GetDialogMessages(Funkmap.Messenger.Models.Requests.DialogMessagesRequest)">
+            <summary>
+            Get some dialog messages.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.GetDialogAvatar(System.String)">
+            <summary>
+            Get dialog's avatar (bytes or base64).
+            </summary>
+            <param name="dialogId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.GetDialogMessages">
+            <summary>
+            Get online users with who you have not empty dialog.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.GetDialogsNewMessagesCount">
+            <summary>
+            Get dialogs with fresh messages.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.CreateDialog(Funkmap.Messenger.Models.Requests.CreateDialogRequest)">
+            <summary>
+            Create dialog (you can get created dialog Id from SignalR hub as a push-notification).
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.InviteParticipants(Funkmap.Messenger.Models.Requests.InviteParticipantsRequest)">
+            <summary>
+            Add participants to dialog.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.UpdateDialogInfo(Funkmap.Messenger.Models.Requests.DialogUpdateRequest)">
+            <summary>
+            Update dialog (avatar or name).
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Messenger.Controllers.MessengerController.LeaveDialog(Funkmap.Messenger.Models.Requests.LeaveDialogRequest)">
+            <summary>
+            Leave dialog.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

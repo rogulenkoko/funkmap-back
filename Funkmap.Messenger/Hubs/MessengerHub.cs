@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Hubs.Abstract;
-using Funkmap.Messenger.Mappers;
-using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Services.Abstract;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
