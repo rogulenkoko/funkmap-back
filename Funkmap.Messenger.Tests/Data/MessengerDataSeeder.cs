@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Funkmap.Messenger.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -18,48 +19,37 @@ namespace Funkmap.Messenger.Tests.Data
 
         public void SeedData()
         {
-            SeedDialogs();
-        }
-
-        private void SeedDialogs()
-        {
             var messagesCollection = _database.GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName);
             var dialogsCollection = _database.GetCollection<DialogEntity>(MessengerCollectionNameProvider.DialogsCollectionName);
 
-            var dialogId = ObjectId.GenerateNewId();
-            var participants = new List<string>() {"test", "rogulenkoko"};
-
-            var messages = new List<MessageEntity>()
-            {
-                new MessageEntity() { Sender = "rogulenkoko", Text = "первое сообщение",DateTimeUtc = DateTime.Now.AddHours(-2), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
-                new MessageEntity() { Sender = "test", Text = "привет",DateTimeUtc = DateTime.Now.AddHours(-1), DialogId = dialogId, ToParticipants = new List<string>() {"rogulenkoko"}},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(7), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc = DateTime.Now.AddMinutes(10), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "привет",DateTimeUtc= DateTime.Now.AddMinutes(12), DialogId = dialogId, ToParticipants = new List<string>() {"test"}},
-                new MessageEntity() { Sender = "rogulenkoko", Text = "последнее сообщение",DateTimeUtc= DateTime.Now.AddMinutes(20), DialogId = dialogId, ToParticipants = new List<string>() {"test"}}
-            };
-
-            foreach (var message in messages)
-            {
-                messagesCollection.InsertOneAsync(message).GetAwaiter().GetResult();
-            }
-            
-
             var dialogs = new List<DialogEntity>()
             {
-                new DialogEntity() {Participants = participants, Id = dialogId},
-                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "qwe"}},
-                new DialogEntity() {Participants = new List<string>() {"qwe", "test"}},
-                new DialogEntity() {Participants = new List<string>() {"asd", "zxc"}},
-                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "zxc"}},
-                new DialogEntity() {Participants = new List<string>() { "zzzzzz", "rogulenkoko"}},
-                new DialogEntity() {Participants = new List<string>() {"zzzzzz", "zxc"}},
+                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "test"}},
+                new DialogEntity() {Participants = new List<string>() {"rogulenkoko", "bandmap"}}
             };
-            
-            foreach (var dialog in dialogs)
+
+            dialogsCollection.InsertManyAsync(dialogs).GetAwaiter().GetResult();
+
+            var random = new Random();
+            var now = DateTime.Now;
+            var messages = Enumerable.Range(0, 200).Select(x=>
             {
-                dialogsCollection.InsertOneAsync(dialog).GetAwaiter().GetResult();
-            }
+                var randomDialog = dialogs.ElementAt(random.Next(0, dialogs.Count));
+
+                var sender = randomDialog.Participants.ElementAt(random.Next(0, randomDialog.Participants.Count));
+
+                return new MessageEntity()
+                {
+                    DialogId = randomDialog.Id,
+                    Sender = sender,
+                    ToParticipants = randomDialog.Participants.Where(y=> y != sender).ToList(),
+                    MessageType = MessageType.Base,
+                    Text = Guid.NewGuid().ToString(),
+                    DateTimeUtc = now.AddHours(x)
+                };
+            });
+
+            messagesCollection.InsertManyAsync(messages).GetAwaiter().GetResult();
         }
     }
 }

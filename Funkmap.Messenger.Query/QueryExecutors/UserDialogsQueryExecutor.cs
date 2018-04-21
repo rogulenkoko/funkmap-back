@@ -28,11 +28,20 @@ namespace Funkmap.Messenger.Query.QueryExecutors
 
         public async Task<UserDialogsResponse> Execute(UserDialogsQuery query)
         {
-            //db.dialogs.aggregate(
-            //    [{$match: { _id: ObjectId("5a304763208c10408cac622e")} },
-            //{$lookup: { from: "messages", localField: "_id", foreignField: "d", as: "mes" } },
-            //{$project: { _id: 1, message: { $arrayElemAt: ["$mes", 0] } } }
+            //db.dialogs.aggregate([
+            //{$match: { _id: ObjectId("5adb9b29b5a0ea1a186895a9")} },
+            //{
+            //    $lookup:
+            //    {
+            //    from: "messages",
+            //        localField: "_id",
+            //        foreignField: "d",
+            //            as: "mes"
+            //    }
+            //},
+            //{$project: { _id: 1, mes: "$mes" } }
             //])
+
 
             try
             {

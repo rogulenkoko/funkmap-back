@@ -28,7 +28,7 @@ namespace Funkmap.Messenger.Hubs
             _commandBus = commandBus;
         }
 
-        [HubMethodName("setOpenedDialog")]
+        [HubMethodName("open-dialog")]
         public BaseResponse SetOpenedDialog(string dialogId)
         {
             var connectionId = Context.ConnectionId;

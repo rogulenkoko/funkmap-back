@@ -46,7 +46,7 @@ namespace Funkmap.Messenger.Tests
 
             var query = new UserDialogsQuery(login);
 
-            var dialog = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.First();
+            var dialog = _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.First();
 
             var query1 = new DialogMessagesQuery()
             {
@@ -56,7 +56,7 @@ namespace Funkmap.Messenger.Tests
                 UserLogin = login
             };
 
-            var messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages; 
+            var messages = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages; 
             Assert.AreEqual(messages.Count, 4);
 
             var query2 = new DialogMessagesQuery()
@@ -67,7 +67,7 @@ namespace Funkmap.Messenger.Tests
                 UserLogin = login
             };
 
-            messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query2).GetAwaiter().GetResult().Messages;
+            messages = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query2).GetAwaiter().GetResult().Messages;
             Assert.AreEqual(messages.Count, 2);
 
             var query3 = new DialogMessagesQuery()
@@ -78,7 +78,7 @@ namespace Funkmap.Messenger.Tests
                 UserLogin = login
             };
 
-            messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query3).GetAwaiter().GetResult().Messages;
+            messages = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query3).GetAwaiter().GetResult().Messages;
             Assert.AreEqual(messages.Count, 5);
 
             var query4 = new DialogMessagesQuery()
@@ -88,7 +88,7 @@ namespace Funkmap.Messenger.Tests
                 Skip = 5,
                 UserLogin = login
             };
-            messages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query4).GetAwaiter().GetResult().Messages;
+            messages = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query4).GetAwaiter().GetResult().Messages;
             Assert.AreEqual(messages.Count, 1);
         }
 
@@ -100,7 +100,7 @@ namespace Funkmap.Messenger.Tests
 
             var query = new UserDialogsQuery(login);
 
-            var dialog = _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.First();
+            var dialog = _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult().Dialogs.First();
 
             var query1 = new DialogMessagesQuery()
             {
@@ -109,7 +109,7 @@ namespace Funkmap.Messenger.Tests
                 Take = 100,
                 UserLogin = login
             };
-            var dialogMessages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
+            var dialogMessages = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
 
             var saveMessageCommand = new SaveMessageCommand()
             {
@@ -120,7 +120,7 @@ namespace Funkmap.Messenger.Tests
 
             _commandBus.Execute(saveMessageCommand).GetAwaiter().GetResult();
 
-            var newDialogMessages = _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
+            var newDialogMessages = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query1).GetAwaiter().GetResult().Messages;
 
             Assert.AreNotEqual(dialogMessages.Count, newDialogMessages.Count);
             Assert.AreEqual(dialogMessages.Count + 1, newDialogMessages.Count);

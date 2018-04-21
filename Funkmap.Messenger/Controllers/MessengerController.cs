@@ -39,12 +39,13 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Send message (you should get saved message from SignalR hub)
+        /// Send message (you can get saved message from SignalR hub as a push-notification).
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
         [HttpPost]
         [Authorize]
+        [ResponseType(typeof(BaseResponse))]
         [Route("message")]
         public IHttpActionResult SendMessage(MessageModel message)
         {
@@ -70,12 +71,13 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Start uploading dialog content (you can get uploading status from SignalR hub)
+        /// Start uploading dialog content (you can get uploading status from SignalR hub as a push-notification)
         /// </summary>
         /// <param name="contentItemModel"></param>
         /// <returns></returns>
         [HttpPost]
         [Authorize]
+        [ResponseType(typeof(BaseResponse))]
         [Route("content")]
         public IHttpActionResult StartUploadContent(ContentItemModel contentItemModel)
         {
@@ -88,7 +90,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Get all users's (not empty) dialogs
+        /// Get all users's (not empty) dialogs.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -100,7 +102,7 @@ namespace Funkmap.Messenger.Controllers
 
             var query = new UserDialogsQuery(userLogin);
 
-            var response = await _queryContext.Execute<UserDialogsQuery, UserDialogsResponse>(query);
+            var response = await _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query);
 
             if (!response.Success)
             {
@@ -111,7 +113,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Get some dialog messages
+        /// Get some dialog messages.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -131,7 +133,7 @@ namespace Funkmap.Messenger.Controllers
                 UserLogin = userLogin
             };
 
-            var response = await _queryContext.Execute<DialogMessagesQuery, DialogMessagesResponse>(query);
+            var response = await _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query);
 
             if (!response.Success)
             {
@@ -144,12 +146,13 @@ namespace Funkmap.Messenger.Controllers
 
 
         /// <summary>
-        /// Get dialog's avatar (bytes or base64)
+        /// Get dialog's avatar (bytes or base64).
         /// </summary>
         /// <param name="dialogId"></param>
         /// <returns></returns>
         [HttpGet]
         [Authorize]
+        [ResponseType(typeof(DialogAvatarInfoModel))]
         [Route("dialog/{dialogId}/avatar")]
         public async Task<IHttpActionResult> GetDialogAvatar(string dialogId)
         {
@@ -158,7 +161,7 @@ namespace Funkmap.Messenger.Controllers
                 DialogId = dialogId
             };
 
-            var response = await _queryContext.Execute<DialogAvatarInfoQuery, DialogAvatarInfoResponse>(query);
+            var response = await _queryContext.ExecuteAsync<DialogAvatarInfoQuery, DialogAvatarInfoResponse>(query);
 
             if (!response.Success)
             {
@@ -171,7 +174,7 @@ namespace Funkmap.Messenger.Controllers
 
 
         /// <summary>
-        /// Get online users with who you have not empty dialog
+        /// Get online users with who you have not empty dialog.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -184,7 +187,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Get dialogs with fresh messages
+        /// Get dialogs with fresh messages.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -197,7 +200,7 @@ namespace Funkmap.Messenger.Controllers
 
             var query = new DialogsNewMessagesCountQuery(login);
 
-            var response = await _queryContext.Execute<DialogsNewMessagesCountQuery, DialogsNewMessagesCountResponse>(query);
+            var response = await _queryContext.ExecuteAsync<DialogsNewMessagesCountQuery, DialogsNewMessagesCountResponse>(query);
 
             if (!response.Success)
             {
@@ -208,7 +211,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Create dialog (you can get created dialog Id from SignalR hub)
+        /// Create dialog (you can get created dialog Id from SignalR hub as a push-notification).
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -231,7 +234,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Add participants to dialog 
+        /// Add participants to dialog.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -246,7 +249,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Update dialog (avatar or name)
+        /// Update dialog (avatar or name).
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -269,7 +272,7 @@ namespace Funkmap.Messenger.Controllers
         }
 
         /// <summary>
-        /// Leave dialog
+        /// Leave dialog.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

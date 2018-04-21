@@ -12,7 +12,7 @@ namespace Funkmap.Common.Logger
 
     public class FunkmapLogger<T> : IFunkmapLogger<T> where T : class
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public FunkmapLogger(ILogger logger)
         {

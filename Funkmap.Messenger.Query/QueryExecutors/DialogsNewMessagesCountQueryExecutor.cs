@@ -11,7 +11,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Messenger.Query.QueryExecutors
 {
-    public class DialogsNewMessagesCountQueryExecutor : IQueryExecutor<DialogsNewMessagesCountQuery, DialogsNewMessagesCountResponse>
+    internal class DialogsNewMessagesCountQueryExecutor : IQueryExecutor<DialogsNewMessagesCountQuery, DialogsNewMessagesCountResponse>
     {
         private readonly IMongoCollection<MessageEntity> _collection;
         private readonly IMongoCollection<DialogEntity> _dialogsCollection;

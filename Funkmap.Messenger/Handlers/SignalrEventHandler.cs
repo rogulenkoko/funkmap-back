@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Events.Dialogs;
 using Funkmap.Messenger.Events.Messages;
@@ -64,7 +63,7 @@ namespace Funkmap.Messenger.Handlers
             var clientIds = _connectionService.GetConnectionIdsByLogin(login);
 
             var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
-            var response = await _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query);
+            var response = await _queryContext.ExecuteAsync<UserDialogQuery, UserDialogResponse>(query);
 
             if (!response.Success) return;
 
@@ -94,7 +93,7 @@ namespace Funkmap.Messenger.Handlers
                 var login = _connectionService.GetLoginByConnectionId(clientId);
 
                 var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
-                var response = await _queryContext.Execute<UserDialogQuery, UserDialogResponse>(query);
+                var response = await _queryContext.ExecuteAsync<UserDialogQuery, UserDialogResponse>(query);
 
                 if(!response.Success) return;
 

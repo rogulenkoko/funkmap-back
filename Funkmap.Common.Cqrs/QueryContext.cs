@@ -14,7 +14,7 @@ namespace Funkmap.Common.Cqrs
             _componentContext = componentContext;
         }
 
-        public async Task<TResponse> Execute<TQuery, TResponse>(TQuery query) where TQuery : class where TResponse : class
+        public async Task<TResponse> ExecuteAsync<TQuery, TResponse>(TQuery query) where TQuery : class where TResponse : class
         {
             if (!_componentContext.IsRegistered<IQueryExecutor<TQuery, TResponse>>())
             {

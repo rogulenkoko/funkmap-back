@@ -32,7 +32,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
             {
                 if (String.IsNullOrEmpty(query.UserLogin) || String.IsNullOrEmpty(query.DialogId))
                 {
-                    throw new ArgumentException(nameof(query));
+                    throw new ArgumentException("User login and dialog id can not be empty.");
                 }
 
                 //validation
