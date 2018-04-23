@@ -80,18 +80,18 @@ namespace Funkmap.Middleware
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute("Swagger UI", "", null, null, new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
 
-#if DEBUG
-            //Metrics
-            config.MessageHandlers.Add(new MetricsHandler());
-            Metric.Config
-                .WithAllCounters()
-                .WithOwin(middleware => appBuilder.Use(middleware), metricsConfig => metricsConfig
-                    .WithRequestMetricsConfig(c => c.WithAllOwinMetrics())
-                    .WithMetricsEndpoint()
-                );
+//#if DEBUG
+//            //Metrics
+//            config.MessageHandlers.Add(new MetricsHandler());
+//            Metric.Config
+//                .WithAllCounters()
+//                .WithOwin(middleware => appBuilder.Use(middleware), metricsConfig => metricsConfig
+//                    .WithRequestMetricsConfig(c => c.WithAllOwinMetrics())
+//                    .WithMetricsEndpoint()
+//                );
 
-            appBuilder.UseWebApi(config);
-#endif
+//            appBuilder.UseWebApi(config);
+//#endif
             //SignalR
 
             var dependencyResolver = new AutofacDependencyResolver(container);

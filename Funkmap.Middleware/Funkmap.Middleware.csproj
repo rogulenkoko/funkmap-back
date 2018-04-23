@@ -236,6 +236,8 @@
     <Compile Include="Handlers\MetricsHandler.cs" />
     <Compile Include="Modules\CqrsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\CacheStorageType.cs" />
+    <Compile Include="Settings\MessageQueueType.cs" />
     <Compile Include="Settings\MonolithSettings.cs" />
     <Compile Include="Settings\MonolithSettingsService.cs" />
     <Compile Include="Settings\SettingsModule.cs" />

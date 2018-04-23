@@ -57,7 +57,7 @@ namespace Funkmap.Common.Settings
             get
             {
                 LoggingType loggingType;
-                Enum.TryParse(ConfigurationManager.AppSettings["loggingType"], out loggingType);
+                Enum.TryParse(ConfigurationManager.AppSettings["logging-type"], out loggingType);
                 return loggingType;
             }
         }
