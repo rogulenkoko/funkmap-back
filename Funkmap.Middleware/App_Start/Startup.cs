@@ -14,6 +14,8 @@ using Funkmap.Common.Logger;
 using Funkmap.Common.Notifications;
 using Funkmap.Common.Tools;
 using Funkmap.Data;
+using Funkmap.Feedback;
+using Funkmap.Feedback.Command;
 using Funkmap.Middleware.Handlers;
 using Funkmap.Module;
 using Funkmap.Notifications.Data;
@@ -125,8 +127,8 @@ namespace Funkmap.Middleware
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationsMongoModule).Assembly.FullName);
             
-            Assembly.Load(typeof(Feedback.FeedbackModule).Assembly.FullName);
-            Assembly.Load(typeof(Feedback.Command.FeedbackCommandModule).Assembly.FullName);
+            Assembly.Load(typeof(FeedbackModule).Assembly.FullName);
+            Assembly.Load(typeof(FeedbackCommandModule).Assembly.FullName);
 
             //Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
             Assembly.Load(typeof(LoggerModule).Assembly.FullName);

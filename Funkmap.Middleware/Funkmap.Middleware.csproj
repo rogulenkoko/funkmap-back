@@ -280,17 +280,17 @@
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Feedback\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj">
+      <Project>{4141CF1F-5901-40D2-8B7E-C1567BF2E343}</Project>
+      <Name>Funkmap.Feedback.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Feedback\Funkmap.Feedback\Funkmap.Feedback.csproj">
+      <Project>{45C1141B-D1EA-455A-B3AE-978CCD8095A7}</Project>
+      <Name>Funkmap.Feedback</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj">
-      <Project>{4141cf1f-5901-40d2-8b7e-c1567bf2e343}</Project>
-      <Name>Funkmap.Feedback.Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Feedback\Funkmap.Feedback.csproj">
-      <Project>{45c1141b-d1ea-455a-b3ae-978ccd8095a7}</Project>
-      <Name>Funkmap.Feedback</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj">
       <Project>{15e79617-9cda-496e-84ef-0198fea0b4b8}</Project>
