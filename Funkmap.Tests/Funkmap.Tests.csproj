@@ -177,25 +177,21 @@
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">
-      <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
-      <Name>Funkmap.Data.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
-      <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
-      <Name>Funkmap.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
-      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
-      <Name>Funkmap.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Middleware\Funkmap.Middleware.csproj">
       <Project>{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}</Project>
       <Name>Funkmap.Middleware</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap\Funkmap.csproj">
-      <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
-      <Name>Funkmap</Name>
+    <ProjectReference Include="..\Funkmap\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">
+      <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
+      <Name>Funkmap.Data.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap\Funkmap.Data\Funkmap.Data.csproj">
+      <Project>{F0A4E106-3CDE-4CDD-B4A5-D441EFA9D07F}</Project>
+      <Name>Funkmap.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap\Funkmap.Domain\Funkmap.Domain.csproj">
+      <Project>{97A182F7-ABE9-4562-A57D-978F707BA937}</Project>
+      <Name>Funkmap.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -288,12 +288,12 @@
       <Project>{45C1141B-D1EA-455A-B3AE-978CCD8095A7}</Project>
       <Name>Funkmap.Feedback</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">
-      <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
+    <ProjectReference Include="..\Funkmap\Funkmap.Data\Funkmap.Data.csproj">
+      <Project>{F0A4E106-3CDE-4CDD-B4A5-D441EFA9D07F}</Project>
       <Name>Funkmap.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap\Funkmap.csproj">
-      <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
+    <ProjectReference Include="..\Funkmap\Funkmap\Funkmap.csproj">
+      <Project>{27669BFD-E68A-436D-833F-1167C244BD59}</Project>
       <Name>Funkmap</Name>
     </ProjectReference>
     <ProjectReference Include="..\Messenger\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj">
