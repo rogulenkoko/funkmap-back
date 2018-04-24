@@ -193,18 +193,6 @@
       <Project>{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}</Project>
       <Name>Funkmap.Middleware</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
-      <Project>{7086848c-bd30-4677-b267-67163f296244}</Project>
-      <Name>Funkmap.Notifications.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
-      <Project>{6A86C558-8133-4F9F-857A-60DF8496CEB4}</Project>
-      <Name>Funkmap.Notifications.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
-      <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
-      <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
       <Name>Funkmap</Name>

@@ -204,10 +204,6 @@
       <Project>{2d178c9d-e17a-4735-b29c-0ae9dea0b195}</Project>
       <Name>Funkmap.Middleware</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
-      <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
-      <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
       <Name>Funkmap</Name>

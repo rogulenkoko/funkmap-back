@@ -21,6 +21,7 @@ using Funkmap.Messenger.Command;
 using Funkmap.Messenger.Query;
 using Funkmap.Middleware.Handlers;
 using Funkmap.Module;
+using Funkmap.Notifications;
 using Funkmap.Notifications.Data;
 using Metrics;
 using Microsoft.AspNet.SignalR;
@@ -126,7 +127,7 @@ namespace Funkmap.Middleware
             Assembly.Load(typeof(MessengerCommandModule).Assembly.FullName);
             Assembly.Load(typeof(MessengerQueryModule).Assembly.FullName);
 
-            Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
+            Assembly.Load(typeof(NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationsMongoModule).Assembly.FullName);
             
             Assembly.Load(typeof(FeedbackModule).Assembly.FullName);

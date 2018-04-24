@@ -292,14 +292,6 @@
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
-      <Project>{6a86c558-8133-4f9f-857a-60df8496ceb4}</Project>
-      <Name>Funkmap.Notifications.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications\Funkmap.Notifications.csproj">
-      <Project>{8515baff-45b7-433d-8486-e9ce68f97e09}</Project>
-      <Name>Funkmap.Notifications</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
       <Name>Funkmap</Name>
@@ -315,6 +307,14 @@
     <ProjectReference Include="..\Messenger\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{A7957BFB-CF3B-4820-A929-F53FCAFFA00D}</Project>
       <Name>Funkmap.Messenger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
+      <Project>{6A86C558-8133-4F9F-857A-60DF8496CEB4}</Project>
+      <Name>Funkmap.Notifications.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Notifications\Funkmap.Notifications\Funkmap.Notifications.csproj">
+      <Project>{8515BAFF-45B7-433D-8486-E9CE68F97E09}</Project>
+      <Name>Funkmap.Notifications</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

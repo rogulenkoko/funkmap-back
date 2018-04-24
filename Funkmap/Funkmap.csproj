@@ -129,7 +129,6 @@
     <Compile Include="Models\BandPreviewModel.cs" />
     <Compile Include="Models\ChangeAvatarRequest.cs" />
     <Compile Include="Models\MusicianPreviewModel.cs" />
-    <Compile Include="Models\Notifications\BandInviteNotificationAnswer.cs" />
     <Compile Include="Models\ProfilePreview.cs" />
     <Compile Include="Models\RehearsalPointPreviewModel.cs" />
     <Compile Include="Models\Requests\UpdateAvatarRequest.cs" />
@@ -163,8 +162,8 @@
       <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
       <Name>Funkmap.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
-      <Project>{7086848c-bd30-4677-b267-67163f296244}</Project>
+    <ProjectReference Include="..\Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
+      <Project>{7086848C-BD30-4677-B267-67163F296244}</Project>
       <Name>Funkmap.Notifications.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
