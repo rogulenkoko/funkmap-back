@@ -176,24 +176,20 @@
     <Compile Include="Tools\ImageNameBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
       <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
       <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
-      <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
+      <Project>{7D0761C4-DD1A-4AC0-AB3E-4078A00208CD}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
-      <Project>{d9a2e117-7cb0-4a3b-a401-4edef1e40732}</Project>
-      <Name>Funkmap.Common.Redis</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
-      <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common\Funkmap.Common.csproj">
+      <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj">

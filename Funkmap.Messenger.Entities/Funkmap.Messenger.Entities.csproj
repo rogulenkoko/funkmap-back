@@ -51,14 +51,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7D0761C4-DD1A-4AC0-AB3E-4078A00208CD}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

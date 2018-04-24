@@ -256,32 +256,28 @@
       <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
       <Name>Funkmap.Auth</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
       <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
       <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
-      <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
-      <Name>Funkmap.Common.Data.Mongo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
-      <Project>{7100436d-3277-42bd-877e-0dd4504eec97}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+      <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
       <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
       <Project>{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}</Project>
       <Name>Funkmap.Common.Notifications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Redis.Autofac\Funkmap.Common.Redis.Autofac.csproj">
-      <Project>{8a50007a-b4a0-4e09-ac96-d1c64440609d}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common.Redis.Autofac\Funkmap.Common.Redis.Autofac.csproj">
+      <Project>{8A50007A-B4A0-4E09-AC96-D1C64440609D}</Project>
       <Name>Funkmap.Common.Redis.Autofac</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
-      <Project>{d9a2e117-7cb0-4a3b-a401-4edef1e40732}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
+      <Project>{D9A2E117-7CB0-4A3B-A401-4EDEF1E40732}</Project>
       <Name>Funkmap.Common.Redis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
-      <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common\Funkmap.Common.csproj">
+      <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj">

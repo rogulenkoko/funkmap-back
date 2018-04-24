@@ -112,19 +112,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
-      <Project>{8f4b3c85-22d5-4826-bda4-1bc7ec81fd55}</Project>
+    <ProjectReference Include="..\Common\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
       <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
       <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
       <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
+    <ProjectReference Include="..\Common\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>

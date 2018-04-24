@@ -200,10 +200,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
-      <Project>{cc5b36a9-d49f-4583-b74c-d2f3a17087a4}</Project>
-      <Name>Funkmap.Common.Notifications</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
       <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
       <Name>Funkmap.Messenger</Name>

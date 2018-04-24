@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</ProjectGuid>
+    <ProjectGuid>{7100436D-3277-42BD-877E-0DD4504EEC97}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Funkmap.Common.Cqrs</RootNamespace>
-    <AssemblyName>Funkmap.Common.Cqrs</AssemblyName>
+    <RootNamespace>Funkmap.Common.Logger</RootNamespace>
+    <AssemblyName>Funkmap.Common.Logger</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,24 +31,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Experimental.Collections, Version=1.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Experimental.Collections.1.0.3-alpha\lib\portable-net45+win8+wp8\Microsoft.Experimental.Collections.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,26 +53,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ICommandBus.cs" />
-    <Compile Include="Abstract\ICommandHandler.cs" />
-    <Compile Include="Abstract\ICommandHandlerResolver.cs" />
-    <Compile Include="Abstract\IEventBus.cs" />
-    <Compile Include="Abstract\IEventHandler.cs" />
-    <Compile Include="Abstract\IQueryContext.cs" />
-    <Compile Include="Abstract\ISerializer.cs" />
-    <Compile Include="Abstract\IQueryExecutor.cs" />
-    <Compile Include="CommandFailedEvent.cs" />
-    <Compile Include="CommandHandlerResolver.cs" />
-    <Compile Include="Envelope.cs" />
-    <Compile Include="ICommandResponse.cs" />
-    <Compile Include="InMemoryCommandBus.cs" />
-    <Compile Include="InMemoryEventBus.cs" />
-    <Compile Include="MessageQueueOptions.cs" />
+    <Compile Include="FunkmapLogger.cs" />
+    <Compile Include="LoggerModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryContext.cs" />
-    <Compile Include="SerializerOptions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
+      <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
+      <Name>Funkmap.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

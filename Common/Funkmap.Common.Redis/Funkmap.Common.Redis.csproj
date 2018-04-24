@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}</ProjectGuid>
+    <ProjectGuid>{D9A2E117-7CB0-4A3B-A401-4EDEF1E40732}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Funkmap.Common.Notifications</RootNamespace>
-    <AssemblyName>Funkmap.Common.Notifications</AssemblyName>
+    <RootNamespace>Funkmap.Common.Redis</RootNamespace>
+    <AssemblyName>Funkmap.Common.Redis</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,17 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.6\lib\net45\StackExchange.Redis.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,31 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NotificationToolModule.cs" />
-    <Compile Include="Notification\Abstract\IExternalNotificationService.cs" />
-    <Compile Include="Notification\EmailExternalNotificationService.cs" />
-    <Compile Include="Notification\Notification.cs" />
-    <Compile Include="Notification\NotificationOptions.cs" />
+    <Compile Include="NewtonSerializer.cs" />
+    <Compile Include="RedisEventBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
-      <Project>{7100436d-3277-42bd-877e-0dd4504eec97}</Project>
-      <Name>Funkmap.Common.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
-      <Project>{7c85c2d4-b28d-41a6-bc52-7b4bae1e528c}</Project>
-      <Name>Funkmap.Common</Name>
-    </ProjectReference>
+    <Compile Include="RedisStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\base-template.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+      <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
+      <Name>Funkmap.Common.Cqrs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
+      <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
+      <Name>Funkmap.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

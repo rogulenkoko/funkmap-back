@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common.Cqrs;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Notifications.Data.Entities;
 using Funkmap.Notifications.Data.Mappers;

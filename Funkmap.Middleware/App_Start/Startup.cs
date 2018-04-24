@@ -11,6 +11,7 @@ using Funkmap.Auth;
 using Funkmap.Auth.Data;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Logger;
+using Funkmap.Common.Notifications;
 using Funkmap.Common.Tools;
 using Funkmap.Data;
 using Funkmap.Middleware.Handlers;
@@ -129,7 +130,7 @@ namespace Funkmap.Middleware
 
             //Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
             Assembly.Load(typeof(LoggerModule).Assembly.FullName);
-            Assembly.Load(typeof(Common.Notifications.NotificationToolModule).Assembly.FullName);
+            Assembly.Load(typeof(NotificationToolModule).Assembly.FullName);
         }
 
         private void RegisterModules(ContainerBuilder builder)
