@@ -18,6 +18,7 @@ namespace Funkmap.Models
         public string Name { get; set; }
         
         public string AvatarMiniId { get; set; }
+        public string AvatarId { get; set; }
 
         public string VkLink { get; set; }
         public string YoutubeLink { get; set; }

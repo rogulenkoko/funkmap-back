@@ -82,6 +82,7 @@ namespace Funkmap.Auth.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         [Route("avatar")]
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
         {

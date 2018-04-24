@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Funkmap.Auth</name>
+    </assembly>
+    <members>
+        <member name="P:Funkmap.Auth.Models.ConfirmRestoreRequest.Code">
+            <summary>
+            Confirmation code
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.ConfirmRestoreRequest.Password">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.ConfirmationRequest.Code">
+            <summary>
+            Confirmation code from email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.RegistrationRequest.Login">
+            <summary>
+            Uniq user login
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.RegistrationRequest.Password">
+            <summary>
+            Not empty password
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.RegistrationRequest.Email">
+            <summary>
+            Uniq user email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Models.SaveImageRequest.Avatar">
+            <summary>
+            Image bytes or base64 string
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.SendEmail(Funkmap.Auth.Models.RegistrationRequest)">
+            <summary>
+            Signup user and send confirmation code to email.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.Confirm(Funkmap.Auth.Models.ConfirmationRequest)">
+            <summary>
+            Registration confirmation with the email code.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.AskRestore(System.String)">
+            <summary>
+            Ask for password restore.
+            </summary>
+            <param name="email">Users's email (also can be login).</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.ConfirmRestore(Funkmap.Auth.Models.ConfirmRestoreRequest)">
+            <summary>
+            Password restore confirmation with the email code.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.GetUser(System.String)">
+            <summary>
+            Get user's full information (if exists).
+            </summary>
+            <param name="login">Users's login</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.UpdateLocale(Funkmap.Auth.Models.UpdateLocaleRequest)">
+            <summary>
+            Update user locale (available: 'ru', 'en').
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.GetAvatar(System.String)">
+            <summary>
+            Get user's avatar (bytes or base64 string).
+            </summary>
+            <param name="login">Users's login</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.SaveAvatar(Funkmap.Auth.Models.SaveImageRequest)">
+            <summary>
+            Update users's avatar.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Resources.Resource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.PasswordRecovery">
+            <summary>
+              Looks up a localized string similar to Password recovery.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.PasswordRecovery_Code">
+            <summary>
+              Looks up a localized string similar to Password recovery code.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Registration_Appreciate">
+            <summary>
+              Looks up a localized string similar to Each new user improves and develops the service, making it more extensive. We appreciate you and your choice..
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Registration_Confirmation">
+            <summary>
+              Looks up a localized string similar to Registration confirmation.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Registration_ConfirmationCode">
+            <summary>
+              Looks up a localized string similar to Registration confirmation code.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Registration_Gratitude">
+            <summary>
+              Looks up a localized string similar to Thanks for joinin to Band Map.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Registration_Greeting">
+            <summary>
+              Looks up a localized string similar to Hello.
+            </summary>
+        </member>
+        <member name="P:Resources.Resource.Registration_Welcome">
+            <summary>
+              Looks up a localized string similar to Welcome to the largest service for looking for musicians and everything that connects them.
+            </summary>
+        </member>
+    </members>
+</doc>

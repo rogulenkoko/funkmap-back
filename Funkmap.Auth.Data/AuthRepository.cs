@@ -27,7 +27,9 @@ namespace Funkmap.Auth.Data
 
         public async Task<User> GetAsync(string login)
         {
-            var entity = await _collection.Find(x => x.Login == login || x.Email == login).SingleOrDefaultAsync();
+            await Task.Yield();
+            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
+            var entity = await _collection.Find(filter).SingleOrDefaultAsync();
             return entity.ToUser();
         }
 

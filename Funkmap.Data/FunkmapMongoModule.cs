@@ -124,7 +124,8 @@ namespace Funkmap.Data
                 .As<IEventHandler<ProfileUpdatedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
-                .AutoActivate();
+                .AutoActivate()
+                .SingleInstance();
 
             //FileStorage
             StorageType storageType = (StorageType)Enum.Parse(typeof(StorageType), ConfigurationManager.AppSettings["file-storage"]);

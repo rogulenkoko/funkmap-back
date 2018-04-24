@@ -32,7 +32,8 @@ namespace Funkmap.Feedback
                 .As<IEventHandler<FeedbackSavedEvent>>()
                 .As<IEventHandler>()
                 .OnActivated(x => x.Instance.InitHandlers())
-                .AutoActivate();
+                .AutoActivate()
+                .SingleInstance();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

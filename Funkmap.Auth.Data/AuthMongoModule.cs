@@ -29,14 +29,24 @@ namespace Funkmap.Auth.Data
 
             var databaseIocName = "auth";
 
-            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
+            var database = mongoClient.GetDatabase(databaseName);
+
+            builder.RegisterInstance(database).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
 
             var emailIndexModel = new CreateIndexModel<UserEntity>(Builders<UserEntity>.IndexKeys.Ascending(x => x.Email), new CreateIndexOptions() { Unique = true });
 
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName))
-                .OnActivating(async collection => await collection.Instance.Indexes
-                    .CreateManyAsync(new List<CreateIndexModel<UserEntity>>() { emailIndexModel }))
                 .As<IMongoCollection<UserEntity>>();
+
+            builder.RegisterBuildCallback(async c =>
+            {
+                //создание индексов при запуске приложения
+                var collection = c.Resolve<IMongoCollection<UserEntity>>();
+                await collection.Indexes.CreateManyAsync(new List<CreateIndexModel<UserEntity>>
+                {
+                    emailIndexModel
+                });
+            });
 
 
             //FileStorage
@@ -62,7 +72,6 @@ namespace Funkmap.Auth.Data
                 case StorageType.GridFs:
                     builder.Register(container =>
                     {
-                        var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
                         var gridFs = new GridFSBucket(database);
                         return new GridFsFileStorage(gridFs);
                     }).Named<GridFsFileStorage>(AuthCollectionNameProvider.AuthStorageName);

@@ -50,7 +50,6 @@ namespace Funkmap.Controllers
         [Authorize]
         [Route("favorites")]
         [ResponseType(typeof(BaseResponse))]
-        [Authorize]
         public async Task<IHttpActionResult> UpdateFavorite(UpdateFavoriteRequest request)
         {
             var login = Request.GetLogin();
