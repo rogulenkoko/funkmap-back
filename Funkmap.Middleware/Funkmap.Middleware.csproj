@@ -292,18 +292,6 @@
       <Project>{f0a4e106-3cde-4cdd-b4a5-d441efa9d07f}</Project>
       <Name>Funkmap.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj">
-      <Project>{15e79617-9cda-496e-84ef-0198fea0b4b8}</Project>
-      <Name>Funkmap.Messenger.Command</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj">
-      <Project>{2650d961-5402-4b7f-8e91-48ae34898a3e}</Project>
-      <Name>Funkmap.Messenger.Query</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
-      <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
-      <Name>Funkmap.Messenger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj">
       <Project>{6a86c558-8133-4f9f-857a-60df8496ceb4}</Project>
       <Name>Funkmap.Notifications.Data</Name>
@@ -315,6 +303,18 @@
     <ProjectReference Include="..\Funkmap\Funkmap.csproj">
       <Project>{27669bfd-e68a-436d-833f-1167c244bd59}</Project>
       <Name>Funkmap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Messenger\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj">
+      <Project>{15E79617-9CDA-496E-84EF-0198FEA0B4B8}</Project>
+      <Name>Funkmap.Messenger.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Messenger\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj">
+      <Project>{2650D961-5402-4B7F-8E91-48AE34898A3E}</Project>
+      <Name>Funkmap.Messenger.Query</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Messenger\Funkmap.Messenger\Funkmap.Messenger.csproj">
+      <Project>{A7957BFB-CF3B-4820-A929-F53FCAFFA00D}</Project>
+      <Name>Funkmap.Messenger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

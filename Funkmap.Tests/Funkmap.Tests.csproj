@@ -189,10 +189,6 @@
       <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
       <Name>Funkmap.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger\Funkmap.Messenger.csproj">
-      <Project>{a7957bfb-cf3b-4820-a929-f53fcaffa00d}</Project>
-      <Name>Funkmap.Messenger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Middleware\Funkmap.Middleware.csproj">
       <Project>{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}</Project>
       <Name>Funkmap.Middleware</Name>

@@ -16,6 +16,9 @@ using Funkmap.Common.Tools;
 using Funkmap.Data;
 using Funkmap.Feedback;
 using Funkmap.Feedback.Command;
+using Funkmap.Messenger;
+using Funkmap.Messenger.Command;
+using Funkmap.Messenger.Query;
 using Funkmap.Middleware.Handlers;
 using Funkmap.Module;
 using Funkmap.Notifications.Data;
@@ -83,18 +86,17 @@ namespace Funkmap.Middleware
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute("Swagger UI", "", null, null, new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
 
-//#if DEBUG
-//            //Metrics
-//            config.MessageHandlers.Add(new MetricsHandler());
-//            Metric.Config
-//                .WithAllCounters()
-//                .WithOwin(middleware => appBuilder.Use(middleware), metricsConfig => metricsConfig
-//                    .WithRequestMetricsConfig(c => c.WithAllOwinMetrics())
-//                    .WithMetricsEndpoint()
-//                );
+#if DEBUG
+            //Metrics
+            config.MessageHandlers.Add(new MetricsHandler());
+            Metric.Config
+                .WithAllCounters()
+                .WithOwin(middleware => appBuilder.Use(middleware), metricsConfig => metricsConfig
+                    .WithRequestMetricsConfig(c => c.WithAllOwinMetrics())
+                    .WithMetricsEndpoint()
+                );
+#endif
 
-
-//#endif
             appBuilder.UseWebApi(config);
 
             //SignalR
@@ -120,17 +122,16 @@ namespace Funkmap.Middleware
             Assembly.Load(typeof(AuthFunkmapModule).Assembly.FullName);
             Assembly.Load(typeof(AuthMongoModule).Assembly.FullName);
 
-            Assembly.Load(typeof(Messenger.MessengerModule).Assembly.FullName);
-            Assembly.Load(typeof(Messenger.Command.MessengerCommandModule).Assembly.FullName);
-            Assembly.Load(typeof(Messenger.Query.MessengerQueryModule).Assembly.FullName);
+            Assembly.Load(typeof(MessengerModule).Assembly.FullName);
+            Assembly.Load(typeof(MessengerCommandModule).Assembly.FullName);
+            Assembly.Load(typeof(MessengerQueryModule).Assembly.FullName);
 
             Assembly.Load(typeof(Notifications.NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationsMongoModule).Assembly.FullName);
             
             Assembly.Load(typeof(FeedbackModule).Assembly.FullName);
             Assembly.Load(typeof(FeedbackCommandModule).Assembly.FullName);
-
-            //Assembly.Load(typeof(Common.Redis.Autofac.RedisModule).Assembly.FullName);
+            
             Assembly.Load(typeof(LoggerModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationToolModule).Assembly.FullName);
         }

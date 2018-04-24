@@ -31,28 +31,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+      <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.5.1\lib\net45\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Bson.2.5.1\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.5.1\lib\net45\MongoDB.Driver.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Driver.2.5.1\lib\net45\MongoDB.Driver.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Driver.Core, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.5.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.5.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+      <HintPath>..\..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />
@@ -60,7 +60,7 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
@@ -95,19 +95,19 @@
     <Compile Include="Responses\UserDialogsResponse.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
+    <ProjectReference Include="..\..\Common\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
       <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
       <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
+    <ProjectReference Include="..\..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
+    <ProjectReference Include="..\..\Common\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
       <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
       <Name>Funkmap.Common.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Funkmap.Common\Funkmap.Common.csproj">
+    <ProjectReference Include="..\..\Common\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>
     </ProjectReference>
