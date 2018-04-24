@@ -2,7 +2,7 @@
 
 Bandmap is an evolving service for fast and convenient communication between musicians and music lovers around the world.
 
-The repository contains the back-end service of [Bandmap (demo)](https://bandmap.azurewebsites.net).
+The repository contains the back-end service of [Bandmap (demo)](https://bandmap.azurewebsites.net). Demo user: demo/demo.
 
 Service provides REST API for client applications.
 
