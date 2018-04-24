@@ -161,14 +161,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
-      <Project>{a1388a76-7550-4c06-9486-2fe5a4ad6ed5}</Project>
-      <Name>Funkmap.Auth.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Auth\Funkmap.Auth.csproj">
-      <Project>{09f63484-6a51-4bc7-a0b4-be399e0723cd}</Project>
-      <Name>Funkmap.Auth</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
       <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
       <Name>Funkmap.Common.Azure</Name>
