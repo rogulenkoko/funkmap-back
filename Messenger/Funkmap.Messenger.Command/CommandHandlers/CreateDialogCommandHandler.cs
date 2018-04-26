@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Dialogs;
 using Funkmap.Messenger.Entities;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Dialogs;
+using Funkmap.Messenger.Entities.Mappers;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {
@@ -50,7 +51,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     var existingDialog = await _messengerRepository.GetDialogByParticipants(command.Participants);
                     if (existingDialog != null)
                     {
-                        await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = existingDialog, Sender = command.CreatorLogin });
+                        await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = existingDialog.ToDialog(), Sender = command.CreatorLogin });
                         return;
                     }
                 }
@@ -65,7 +66,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                 };
 
                 await _messengerRepository.AddDialogAsync(dialog);
-                await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = dialog, Sender = dialog.CreatorLogin });
+                await _eventBus.PublishAsync(new DialogCreatedEvent() { Dialog = dialog.ToDialog(), Sender = dialog.CreatorLogin });
             }
             catch (InvalidDataException e)
             {

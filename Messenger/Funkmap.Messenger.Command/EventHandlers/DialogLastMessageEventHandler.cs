@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Events.Messages;
+using Funkmap.Messenger.Contracts.Events.Messages;
 
 namespace Funkmap.Messenger.Command.EventHandlers
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Funkmap.Messenger.Entities;
 
-namespace Funkmap.Messenger.Query.Responses
+namespace Funkmap.Messenger.Contracts
 {
     public class Message
     {
@@ -17,5 +17,7 @@ namespace Funkmap.Messenger.Query.Responses
         public bool IsNew { get; set; }
 
         public MessageType MessageType { get; set; }
+
+        public List<string> ToParticipants { get; set; }
     }
 }

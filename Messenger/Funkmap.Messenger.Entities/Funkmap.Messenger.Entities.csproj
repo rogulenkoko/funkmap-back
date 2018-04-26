@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DialogEntity.cs" />
+    <Compile Include="Mappers\ContentItemMapper.cs" />
+    <Compile Include="Mappers\DialogMapper.cs" />
+    <Compile Include="Mappers\MessageMapper.cs" />
     <Compile Include="MessageEntity.cs" />
     <Compile Include="MessageUnwinded.cs" />
     <Compile Include="Objects\LastDialogMessageResult.cs" />
@@ -58,6 +61,10 @@
     <ProjectReference Include="..\..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7D0761C4-DD1A-4AC0-AB3E-4078A00208CD}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Contracts\Funkmap.Messenger.Contracts.csproj">
+      <Project>{210a14c5-7305-489d-b066-3509cd03b2dc}</Project>
+      <Name>Funkmap.Messenger.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

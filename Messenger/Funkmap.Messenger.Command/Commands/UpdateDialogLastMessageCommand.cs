@@ -1,4 +1,5 @@
 ﻿using System;
+using Funkmap.Messenger.Contracts;
 using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Command.Commands
@@ -14,6 +15,6 @@ namespace Funkmap.Messenger.Command.Commands
         public string DialogId { get; }
         public DateTime LastMesssageDateTime{ get; }
 
-        public MessageEntity Message { get; set; }
+        public Message Message { get; set; }
     }
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{210A14C5-7305-489D-B066-3509CD03B2DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Funkmap.Messenger.Events</RootNamespace>
-    <AssemblyName>Funkmap.Messenger.Events</AssemblyName>
+    <RootNamespace>Funkmap.Messenger.Contracts</RootNamespace>
+    <AssemblyName>Funkmap.Messenger.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,30 +40,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\DialogCreatedEvent.cs" />
-    <Compile Include="Dialogs\DialogCreationFailedEvent.cs" />
-    <Compile Include="Dialogs\DialogUpdatedEvent.cs" />
-    <Compile Include="Dialogs\UserInvitedToDialogEvent.cs" />
-    <Compile Include="Dialogs\UserLeavedDialogEvent.cs" />
-    <Compile Include="Messages\ContentUploadedEvent.cs" />
-    <Compile Include="Messages\MessageSavedCompleteEvent.cs" />
-    <Compile Include="Messages\MessageSavedFailEvent.cs" />
-    <Compile Include="Messages\MessagesReadEvent.cs" />
-    <Compile Include="MessengerCommandFailedEvent.cs" />
+    <Compile Include="ContentItem.cs" />
+    <Compile Include="ContentType.cs" />
+    <Compile Include="Dialog.cs" />
+    <Compile Include="DialogType.cs" />
+    <Compile Include="Events\Dialogs\DialogCreatedEvent.cs" />
+    <Compile Include="Events\Dialogs\DialogCreationFailedEvent.cs" />
+    <Compile Include="Events\Dialogs\DialogUpdatedEvent.cs" />
+    <Compile Include="Events\Dialogs\UserInvitedToDialogEvent.cs" />
+    <Compile Include="Events\Dialogs\UserLeavedDialogEvent.cs" />
+    <Compile Include="Events\Messages\ContentUploadedEvent.cs" />
+    <Compile Include="Events\Messages\MessageSavedCompleteEvent.cs" />
+    <Compile Include="Events\Messages\MessageSavedFailEvent.cs" />
+    <Compile Include="Events\Messages\MessagesReadEvent.cs" />
+    <Compile Include="Events\MessengerCommandFailedEvent.cs" />
+    <Compile Include="ImageInfo.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Funkmap.Common.Cqrs\Funkmap.Common.Cqrs.csproj">
       <Project>{8F4B3C85-22D5-4826-BDA4-1BC7EC81FD55}</Project>
       <Name>Funkmap.Common.Cqrs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj">
-      <Project>{16A45066-051D-487E-86AA-0D1495E482A7}</Project>
-      <Name>Funkmap.Messenger.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

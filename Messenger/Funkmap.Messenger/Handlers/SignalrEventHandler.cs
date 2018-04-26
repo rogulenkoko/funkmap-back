@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Dialogs;
-using Funkmap.Messenger.Events.Messages;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Dialogs;
+using Funkmap.Messenger.Contracts.Events.Messages;
 using Funkmap.Messenger.Hubs;
 using Funkmap.Messenger.Hubs.Abstract;
 using Funkmap.Messenger.Mappers;

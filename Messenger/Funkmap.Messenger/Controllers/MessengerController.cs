@@ -10,6 +10,7 @@ using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Contracts;
 using Funkmap.Messenger.Mappers;
 using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Models.Requests;

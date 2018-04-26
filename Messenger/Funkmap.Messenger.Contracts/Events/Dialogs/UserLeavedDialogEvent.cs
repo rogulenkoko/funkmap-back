@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Funkmap.Messenger.Events.Dialogs
+﻿namespace Funkmap.Messenger.Contracts.Events.Dialogs
 {
     public class UserLeavedDialogEvent
     {

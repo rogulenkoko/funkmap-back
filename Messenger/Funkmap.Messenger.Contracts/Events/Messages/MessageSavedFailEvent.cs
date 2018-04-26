@@ -1,5 +1,5 @@
 ﻿
-namespace Funkmap.Messenger.Events.Messages
+namespace Funkmap.Messenger.Contracts.Events.Messages
 {
     public class MessageSavedFailEvent
     {

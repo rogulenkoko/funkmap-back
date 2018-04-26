@@ -1,4 +1,4 @@
-﻿namespace Funkmap.Messenger.Events.Dialogs
+﻿namespace Funkmap.Messenger.Contracts.Events.Dialogs
 {
     public class DialogCreationFailedEvent
     {

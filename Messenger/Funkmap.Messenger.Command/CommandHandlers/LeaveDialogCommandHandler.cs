@@ -6,8 +6,8 @@ using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Dialogs;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Dialogs;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {

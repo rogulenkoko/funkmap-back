@@ -6,9 +6,9 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Messages;
 using Funkmap.Messenger.Entities;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Messages;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {

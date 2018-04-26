@@ -1,7 +1,7 @@
 ﻿
 using Funkmap.Messenger.Entities;
 
-namespace Funkmap.Messenger.Events.Messages
+namespace Funkmap.Messenger.Contracts.Events.Messages
 {
     public class ContentUploadedEvent
     {

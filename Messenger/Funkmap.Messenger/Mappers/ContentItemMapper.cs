@@ -1,6 +1,6 @@
-﻿using Funkmap.Messenger.Entities;
+﻿using Funkmap.Messenger.Contracts;
+using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Models;
-using Funkmap.Messenger.Query.Responses;
 
 namespace Funkmap.Messenger.Mappers
 {
@@ -16,18 +16,6 @@ namespace Funkmap.Messenger.Mappers
                 FileName = source.Name,
                 Size = source.Size,
                 FileId = source.DataUrl
-            };
-        }
-
-        public static ContentItemModel ToModel(this ContentItemEntity source)
-        {
-            if (source == null) return null;
-            return new ContentItemModel()
-            {
-                Name = source.FileName,
-                ContentType = source.ContentType,
-                Size = source.Size,
-                DataUrl = source.FileId
             };
         }
 

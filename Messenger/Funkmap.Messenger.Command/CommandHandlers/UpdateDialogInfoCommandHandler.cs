@@ -7,8 +7,9 @@ using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Tools;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Dialogs;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Dialogs;
+using Funkmap.Messenger.Entities.Mappers;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {
@@ -80,7 +81,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                 }
 
                 await _messengerRepository.UpdateDialogAsync(dialog);
-                await _eventBus.PublishAsync(new DialogUpdatedEvent(dialog));
+                await _eventBus.PublishAsync(new DialogUpdatedEvent(dialog.ToDialog()));
 
             }
             catch (InvalidDataException ex)

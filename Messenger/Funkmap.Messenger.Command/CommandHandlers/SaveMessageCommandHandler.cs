@@ -6,9 +6,10 @@ using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Messages;
 using Funkmap.Messenger.Entities;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Messages;
+using Funkmap.Messenger.Entities.Mappers;
 using MongoDB.Bson;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
@@ -73,7 +74,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                 await _eventBus.PublishAsync(new MessageSavedCompleteEvent()
                 {
                     Success = true,
-                    Message = message,
+                    Message = message.ToModel(),
                     DialogParticipants = dialogParticipants.ToList()
                 });
             }

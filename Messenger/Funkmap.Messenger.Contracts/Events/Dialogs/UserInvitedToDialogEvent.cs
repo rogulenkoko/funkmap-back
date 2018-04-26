@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Messenger.Entities;
 
-namespace Funkmap.Messenger.Events.Dialogs
+namespace Funkmap.Messenger.Contracts.Events.Dialogs
 {
     public class UserInvitedToDialogEvent
     {
-        public UserInvitedToDialogEvent(DialogEntity dialog, string userLogin, ICollection<string> invitedParticipants)
+        public UserInvitedToDialogEvent(Dialog dialog, string userLogin, ICollection<string> invitedParticipants)
         {
             Dialog = dialog;
             UserLogin = userLogin;
             InvitedParticipants = invitedParticipants;
         }
 
-        public DialogEntity Dialog { get; }
+        public Dialog Dialog { get; }
 
         public string UserLogin { get; }
 

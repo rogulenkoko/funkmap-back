@@ -56,15 +56,4 @@ namespace Funkmap.Messenger.Entities
         [BsonElement("s")]
         public double Size { get; set; }
     }
-
-    public enum ContentType
-    {
-        Image = 1
-    }
-
-    public enum MessageType
-    {
-        Base = 1,
-        System = 2
-    }
 }

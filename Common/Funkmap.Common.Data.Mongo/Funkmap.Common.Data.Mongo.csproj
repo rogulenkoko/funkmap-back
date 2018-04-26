@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\MongoEntity.cs" />
-    <Compile Include="Entities\ImageInfo.cs" />
+    <Compile Include="Entities\ImageInfoEntity.cs" />
     <Compile Include="GridFsFileStorage.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Funkmap.Messenger.Events.Messages
+namespace Funkmap.Messenger.Contracts.Events.Messages
 {
     public class MessagesReadEvent
     {

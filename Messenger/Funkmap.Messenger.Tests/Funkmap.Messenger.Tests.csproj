@@ -142,13 +142,13 @@
       <Project>{15E79617-9CDA-496E-84EF-0198FEA0B4B8}</Project>
       <Name>Funkmap.Messenger.Command</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Messenger.Contracts\Funkmap.Messenger.Contracts.csproj">
+      <Project>{210A14C5-7305-489D-B066-3509CD03B2DC}</Project>
+      <Name>Funkmap.Messenger.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj">
       <Project>{16A45066-051D-487E-86AA-0D1495E482A7}</Project>
       <Name>Funkmap.Messenger.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Messenger.Events\Funkmap.Messenger.Events.csproj">
-      <Project>{210a14c5-7305-489d-b066-3509cd03b2dc}</Project>
-      <Name>Funkmap.Messenger.Events</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj">
       <Project>{2650D961-5402-4B7F-8E91-48AE34898A3E}</Project>

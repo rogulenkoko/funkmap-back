@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Messenger.Contracts;
 
 namespace Funkmap.Messenger.Query.Responses
 {

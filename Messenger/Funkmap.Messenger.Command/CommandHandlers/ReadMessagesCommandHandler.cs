@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;
-using Funkmap.Messenger.Events;
-using Funkmap.Messenger.Events.Messages;
+using Funkmap.Messenger.Contracts.Events;
+using Funkmap.Messenger.Contracts.Events.Messages;
 
 namespace Funkmap.Messenger.Command.CommandHandlers
 {

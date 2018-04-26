@@ -1,6 +1,6 @@
 ﻿using Funkmap.Common.Cqrs;
 
-namespace Funkmap.Messenger.Events
+namespace Funkmap.Messenger.Contracts.Events
 {
     public class MessengerCommandFailedEvent : CommandFailedEvent
     {
