@@ -4,7 +4,7 @@ namespace Funkmap.Messenger.Query.Responses
 {
     public class UserDialogsResponse
     {
-        public UserDialogsResponse(bool success, IList<DialogWithLastMessage> dialogs)
+        public UserDialogsResponse(bool success, IReadOnlyCollection<DialogWithLastMessage> dialogs)
         {
             Success = success;
             Dialogs = dialogs;
@@ -12,6 +12,6 @@ namespace Funkmap.Messenger.Query.Responses
 
         public bool Success { get; }
 
-        public IList<DialogWithLastMessage> Dialogs { get; }
+        public IReadOnlyCollection<DialogWithLastMessage> Dialogs { get; }
     }
 }

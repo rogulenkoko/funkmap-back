@@ -3,9 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
-using Funkmap.Messenger.Contracts;
 using Funkmap.Messenger.Entities;
-using Funkmap.Messenger.Entities.Objects;
+using Funkmap.Messenger.Entities.Mappers;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using MongoDB.Bson;
@@ -36,22 +35,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                 var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, query.UserLogin)
                             & Builders<DialogEntity>.Filter.Eq(x=>x.Id, new ObjectId(query.DialogId));
 
-                var dialog = await _collection.Aggregate()
-                    .Match(filter)
-                    .Lookup<DialogEntity, MessageEntity, DialogLookup>(_messagesCollection, x => x.Id, x => x.DialogId, result => result.LastMessages)
-                    .Project(x => new DialogEntity()
-                    {
-                        Id = x.Id,
-                        LastMessage = x.LastMessages.Last(),
-                        Name = x.Name,
-                        Participants = x.Participants,
-                        AvatarId = x.AvatarId,
-                        LastMessageDate = x.LastMessageDate,
-                        CreatorLogin = x.CreatorLogin,
-                        DialogType = x.DialogType,
-                    })
-                    .SingleOrDefaultAsync();
-                
+                var dialog = await _collection.Find(filter).SingleOrDefaultAsync();
 
                 var response = new UserDialogResponse(true,  new DialogWithLastMessage()
                 {
@@ -60,22 +44,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     Participants = dialog.Participants,
                     AvatarId = dialog.AvatarId,
                     CreatorLogin = dialog.CreatorLogin,
-                    LastMessage = dialog.LastMessage == null ? null : new Message()
-                    {
-                        Text = dialog.LastMessage.Text,
-                        DialogId = dialog.LastMessage.DialogId.ToString(),
-                        Sender = dialog.LastMessage.Sender,
-                        DateTimeUtc = dialog.LastMessage.DateTimeUtc,
-                        IsNew = !dialog.LastMessage.IsRead,
-                        MessageType = dialog.LastMessage.MessageType,
-                        Content = dialog.LastMessage.Content.Select(c => new ContentItem()
-                        {
-                            ContentType = c.ContentType,
-                            FileName = c.FileName,
-                            Size = c.Size,
-                            FileId = c.FileId
-                        }).ToList()
-                    },
+                    LastMessage = dialog.LastMessage.ToModel(),
                     DialogType = dialog.DialogType
                 });
 

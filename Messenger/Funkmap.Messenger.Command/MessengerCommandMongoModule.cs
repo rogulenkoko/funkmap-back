@@ -35,9 +35,6 @@ namespace Funkmap.Messenger.Command
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<MessageEntity>(MessengerCollectionNameProvider.MessagesCollectionName))
                 .As<IMongoCollection<MessageEntity>>();
 
-            var dialogLastMessageDateIndexModel = new CreateIndexModel<DialogEntity>(Builders<DialogEntity>.IndexKeys.Descending(x => x.LastMessageDate));
-            var messageDialogIdIndexModel = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Ascending(x => x.DialogId));
-
             //FileStorage
             StorageType storageType = (StorageType)Enum.Parse(typeof(StorageType), ConfigurationManager.AppSettings["file-storage"]);
 
@@ -77,11 +74,15 @@ namespace Funkmap.Messenger.Command
 
             builder.RegisterBuildCallback(async c =>
             {
+                var dialogParticipantsIndexModel = new CreateIndexModel<DialogEntity>(Builders<DialogEntity>.IndexKeys.Ascending(x => x.Participants));
+
+                var messageDialogIdIndexModel = new CreateIndexModel<MessageEntity>(Builders<MessageEntity>.IndexKeys.Ascending(x => x.DialogId));
+
                 //создание индексов при запуске приложения
                 var dialogsCollection = c.Resolve<IMongoCollection<DialogEntity>>();
                 await dialogsCollection.Indexes.CreateManyAsync(new List<CreateIndexModel<DialogEntity>>
                 {
-                    dialogLastMessageDateIndexModel,
+                    dialogParticipantsIndexModel
                 });
 
 

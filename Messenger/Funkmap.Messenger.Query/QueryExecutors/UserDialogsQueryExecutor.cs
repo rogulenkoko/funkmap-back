@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
 using Funkmap.Common.Logger;
-using Funkmap.Messenger.Contracts;
 using Funkmap.Messenger.Entities;
-using Funkmap.Messenger.Entities.Objects;
+using Funkmap.Messenger.Entities.Mappers;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using MongoDB.Driver;
@@ -60,23 +59,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     Participants = x.Participants,
                     AvatarId = x.AvatarId,
                     CreatorLogin = x.CreatorLogin,
-                    LastMessage = new Message()
-                    {
-                        Id = x.Id.ToString(),
-                        Text = x.LastMessage.Text,
-                        DialogId = x.LastMessage.DialogId.ToString(),
-                        Sender = x.LastMessage.Sender,
-                        DateTimeUtc = x.LastMessage.DateTimeUtc,
-                        IsNew = !x.LastMessage.IsRead,
-                        MessageType = x.LastMessage.MessageType,
-                        Content = x.LastMessage.Content.Select(c => new ContentItem()
-                        {
-                            ContentType = c.ContentType,
-                            FileName = c.FileName,
-                            Size = c.Size,
-                            FileId = c.FileId
-                        }).ToList()
-                    },
+                    LastMessage = x.LastMessage.ToModel(),
                     DialogType = x.DialogType
                 }).ToList());
 

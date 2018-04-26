@@ -90,6 +90,19 @@ namespace Funkmap.Messenger.Tests.Queries
             Assert.IsNotNull(lastUpdatedDialog.LastMessage);
             Assert.AreEqual(lastUpdatedDialog.LastMessage.Text, command.Text);
             Assert.AreNotEqual(lastUpdatedDialog.LastMessage.Id, ObjectId.Empty);
+
+            var dialogQuery = new UserDialogQuery(dialog.Id.ToString(), user);
+            var dialogQueryResult = _queryContext.ExecuteAsync<UserDialogQuery, UserDialogResponse>(dialogQuery).GetAwaiter().GetResult();
+
+            Assert.IsTrue(dialogQueryResult.Success);
+            Assert.IsNotNull(dialogQueryResult.Dialog);
+            Assert.IsTrue(dialogQueryResult.Dialog.Participants.Contains(user));
+
+            var lastUpdatedDialog2 = dialogQueryResult.Dialog;
+            Assert.AreEqual(lastUpdatedDialog2.DialogId, dialog.Id.ToString());
+            Assert.IsNotNull(lastUpdatedDialog2.LastMessage);
+            Assert.AreEqual(lastUpdatedDialog2.LastMessage.Text, command.Text);
+            Assert.AreNotEqual(lastUpdatedDialog2.LastMessage.Id, ObjectId.Empty);
         }
     }
 }
