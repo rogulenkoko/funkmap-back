@@ -6,6 +6,7 @@ namespace Funkmap.Messenger.Query.Responses
 {
     public class Message
     {
+        public string Id { get; set; }
         public string DialogId { get; set; }
         public string Sender { get; set; }
         public string Text { get; set; }

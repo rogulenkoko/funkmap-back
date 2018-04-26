@@ -26,11 +26,12 @@ namespace Funkmap.Messenger.Entities
         [BsonIgnoreIfDefault]
         public DateTime LastMessageDate { get; set; }
 
+        [BsonElement("lmsg")]
+        public MessageEntity LastMessage { get; set; }
+
+
         [BsonElement("c")]
         public string CreatorLogin { get; set; }
-
-        [BsonIgnore]
-        public MessageEntity LastMessage { get; set; }
 
         [BsonElement("t")]
         public DialogType DialogType { get; set; }

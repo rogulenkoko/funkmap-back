@@ -55,12 +55,12 @@ namespace Funkmap.Messenger.Command.Repositories
             await _dialogCollection.InsertOneAsync(dialog);
         }
 
-        public async Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime)
+        public async Task<DialogEntity> UpdateLastMessageAsync(string dialogId, MessageEntity message)
         {
             if (String.IsNullOrEmpty(dialogId)) throw new ArgumentException(nameof(dialogId));
-            if (lastMessageDateTime == DateTime.MinValue) throw new ArgumentException(nameof(lastMessageDateTime));
+            if (message == null) throw new ArgumentException(nameof(message));
 
-            var update = Builders<DialogEntity>.Update.Set(x => x.LastMessageDate, lastMessageDateTime);
+            var update = Builders<DialogEntity>.Update.Set(x => x.LastMessageDate, message.DateTimeUtc).Set(x=>x.LastMessage, message);
             var dialog = await _dialogCollection.FindOneAndUpdateAsync(x => x.Id == new ObjectId(dialogId), update);
             return dialog;
         }

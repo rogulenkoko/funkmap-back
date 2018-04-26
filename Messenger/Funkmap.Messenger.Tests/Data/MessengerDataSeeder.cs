@@ -45,11 +45,20 @@ namespace Funkmap.Messenger.Tests.Data
                     ToParticipants = randomDialog.Participants.Where(y=> y != sender).ToList(),
                     MessageType = MessageType.Base,
                     Text = Guid.NewGuid().ToString(),
-                    DateTimeUtc = now.AddHours(x)
+                    DateTimeUtc = now.AddHours(-x)
                 };
             });
 
             messagesCollection.InsertManyAsync(messages).GetAwaiter().GetResult();
+
+            foreach (var dialog in dialogs)
+            {
+                var lastMessage = messages.First(x => x.DialogId == dialog.Id);
+                dialog.LastMessage = lastMessage;
+                dialog.LastMessageDate = lastMessage.DateTimeUtc;
+                dialogsCollection.ReplaceOneAsync(x => x.Id == dialog.Id, dialog).GetAwaiter().GetResult();
+            }
+
         }
     }
 }

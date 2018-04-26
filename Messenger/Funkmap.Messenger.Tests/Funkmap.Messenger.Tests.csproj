@@ -109,9 +109,12 @@
     <Compile Include="Commands\SaveMessageCommandTest.cs" />
     <Compile Include="Data\MessengerDataSeeder.cs" />
     <Compile Include="Data\MessengerDbProvider.cs" />
-    <Compile Include="Queries\DialogsQueriesTest.cs" />
+    <Compile Include="Queries\DialogMessagesTest.cs" />
+    <Compile Include="Queries\DialogsNewMessagesCountTest.cs" />
     <Compile Include="ImageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\UserDialogsTest.cs" />
+    <Compile Include="Tools\TestInitializer.cs" />
     <Compile Include="Tools\TestToolRepository.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -30,14 +30,12 @@ namespace Funkmap.Messenger.Command.CommandHandlers
                     throw new InvalidDataException("Command validation failed.");
                 }
                 
-                var dialog = await _messengerRepository.UpdateLastMessageDateAsync(command.DialogId, command.LastMesssageDateTime);
+                var dialog = await _messengerRepository.UpdateLastMessageAsync(command.DialogId, command.Message);
 
                 if (dialog == null)
                 {
                     throw new InvalidDataException("Dialog is not exist.");
                 }
-
-                dialog.LastMessage = command.Message;
 
                 await _eventBus.PublishAsync(new DialogUpdatedEvent(dialog));
             }

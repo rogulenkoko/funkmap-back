@@ -12,7 +12,7 @@ namespace Funkmap.Messenger.Command.Abstract
         Task<ICollection<string>> GetDialogMembersAsync(string dialogId);
         Task AddMessageAsync(MessageEntity message);
         Task AddDialogAsync(DialogEntity dialog);
-        Task<DialogEntity> UpdateLastMessageDateAsync(string dialogId, DateTime lastMessageDateTime);
+        Task<DialogEntity> UpdateLastMessageAsync(string dialogId, MessageEntity message);
         Task MakeDialogMessagesReadAsync(string dialogId, string login, DateTime readTime);
 
         Task<DialogEntity> GetDialogByParticipants(IReadOnlyCollection<string> participants);

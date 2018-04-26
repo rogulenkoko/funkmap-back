@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Common.Cqrs.Abstract;
@@ -48,25 +49,8 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                 var filter = Builders<DialogEntity>.Filter.AnyEq(x => x.Participants, query.UserLogin);
 
                 var sortFilter = Builders<DialogEntity>.Sort.Descending(x => x.LastMessageDate);
-
-                var dialogs = await _collection.Aggregate()
-                    .Match(filter)
-                    .Lookup<DialogEntity, MessageEntity, DialogLookup>(_messagesCollection, x => x.Id, x => x.DialogId, result => result.LastMessages)
-                    .Project(x => new DialogEntity()
-                    {
-                        Id = x.Id,
-                        LastMessage = x.LastMessages.Last(),
-                        Name = x.Name,
-                        Participants = x.Participants,
-                        LastMessageDate = x.LastMessageDate,
-                        CreatorLogin = x.CreatorLogin,
-                        DialogType = x.DialogType,
-                        AvatarId = x.AvatarId
-                    })
-                    .Sort(sortFilter)
-                    .ToListAsync();
-
-
+                
+                List<DialogEntity> dialogs = await _collection.Find(filter).Sort(sortFilter).ToListAsync();
 
                 var response = new UserDialogsResponse(true, dialogs.Where(x=>x.LastMessage != null).Select(x => new DialogWithLastMessage()
                 {
@@ -77,6 +61,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
                     CreatorLogin = x.CreatorLogin,
                     LastMessage = new Message()
                     {
+                        Id = x.Id.ToString(),
                         Text = x.LastMessage.Text,
                         DialogId = x.LastMessage.DialogId.ToString(),
                         Sender = x.LastMessage.Sender,
