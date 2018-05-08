@@ -28,31 +28,31 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             {
                 if (String.IsNullOrEmpty(command.DialogId))
                 {
-                    throw new InvalidDataException("Invalid dialog id");
+                    throw new InvalidDataException("Invalid dialog id.");
                 }
 
                 if (command.InvitedUsers == null || command.InvitedUsers.Count == 0)
                 {
-                    throw new InvalidDataException("There are not invited users");
+                    throw new InvalidDataException("There are not invited users.");
                 }
 
                 if (String.IsNullOrEmpty(command.UserLogin))
                 {
-                    throw new InvalidDataException("Invalid user login");
+                    throw new InvalidDataException("Invalid user login.");
                 }
 
                 var dialog = await _messengerRepository.GetDialogAsync(command.DialogId);
 
                 if (dialog == null)
                 {
-                    throw new InvalidDataException("Dialog is not exist");
+                    throw new InvalidDataException("Dialog doesn't exist.");
                 }
 
                 var newParticipants = command.InvitedUsers.Except(dialog.Participants).ToList();
 
                 if (!newParticipants.Any())
                 {
-                    throw new InvalidDataException("There are not invited users");
+                    throw new InvalidDataException("There are not invited users.");
                 }
 
                 dialog.Participants.AddRange(newParticipants);

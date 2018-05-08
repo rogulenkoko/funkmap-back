@@ -26,7 +26,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             {
                 if (String.IsNullOrEmpty(command.DialogId) || String.IsNullOrEmpty(command.UserLogin) || command.ReadTime == DateTime.MinValue)
                 {
-                    throw new InvalidDataException("Command validation failed");
+                    throw new InvalidDataException("Command validation failed.");
                 }
 
 

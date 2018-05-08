@@ -35,7 +35,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Query execution failed");
+                _logger.Error(e, "Query execution failed.");
                 throw;
             }
         }

@@ -41,7 +41,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
 
                 ICollection<DialogsNewMessagesCountResultEntity> countResultEntities = await _collection.Aggregate()
                     .Match(newMessagesFilter)
-                    .Group(x => x.DialogId, y => new DialogsNewMessagesCountResultEntity()
+                    .Group(x => x.DialogId, y => new DialogsNewMessagesCountResultEntity
                     {
                         DialogId = y.Key,
                         NewMessagesCount = y.Count()
@@ -59,7 +59,7 @@ namespace Funkmap.Messenger.Query.QueryExecutors
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Query execution failed");
+                _logger.Error(e, "Query execution failed.");
                 throw;
             }
         }

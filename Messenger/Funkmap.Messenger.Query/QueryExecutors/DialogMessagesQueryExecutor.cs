@@ -44,12 +44,12 @@ namespace Funkmap.Messenger.Query.QueryExecutors
 
                 if (existingDialog == null)
                 {
-                    throw new InvalidOperationException($"Dialog {query.DialogId} is not exists");
+                    throw new InvalidOperationException($"Dialog {query.DialogId} doesn't exists.");
                 }
 
                 if (!existingDialog.Participants.Contains(query.UserLogin))
                 {
-                    throw new InvalidOperationException($"User {query.UserLogin} is not a member of dialog {query.DialogId}");
+                    throw new InvalidOperationException($"User {query.UserLogin} is not a member of dialog {query.DialogId}.");
                 }
 
                 //query

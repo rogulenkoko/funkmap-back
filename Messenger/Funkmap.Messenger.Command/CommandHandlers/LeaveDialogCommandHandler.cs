@@ -29,24 +29,24 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             {
                 if (String.IsNullOrEmpty(command.DialogId))
                 {
-                    throw new InvalidDataException("Invalid dialog id");
+                    throw new InvalidDataException("Invalid dialog id.");
                 }
 
                 var dialog = await _messengerRepository.GetDialogAsync(command.DialogId);
 
                 if (dialog == null)
                 {
-                    throw new InvalidDataException("Dialog is not exist");
+                    throw new InvalidDataException("Dialog doesn't exist.");
                 }
 
                 if (dialog.CreatorLogin != command.UserLogin && command.UserLogin != command.LeavedUserLogin)
                 {
-                    throw new InvalidDataException($"{command.UserLogin} can't remove {command.LeavedUserLogin} from dialog {command.DialogId}");
+                    throw new InvalidDataException($"{command.UserLogin} can't remove {command.LeavedUserLogin} from dialog {command.DialogId}.");
                 }
 
                 if (!dialog.Participants.Contains(command.LeavedUserLogin))
                 {
-                    throw new InvalidDataException($"{command.LeavedUserLogin} is not a member of dialog {command.DialogId}");
+                    throw new InvalidDataException($"{command.LeavedUserLogin} is not a member of dialog {command.DialogId}.");
                 }
 
                 dialog.Participants.Remove(command.LeavedUserLogin);

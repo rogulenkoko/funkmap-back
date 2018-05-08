@@ -31,7 +31,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             {
                 if (command.FileBytes == null || command.FileBytes.Length == 0 || String.IsNullOrEmpty(command.FileName))
                 {
-                    throw new InvalidDataException("Invalid content item");
+                    throw new InvalidDataException("Invalid content item.");
                 }
 
                 if (command.ContentType == ContentType.Image)

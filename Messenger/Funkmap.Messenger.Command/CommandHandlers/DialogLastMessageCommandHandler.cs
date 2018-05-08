@@ -35,7 +35,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
 
                 if (dialog == null)
                 {
-                    throw new InvalidDataException("Dialog is not exist.");
+                    throw new InvalidDataException("Dialog doesn't exist.");
                 }
 
                 await _eventBus.PublishAsync(new DialogUpdatedEvent(dialog.ToDialog()));

@@ -35,24 +35,24 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             {
                 if ((command.Avatar == null || command.Avatar.Length == 0) && String.IsNullOrEmpty(command.Name))
                 {
-                    throw new InvalidDataException("Nothing to update");
+                    throw new InvalidDataException("Nothing to update.");
                 }
 
                 if (String.IsNullOrEmpty(command.DialogId))
                 {
-                    throw new InvalidDataException("Invalid dialog id");
+                    throw new InvalidDataException("Invalid dialog id.");
                 }
 
                 var dialog = await _messengerRepository.GetDialogAsync(command.DialogId);
 
                 if (dialog == null)
                 {
-                    throw new InvalidDataException("Dialog is not exist");
+                    throw new InvalidDataException("Dialog doesn't exist");
                 }
 
                 if (!dialog.Participants.Contains(command.UserLogin))
                 {
-                    throw new InvalidDataException($"{command.UserLogin} can not modify dialog {command.DialogId}");
+                    throw new InvalidDataException($"{command.UserLogin} can not modify dialog {command.DialogId}.");
                 }
 
                 if (command.Avatar != null)
@@ -87,7 +87,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             catch (InvalidDataException ex)
             {
                 var error = $"{nameof(UpdateDialogInfoCommand)} validation failed.";
-                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent
                 {
                     Error = error,
                     ExceptionMessage = ex.Message,
@@ -97,7 +97,7 @@ namespace Funkmap.Messenger.Command.CommandHandlers
             catch (Exception e)
             {
                 var error = "Dialog update failed.";
-                await _eventBus.PublishAsync(new MessengerCommandFailedEvent()
+                await _eventBus.PublishAsync(new MessengerCommandFailedEvent
                 {
                     Error = error,
                     ExceptionMessage = e.Message,
