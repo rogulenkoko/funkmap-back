@@ -130,10 +130,6 @@
       <Project>{7D0761C4-DD1A-4AC0-AB3E-4078A00208CD}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Funkmap.Common.Logger\Funkmap.Common.Logger.csproj">
-      <Project>{7100436D-3277-42BD-877E-0DD4504EEC97}</Project>
-      <Name>Funkmap.Common.Logger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\Funkmap.Common\Funkmap.Common.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common</Name>

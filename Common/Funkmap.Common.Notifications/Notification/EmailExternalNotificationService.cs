@@ -6,9 +6,9 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
-using Funkmap.Common.Logger;
 using Funkmap.Common.Notifications.Notification.Abstract;
 using Funkmap.Common.Settings;
+using Funkmap.Logger;
 
 namespace Funkmap.Common.Notifications.Notification
 {
