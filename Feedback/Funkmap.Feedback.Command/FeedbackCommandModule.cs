@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Features.AttributeFilters;
+using Funkmap.Azure;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Azure;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.CommandHandler;
 using Funkmap.Feedback.Command.Commands;

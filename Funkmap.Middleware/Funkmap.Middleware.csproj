@@ -66,6 +66,12 @@
     <Reference Include="Funkmap.Logger.Autofac, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Funkmap.Logger.Autofac.1.0.0\lib\netstandard2.0\Funkmap.Logger.Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Funkmap.Redis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Funkmap.Redis.1.0.0\lib\netstandard2.0\Funkmap.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="Funkmap.Redis.Autofac, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Funkmap.Redis.Autofac.1.0.0\lib\netstandard2.0\Funkmap.Redis.Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Metrics, Version=0.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Metrics.NET.0.5.5\lib\net45\Metrics.dll</HintPath>
       <Private>True</Private>
@@ -271,14 +277,6 @@
     <ProjectReference Include="..\Common\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">
       <Project>{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}</Project>
       <Name>Funkmap.Common.Notifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Funkmap.Common.Redis.Autofac\Funkmap.Common.Redis.Autofac.csproj">
-      <Project>{8A50007A-B4A0-4E09-AC96-D1C64440609D}</Project>
-      <Name>Funkmap.Common.Redis.Autofac</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Funkmap.Common.Redis\Funkmap.Common.Redis.csproj">
-      <Project>{D9A2E117-7CB0-4A3B-A401-4EDEF1E40732}</Project>
-      <Name>Funkmap.Common.Redis</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Funkmap.Common\Funkmap.Common.Owin.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Autofac;
+using Funkmap.Azure;
 using Funkmap.Common;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Azure;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Messenger.Entities;
 using Microsoft.Azure;

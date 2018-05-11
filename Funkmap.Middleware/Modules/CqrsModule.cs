@@ -2,13 +2,13 @@
 using System.Configuration;
 using Autofac;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Redis;
-using Funkmap.Common.Redis.Autofac;
 using Funkmap.Common.Serialization;
 using Funkmap.Common.Tools;
 using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Middleware.Settings;
+using Funkmap.Redis;
+using Funkmap.Redis.Autofac;
 
 namespace Funkmap.Middleware.Modules
 {

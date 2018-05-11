@@ -152,10 +152,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Funkmap.Common.Azure\Funkmap.Common.Azure.csproj">
-      <Project>{6A25F38D-3DD8-4741-AC53-89E4A2A21F1B}</Project>
-      <Name>Funkmap.Common.Azure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj">
       <Project>{7d0761c4-dd1a-4ac0-ab3e-4078a00208cd}</Project>
       <Name>Funkmap.Common.Data.Mongo</Name>

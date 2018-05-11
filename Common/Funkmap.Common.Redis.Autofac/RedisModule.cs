@@ -1,6 +1,6 @@
-﻿using System.Configuration;
-using Autofac;
+﻿using Autofac;
 using StackExchange.Redis;
+using System.Configuration;
 
 namespace Funkmap.Common.Redis.Autofac
 {
@@ -8,11 +8,15 @@ namespace Funkmap.Common.Redis.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["redis-primary"]);
-            builder.RegisterInstance(redis).As<ConnectionMultiplexer>().SingleInstance().OnRelease(x => x.Dispose());
+            builder.Register(container =>
+            {
+                ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["redis-primary"]);
+                return redis;
+            }).As<ConnectionMultiplexer>().SingleInstance().OnRelease(x => x.Dispose());
+
             builder.Register(container =>
                 {
-                    IDatabase db = redis.GetDatabase(1, asyncState: true);
+                    IDatabase db = container.Resolve<ConnectionMultiplexer>().GetDatabase(1, asyncState: true);
                     return db;
 
                 })
@@ -21,12 +25,12 @@ namespace Funkmap.Common.Redis.Autofac
 
 
             builder.Register(container =>
-                {
-                    ISubscriber sub = redis.GetSubscriber();
-                    return sub;
-                })
-                .As<ISubscriber>()
-                .SingleInstance();
+                    {
+                        ISubscriber sub = container.Resolve<ConnectionMultiplexer>().GetSubscriber();
+                        return sub;
+                    })
+                    .As<ISubscriber>()
+                    .SingleInstance();
         }
     }
 }
