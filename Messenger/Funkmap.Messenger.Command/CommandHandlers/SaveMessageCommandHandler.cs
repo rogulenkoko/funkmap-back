@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Logger;
 using Funkmap.Messenger.Command.Abstract;
 using Funkmap.Messenger.Command.Commands;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
+using Funkmap.Cqrs.Abstract;
+using Funkmap.Logger;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;

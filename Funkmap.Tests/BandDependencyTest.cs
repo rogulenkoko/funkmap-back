@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Data;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Entities.Entities.Abstract;

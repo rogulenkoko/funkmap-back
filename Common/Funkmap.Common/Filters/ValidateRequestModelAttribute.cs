@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Funkmap.Common.Filters
+namespace Funkmap.Common.Owin.Filters
 {
     public class ValidateRequestModelAttribute : ActionFilterAttribute
     {

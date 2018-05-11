@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Abstract;
 using Funkmap.Auth.Models;
-using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Common.Owin.Filters;
 
 namespace Funkmap.Auth.Controllers
 {

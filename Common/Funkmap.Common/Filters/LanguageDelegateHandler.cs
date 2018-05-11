@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Funkmap.Common.Filters
+namespace Funkmap.Common.Owin.Filters
 {
     public class LanguageDelegateHandler : DelegatingHandler
     {

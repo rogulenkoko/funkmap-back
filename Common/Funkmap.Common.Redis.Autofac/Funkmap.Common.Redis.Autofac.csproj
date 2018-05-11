@@ -66,9 +66,9 @@
       <Project>{D9A2E117-7CB0-4A3B-A401-4EDEF1E40732}</Project>
       <Name>Funkmap.Common.Redis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.csproj">
+    <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.Owin.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
-      <Name>Funkmap.Common</Name>
+      <Name>Funkmap.Common.Owin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Funkmap.Common.Auth;
 using Funkmap.Common.Models;
+using Funkmap.Common.Owin.Auth;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Models.Requests;

@@ -9,13 +9,14 @@ using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Auth;
 using Funkmap.Auth.Data;
-using Funkmap.Common.Filters;
-using Funkmap.Common.Logger;
 using Funkmap.Common.Notifications;
+using Funkmap.Common.Owin.Filters;
 using Funkmap.Common.Tools;
 using Funkmap.Data;
 using Funkmap.Feedback;
 using Funkmap.Feedback.Command;
+using Funkmap.Logger;
+using Funkmap.Logger.Autofac;
 using Funkmap.Messenger;
 using Funkmap.Messenger.Command;
 using Funkmap.Messenger.Query;
@@ -53,7 +54,7 @@ namespace Funkmap.Middleware
             InitializeSwagger(config);
 
             containerBuilder.RegisterType<FunkmapAuthProvider>();
-
+            containerBuilder.RegisterModule<LoggerModule>();
 
 
             var container = containerBuilder.Build();
@@ -132,8 +133,6 @@ namespace Funkmap.Middleware
             
             Assembly.Load(typeof(FeedbackModule).Assembly.FullName);
             Assembly.Load(typeof(FeedbackCommandModule).Assembly.FullName);
-            
-            Assembly.Load(typeof(LoggerModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationToolModule).Assembly.FullName);
         }
 

@@ -10,8 +10,8 @@ using Autofac.Features.AttributeFilters;
 using Funkmap.Auth.Data.Mappers;
 using Funkmap.Auth.Domain.Abstract;
 using Funkmap.Auth.Domain.Models;
-using Funkmap.Common.Cqrs;
-using Funkmap.Common.Tools;
+using Funkmap.Common.Models;
+using Funkmap.Common.Owin.Tools;
 
 namespace Funkmap.Auth.Data
 {
@@ -33,33 +33,33 @@ namespace Funkmap.Auth.Data
             return entity.ToUser();
         }
 
-        public async Task<CommandResponse> TryCreateAsync(User user, string hashedPassword)
+        public async Task<BaseResponse> TryCreateAsync(User user, string hashedPassword)
         {
             var entity = user.ToEntity(hashedPassword);
 
             if (String.IsNullOrWhiteSpace(user.Email))
             {
-                return new CommandResponse(false) {Error = "Invalid user's email."};
+                return new BaseResponse() { Success = false, Error = "Invalid user's email."};
             }
 
             if (String.IsNullOrWhiteSpace(user.Login))
             {
-                return new CommandResponse(false) { Error = "Invalid user's login." };
+                return new BaseResponse() { Success = false, Error = "Invalid user's login." };
             }
 
             if (String.IsNullOrWhiteSpace(hashedPassword))
             {
-                return new CommandResponse(false) {Error = "Invalid user's password."};
+                return new BaseResponse() {Success = false, Error = "Invalid user's password."};
             }
 
             try
             {
                 await _collection.InsertOneAsync(entity);
-                return new CommandResponse(true);
+                return new BaseResponse(){Success = true };
             }
             catch (Exception e)
             {
-                return new CommandResponse(false) {Error = e.Message};
+                return new BaseResponse() {Success = false, Error = e.Message};
             }
            
         }

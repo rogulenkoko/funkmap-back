@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common.Cqrs;
-using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
+using Funkmap.Common.Serialization;
+using Funkmap.Cqrs;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
+using Funkmap.Logger;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Events;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;

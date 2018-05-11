@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Funkmap.Common.Filters;
+using Funkmap.Common.Owin.Filters;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;

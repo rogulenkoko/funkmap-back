@@ -3,9 +3,9 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Funkmap.Auth.Domain.Abstract;
 using Funkmap.Auth.Models;
-using Funkmap.Common.Auth;
-using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Common.Owin.Auth;
+using Funkmap.Common.Owin.Filters;
 
 namespace Funkmap.Auth.Controllers
 {

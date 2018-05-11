@@ -4,7 +4,7 @@ using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Messenger.Command.EventHandlers;
 using Funkmap.Messenger.Contracts.Events;
 using Funkmap.Messenger.Contracts.Events.Dialogs;

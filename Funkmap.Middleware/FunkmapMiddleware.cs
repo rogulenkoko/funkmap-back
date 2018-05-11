@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Funkmap.Common.Logger;
+using Funkmap.Logger;
 using Microsoft.Owin;
 
 namespace Funkmap.Middleware

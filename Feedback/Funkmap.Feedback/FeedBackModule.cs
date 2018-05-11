@@ -4,7 +4,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
 using Funkmap.Feedback.Entities;
 using Funkmap.Feedback.EventHandlers;

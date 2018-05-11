@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Autofac;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Command.EventHandlers;
 using Funkmap.Messenger.Contracts.Events.Messages;

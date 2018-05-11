@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Common.Serialization;
 using StackExchange.Redis;
 
 namespace Funkmap.Common.Redis

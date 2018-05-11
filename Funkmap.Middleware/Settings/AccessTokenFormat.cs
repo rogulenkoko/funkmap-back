@@ -33,8 +33,7 @@ namespace Funkmap.Middleware.Settings
             var keyByteArray = TextEncodings.Base64Url.Decode(symmetricKeyAsBase64);
 
             var signingKey = new HmacSigningCredentials(keyByteArray);
-
-            SecurityKey signingKey = new RsaSecurityKey;
+            
 
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor()
             {

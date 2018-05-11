@@ -4,11 +4,11 @@ using System.IO;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.Commands;
 using Funkmap.Feedback.Entities;
 using Funkmap.Feedback.Events;
+using Funkmap.Logger;
 using MongoDB.Driver;
 
 namespace Funkmap.Feedback.Command.CommandHandler

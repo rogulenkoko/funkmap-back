@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Domain.Services;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Tools;

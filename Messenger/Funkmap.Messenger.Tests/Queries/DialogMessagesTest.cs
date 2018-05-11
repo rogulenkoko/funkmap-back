@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Autofac;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;

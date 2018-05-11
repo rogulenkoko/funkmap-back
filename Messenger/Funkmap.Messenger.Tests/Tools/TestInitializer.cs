@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs;
-using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Logger;
 using Funkmap.Common.Tools;
+using Funkmap.Cqrs;
+using Funkmap.Cqrs.Abstract;
+using Funkmap.Logger;
 using Funkmap.Messenger.Command;
 using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Query;

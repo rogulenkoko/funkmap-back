@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Funkmap.Common.Cqrs.Abstract;
-using Funkmap.Common.Filters;
 using Funkmap.Common.Models;
+using Funkmap.Common.Owin.Filters;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.Commands;
 using Funkmap.Feedback.Models;
 

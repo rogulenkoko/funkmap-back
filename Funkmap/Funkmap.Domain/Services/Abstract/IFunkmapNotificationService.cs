@@ -1,4 +1,4 @@
-﻿using Funkmap.Common.Cqrs.Abstract;
+﻿using Funkmap.Cqrs.Abstract;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Specific.BandInvite;
 

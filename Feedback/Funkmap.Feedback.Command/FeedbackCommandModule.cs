@@ -2,7 +2,7 @@
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Azure;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.CommandHandler;
 using Funkmap.Feedback.Command.Commands;
 using Microsoft.Azure;

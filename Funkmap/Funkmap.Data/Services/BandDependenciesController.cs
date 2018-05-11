@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Domain;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Events;

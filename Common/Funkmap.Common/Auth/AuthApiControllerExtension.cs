@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Security.Claims;
 
-namespace Funkmap.Common.Auth
+namespace Funkmap.Common.Owin.Auth
 {
     public static class AuthApiControllerExtension
     {

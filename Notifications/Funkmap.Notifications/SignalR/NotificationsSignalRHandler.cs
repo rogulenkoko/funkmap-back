@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Notifications.Domain.Events;
 using Funkmap.Notifications.Domain.Services.Abstract;
 using Funkmap.Notifications.Hubs;

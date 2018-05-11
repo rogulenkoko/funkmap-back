@@ -1,11 +1,10 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using ImageProcessor;
 using ImageProcessor.Imaging;
 using ImageProcessor.Imaging.Formats;
 
-namespace Funkmap.Common.Tools
+namespace Funkmap.Common.Owin.Tools
 {
     public static class FunkmapImageProcessor
     {

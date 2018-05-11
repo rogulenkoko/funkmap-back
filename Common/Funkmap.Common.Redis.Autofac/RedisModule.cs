@@ -1,6 +1,5 @@
 ﻿using System.Configuration;
 using Autofac;
-using Funkmap.Common.Abstract;
 using StackExchange.Redis;
 
 namespace Funkmap.Common.Redis.Autofac

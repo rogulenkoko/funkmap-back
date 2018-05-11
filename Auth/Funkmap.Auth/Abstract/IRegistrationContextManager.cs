@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Funkmap.Auth.Models;
-using Funkmap.Common.Cqrs;
+using Funkmap.Common.Models;
 
 namespace Funkmap.Auth.Abstract
 {
     public interface IRegistrationContextManager
     {
-        Task<CommandResponse> TryCreateContextAsync(RegistrationRequest creds);
+        Task<BaseResponse> TryCreateContextAsync(RegistrationRequest creds);
 
-        Task<CommandResponse> TryConfirmAsync(string login, string email, string code);
+        Task<BaseResponse> TryConfirmAsync(string login, string email, string code);
 
     }
 }

@@ -6,9 +6,9 @@ using Funkmap.Auth.Domain.Models;
 using Funkmap.Auth.Models;
 using Funkmap.Auth.Notifications;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs;
-using Funkmap.Common.Logger;
+using Funkmap.Common.Models;
 using Funkmap.Common.Notifications.Notification.Abstract;
+using Funkmap.Logger;
 
 namespace Funkmap.Auth.Services
 {
@@ -44,7 +44,7 @@ namespace Funkmap.Auth.Services
 
         #region IRegistrationContextManager
 
-        public async Task<CommandResponse> TryCreateContextAsync(RegistrationRequest creds)
+        public async Task<BaseResponse> TryCreateContextAsync(RegistrationRequest creds)
         {
             var hash = CryptoProvider.ComputeHash($"{creds.Email}_{creds.Login}");
             var key = $"{RegistrationContextsKey}_{hash}";
@@ -53,14 +53,14 @@ namespace Funkmap.Auth.Services
 
             if (existingContext != null)
             {
-                return new CommandResponse(false) { Error = "Registration context is already exists." };
+                return new BaseResponse() {Success = false, Error = "Registration context is already exists." };
             }
 
             var bookedEmails = await _authRepository.GetBookedEmailsAsync();
 
             if (bookedEmails.Contains(creds.Email))
             {
-                return new CommandResponse(false) {Error = "User with such email already exists."};
+                return new BaseResponse() {Success = false, Error = "User with such email already exists."};
             }
 
             var user = new User { Login = creds.Login, Name = creds.Name, Email = creds.Email, Locale = creds.Locale };
@@ -75,32 +75,32 @@ namespace Funkmap.Auth.Services
 
             if (!sendResult)
             {
-                return new CommandResponse(false) { Error = "Can't send notification. Check your email." };
+                return new BaseResponse() {Success = false, Error = "Can't send notification. Check your email." };
             }
 
             try
             {
                 await _storage.SetAsync(key, context, _sessionTimeSpan);
-                return new CommandResponse(true);
+                return new BaseResponse(){Success = true };
             }
             catch (Exception e)
             {
-                return new CommandResponse(false) { Error = e.Message };
+                return new BaseResponse() { Success = false, Error = e.Message };
             }
         }
 
-        public async Task<CommandResponse> TryConfirmAsync(string login, string email, string code)
+        public async Task<BaseResponse> TryConfirmAsync(string login, string email, string code)
         {
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(code))
             {
-                return new CommandResponse(false) { Error = "Invalid login or confirmation code." };
+                return new BaseResponse() { Success = false, Error = "Invalid login or confirmation code." };
             }
 
             var bookedEmails = await _authRepository.GetBookedEmailsAsync();
 
             if (bookedEmails.Contains(email))
             {
-                return new CommandResponse(false) { Error = "User with such email already exists." };
+                return new BaseResponse() {Success = false, Error = "User with such email already exists." };
             }
 
             var hash = CryptoProvider.ComputeHash($"{email}_{login}");
@@ -108,9 +108,9 @@ namespace Funkmap.Auth.Services
 
             RegistrationContext context = await _storage.GetAsync<RegistrationContext>(key);
 
-            if (context == null) return new CommandResponse(false) { Error = "There is no registration context. You should ask for confirmation code." };
+            if (context == null) return new BaseResponse() {Success = false, Error = "There is no registration context. You should ask for confirmation code." };
 
-            if (context.Code != code) return new CommandResponse(false) { Error = "The confirmation code is invalid." };
+            if (context.Code != code) return new BaseResponse() {Success = false, Error = "The confirmation code is invalid." };
 
             context.User.LastVisitDateUtc = DateTime.UtcNow;
 

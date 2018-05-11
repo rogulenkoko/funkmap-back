@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Configuration;
 using System.Reflection;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Cqrs.Abstract;
+using Funkmap.Cqrs.Abstract;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Services;

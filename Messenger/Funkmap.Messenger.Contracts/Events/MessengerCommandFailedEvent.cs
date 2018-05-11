@@ -1,4 +1,4 @@
-﻿using Funkmap.Common.Cqrs;
+﻿using Funkmap.Cqrs;
 
 namespace Funkmap.Messenger.Contracts.Events
 {
