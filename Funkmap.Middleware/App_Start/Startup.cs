@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -29,10 +30,8 @@ using Funkmap.Notifications;
 using Funkmap.Notifications.Data;
 using Metrics;
 using Microsoft.AspNet.SignalR;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
-using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.Jwt;
@@ -40,6 +39,10 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Owin.Metrics;
 using Swagger.Net.Application;
+using Thinktecture.IdentityModel.Tokens;
+using SecurityAlgorithms = Microsoft.IdentityModel.Tokens.SecurityAlgorithms;
+using SigningCredentials = Microsoft.IdentityModel.Tokens.SigningCredentials;
+using SymmetricSecurityKey = Microsoft.IdentityModel.Tokens.SymmetricSecurityKey;
 
 namespace Funkmap.Middleware
 {
@@ -78,26 +81,15 @@ namespace Funkmap.Middleware
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);
 
-            JwtSecurityTokenHandler.DefaultOutboundAlgorithmMap.Clear();
-            JwtSecurityTokenHandler.DefaultInboundClaimFilter.Clear();
-            
 
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
-                AccessTokenFormat = new JwtFormat(new TokenValidationParameters()
-                {
-                    ValidIssuer = JwtTokenOptions.Issuer,
-                    ValidateIssuerSigningKey= true,
-                    AuthenticationType = "Bearer",
-                    IssuerSigningKey = JwtTokenOptions.Key,
-                    ValidateLifetime = true
-                }),
+                AccessTokenFormat = new FunkmapJwtFormat(),
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = container.Resolve<FunkmapAuthProvider>(),
-                RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
-                AuthenticationMode = AuthenticationMode.Active
+                RefreshTokenProvider = new FunkmapRefreshTokenProvider()
             };
 
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
@@ -105,9 +97,12 @@ namespace Funkmap.Middleware
             {
                 TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = JwtTokenOptions.Issuer,
-                    IssuerSigningKey = JwtTokenOptions.Key,
-                    SaveSigninToken = true
+                    IssuerSigningKey = new HmacSigningCredentials(FunkmapJwtOptions.Key).SigningKey,
+                    ValidAudience = FunkmapJwtOptions.Audience,
+                    ValidIssuer = FunkmapJwtOptions.Issuer,
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = true,
+                    ValidateIssuer = true
                 }
             });
 
@@ -202,5 +197,4 @@ namespace Funkmap.Middleware
             });
         }
     }
-
 }
