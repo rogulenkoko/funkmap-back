@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Autofac;
@@ -21,13 +23,19 @@ using Funkmap.Messenger;
 using Funkmap.Messenger.Command;
 using Funkmap.Messenger.Query;
 using Funkmap.Middleware.Handlers;
+using Funkmap.Middleware.Settings;
 using Funkmap.Module;
 using Funkmap.Notifications;
 using Funkmap.Notifications.Data;
 using Metrics;
 using Microsoft.AspNet.SignalR;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.Infrastructure;
+using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Owin.Metrics;
@@ -65,23 +73,43 @@ namespace Funkmap.Middleware
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
 
             config.Filters.Add(new ValidateRequestModelAttribute());
-           // config.MessageHandlers.Add(new LanguageDelegateHandler());
+            config.MessageHandlers.Add(new LanguageDelegateHandler());
 
             appBuilder.UseAutofacMiddleware(container);
             appBuilder.UseAutofacWebApi(config);
 
+            JwtSecurityTokenHandler.DefaultOutboundAlgorithmMap.Clear();
+            JwtSecurityTokenHandler.DefaultInboundClaimFilter.Clear();
+            
+
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
+                AccessTokenFormat = new JwtFormat(new TokenValidationParameters()
+                {
+                    ValidIssuer = JwtTokenOptions.Issuer,
+                    ValidateIssuerSigningKey= true,
+                    AuthenticationType = "Bearer",
+                    IssuerSigningKey = JwtTokenOptions.Key,
+                    ValidateLifetime = true
+                }),
                 TokenEndpointPath = new PathString("/api/token"),
-
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = container.Resolve<FunkmapAuthProvider>(),
-                RefreshTokenProvider = new FunkmapRefreshTokenProvider()
+                RefreshTokenProvider = new FunkmapRefreshTokenProvider(),
+                AuthenticationMode = AuthenticationMode.Active
             };
 
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
-            appBuilder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            appBuilder.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions()
+            {
+                TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = JwtTokenOptions.Issuer,
+                    IssuerSigningKey = JwtTokenOptions.Key,
+                    SaveSigninToken = true
+                }
+            });
 
 
 
@@ -130,7 +158,7 @@ namespace Funkmap.Middleware
 
             Assembly.Load(typeof(NotificationsModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationsMongoModule).Assembly.FullName);
-            
+
             Assembly.Load(typeof(FeedbackModule).Assembly.FullName);
             Assembly.Load(typeof(FeedbackCommandModule).Assembly.FullName);
             Assembly.Load(typeof(NotificationToolModule).Assembly.FullName);
