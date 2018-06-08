@@ -1,6 +1,4 @@
-﻿using Funkmap.Auth.Domain.Models;
-
-namespace Funkmap.Auth.Models
+﻿namespace Funkmap.Auth.Contracts
 {
     public class UserResponse
     {

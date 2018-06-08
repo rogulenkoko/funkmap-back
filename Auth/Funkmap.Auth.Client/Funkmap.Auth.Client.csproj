@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>BandmapDev</Authors>
+    <Company>Bandmap</Company>
+    <Product>Bandmap</Product>
+    <Description>REST API client for Bandmap authorization service.</Description>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Funkmap.Auth.Contracts" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

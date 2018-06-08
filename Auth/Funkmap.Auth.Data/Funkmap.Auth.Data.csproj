@@ -141,6 +141,10 @@
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common.Owin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
+      <Project>{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6}</Project>
+      <Name>Funkmap.Auth.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj">
       <Project>{76E41EED-021E-4198-B25C-1FFF0D2A053D}</Project>
       <Name>Funkmap.Auth.Domain</Name>

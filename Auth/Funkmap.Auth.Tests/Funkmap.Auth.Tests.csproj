@@ -120,6 +120,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AuthRepositoryTest.cs" />
+    <Compile Include="Client\UserService.cs" />
+    <Compile Include="Client\UserServiceTest.cs" />
     <Compile Include="Data\AuthDataSeeder.cs" />
     <Compile Include="Data\AuthTestDbProvider.cs" />
     <Compile Include="NotificationTest.cs" />
@@ -138,6 +140,10 @@
     <ProjectReference Include="..\..\Common\Funkmap.Common\Funkmap.Common.Owin.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
+      <Project>{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6}</Project>
+      <Name>Funkmap.Auth.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj">
       <Project>{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}</Project>

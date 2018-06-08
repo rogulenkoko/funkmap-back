@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Funkmap.Auth.Abstract;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Data;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Auth.Domain.Abstract;
-using Funkmap.Auth.Models;
 using Funkmap.Auth.Services;
 using Funkmap.Auth.Tests.Data;
 using Funkmap.Common.Abstract;

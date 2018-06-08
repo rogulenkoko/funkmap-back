@@ -7,9 +7,9 @@ using Funkmap.Common.Abstract;
 using Funkmap.Common.Data.Mongo;
 using MongoDB.Driver;
 using Autofac.Features.AttributeFilters;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Data.Mappers;
 using Funkmap.Auth.Domain.Abstract;
-using Funkmap.Auth.Domain.Models;
 using Funkmap.Common.Models;
 using Funkmap.Common.Owin.Tools;
 

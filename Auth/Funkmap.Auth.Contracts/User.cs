@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Funkmap.Auth.Domain.Models
+namespace Funkmap.Auth.Contracts
 {
     public class User
     {

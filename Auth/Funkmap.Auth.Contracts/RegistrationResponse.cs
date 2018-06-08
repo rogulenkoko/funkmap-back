@@ -1,4 +1,4 @@
-﻿namespace Funkmap.Auth.Models
+﻿namespace Funkmap.Auth.Contracts
 {
     public class RegistrationResponse
     {

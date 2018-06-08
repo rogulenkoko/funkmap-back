@@ -123,21 +123,12 @@
     <Compile Include="Abstract\IRegistrationContextManager.cs" />
     <Compile Include="Abstract\IRestoreContextManager.cs" />
     <Compile Include="AuthFunkmapModule.cs" />
-    <Compile Include="Models\AvatarUpdateResponse.cs" />
-    <Compile Include="Models\ConfirmRestoreRequest.cs" />
-    <Compile Include="Models\UpdateLocaleRequest.cs" />
-    <Compile Include="Models\UserResponse.cs" />
     <Compile Include="Notifications\ConfirmationNotification.cs" />
     <Compile Include="Notifications\PasswordRecoverNotification.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="FunkmapAuthProvider.cs" />
     <Compile Include="FunkmapRefreshTokenProvider.cs" />
-    <Compile Include="Models\ConfirmationRequest.cs" />
-    <Compile Include="Models\RegistrationRequest.cs" />
-    <Compile Include="Models\RegistrationResponse.cs" />
-    <Compile Include="Models\SaveImageRequest.cs" />
-    <Compile Include="Models\UserConfirmationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -169,6 +160,10 @@
     <ProjectReference Include="..\..\Common\Funkmap.Common\Funkmap.Common.Owin.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
+      <Project>{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6}</Project>
+      <Name>Funkmap.Auth.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj">
       <Project>{76E41EED-021E-4198-B25C-1FFF0D2A053D}</Project>
