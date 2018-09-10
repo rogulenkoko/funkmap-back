@@ -1,4 +1,5 @@
 ﻿using System;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Domain.Models;
 
 namespace Funkmap.Auth.Services

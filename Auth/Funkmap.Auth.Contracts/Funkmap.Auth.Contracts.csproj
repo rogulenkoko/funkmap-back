@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>BandmapDev</Authors>
+    <Company>Bandmap</Company>
+    <Product>Bandmap</Product>
+    <Description>Authorization contracts for Bandmap Auth REST API.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Funkmap.Common" Version="1.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Funkmap.Common">
+      <HintPath>..\packages\Funkmap.Common.1.0.1\lib\netstandard2.0\Funkmap.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

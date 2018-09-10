@@ -28,6 +28,7 @@ using Funkmap.Notifications;
 using Funkmap.Notifications.Data;
 using Metrics;
 using Microsoft.AspNet.SignalR;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.Jwt;
@@ -89,7 +90,7 @@ namespace Funkmap.Middleware
             
             appBuilder.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions()
             {
-                TokenValidationParameters = new TokenValidationParameters()
+                TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters()
                 {
                     IssuerSigningKey = new HmacSigningCredentials(FunkmapJwtOptions.Key).SigningKey,
                     ValidAudience = FunkmapJwtOptions.Audience,

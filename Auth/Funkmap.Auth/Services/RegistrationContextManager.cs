@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Funkmap.Auth.Abstract;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Domain.Abstract;
-using Funkmap.Auth.Domain.Models;
-using Funkmap.Auth.Models;
 using Funkmap.Auth.Notifications;
 using Funkmap.Common.Abstract;
 using Funkmap.Common.Models;

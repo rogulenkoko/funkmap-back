@@ -1,5 +1,5 @@
-﻿using Funkmap.Auth.Data.Entities;
-using Funkmap.Auth.Domain.Models;
+﻿using Funkmap.Auth.Contracts;
+using Funkmap.Auth.Data.Entities;
 
 namespace Funkmap.Auth.Data.Mappers
 {

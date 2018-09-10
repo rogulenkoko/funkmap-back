@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Funkmap.Auth.Abstract;
-using Funkmap.Auth.Models;
+using Funkmap.Auth.Contracts;
 using Funkmap.Common.Models;
 using Funkmap.Common.Owin.Filters;
 

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Funkmap.Auth.Models;
+using Funkmap.Auth.Contracts;
 using Funkmap.Common.Models;
 
 namespace Funkmap.Auth.Abstract

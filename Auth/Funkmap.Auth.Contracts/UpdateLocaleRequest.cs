@@ -1,6 +1,6 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Funkmap.Auth.Models
+namespace Funkmap.Auth.Contracts
 {
     public class UpdateLocaleRequest
     {

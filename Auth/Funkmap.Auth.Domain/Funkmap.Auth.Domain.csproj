@@ -59,12 +59,17 @@
   <ItemGroup>
     <Compile Include="Abstract\IAuthRepository.cs" />
     <Compile Include="Models\ClientSecrets.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj">
+      <Project>{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6}</Project>
+      <Name>Funkmap.Auth.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

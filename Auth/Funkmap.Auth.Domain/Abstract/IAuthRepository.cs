@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Domain.Models;
 using Funkmap.Common.Models;
 using Funkmap.Cqrs;
