@@ -21,6 +21,7 @@ namespace Funkmap.Auth.Domain.Abstract
 
 
         Task<BaseResponse> TryCreateAsync(User user, string hashedPassword);
+        Task<BaseResponse> TryCreateSocialAsync(User user);
         Task UpdateLastVisitDateAsync(string login, DateTime date);
         Task UpdateLocaleAsync(string login, string locale);
         Task UpdatePasswordAsync(string login, string hashedPassword);

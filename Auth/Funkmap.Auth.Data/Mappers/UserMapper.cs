@@ -15,7 +15,8 @@ namespace Funkmap.Auth.Data.Mappers
                 AvatarUrl = source.AvatarUrl,
                 Email = source.Email,
                 Locale = source.Locale,
-                LastVisitDateUtc = source.LastVisitDateUtc
+                LastVisitDateUtc = source.LastVisitDateUtc,
+                IsSocial = source.IsSocial
             };
         }
 
@@ -29,7 +30,24 @@ namespace Funkmap.Auth.Data.Mappers
                 Email = source.Email,
                 Locale = source.Locale,
                 Password = password,
-                LastVisitDateUtc = source.LastVisitDateUtc
+                AvatarUrl = source.AvatarUrl,
+                LastVisitDateUtc = source.LastVisitDateUtc,
+                IsSocial = false
+            };
+        }
+
+        public static UserEntity ToSocialEntity(this User source)
+        {
+            if (source == null) return null;
+            return new UserEntity()
+            {
+                AvatarUrl = source.AvatarUrl,
+                Login = source.Login,
+                Name = source.Name,
+                Email = source.Email,
+                Locale = source.Locale,
+                LastVisitDateUtc = source.LastVisitDateUtc,
+                IsSocial = true
             };
         }
     }

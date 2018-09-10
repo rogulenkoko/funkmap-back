@@ -19,6 +19,10 @@ namespace Funkmap.Auth
             builder.RegisterType<HttpClient>().SingleInstance().OnRelease(x => x.Dispose());
             builder.RegisterType<ClientSecretProvider>().As<IClientSecretProvider>().SingleInstance();
 
+            builder.RegisterType<SocialUserFacade>(); 
+            builder.RegisterType<FacebookUserService>().As<ISocialUserService>();
+            builder.RegisterType<GoogleUserService>().As<ISocialUserService>();
+
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Authorization module has been loaded.");
         }

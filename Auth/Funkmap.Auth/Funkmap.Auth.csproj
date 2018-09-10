@@ -156,10 +156,14 @@
     </Compile>
     <Compile Include="Services\ClientSecretProvider.cs" />
     <Compile Include="Services\ConfirmationCodeGenerator.cs" />
+    <Compile Include="Services\FacebookUserService.cs" />
+    <Compile Include="Services\GoogleUserService.cs" />
+    <Compile Include="Services\ISocialUserService.cs" />
     <Compile Include="Services\RegistrationContext.cs" />
     <Compile Include="Services\RegistrationContextManager.cs" />
     <Compile Include="Services\CryptoProvider.cs" />
     <Compile Include="Services\RestoreContext.cs" />
+    <Compile Include="Services\SocialUserFacade.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">

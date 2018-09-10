@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Funkmap.Auth.Domain.Abstract;
 using Funkmap.Auth.Domain.Models;
 using Funkmap.Auth.Services;
+using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 
@@ -12,10 +14,12 @@ namespace Funkmap.Auth
     public class FunkmapAuthProvider : OAuthAuthorizationServerProvider
     {
         private readonly IAuthRepository _repository;
+        private readonly SocialUserFacade _socialUserFacade;
 
-        public FunkmapAuthProvider(IAuthRepository repository)
+        public FunkmapAuthProvider(IAuthRepository repository, SocialUserFacade socialUserFacade)
         {
             _repository = repository;
+            _socialUserFacade = socialUserFacade;
         }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -25,9 +29,39 @@ namespace Funkmap.Auth
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var password = CryptoProvider.ComputeHash(context.Password);
 
-            User user = await _repository.LoginAsync(context.UserName, password);
+            User user;
+            Claim userNameClaim;
+            //если не указаны логин и пароль, то значит авторизация через соц.сети
+            if (String.IsNullOrEmpty(context.UserName) && string.IsNullOrEmpty(context.Password))
+            {
+                IFormCollection parameters = await context.Request.ReadFormAsync();
+                var provider = parameters.Get("provider");
+                var token = parameters.Get("token");
+                _socialUserFacade.TryGetSocialUser(token, provider, out user);
+
+                var existingSocialUser = await _repository.GetAsync(user.Login);
+
+                if (existingSocialUser == null)
+                {
+                    var result = await _repository.TryCreateSocialAsync(user);
+                    if (!result.Success)
+                    {
+                        context.SetError("invalid_grant", "Operation failed");
+                        return;
+                    }
+                }
+
+                userNameClaim = new Claim(ClaimTypes.Name, user.Login);
+            }
+            else
+            {
+                var passwordHash = CryptoProvider.ComputeHash(context.Password);
+                user = await _repository.LoginAsync(context.UserName, passwordHash);
+                userNameClaim = new Claim(ClaimTypes.Name, context.UserName);
+            }
+
+
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
@@ -36,7 +70,7 @@ namespace Funkmap.Auth
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
-            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+            identity.AddClaim(userNameClaim);
 
             var propertiesDictionary = new Dictionary<string, string>();
 

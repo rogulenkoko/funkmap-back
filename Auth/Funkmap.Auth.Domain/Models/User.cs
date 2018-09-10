@@ -15,5 +15,7 @@ namespace Funkmap.Auth.Domain.Models
         public string AvatarUrl { get; set; }
 
         public DateTime LastVisitDateUtc { get; set; }
+
+        public bool IsSocial { get; set; }
     }
 }

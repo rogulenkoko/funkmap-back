@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using Autofac;
 using Autofac.Features.AttributeFilters;
@@ -33,20 +32,9 @@ namespace Funkmap.Auth.Data
 
             builder.RegisterInstance(database).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
 
-            var emailIndexModel = new CreateIndexModel<UserEntity>(Builders<UserEntity>.IndexKeys.Ascending(x => x.Email), new CreateIndexOptions() { Unique = true });
-
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName)
+                    .GetCollection<UserEntity>(AuthCollectionNameProvider.UsersCollectionName))
                 .As<IMongoCollection<UserEntity>>();
-
-            builder.RegisterBuildCallback(async c =>
-            {
-                //создание индексов при запуске приложения
-                var collection = c.Resolve<IMongoCollection<UserEntity>>();
-                await collection.Indexes.CreateManyAsync(new List<CreateIndexModel<UserEntity>>
-                {
-                    emailIndexModel
-                });
-            });
 
 
             //FileStorage

@@ -27,5 +27,9 @@ namespace Funkmap.Auth.Data.Entities
         [BsonElement("date")]
         [BsonIgnoreIfDefault]
         public DateTime LastVisitDateUtc { get; set; }
+
+        [BsonElement("soc")]
+        [BsonIgnoreIfDefault]
+        public bool IsSocial { get; set; }
     }
 }

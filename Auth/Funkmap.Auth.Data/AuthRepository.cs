@@ -64,6 +64,32 @@ namespace Funkmap.Auth.Data
            
         }
 
+        public async Task<BaseResponse> TryCreateSocialAsync(User user)
+        {
+            var entity = user.ToSocialEntity();
+
+            if (String.IsNullOrWhiteSpace(user.Email))
+            {
+                return new BaseResponse() { Success = false, Error = "Invalid user's email." };
+            }
+
+            if (String.IsNullOrWhiteSpace(user.Login))
+            {
+                return new BaseResponse() { Success = false, Error = "Invalid user's login." };
+            }
+
+            try
+            {
+                await _collection.InsertOneAsync(entity);
+                return new BaseResponse() { Success = true };
+            }
+            catch (Exception e)
+            {
+                return new BaseResponse() { Success = false, Error = e.Message };
+            }
+
+        }
+
         public async Task<User> LoginAsync(string login, string hashedPassword)
         {
             var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == hashedPassword)

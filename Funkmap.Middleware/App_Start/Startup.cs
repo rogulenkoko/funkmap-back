@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Autofac;
@@ -32,17 +30,12 @@ using Metrics;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
-using Microsoft.Owin.Security.DataHandler.Encoder;
-using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Owin.Metrics;
 using Swagger.Net.Application;
 using Thinktecture.IdentityModel.Tokens;
-using SecurityAlgorithms = Microsoft.IdentityModel.Tokens.SecurityAlgorithms;
-using SigningCredentials = Microsoft.IdentityModel.Tokens.SigningCredentials;
-using SymmetricSecurityKey = Microsoft.IdentityModel.Tokens.SymmetricSecurityKey;
 
 namespace Funkmap.Middleware
 {
@@ -93,6 +86,7 @@ namespace Funkmap.Middleware
             };
 
             appBuilder.UseOAuthAuthorizationServer(OAuthServerOptions);
+            
             appBuilder.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions()
             {
                 TokenValidationParameters = new TokenValidationParameters()
