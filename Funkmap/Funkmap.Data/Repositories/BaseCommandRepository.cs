@@ -194,12 +194,12 @@ namespace Funkmap.Data.Repositories
             var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, login);
 
             String photoId;
-            String photoMiniId;
+            String photoMiniUrl;
 
             if (imageBytes == null || imageBytes.Length == 0)
             {
                 photoId = String.Empty;
-                photoMiniId = String.Empty;
+                photoMiniUrl = String.Empty;
             }
             else
             {
@@ -209,10 +209,10 @@ namespace Funkmap.Data.Repositories
 
                 var fileMiniName = ImageNameBuilder.BuildAvatarMiniName(login);
                 var imageMiniBytes = FunkmapImageProcessor.MinifyImage(imageBytes, options.MiniSize);
-                photoMiniId = await _fileStorage.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
+                photoMiniUrl = await _fileStorage.UploadFromBytesAsync(fileMiniName, imageMiniBytes);
             }
 
-            var update = Builders<BaseEntity>.Update.Set(x => x.PhotoId, photoId).Set(x => x.PhotoMiniId, photoMiniId);
+            var update = Builders<BaseEntity>.Update.Set(x => x.AvatarUrl, photoId).Set(x => x.AvatarMiniUrl, photoMiniUrl);
 
             var result = await _collection.UpdateOneAsync(filter, update);
             return new CommandResponse(result.ModifiedCount == 1);

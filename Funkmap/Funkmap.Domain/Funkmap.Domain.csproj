@@ -85,6 +85,7 @@
     <Compile Include="FunkmapConstants.cs" />
     <Compile Include="Models\AudioInfo.cs" />
     <Compile Include="Models\Band.cs" />
+    <Compile Include="Models\IHasAvatar.cs" />
     <Compile Include="Models\InviteBandResponse.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Marker.cs" />

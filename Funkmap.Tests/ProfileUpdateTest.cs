@@ -208,8 +208,8 @@ namespace Funkmap.Tests
 
             profileUpdate.EntityType = Enum.GetValues(typeof(EntityType)).Cast<EntityType>().First(x => x != existingProfile.EntityType && x != EntityType.None);
             profileUpdate.UserLogin = $"{updatedProfile.UserLogin}_updated";
-            profileUpdate.AvatarId = $"{updatedProfile.AvatarId}_updated";
-            profileUpdate.AvatarMiniId = $"{updatedProfile.AvatarMiniId}_updated";
+            profileUpdate.AvatarUrl = $"{updatedProfile.AvatarUrl}_updated";
+            profileUpdate.AvatarMiniUrl = $"{updatedProfile.AvatarMiniUrl}_updated";
 
             parameter = new CommandParameter<Profile>
             {
@@ -225,11 +225,11 @@ namespace Funkmap.Tests
             Assert.AreNotEqual(profileUpdate.UserLogin, updatedProfile.UserLogin);
             Assert.AreEqual(existingProfile.UserLogin, updatedProfile.UserLogin);
 
-            Assert.AreNotEqual(profileUpdate.AvatarId, updatedProfile.AvatarId);
-            Assert.AreEqual(existingProfile.AvatarId, updatedProfile.AvatarId);
+            Assert.AreNotEqual(profileUpdate.AvatarUrl, updatedProfile.AvatarUrl);
+            Assert.AreEqual(existingProfile.AvatarUrl, updatedProfile.AvatarUrl);
 
-            Assert.AreNotEqual(profileUpdate.AvatarMiniId, updatedProfile.AvatarMiniId);
-            Assert.AreEqual(existingProfile.AvatarMiniId, updatedProfile.AvatarMiniId);
+            Assert.AreNotEqual(profileUpdate.AvatarMiniUrl, updatedProfile.AvatarMiniUrl);
+            Assert.AreEqual(existingProfile.AvatarMiniUrl, updatedProfile.AvatarMiniUrl);
 
             profileUpdate.Login = Guid.NewGuid().ToString();
             profileUpdate.Name = Guid.NewGuid().ToString();

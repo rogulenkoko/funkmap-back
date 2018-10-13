@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Domain.Models;
 using Newtonsoft.Json;
 

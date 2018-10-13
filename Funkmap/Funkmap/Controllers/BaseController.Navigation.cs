@@ -10,6 +10,7 @@ using Funkmap.Domain.Parameters;
 using Funkmap.Mappers;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
+using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 
 namespace Funkmap.Controllers
@@ -51,6 +52,7 @@ namespace Funkmap.Controllers
                 Skip = request.Skip
             };
             List<SearchItem> searchModels = await _queryRepository.GetNearestAsync(parameters);
+            Request.SetProfilesCorrectAvatarUrls(searchModels);
             return Content(HttpStatusCode.OK, searchModels);
         }
 
@@ -105,7 +107,7 @@ namespace Funkmap.Controllers
 
             //todo сравнить что быстрее, делать два запроса или агрегирующий запрос
             var count = await _queryRepository.GetAllFilteredCountAsync(commonParameter, paramter);
-
+            Request.SetProfilesCorrectAvatarUrls(items);
             var reponse = new SearchResponse()
             {
                 Items = items,
@@ -153,6 +155,7 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetSpecific(string[] logins)
         {
             List<SearchItem> items = await _queryRepository.GetSpecificAsync(logins);
+            Request.SetProfilesCorrectAvatarUrls(items);
             return Ok(items);
         }
 

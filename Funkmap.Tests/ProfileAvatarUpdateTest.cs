@@ -97,8 +97,8 @@ namespace Funkmap.Tests
 
                 var updatedProfile = _baseQueryRepository.GetAsync(profileLogin).GetAwaiter().GetResult();
                 Assert.IsNotNull(updatedProfile);
-                Assert.AreEqual(updatedProfile.AvatarId, expectedName);
-                Assert.AreEqual(updatedProfile.AvatarMiniId, expectedMiniName);
+                Assert.AreEqual(updatedProfile.AvatarUrl, expectedName);
+                Assert.AreEqual(updatedProfile.AvatarMiniUrl, expectedMiniName);
 
             }
         }
@@ -129,8 +129,8 @@ namespace Funkmap.Tests
 
             var updatedProfile = _baseQueryRepository.GetAsync(profileLogin).GetAwaiter().GetResult();
             Assert.IsNotNull(updatedProfile);
-            Assert.AreEqual(updatedProfile.AvatarId, String.Empty);
-            Assert.AreEqual(updatedProfile.AvatarMiniId, String.Empty);
+            Assert.AreEqual(updatedProfile.AvatarUrl, String.Empty);
+            Assert.AreEqual(updatedProfile.AvatarMiniUrl, String.Empty);
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Funkmap.Data.Mappers
                 FacebookLink = source.FacebookLink,
                 SoundCloudLink = source.SoundCloudLink,
                 Address = source.Address,
-                AvatarId = source.PhotoId,
-                AvatarMiniId = source.PhotoMiniId,
+                AvatarUrl = source.AvatarUrl,
+                AvatarMiniUrl = source.AvatarMiniUrl,
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive
             };

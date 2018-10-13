@@ -7,6 +7,7 @@ using Funkmap.Common.Owin.Auth;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Models.Requests;
+using Funkmap.Tools;
 
 namespace Funkmap.Controllers
 {
@@ -25,6 +26,7 @@ namespace Funkmap.Controllers
             var login = Request.GetLogin();
             List<string> favoritesLogins = await _queryRepository.GetFavoritesLoginsAsync(login);
             List<SearchItem> favorites = await _queryRepository.GetSpecificAsync(favoritesLogins);
+            Request.SetProfilesCorrectAvatarUrls(favorites);
             return Ok(favorites);
         }
 

@@ -38,7 +38,8 @@ namespace Funkmap.Data.Mappers
 
             return new SearchItem()
             {
-                AvatarId = source.PhotoMiniId,
+                AvatarMiniUrl = source.AvatarMiniUrl,
+                AvatarUrl = source.AvatarMiniUrl,
                 Login = source.Login,
                 UserLogin = source.UserLogin,
                 Title = source.Name,

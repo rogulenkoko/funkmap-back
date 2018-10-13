@@ -263,5 +263,24 @@
             Maximum number of profiles for reading (default: 1000)
             </summary>
         </member>
+        <member name="T:Funkmap.Tools.AvatarHelper">
+            <summary>
+            Converter of relative MongoDB avatar ids to relative urls
+            </summary>
+        </member>
+        <member name="M:Funkmap.Tools.AvatarHelper.SetProfileCorrectAvatarUrls(System.Net.Http.HttpRequestMessage,Funkmap.Domain.Models.IHasAvatar)">
+            <summary>
+            Convert avatars for one model
+            </summary>
+            <param name="request">Current http-request</param>
+            <param name="model">Model</param>
+        </member>
+        <member name="M:Funkmap.Tools.AvatarHelper.SetProfilesCorrectAvatarUrls(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{Funkmap.Domain.Models.IHasAvatar})">
+            <summary>
+            Convert avatars for collection of models
+            </summary>
+            <param name="request">Current http-request</param>
+            <param name="models">Collection of models</param>
+        </member>
     </members>
 </doc>

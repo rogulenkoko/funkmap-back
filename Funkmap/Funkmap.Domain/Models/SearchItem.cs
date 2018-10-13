@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
 using Funkmap.Domain.Enums;
+using Newtonsoft.Json;
 
 namespace Funkmap.Domain.Models
 {
-    public class SearchItem
+    public class SearchItem : IHasAvatar
     {
         public string Login { get; set; }
         public string UserLogin { get; set; }
         public string Title { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public string AvatarId { get; set; }
+
+        [JsonProperty("AvatarId")]
+        public string AvatarUrl { get; set; }
+        public string AvatarMiniUrl { get; set; }
 
         public EntityType Type { get; set; }
 
@@ -39,5 +43,7 @@ namespace Funkmap.Domain.Models
         /// Musician styles (band specific)
         /// </summary>
         public List<Styles> Styles { get; set; }
+
+        
     }
 }

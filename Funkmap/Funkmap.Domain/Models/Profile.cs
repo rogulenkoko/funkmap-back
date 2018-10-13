@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Funkmap.Domain.Models
 {
-    public abstract class Profile
+    public abstract class Profile : IHasAvatar
     {
         public EntityType EntityType { get; set; }
         
@@ -33,9 +34,11 @@ namespace Funkmap.Domain.Models
 
         #endregion
 
+        [JsonProperty("AvatarId")] //todo убрать, когда будет все обновлено на фронте
+        public string AvatarUrl { get; set; }
 
-        public string AvatarId { get; set; }
-        public string AvatarMiniId { get; set; }
+        [JsonProperty("AvatarMiniId")]
+        public string AvatarMiniUrl { get; set; }
         
     }
 }

@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auth\AuthApiControllerExtension.cs" />
+    <Compile Include="Extensions\ControllerMedia.cs" />
     <Compile Include="Filters\LanguageDelegateHandler.cs" />
     <Compile Include="Filters\ValidateRequestModelAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

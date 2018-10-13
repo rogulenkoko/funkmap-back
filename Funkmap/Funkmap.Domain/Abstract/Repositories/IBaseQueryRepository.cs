@@ -31,7 +31,7 @@ namespace Funkmap.Domain.Abstract.Repositories
 
         Task<List<UserEntitiesCountInfo>> GetUserEntitiesCountInfoAsync(string userLogin);
 
-        Task<byte[]> GetFileAsync(string fileId);
+        Task<byte[]> GetFileAsync(string login);
         
         Task<List<string>> GetFavoritesLoginsAsync(string userLogin);
         

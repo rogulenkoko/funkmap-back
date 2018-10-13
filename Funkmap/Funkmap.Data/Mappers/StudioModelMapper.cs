@@ -14,8 +14,8 @@ namespace Funkmap.Data.Mappers
             {
                 Login = source.Login,
                 Name = source.Name,
-                AvatarId = source.PhotoId,
-                AvatarMiniId = source.PhotoMiniId,
+                AvatarUrl = source.AvatarUrl,
+                AvatarMiniUrl = source.AvatarMiniUrl,
                 VkLink = source.VkLink,
                 YoutubeLink = source.YouTubeLink,
                 FacebookLink = source.FacebookLink,

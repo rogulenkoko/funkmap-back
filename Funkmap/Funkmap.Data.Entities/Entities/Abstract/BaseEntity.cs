@@ -48,11 +48,11 @@ namespace Funkmap.Data.Entities.Entities.Abstract
 
         [BsonElement("p")]
         [BsonIgnoreIfDefault]
-        public string PhotoId { get; set; }
+        public string AvatarUrl { get; set; }
 
         [BsonElement("pm")]
         [BsonIgnoreIfDefault]
-        public string PhotoMiniId { get; set; }
+        public string AvatarMiniUrl { get; set; }
 
         [BsonElement("ytv")]
         public List<VideoInfoEntity> VideoInfos { get; set; }

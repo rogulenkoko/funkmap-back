@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.ModelBinding;
 using Funkmap.Common.Models;
 using Funkmap.Common.Owin.Auth;
+using Funkmap.Common.Owin.Extensions;
 using Funkmap.Domain.Abstract;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
@@ -29,8 +30,12 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> GetFull(string login)
         {
             var entity = await _queryRepository.GetAsync(login);
+            if (entity == null)
+            {
+                return BadRequest("Invalid profile login.");
+            }
+            Request.SetProfileCorrectAvatarUrls(entity);
             return Content(HttpStatusCode.OK, entity);
-
         }
         
 
@@ -115,6 +120,11 @@ namespace Funkmap.Controllers
         public async Task<IHttpActionResult> Get(string login)
         {
             var entity = await _queryRepository.GetAsync(login);
+            if (entity == null)
+            {
+                return BadRequest("Invalid profile login.");
+            }
+            Request.SetProfileCorrectAvatarUrls(entity);
             return Content(HttpStatusCode.OK, entity.ToSpecificPreviewModel());
         }
 
@@ -126,11 +136,12 @@ namespace Funkmap.Controllers
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(byte[]))]
-        [Route("avatar")]
-        public async Task<IHttpActionResult> GetImage(string login)
+        [AllowAnonymous]
+        [Route("avatar/{login}")]
+        public async Task<HttpResponseMessage> GetImage(string login)
         {
             byte[] file = await _queryRepository.GetFileAsync(login);
-            return Ok(file);
+            return ControllerMedia.MediaResponse(file);
         }
 
         /// <summary>

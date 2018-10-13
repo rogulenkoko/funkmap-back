@@ -133,11 +133,12 @@ namespace Funkmap.Data.Repositories
             return countResult;
         }
 
-        public async Task<byte[]> GetFileAsync(string fileId)
+        public async Task<byte[]> GetFileAsync(string login)
         {
             try
             {
-                var fileInfos = await _fileStorage.DownloadAsBytesAsync(fileId);
+                var profile = await GetAsync(login);
+                var fileInfos = await _fileStorage.DownloadAsBytesAsync(profile.AvatarUrl);
                 return fileInfos;
             }
             catch (Exception)
