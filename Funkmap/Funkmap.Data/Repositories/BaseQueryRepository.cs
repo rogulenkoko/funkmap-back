@@ -137,7 +137,11 @@ namespace Funkmap.Data.Repositories
         {
             try
             {
-                var profile = await GetAsync(login);
+                var projection = Builders<BaseEntity>.Projection.Include(x => x.AvatarUrl).Include(x => x.Login);
+                var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, login);
+                var profile = await _collection.Find(filter).Project<BaseEntity>(projection).SingleOrDefaultAsync();
+
+                if (String.IsNullOrEmpty(profile?.AvatarUrl)) return null;
                 var fileInfos = await _fileStorage.DownloadAsBytesAsync(profile.AvatarUrl);
                 return fileInfos;
             }

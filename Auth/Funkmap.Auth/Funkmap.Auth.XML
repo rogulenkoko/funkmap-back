@@ -60,6 +60,25 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="T:Funkmap.Auth.Tools.AvatarHelper">
+            <summary>
+            Converter of relative MongoDB avatar ids to relative urls
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Tools.AvatarHelper.SetProfileCorrectAvatarUrls(System.Net.Http.HttpRequestMessage,Funkmap.Auth.Contracts.User)">
+            <summary>
+            Convert avatars for one model
+            </summary>
+            <param name="request">Current http-request</param>
+            <param name="model">Model</param>
+        </member>
+        <member name="M:Funkmap.Auth.Tools.AvatarHelper.SetProfilesCorrectAvatarUrls(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{Funkmap.Auth.Contracts.User})">
+            <summary>
+            Convert avatars for collection of models
+            </summary>
+            <param name="request">Current http-request</param>
+            <param name="models">Collection of models</param>
+        </member>
         <member name="T:Resources.Resource">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.

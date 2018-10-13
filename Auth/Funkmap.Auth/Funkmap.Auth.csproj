@@ -155,6 +155,7 @@
     <Compile Include="Services\CryptoProvider.cs" />
     <Compile Include="Services\RestoreContext.cs" />
     <Compile Include="Services\SocialUserFacade.cs" />
+    <Compile Include="Tools\AvatarHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj">

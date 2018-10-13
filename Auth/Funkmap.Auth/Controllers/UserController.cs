@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Domain.Abstract;
+using Funkmap.Auth.Tools;
 using Funkmap.Common.Models;
 using Funkmap.Common.Owin.Auth;
+using Funkmap.Common.Owin.Extensions;
 using Funkmap.Common.Owin.Filters;
 
 namespace Funkmap.Auth.Controllers
@@ -37,7 +40,8 @@ namespace Funkmap.Auth.Controllers
                 return Ok(new UserResponse() { IsExists = false });
             }
 
-            var response = new UserResponse()
+            Request.SetProfileCorrectAvatarUrls(user);
+            var response = new UserResponse
             {
                 IsExists = true,
                 User = user
@@ -70,10 +74,10 @@ namespace Funkmap.Auth.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("avatar/{login}")]
-        public async Task<IHttpActionResult> GetAvatar(string login)
+        public async Task<HttpResponseMessage> GetAvatar(string login)
         {
             var image = await _authRepository.GetAvatarAsync(login);
-            return Ok(image);
+            return ControllerMedia.MediaResponse(image);
         }
 
         /// <summary>
