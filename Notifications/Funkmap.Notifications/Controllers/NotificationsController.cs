@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -7,9 +6,10 @@ using System.Web.Http.Description;
 using Funkmap.Common.Models;
 using Funkmap.Common.Owin.Auth;
 using Funkmap.Common.Owin.Filters;
+using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Models;
-using Funkmap.Notifications.Domain.Services.Abstract;
+using Notification = Funkmap.Notifications.Domain.Models.Notification;
 using NotificationAnswer = Funkmap.Notifications.Contracts.NotificationAnswer;
 
 namespace Funkmap.Notifications.Controllers
@@ -19,10 +19,10 @@ namespace Funkmap.Notifications.Controllers
     public class NotificationsController : ApiController
     {
         private readonly INotificationRepository _notificationRepository;
-        private readonly INotificationService _notificationService;
+        private readonly IFunkmapNotificationService _notificationService;
 
         public NotificationsController(INotificationRepository notificationRepository,
-                                        INotificationService notificationService)
+                                       IFunkmapNotificationService notificationService)
         {
             _notificationRepository = notificationRepository;
             _notificationService = notificationService;
@@ -73,12 +73,15 @@ namespace Funkmap.Notifications.Controllers
         {
             var notification = await _notificationRepository.GetAsync(answer.NotificationId);
             
-            var back = new NotificationAnswer()
+            var back = new NotificationAnswer
             {
-                Notification = notification.InnerNotification,
-                Answer = answer.Answer
+                NotificationJson = notification.InnerNotificationJson,
+                Answer = answer.Answer,
+                Sender = notification.ReceiverLogin,
+                Receiver = notification.SenderLogin,
+                NotificationType = notification.NotificationType
             };
-            _notificationService.PublishNotificationAnswer(back);
+            await _notificationService.AnswerAsync(back);
 
             var response = new BaseResponse() {Success = true};
             return Content(HttpStatusCode.OK, response);

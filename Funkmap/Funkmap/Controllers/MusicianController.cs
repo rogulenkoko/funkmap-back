@@ -8,10 +8,11 @@ using Funkmap.Common.Owin.Auth;
 using Funkmap.Common.Owin.Filters;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
+using Funkmap.Domain.Notifications.BandInvite;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models.Requests;
-using Funkmap.Notifications.Contracts.Specific.BandInvite;
+using Funkmap.Notifications.Contracts;
 
 namespace Funkmap.Controllers
 {
@@ -66,14 +67,11 @@ namespace Funkmap.Controllers
                     {
                         BandLogin = membersRequest.BandLogin,
                         InvitedMusicianLogin = musicianLogin,
-                        SenderLogin = login,
-                        RecieverLogin = inviteResponse.OwnerLogin,
                         BandName = inviteResponse.BandName,
                     };
 
-                    _notificationService.NotifyBandInvite(requestMessage);
+                    await _notificationService.NotifyAsync(requestMessage, inviteResponse.OwnerLogin, login);
                 }
-
                 response.Add(inviteResponse);
             }
 

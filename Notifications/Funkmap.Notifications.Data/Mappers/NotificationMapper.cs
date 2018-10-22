@@ -2,6 +2,7 @@
 using System.Linq;
 using Funkmap.Notifications.Data.Entities;
 using Funkmap.Notifications.Domain.Models;
+using Newtonsoft.Json;
 
 namespace Funkmap.Notifications.Data.Mappers
 {
@@ -15,14 +16,15 @@ namespace Funkmap.Notifications.Data.Mappers
         public static Notification ToNotification(this NotificationEntity source)
         {
             if (source == null) return null;
-            return new Notification()
+            return new Notification
             {
                 Id = source.Id.ToString(),
                 NotificationType = source.NotificationType,
-                RecieverLogin = source.RecieverLogin,
-                Date = source.Date,
+                ReceiverLogin = source.ReceiverLogin,
+                CreatedAt = source.CreatedAt,
                 IsRead = source.IsRead,
-                InnerNotification = source.InnerNotification,
+                InnerNotificationJson = source.InnerNotificationJson,
+                InnerNotification = JsonConvert.DeserializeObject<dynamic>(source.InnerNotificationJson),
                 SenderLogin = source.SenderLogin,
                 NeedAnswer = source.NeedAnswer
             };
@@ -33,13 +35,13 @@ namespace Funkmap.Notifications.Data.Mappers
             if (source == null) return null;
             return new NotificationEntity
             {
-                Date = source.Date,
-                InnerNotification = source.InnerNotification,
+                CreatedAt = source.CreatedAt,
+                InnerNotificationJson = source.InnerNotificationJson,
                 IsRead = false,
                 NeedAnswer = source.NeedAnswer,
                 NotificationType = source.NotificationType,
-                RecieverLogin = source.RecieverLogin,
-                SenderLogin = source.SenderLogin
+                ReceiverLogin = source.ReceiverLogin,
+                SenderLogin = source.SenderLogin,
             };
         }
     }

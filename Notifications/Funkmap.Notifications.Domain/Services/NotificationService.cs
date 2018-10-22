@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Funkmap.Common.Serialization;
-using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
-using Funkmap.Notifications.Contracts.Events;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Events;
-using Funkmap.Notifications.Domain.Models;
-using Funkmap.Notifications.Domain.Services.Abstract;
-using NotificationAnswer = Funkmap.Notifications.Contracts.NotificationAnswer;
+using Notification = Funkmap.Notifications.Contracts.Notification;
 
 namespace Funkmap.Notifications.Domain.Services
 {
-    public class NotificationService : INotificationService
+    public class NotificationService : IEventHandler<Notification>
     {
         private readonly IEventBus _eventBus;
         private readonly INotificationRepository _notificationRepository;
@@ -25,38 +20,23 @@ namespace Funkmap.Notifications.Domain.Services
 
         public void InitHandlers()
         {
-            _eventBus.Subscribe<NotificationRecievedEvent>(Handle);
+            _eventBus.Subscribe<Notification>(Handle);
         }
 
-        public async Task Handle(NotificationRecievedEvent @event)
+        public async Task Handle(Notification @event)
         {
-            var notificationBase = @event.NotificationBase;
-
-            var notification = new Notification
+            var notification = new Models.Notification
             {
-                Date = DateTime.UtcNow,
-                InnerNotification = notificationBase,
+                CreatedAt = DateTime.UtcNow,
+                InnerNotificationJson = @event.NotificationJson,
                 IsRead = false,
-                RecieverLogin = notificationBase.RecieverLogin,
-                NotificationType = notificationBase.Type,
-                SenderLogin = notificationBase.SenderLogin,
-                NeedAnswer = notificationBase.NeedAnswer
+                ReceiverLogin = @event.Receiver,
+                SenderLogin = @event.Sender,
             };
 
             var savedNotification = await _notificationRepository.CreateAsync(notification);
 
-            await _eventBus.PublishAsync(new NotificationSavedEvent() { Notification = savedNotification });
-        }
-
-        public void PublishNotificationAnswer(NotificationAnswer answer)
-        {
-            if (answer?.Notification == null) throw new ArgumentNullException();
-            var options = new MessageQueueOptions()
-            {
-                SpecificKey = answer.Notification.Type,
-                SerializerOptions = new SerializerOptions() { HasAbstractMember = true }
-            };
-            _eventBus.PublishAsync(answer, options);
+            await _eventBus.PublishAsync(new NotificationSavedEvent { Notification = savedNotification });
         }
     }
 }

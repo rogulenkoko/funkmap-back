@@ -31,20 +31,20 @@ namespace Funkmap.Notifications.Data
 
         public async Task<List<Notification>> GetUserNotificationsAsync(string login)
         {
-            var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login);
-            var sort = Builders<NotificationEntity>.Sort.Descending(x => x.Date);
+            var filter = Builders<NotificationEntity>.Filter.Eq(x => x.ReceiverLogin, login);
+            var sort = Builders<NotificationEntity>.Sort.Descending(x => x.CreatedAt);
             var notifications = await _collection.Find(filter).Sort(sort).ToListAsync();
 
             var updateFilter = filter & Builders<NotificationEntity>.Filter.Eq(x => x.NeedAnswer, false);
             var update = Builders<NotificationEntity>.Update.Set(x => x.IsRead, true);
-            _collection.UpdateManyAsync(updateFilter, update);
+            await _collection.UpdateManyAsync(updateFilter, update);
 
             return notifications.ToNotifications();
         }
 
         public async Task<long> GetNewNotificationsCountAsync(string login)
         {
-            var filter = Builders<NotificationEntity>.Filter.Eq(x => x.RecieverLogin, login) & Builders<NotificationEntity>.Filter.Eq(x => x.IsRead, false);
+            var filter = Builders<NotificationEntity>.Filter.Eq(x => x.ReceiverLogin, login) & Builders<NotificationEntity>.Filter.Eq(x => x.IsRead, false);
             var count = await _collection.Find(filter).CountAsync();
             return count;
         }

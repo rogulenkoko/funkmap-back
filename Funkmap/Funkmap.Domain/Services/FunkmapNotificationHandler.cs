@@ -1,32 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
-using Funkmap.Common.Serialization;
 using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
+using Funkmap.Domain.Notifications.BandInvite;
 using Funkmap.Domain.Parameters;
-using Funkmap.Domain.Services.Abstract;
 using Funkmap.Logger;
 using Funkmap.Notifications.Contracts;
-using Funkmap.Notifications.Contracts.Events;
-using Funkmap.Notifications.Contracts.Specific.BandInvite;
+using Newtonsoft.Json;
 
 namespace Funkmap.Domain.Services
 {
-    public class FunkmapNotificationService : IFunkmapNotificationService
+    public class FunkmapNotificationHandler : IEventHandler<NotificationAnswer>
     {
         private readonly IEventBus _eventBus;
-        private readonly IFunkmapLogger<FunkmapNotificationService> _logger;
+        private readonly IFunkmapLogger<FunkmapNotificationHandler> _logger;
         private readonly IBaseCommandRepository _commandRepository;
         private readonly IBaseQueryRepository _queryRepository;
+        private readonly IFunkmapNotificationService _notificationService;
 
-        public FunkmapNotificationService(IBaseCommandRepository commandRepository,
+        public FunkmapNotificationHandler(IBaseCommandRepository commandRepository,
                                           IBaseQueryRepository queryRepository,
                                           IEventBus eventBus,
-                                          IFunkmapLogger<FunkmapNotificationService> logger)
+                                          IFunkmapNotificationService notificationService,
+                                          IFunkmapLogger<FunkmapNotificationHandler> logger)
         {
             _eventBus = eventBus;
+            _notificationService = notificationService;
             _commandRepository = commandRepository;
             _queryRepository = queryRepository;
             _logger = logger;
@@ -36,8 +38,7 @@ namespace Funkmap.Domain.Services
         {
             var options = new MessageQueueOptions
             {
-                SpecificKey = NotificationType.BandInvite,
-                SerializerOptions = new SerializerOptions { HasAbstractMember = true }
+                SpecificKey = typeof(BandInviteNotification).GetCustomAttribute<FunkmapNotificationAttribute>()?.Name
             };
 
             _eventBus.Subscribe<NotificationAnswer>(Handle, options);
@@ -45,7 +46,7 @@ namespace Funkmap.Domain.Services
 
         public async Task Handle(NotificationAnswer answer)
         {
-            var inviteRequest = answer.Notification as BandInviteNotification;
+            var inviteRequest = JsonConvert.DeserializeObject<BandInviteNotification>(answer.NotificationJson);
             
             if (inviteRequest == null)
             {
@@ -85,7 +86,7 @@ namespace Funkmap.Domain.Services
 
             CommandParameter<Profile> updateParameter = new CommandParameter<Profile>()
             {
-                UserLogin = inviteRequest.SenderLogin,
+                UserLogin = answer.Sender,
                 Parameter = bandUpdate
             };
 
@@ -98,34 +99,13 @@ namespace Funkmap.Domain.Services
 
             var confirmation = new BandInviteConfirmationNotification
             {
-                RecieverLogin = inviteRequest.SenderLogin,
-                SenderLogin = inviteRequest.RecieverLogin,
                 BandLogin = inviteRequest.BandLogin,
                 BandName = inviteRequest.BandName,
                 InvitedMusicianLogin = inviteRequest.InvitedMusicianLogin,
                 Answer = answer.Answer
             };
 
-            ConfirmBandInvite(confirmation);
-        }
-
-        public void NotifyBandInvite(BandInviteNotification notification)
-        {
-            var @event = new NotificationRecievedEvent()
-            {
-                NotificationBase = notification
-            };
-            _eventBus.PublishAsync(@event);
-        }
-
-        public void ConfirmBandInvite(BandInviteConfirmationNotification notification)
-        {
-            var @event = new NotificationRecievedEvent()
-            {
-                NotificationBase = notification
-            };
-
-            _eventBus.PublishAsync(@event);
+            await _notificationService.NotifyAsync(confirmation, answer.Receiver, answer.Sender);
         }
     }
 }

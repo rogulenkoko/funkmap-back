@@ -5,6 +5,7 @@ using Autofac.Integration.SignalR;
 using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Cqrs.Abstract;
+using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Services;
@@ -22,11 +23,12 @@ namespace Funkmap.Notifications
 
             builder.RegisterType<NotificationService>()
                 .As<IEventHandler>()
-                .As<INotificationService>()
                 .SingleInstance()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
 
+            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
+            
             builder.RegisterType<NotificationsSignalRHandler>()
                 .As<IEventHandler>()
                 .SingleInstance()

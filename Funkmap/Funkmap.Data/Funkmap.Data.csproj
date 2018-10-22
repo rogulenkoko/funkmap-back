@@ -161,6 +161,7 @@
     <Compile Include="Mappers\BaseModelMapper.cs" />
     <Compile Include="Mappers\MarkerModelMapper.cs" />
     <Compile Include="Mappers\MusicianModelMapper.cs" />
+    <Compile Include="Mappers\ProAccountMapper.cs" />
     <Compile Include="Mappers\RehearsalPointMapper.cs" />
     <Compile Include="Mappers\SearchItemMapper.cs" />
     <Compile Include="Mappers\ShopModelMapper.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Repositories\BaseQueryRepository.cs" />
     <Compile Include="Repositories\Decorators\BaseCommandAuthRepository.cs" />
     <Compile Include="Repositories\MusicianRepository.cs" />
+    <Compile Include="Repositories\ProAccountRepository.cs" />
     <Compile Include="Services\Abstract\IFilterFactory.cs" />
     <Compile Include="Services\Abstract\IFilterService.cs" />
     <Compile Include="Services\Abstract\IUpdateDefenitionBuilder.cs" />

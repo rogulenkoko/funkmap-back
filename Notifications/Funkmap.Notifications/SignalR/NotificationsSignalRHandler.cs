@@ -26,7 +26,7 @@ namespace Funkmap.Notifications.SignalR
         public async Task Handle(NotificationSavedEvent @event)
         {
             //уведомление по SignalR
-            var recievers = _connectionService.GetConnectionIdsByLogin(@event.Notification.RecieverLogin);
+            var recievers = _connectionService.GetConnectionIdsByLogin(@event.Notification.ReceiverLogin);
 
             await GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
                 .Clients.Clients(recievers)

@@ -76,6 +76,7 @@
     <Compile Include="Abstract\Repositories\IBandRepository.cs" />
     <Compile Include="Abstract\Repositories\IBaseQueryRepository.cs" />
     <Compile Include="Abstract\Repositories\IMusicianRepository.cs" />
+    <Compile Include="Abstract\Repositories\IProAccountRepository.cs" />
     <Compile Include="EntityType.cs" />
     <Compile Include="Enums\Expiriences.cs" />
     <Compile Include="Enums\Instruments.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Models\InviteBandResponse.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Marker.cs" />
+    <Compile Include="Models\ProAccount.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\Musician.cs" />
     <Compile Include="Models\RehearsalPoint.cs" />
@@ -97,6 +99,8 @@
     <Compile Include="Models\Studio.cs" />
     <Compile Include="Models\UserEntitiesCountInfo.cs" />
     <Compile Include="Models\VideoInfo.cs" />
+    <Compile Include="Notifications\BandInvite\BandInviteConfirmationNotification.cs" />
+    <Compile Include="Notifications\BandInvite\BandInviteNotification.cs" />
     <Compile Include="Parameters\CommandParameter.cs" />
     <Compile Include="Parameters\AvatarUpdateParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
@@ -106,11 +110,15 @@
     <Compile Include="Parameters\UpdateFavoriteParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstract\IBandUpdateService.cs" />
-    <Compile Include="Services\Abstract\IFunkmapNotificationService.cs" />
     <Compile Include="Services\BandUpdateService.cs" />
-    <Compile Include="Services\FunkmapNotificationService.cs" />
+    <Compile Include="Services\FunkmapNotificationHandler.cs" />
+    <Compile Include="Services\ProAccountService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\funkmap-payments\Funkmap.Payments.Contracts\Funkmap.Payments.Contracts.csproj">
+      <Project>{76F9D971-8D52-42C5-9D72-358E4B415EB9}</Project>
+      <Name>Funkmap.Payments.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Funkmap.Common\Funkmap.Common.Owin.csproj">
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common.Owin</Name>
