@@ -47,7 +47,7 @@ namespace Funkmap.Notifications.Contracts
 
             var options = new MessageQueueOptions
             {
-                SpecificKey = answer.NotificationType,
+                SpecificKey = $"{answer.NotificationType}_answer",
             };
             await _eventBus.PublishAsync(answer, options);
         }

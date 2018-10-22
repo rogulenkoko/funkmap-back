@@ -38,7 +38,7 @@ namespace Funkmap.Domain.Services
         {
             var options = new MessageQueueOptions
             {
-                SpecificKey = typeof(BandInviteNotification).GetCustomAttribute<FunkmapNotificationAttribute>()?.Name
+                SpecificKey = $"{typeof(BandInviteNotification).GetCustomAttribute<FunkmapNotificationAttribute>().Name}_answer"
             };
 
             _eventBus.Subscribe<NotificationAnswer>(Handle, options);

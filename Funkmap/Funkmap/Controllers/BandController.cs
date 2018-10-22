@@ -52,12 +52,12 @@ namespace Funkmap.Controllers
 
             var bandEntities = await _baseQueryRepository.GetFilteredAsync(parameter);
             var availableBands = bandEntities.Cast<Band>()
-                .Where(x => (x.Musicians == null && x.InvitedMusicians == null)
-                    || ((x.Musicians == null || !x.Musicians.Contains(login)))
+                .Where(x => x.Musicians == null && x.InvitedMusicians == null
+                    || (x.Musicians == null || !x.Musicians.Contains(login))
                     && (x.InvitedMusicians == null || !x.InvitedMusicians.Contains(login)))
                 .Select(x => x.ToPreviewModel()).ToList();
 
-            var info = new BandInviteInfo()
+            var info = new BandInviteInfo
             {
                 AvailableBands = availableBands
             };
