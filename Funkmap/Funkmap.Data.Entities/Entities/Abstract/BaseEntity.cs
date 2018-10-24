@@ -91,5 +91,7 @@ namespace Funkmap.Data.Entities.Entities.Abstract
         [BsonIgnoreIfDefault]
         public List<string> FavoriteFor { get; set; }
 
+        [BsonElement("prior")]
+        public bool IsPriority { get; set; }
     }
 }

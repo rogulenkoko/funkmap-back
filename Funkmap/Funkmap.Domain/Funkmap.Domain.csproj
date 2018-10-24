@@ -102,6 +102,8 @@
     <Compile Include="Models\VideoInfo.cs" />
     <Compile Include="Notifications\BandInvite\BandInviteConfirmationNotification.cs" />
     <Compile Include="Notifications\BandInvite\BandInviteNotification.cs" />
+    <Compile Include="Notifications\PriorityMarkerNotification.cs" />
+    <Compile Include="Notifications\ProAccountNotification.cs" />
     <Compile Include="Parameters\CommandParameter.cs" />
     <Compile Include="Parameters\AvatarUpdateParameter.cs" />
     <Compile Include="Parameters\CommonFilterParameter.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Services\AccessService.cs" />
     <Compile Include="Services\BandUpdateService.cs" />
     <Compile Include="Services\FunkmapNotificationHandler.cs" />
+    <Compile Include="Services\PriorityMarkerHandler.cs" />
     <Compile Include="Services\ProAccountHandler.cs" />
   </ItemGroup>
   <ItemGroup>

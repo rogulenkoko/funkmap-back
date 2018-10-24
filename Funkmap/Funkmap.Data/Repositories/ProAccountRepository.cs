@@ -17,8 +17,9 @@ namespace Funkmap.Data.Repositories
 
         public async Task CreateAsync(ProAccount proAccount)
         {
+            var filter = Builders<ProAccountEntity>.Filter.Eq(x => x.UserLogin, proAccount.UserLogin);
             var entity = proAccount.ToEntity();
-            await _collection.InsertOneAsync(entity);
+            await _collection.ReplaceOneAsync(filter, entity);
         }
 
         public async Task<ProAccount> GetAsync(string userLogin)

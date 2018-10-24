@@ -55,9 +55,14 @@ namespace Funkmap.Data.Repositories.Decorators
             return await _repository.DeleteAsync(parameter);
         }
 
-        public async Task<ICommandResponse> UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
+        public Task<ICommandResponse> UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
         {
-            return await _repository.UpdateFavoriteAsync(parameter);
+            return _repository.UpdateFavoriteAsync(parameter);
+        }
+
+        public Task<ICommandResponse> UpdatePriorityAsync(string profileLogin)
+        {
+            return _repository.UpdatePriorityAsync(profileLogin);
         }
 
         private async Task<bool> IsAvailableAsync(string userLogin, string profileLogin)

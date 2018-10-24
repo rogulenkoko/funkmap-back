@@ -180,6 +180,16 @@ namespace Funkmap.Data.Repositories
             return new CommandResponse(updateResult.ModifiedCount == 1);
         }
 
+        public async Task<ICommandResponse> UpdatePriorityAsync(string profileLogin)
+        {
+            var filter = Builders<BaseEntity>.Filter.Eq(x => x.Login, profileLogin);
+            var update = Builders<BaseEntity>.Update.Set(x => x.IsPriority, true);
+
+            var updateResult = await _collection.UpdateOneAsync(filter, update);
+
+            return new CommandResponse(updateResult.ModifiedCount == 1);
+        }
+
         public async Task<ICommandResponse> UpdateAvatarAsync(ICommandParameter<AvatarUpdateParameter> parameter, ImageProcessorOptions options = null)
         {
 

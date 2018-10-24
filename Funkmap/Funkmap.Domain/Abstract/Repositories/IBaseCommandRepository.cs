@@ -16,5 +16,7 @@ namespace Funkmap.Domain.Abstract.Repositories
         Task<ICommandResponse<Profile>> DeleteAsync(ICommandParameter<string> parameter);
 
         Task<ICommandResponse> UpdateFavoriteAsync(UpdateFavoriteParameter parameter);
+
+        Task<ICommandResponse> UpdatePriorityAsync(string profileLogin);
     }
 }

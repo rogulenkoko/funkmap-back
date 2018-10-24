@@ -2,6 +2,8 @@
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
+using Funkmap.Domain.Notifications;
+using Funkmap.Notifications.Contracts;
 using Funkmap.Payments.Contracts.Events;
 
 namespace Funkmap.Domain.Services
@@ -9,11 +11,15 @@ namespace Funkmap.Domain.Services
     public class ProAccountHandler : IEventHandler<ProAccountConfirmedEvent>
     {
         private readonly IEventBus _eventBus;
+        private readonly IFunkmapNotificationService _notificationService;
         private readonly IProAccountRepository _proAccountRepository;
 
-        public ProAccountHandler(IEventBus eventBus, IProAccountRepository proAccountRepository)
+        public ProAccountHandler(IEventBus eventBus,
+                                 IFunkmapNotificationService notificationService,
+                                 IProAccountRepository proAccountRepository)
         {
             _eventBus = eventBus;
+            _notificationService = notificationService;
             _proAccountRepository = proAccountRepository;
         }
 
@@ -26,11 +32,17 @@ namespace Funkmap.Domain.Services
         {
             var proAccount = new ProAccount
             {
-                ExpireAt = @event.ExpireAt,
+                ExpireAt = @event.ExpireAtUtc,
                 UserLogin = @event.Login
             };
 
             await _proAccountRepository.CreateAsync(proAccount);
+
+            var notification = new ProAccountNotification
+            {
+                Login = @event.Login
+            };
+            await _notificationService.NotifyAsync(notification, @event.Login, FunkmapConstants.FunkmapLogin);
         }
     }
 }
