@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Mappers;
@@ -18,6 +19,16 @@ namespace Funkmap.Data.Repositories
         {
             var entity = proAccount.ToEntity();
             await _collection.InsertOneAsync(entity);
+        }
+
+        public async Task<ProAccount> GetAsync(string userLogin)
+        {
+            var now = DateTime.UtcNow;
+            var filter = Builders<ProAccountEntity>.Filter.Eq(x => x.UserLogin, userLogin) &
+                         Builders<ProAccountEntity>.Filter.Lte(x => x.ExpireAtUtc, now);
+
+            var proAccount = await _collection.Find(filter).SingleOrDefaultAsync();
+            return proAccount.ToModel();
         }
     }
 }

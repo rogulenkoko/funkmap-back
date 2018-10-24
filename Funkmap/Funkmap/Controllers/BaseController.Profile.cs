@@ -43,26 +43,36 @@ namespace Funkmap.Controllers
         /// Create a profile.
         /// </summary>
         /// <param name="model">Profile</param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [ResponseType(typeof(BaseResponse))]
         [Route("profile")]
         public async Task<IHttpActionResult> Create([ModelBinder(typeof(FunkmapModelBinderProvider))]Profile model)
         {
-            var maxProfilesCount = 5;
             var userLogin = Request.GetLogin();
+            var canCreateResult = await _accessService.CanCreateProfileAsync(userLogin);
 
-            var userEntities = await _queryRepository.GetUserEntitiesLoginsAsync(userLogin);
-
-            if (userEntities.Count >= 5)
+            if (!canCreateResult.CanCreate)
             {
-                return Ok(new BaseResponse() { Success = false, Error = $"You can create up to {maxProfilesCount} profiles." });
+                return BadRequest(canCreateResult.Reason);
             }
 
-            var result = await _commandRepository.CreateAsync(new CommandParameter<Profile>() { Parameter = model, UserLogin = userLogin });
+            var result = await _commandRepository.CreateAsync(new CommandParameter<Profile> { Parameter = model, UserLogin = userLogin });
             return Ok(new BaseResponse() { Success = result.Success, Error = result.Error });
 
+        }
+
+        /// <summary>
+        /// Check can user add new profiles
+        /// </summary>
+        [Authorize]
+        [HttpPost]
+        [Route("profile/can-create")]
+        public async Task<IHttpActionResult> CanCreate()
+        {
+            var userLogin = Request.GetLogin();
+            var canCreateResult = await _accessService.CanCreateProfileAsync(userLogin);
+            return Ok(canCreateResult);
         }
 
 
@@ -72,7 +82,6 @@ namespace Funkmap.Controllers
         /// You can't modify band participants and musician's band. You should use specific API methods.
         /// </summary>
         /// <param name="model">Profile model which has only updated properties.</param>
-        /// <returns></returns>
         [HttpPut]
         [Route("profile")]
         [ResponseType(typeof(BaseResponse))]

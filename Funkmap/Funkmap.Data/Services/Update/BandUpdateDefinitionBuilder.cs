@@ -10,7 +10,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Services.Update
 {
-    public class BandUpdateDefenitionBuilder : IUpdateDefenitionBuilder
+    public class BandUpdateDefinitionBuilder : IUpdateDefinitionBuilder
     {
         public EntityType EntityType => EntityType.Band;
         public UpdateDefinition<BaseEntity> Build(Profile profile)
@@ -19,7 +19,7 @@ namespace Funkmap.Data.Services.Update
 
             if (band == null)
             {
-                throw new ArgumentException("BandUpdateDefenitionBuilder can process only Band profiles.");
+                throw new ArgumentException($"{nameof(BandUpdateDefinitionBuilder)} can process only Band profiles.");
             }
 
             var update = Builders<BaseEntity>.Update;

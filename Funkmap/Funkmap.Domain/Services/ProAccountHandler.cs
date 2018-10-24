@@ -6,12 +6,12 @@ using Funkmap.Payments.Contracts.Events;
 
 namespace Funkmap.Domain.Services
 {
-    public class ProAccountService : IEventHandler<ProAccountConfirmedEvent>
+    public class ProAccountHandler : IEventHandler<ProAccountConfirmedEvent>
     {
         private readonly IEventBus _eventBus;
         private readonly IProAccountRepository _proAccountRepository;
 
-        public ProAccountService(IEventBus eventBus, IProAccountRepository proAccountRepository)
+        public ProAccountHandler(IEventBus eventBus, IProAccountRepository proAccountRepository)
         {
             _eventBus = eventBus;
             _proAccountRepository = proAccountRepository;

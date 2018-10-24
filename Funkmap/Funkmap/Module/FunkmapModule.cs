@@ -10,7 +10,7 @@ namespace Funkmap.Module
     {
         public void Register(ContainerBuilder builder)
         {
-            RegisterDomainDependiences(builder);
+            RegisterDomainDependencies(builder);
             
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Funkmap module has been loaded.");

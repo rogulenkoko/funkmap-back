@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Services.Abstract
 {
-    public interface IUpdateDefenitionBuilder
+    public interface IUpdateDefinitionBuilder
     {
         EntityType EntityType { get; }
 

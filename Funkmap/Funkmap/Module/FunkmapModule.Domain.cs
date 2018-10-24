@@ -9,7 +9,7 @@ namespace Funkmap.Module
 {
     public partial class FunkmapModule 
     {
-        private void RegisterDomainDependiences(ContainerBuilder builder)
+        private void RegisterDomainDependencies(ContainerBuilder builder)
         {
             builder.RegisterType<ParameterFactory>().As<IParameterFactory>();
 
@@ -22,6 +22,13 @@ namespace Funkmap.Module
             builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
 
             builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
+            builder.RegisterType<AccessService>().As<IAccessService>();
+
+            builder.RegisterType<ProAccountHandler>()
+                .As<IEventHandler>()
+                .SingleInstance()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
         }
     }
 }

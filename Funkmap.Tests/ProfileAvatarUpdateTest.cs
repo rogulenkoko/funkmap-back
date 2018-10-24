@@ -91,7 +91,7 @@ namespace Funkmap.Tests
 
                 var storage = mock.Create<IFileStorage>();
                 var eventBus = new Mock<IEventBus>().Object;
-                var commandRepository = new BaseCommandRepository(_collection, storage, new List<IUpdateDefenitionBuilder>(), eventBus);
+                var commandRepository = new BaseCommandRepository(_collection, storage, new List<IUpdateDefinitionBuilder>(), eventBus);
                 var result = commandRepository.UpdateAvatarAsync(parameter).GetAwaiter().GetResult();
                 Assert.IsTrue(result.Success);
 
@@ -123,7 +123,7 @@ namespace Funkmap.Tests
             
             IFileStorage storage = new Mock<IFileStorage>().Object;
             var eventBus = new Mock<IEventBus>().Object;
-            var commandRepository = new BaseCommandRepository(_collection, storage, new List<IUpdateDefenitionBuilder>(), eventBus);
+            var commandRepository = new BaseCommandRepository(_collection, storage, new List<IUpdateDefinitionBuilder>(), eventBus);
             var result = commandRepository.UpdateAvatarAsync(parameter).GetAwaiter().GetResult();
             Assert.IsTrue(result.Success);
 

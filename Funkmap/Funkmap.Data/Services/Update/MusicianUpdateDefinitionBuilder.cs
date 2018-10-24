@@ -11,7 +11,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Services.Update
 {
-    public class MusicianUpdateDefenitionBuilder : IUpdateDefenitionBuilder
+    public class MusicianUpdateDefinitionBuilder : IUpdateDefinitionBuilder
     {
         public EntityType EntityType => EntityType.Musician;
         public UpdateDefinition<BaseEntity> Build(Profile profile)
@@ -20,48 +20,48 @@ namespace Funkmap.Data.Services.Update
 
             if (musician == null)
             {
-                throw new ArgumentException("MusicianUpdateDefenitionBuilder can process only Musician profiles.");
+                throw new ArgumentException($"{nameof(MusicianUpdateDefinitionBuilder)} can process only Musician profiles.");
             }
 
             var update = Builders<BaseEntity>.Update;
 
-            var updateDefenitions = new List<UpdateDefinition<BaseEntity>>();
+            var updateDefinitions = new List<UpdateDefinition<BaseEntity>>();
 
             if (musician.BandLogins != null)
             {
                 musician.BandLogins = musician.BandLogins.Distinct().ToList();
 
-                updateDefenitions.Add(update.Set(x => (x as MusicianEntity).BandLogins, musician.BandLogins));
+                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).BandLogins, musician.BandLogins));
             }
 
             if (musician.Instrument != Instruments.None)
             {
-                updateDefenitions.Add(update.Set(x => (x as MusicianEntity).Instrument, musician.Instrument));
+                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).Instrument, musician.Instrument));
             }
 
             if (musician.Styles != null)
             {
                 musician.Styles = musician.Styles.Distinct().ToList();
 
-                updateDefenitions.Add(update.Set(x => (x as MusicianEntity).Styles, musician.Styles));
+                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).Styles, musician.Styles));
             }
 
             if (musician.BirthDate.HasValue)
             {
-                updateDefenitions.Add(update.Set(x=> (x as MusicianEntity).BirthDate, musician.BirthDate.Value));
+                updateDefinitions.Add(update.Set(x=> (x as MusicianEntity).BirthDate, musician.BirthDate.Value));
             }
 
             if (musician.Expirience != Expiriences.None)
             {
-                updateDefenitions.Add(update.Set(x => (x as MusicianEntity).ExpirienceType, musician.Expirience));
+                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).ExpirienceType, musician.Expirience));
             }
 
             if (musician.Sex.HasValue)
             {
-                updateDefenitions.Add(update.Set(x => (x as MusicianEntity).Sex, musician.Sex.Value));
+                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).Sex, musician.Sex.Value));
             }
 
-            return updateDefenitions.Count == 0 ? null : Builders<BaseEntity>.Update.Combine(updateDefenitions);
+            return updateDefinitions.Count == 0 ? null : Builders<BaseEntity>.Update.Combine(updateDefinitions);
         }
     }
 }

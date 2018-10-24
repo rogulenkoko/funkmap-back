@@ -44,7 +44,7 @@ namespace Funkmap.Tests
 
             var collection = db.GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName);
 
-            var updateBuilders = new List<IUpdateDefenitionBuilder>() { new MusicianUpdateDefenitionBuilder(), new BandUpdateDefenitionBuilder(), new ShopUpdateDefenitionBuilder() };
+            var updateBuilders = new List<IUpdateDefinitionBuilder>() { new MusicianUpdateDefinitionBuilder(), new BandUpdateDefinitionBuilder(), new ShopUpdateDefinitionBuilder() };
 
             _baseQueryRepository = new BaseQueryRepository(collection, storage, factory);
 

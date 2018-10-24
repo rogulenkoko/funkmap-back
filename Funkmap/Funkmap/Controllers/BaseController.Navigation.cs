@@ -7,6 +7,7 @@ using Funkmap.Common.Owin.Filters;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
+using Funkmap.Domain.Services.Abstract;
 using Funkmap.Mappers;
 using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
@@ -22,14 +23,17 @@ namespace Funkmap.Controllers
         private readonly IBaseQueryRepository _queryRepository;
         private readonly IBaseCommandRepository _commandRepository;
         private readonly IParameterFactory _parameterFactory;
+        private readonly IAccessService _accessService;
 
         public BaseController(IBaseQueryRepository queryRepository,
                               IBaseCommandRepository commandRepository,
-                              IParameterFactory parameterFactory)
+                              IParameterFactory parameterFactory,
+                              IAccessService accessService)
         {
             _queryRepository = queryRepository;
             _commandRepository = commandRepository;
             _parameterFactory = parameterFactory;
+            _accessService = accessService;
         }
 
 

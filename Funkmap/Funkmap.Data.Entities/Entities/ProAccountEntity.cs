@@ -9,6 +9,6 @@ namespace Funkmap.Data.Entities.Entities
         public string UserLogin { get; set; }
 
         [BsonElement("exp")]
-        public DateTime ExpireAt { get; set; }
+        public DateTime ExpireAtUtc { get; set; }
     }
 }

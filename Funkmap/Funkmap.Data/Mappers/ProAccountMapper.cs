@@ -11,7 +11,7 @@ namespace Funkmap.Data.Mappers
 
             return new ProAccountEntity
             {
-                ExpireAt = source.ExpireAt,
+                ExpireAtUtc = source.ExpireAt,
                 UserLogin = source.UserLogin
             };
         }
@@ -22,7 +22,7 @@ namespace Funkmap.Data.Mappers
 
             return new ProAccount
             {
-                ExpireAt = source.ExpireAt,
+                ExpireAt = source.ExpireAtUtc,
                 UserLogin = source.UserLogin
             };
         }

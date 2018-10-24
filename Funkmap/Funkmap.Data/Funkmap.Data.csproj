@@ -175,16 +175,16 @@
     <Compile Include="Repositories\ProAccountRepository.cs" />
     <Compile Include="Services\Abstract\IFilterFactory.cs" />
     <Compile Include="Services\Abstract\IFilterService.cs" />
-    <Compile Include="Services\Abstract\IUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Abstract\IUpdateDefinitionBuilder.cs" />
     <Compile Include="Services\BandDependenciesController.cs" />
     <Compile Include="Services\BandFilterService.cs" />
     <Compile Include="Repositories\BaseCommandRepository.cs" />
-    <Compile Include="Services\Update\BandUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Update\BandUpdateDefinitionBuilder.cs" />
     <Compile Include="Services\Update\FunkmapUpdateDefinitionBuilder.cs" />
     <Compile Include="Services\MusicianFilterService.cs" />
     <Compile Include="Services\FilterFactory.cs" />
-    <Compile Include="Services\Update\MusicianUpdateDefenitionBuilder.cs" />
-    <Compile Include="Services\Update\ShopUpdateDefenitionBuilder.cs" />
+    <Compile Include="Services\Update\MusicianUpdateDefinitionBuilder.cs" />
+    <Compile Include="Services\Update\ShopUpdateDefinitionBuilder.cs" />
     <Compile Include="Tools\ImageNameBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

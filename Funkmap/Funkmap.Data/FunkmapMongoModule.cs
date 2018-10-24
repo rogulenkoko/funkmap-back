@@ -113,9 +113,9 @@ namespace Funkmap.Data
             builder.RegisterType<BandFilterService>().As<IFilterService>();
             builder.RegisterType<MusicianFilterService>().As<IFilterService>();
 
-            builder.RegisterType<MusicianUpdateDefenitionBuilder>().As<IUpdateDefenitionBuilder>();
-            builder.RegisterType<BandUpdateDefenitionBuilder>().As<IUpdateDefenitionBuilder>();
-            builder.RegisterType<ShopUpdateDefenitionBuilder>().As<IUpdateDefenitionBuilder>();
+            builder.RegisterType<MusicianUpdateDefinitionBuilder>().As<IUpdateDefinitionBuilder>();
+            builder.RegisterType<BandUpdateDefinitionBuilder>().As<IUpdateDefinitionBuilder>();
+            builder.RegisterType<ShopUpdateDefinitionBuilder>().As<IUpdateDefinitionBuilder>();
 
 
             //Event handlers

@@ -12,14 +12,14 @@ namespace Funkmap.Data.Services.Update
 {
     public class FunkmapUpdateDefinitionBuilder
     {
-        private readonly ICollection<IUpdateDefenitionBuilder> _specificUpdateDefenitionBuilders;
+        private readonly ICollection<IUpdateDefinitionBuilder> _specificUpdateDefenitionBuilders;
 
 
         private Profile _profile;
 
         private UpdateDefinition<BaseEntity> _updateDefinition;
 
-        public FunkmapUpdateDefinitionBuilder(ICollection<IUpdateDefenitionBuilder> specificUpdateDefenitionBuilders)
+        public FunkmapUpdateDefinitionBuilder(ICollection<IUpdateDefinitionBuilder> specificUpdateDefenitionBuilders)
         {
             _specificUpdateDefenitionBuilders = specificUpdateDefenitionBuilders;
         }
@@ -98,22 +98,22 @@ namespace Funkmap.Data.Services.Update
 
         public UpdateDefinition<BaseEntity> BuildSpecificUpdateDefinition()
         {
-            var spicificBuilder = _specificUpdateDefenitionBuilders.SingleOrDefault(x => x.EntityType == _profile.EntityType);
+            var specificBuilder = _specificUpdateDefenitionBuilders.SingleOrDefault(x => x.EntityType == _profile.EntityType);
 
-            if (spicificBuilder == null)
+            if (specificBuilder == null)
             {
                 return _updateDefinition;
             }
 
-            var speceficUpdateDefenition = spicificBuilder.Build(_profile);
+            var specificUpdateDefinition = specificBuilder.Build(_profile);
 
-            if (speceficUpdateDefenition == null && _updateDefinition == null) return null;
+            if (specificUpdateDefinition == null && _updateDefinition == null) return null;
 
             var resultList = new List<UpdateDefinition<BaseEntity>>();
 
-            if (speceficUpdateDefenition != null)
+            if (specificUpdateDefinition != null)
             {
-                resultList.Add(speceficUpdateDefenition);
+                resultList.Add(specificUpdateDefinition);
             }
 
             if (_updateDefinition != null)

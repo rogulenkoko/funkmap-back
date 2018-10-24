@@ -25,12 +25,12 @@ namespace Funkmap.Data.Repositories
     public class BaseCommandRepository : RepositoryBase<BaseEntity>, IBaseCommandRepository
     {
         private readonly IFileStorage _fileStorage;
-        private readonly ICollection<IUpdateDefenitionBuilder> _specificUpdateDefenitionBuilders;
+        private readonly ICollection<IUpdateDefinitionBuilder> _specificUpdateDefenitionBuilders;
         private readonly IEventBus _eventBus;
 
         public BaseCommandRepository(IMongoCollection<BaseEntity> collection,
             [KeyFilter(CollectionNameProvider.StorageName)]IFileStorage fileStorage,
-            ICollection<IUpdateDefenitionBuilder> specificUpdateDefenitionBuilders,
+            ICollection<IUpdateDefinitionBuilder> specificUpdateDefenitionBuilders,
             IEventBus eventBus) : base(collection)
         {
             _fileStorage = fileStorage;

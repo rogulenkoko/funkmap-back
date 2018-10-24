@@ -52,7 +52,7 @@ namespace Funkmap.Tests
             var dependenciesController = new BandDependenciesController(bandRepository, musicianRepository, eventBus);
             dependenciesController.InitHandlers();
 
-            var updateBuilders = new List<IUpdateDefenitionBuilder>() { new MusicianUpdateDefenitionBuilder(), new BandUpdateDefenitionBuilder(), new ShopUpdateDefenitionBuilder() };
+            var updateBuilders = new List<IUpdateDefinitionBuilder>() { new MusicianUpdateDefinitionBuilder(), new BandUpdateDefinitionBuilder(), new ShopUpdateDefinitionBuilder() };
 
             _commandRepository = new BaseCommandRepository(collection, storage, updateBuilders, eventBus);
         }

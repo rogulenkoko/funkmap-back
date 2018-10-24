@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Services.Update
 {
-    public class ShopUpdateDefenitionBuilder : IUpdateDefenitionBuilder
+    public class ShopUpdateDefinitionBuilder : IUpdateDefinitionBuilder
     {
         public EntityType EntityType => EntityType.Shop;
         public UpdateDefinition<BaseEntity> Build(Profile profile)
@@ -18,19 +18,19 @@ namespace Funkmap.Data.Services.Update
 
             if (band == null)
             {
-                throw new ArgumentException("BandUpdateDefenitionBuilder can process only Band profiles.");
+                throw new ArgumentException($"{nameof(ShopUpdateDefinitionBuilder)} can process only Band profiles.");
             }
 
             var update = Builders<BaseEntity>.Update;
 
-            var updateDefenitions = new List<UpdateDefinition<BaseEntity>>();
+            var updateDefinitions = new List<UpdateDefinition<BaseEntity>>();
 
             if (band.Website != null)
             {
-                updateDefenitions.Add(update.Set(x => (x as ShopEntity).Website, band.Website));
+                updateDefinitions.Add(update.Set(x => (x as ShopEntity).Website, band.Website));
             }
 
-            return updateDefenitions.Count == 0 ? null : Builders<BaseEntity>.Update.Combine(updateDefenitions);
+            return updateDefinitions.Count == 0 ? null : Builders<BaseEntity>.Update.Combine(updateDefinitions);
         }
     }
 }

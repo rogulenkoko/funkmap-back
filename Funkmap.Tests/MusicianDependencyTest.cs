@@ -51,7 +51,7 @@ namespace Funkmap.Tests
                 MusicianCollection = musicianCollection
             };
 
-            var updateBuilders = new List<IUpdateDefenitionBuilder>() { new MusicianUpdateDefenitionBuilder(), new BandUpdateDefenitionBuilder(), new ShopUpdateDefenitionBuilder() };
+            var updateBuilders = new List<IUpdateDefinitionBuilder>() { new MusicianUpdateDefinitionBuilder(), new BandUpdateDefinitionBuilder(), new ShopUpdateDefinitionBuilder() };
 
             var eventBus = new Mock<IEventBus>().Object;
             _commandRepository = new BaseCommandRepository(collection, storage, updateBuilders, eventBus);
