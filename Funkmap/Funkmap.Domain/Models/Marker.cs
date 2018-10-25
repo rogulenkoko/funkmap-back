@@ -8,6 +8,7 @@ namespace Funkmap.Domain.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public EntityType ModelType { get; set; }
-        public Instruments Instrument;
+        public Instruments Instrument { get; set; }
+        public bool IsPriority { get; set; }
     }
 }

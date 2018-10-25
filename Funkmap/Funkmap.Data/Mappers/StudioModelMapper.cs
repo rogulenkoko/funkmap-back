@@ -25,7 +25,8 @@ namespace Funkmap.Data.Mappers
                 Location = new Location(source.Location.Coordinates.Latitude, source.Location.Coordinates.Longitude),
                 SoundCloudLink = source.SoundCloudLink,
                 UserLogin = source.UserLogin,
-                IsActive = source.IsActive
+                IsActive = source.IsActive,
+                IsPriority = source.IsPriority
             };
         }
 

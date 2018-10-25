@@ -24,7 +24,8 @@ namespace Funkmap.Data.Mappers
                 AvatarUrl = source.AvatarUrl,
                 AvatarMiniUrl = source.AvatarMiniUrl,
                 UserLogin = source.UserLogin,
-                IsActive = source.IsActive
+                IsActive = source.IsActive,
+                IsPriority = source.IsPriority
             };
 
         }

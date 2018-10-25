@@ -44,6 +44,11 @@ namespace Funkmap.Domain.Models
         /// </summary>
         public List<Styles> Styles { get; set; }
 
+        /// <summary>
+        /// Profile is priority
+        /// </summary>
+        public bool IsPriority { get; set; }
+
         
     }
 }

@@ -17,7 +17,7 @@ namespace Funkmap.Mappers
         {
             if (source == null) return null;
 
-            string address = String.Empty;
+            var address = String.Empty;
 
             var shop = source as Shop;
             if (shop != null)
@@ -25,14 +25,12 @@ namespace Funkmap.Mappers
                 address = shop.Address;
             }
 
-            var studio = source as Studio;
-            if (studio != null)
+            if (source is Studio studio)
             {
                 address = studio?.Address;
             }
 
-            var point = source as RehearsalPoint;
-            if (point != null)
+            if (source is RehearsalPoint point)
             {
                 address = point?.Address;
             }
@@ -40,7 +38,7 @@ namespace Funkmap.Mappers
             var musician = source as Musician;
             var band = source as Band;
 
-            return new SearchItem()
+            return new SearchItem
             {
                 AvatarMiniUrl = source.AvatarMiniUrl,
                 AvatarUrl = source.AvatarMiniUrl,
@@ -50,6 +48,8 @@ namespace Funkmap.Mappers
                 Longitude = source.Location.Longitude,
                 Latitude = source.Location.Latitude,
                 Type = source.EntityType,
+                IsPriority = source.IsPriority,
+
                 Instrument = musician?.Instrument ?? Instruments.None,
                 Expirience = musician?.Expirience ?? Expiriences.None,
 

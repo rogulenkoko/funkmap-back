@@ -23,7 +23,8 @@ namespace Funkmap.Data.Mappers
                 Longitude = source.Location.Coordinates.Longitude,
                 Latitude = source.Location.Coordinates.Latitude,
                 ModelType = source.EntityType,
-                Instrument = (source as MusicianEntity)?.Instrument ?? Instruments.None
+                Instrument = (source as MusicianEntity)?.Instrument ?? Instruments.None,
+                IsPriority = source.IsPriority
             };
         }
     }

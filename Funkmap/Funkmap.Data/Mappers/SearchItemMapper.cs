@@ -36,7 +36,7 @@ namespace Funkmap.Data.Mappers
                 address = (source as RehearsalPointEntity)?.Address;
             }
 
-            return new SearchItem()
+            return new SearchItem
             {
                 AvatarMiniUrl = source.AvatarMiniUrl,
                 AvatarUrl = source.AvatarMiniUrl,
@@ -52,7 +52,8 @@ namespace Funkmap.Data.Mappers
                 Address = address,
                 Website = (source as ShopEntity)?.Website,
 
-                Styles = (source as BandEntity)?.Styles
+                Styles = (source as BandEntity)?.Styles,
+                IsPriority = source.IsPriority
             };
         }
     }

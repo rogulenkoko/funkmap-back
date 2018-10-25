@@ -9,8 +9,7 @@ namespace Funkmap.Domain.Models
         
         public string Login { get; set; }
         public string UserLogin { get; set; }
-
-
+        
         #region Editable
 
         public Location Location { get; set; }
@@ -39,6 +38,8 @@ namespace Funkmap.Domain.Models
 
         [JsonProperty("AvatarMiniId")]
         public string AvatarMiniUrl { get; set; }
+
+        public bool IsPriority { get; set; }
         
     }
 }

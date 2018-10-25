@@ -36,6 +36,7 @@ namespace Funkmap.Data.Mappers
                 UserLogin = source.UserLogin,
                 IsActive = source.IsActive,
                 BandLogins = source.BandLogins,
+                IsPriority = source.IsPriority
             };
         }
 

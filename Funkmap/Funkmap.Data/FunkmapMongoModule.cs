@@ -104,6 +104,8 @@ namespace Funkmap.Data
 
             builder.RegisterType<BaseQueryRepository>().As<IBaseQueryRepository>().WithAttributeFiltering();
 
+            builder.RegisterType<ProAccountRepository>().As<IProAccountRepository>();
+
             //Cache Services
             builder.RegisterType<FavoriteCacheService>().As<IFavoriteCacheService>();
             builder.RegisterType<FilteredCacheService>().As<IFilteredCacheService>();

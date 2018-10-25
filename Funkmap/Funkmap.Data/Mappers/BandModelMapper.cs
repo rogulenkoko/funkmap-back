@@ -30,7 +30,8 @@ namespace Funkmap.Data.Mappers
                 VideoInfos = source.VideoInfos?.Select(x=>x.ToModel()).ToList(),
                 SoundCloudTracks = source.SoundCloudTracks?.Select(x=>x.ToModel()).ToList(),
                 UserLogin = source.UserLogin,
-                IsActive = source.IsActive
+                IsActive = source.IsActive,
+                IsPriority = source.IsPriority
             };
         }
 
@@ -38,7 +39,7 @@ namespace Funkmap.Data.Mappers
         {
             if (source == null) return null;
 
-            return new BandEntity()
+            return new BandEntity
             {
                 Login = source.Login,
                 Description = source.Description,
