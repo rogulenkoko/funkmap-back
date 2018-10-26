@@ -58,6 +58,9 @@ namespace Funkmap.Data
             builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<StudioEntity>>();
 
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<ProAccountEntity>(CollectionNameProvider.ProAccountCollectionName))
+                .As<IMongoCollection<ProAccountEntity>>();
+
 
             //MongoDb Indexes
             var entityTypeBaseIndexModel = new CreateIndexModel<BaseEntity>(Builders<BaseEntity>.IndexKeys.Ascending(x => x.EntityType));

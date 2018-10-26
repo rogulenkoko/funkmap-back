@@ -29,7 +29,11 @@
             Create a profile.
             </summary>
             <param name="model">Profile</param>
-            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Controllers.BaseController.CanCreate">
+            <summary>
+            Check can user add new profiles
+            </summary>
         </member>
         <member name="M:Funkmap.Controllers.BaseController.Update(Funkmap.Domain.Models.Profile)">
             <summary>
@@ -38,7 +42,6 @@
             You can't modify band participants and musician's band. You should use specific API methods.
             </summary>
             <param name="model">Profile model which has only updated properties.</param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Controllers.BaseController.Delete(System.String)">
             <summary>
