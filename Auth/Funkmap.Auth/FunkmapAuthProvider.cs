@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Funkmap.Auth.Contracts;
 using Funkmap.Auth.Domain.Abstract;
-using Funkmap.Auth.Domain.Models;
 using Funkmap.Auth.Services;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;

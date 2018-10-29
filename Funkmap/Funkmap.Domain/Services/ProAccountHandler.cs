@@ -32,7 +32,6 @@ namespace Funkmap.Domain.Services
         {
             var proAccount = new ProAccount
             {
-                ExpireAt = @event.ExpireAtUtc,
                 UserLogin = @event.Login
             };
 

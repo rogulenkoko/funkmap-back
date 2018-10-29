@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Funkmap.Auth.Data</RootNamespace>
     <AssemblyName>Funkmap.Auth.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -146,7 +146,7 @@
       <Name>Funkmap.Auth.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj">
-      <Project>{76E41EED-021E-4198-B25C-1FFF0D2A053D}</Project>
+      <Project>{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}</Project>
       <Name>Funkmap.Auth.Domain</Name>
     </ProjectReference>
   </ItemGroup>

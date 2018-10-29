@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FeedBack", "FeedBack", "{7A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth", "Auth\Funkmap.Auth\Funkmap.Auth.csproj", "{09F63484-6A51-4BC7-A0B4-BE399E0723CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Domain", "Auth\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj", "{76E41EED-021E-4198-B25C-1FFF0D2A053D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Data", "Auth\Funkmap.Auth.Data\Funkmap.Auth.Data.csproj", "{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Tests", "Auth\Funkmap.Auth.Tests\Funkmap.Auth.Tests.csproj", "{FF7B77EF-8064-489F-8918-035CEA73F719}"
@@ -71,8 +69,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Domain", "Funkmap\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Domain.Events", "Funkmap\Funkmap.Domain.Events\Funkmap.Domain.Events.csproj", "{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Console", "Funkmap.Console\Funkmap.Console.csproj", "{61AFCC5A-0521-4ED3-A21B-6313F1A05945}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Contracts", "Messenger\Funkmap.Messenger.Contracts\Funkmap.Messenger.Contracts.csproj", "{210A14C5-7305-489D-B066-3509CD03B2DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Auth.Client", "Auth\Funkmap.Auth.Client\Funkmap.Auth.Client.csproj", "{B39D97CC-DF11-4288-A3DF-6A2DBBB41958}"
@@ -80,6 +76,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Auth.Contracts", "Auth\Funkmap.Auth.Contracts\Funkmap.Auth.Contracts.csproj", "{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Payments.Contracts", "..\funkmap-payments\Funkmap.Payments.Contracts\Funkmap.Payments.Contracts.csproj", "{76F9D971-8D52-42C5-9D72-358E4B415EB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Domain", "Auth\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj", "{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,10 +101,6 @@ Global
 		{09F63484-6A51-4BC7-A0B4-BE399E0723CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09F63484-6A51-4BC7-A0B4-BE399E0723CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09F63484-6A51-4BC7-A0B4-BE399E0723CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76E41EED-021E-4198-B25C-1FFF0D2A053D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76E41EED-021E-4198-B25C-1FFF0D2A053D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76E41EED-021E-4198-B25C-1FFF0D2A053D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76E41EED-021E-4198-B25C-1FFF0D2A053D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -199,10 +193,6 @@ Global
 		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61AFCC5A-0521-4ED3-A21B-6313F1A05945}.Release|Any CPU.Build.0 = Release|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -219,13 +209,16 @@ Global
 		{76F9D971-8D52-42C5-9D72-358E4B415EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76F9D971-8D52-42C5-9D72-358E4B415EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76F9D971-8D52-42C5-9D72-358E4B415EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{09F63484-6A51-4BC7-A0B4-BE399E0723CD} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
-		{76E41EED-021E-4198-B25C-1FFF0D2A053D} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{A1388A76-7550-4C06-9486-2FE5A4AD6ED5} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{FF7B77EF-8064-489F-8918-035CEA73F719} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C} = {83C3F360-228C-440D-8F95-E106470E5217}
@@ -253,6 +246,7 @@ Global
 		{B39D97CC-DF11-4288-A3DF-6A2DBBB41958} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{76F9D971-8D52-42C5-9D72-358E4B415EB9} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
+		{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33CAECAF-0197-4DA7-824F-1E608A52B263}
