@@ -201,7 +201,7 @@
       <Name>Funkmap.Data.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
-      <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
+      <Project>{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}</Project>
       <Name>Funkmap.Domain</Name>
     </ProjectReference>
   </ItemGroup>

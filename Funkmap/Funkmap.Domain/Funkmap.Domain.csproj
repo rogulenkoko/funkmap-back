@@ -1,151 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97A182F7-ABE9-4562-A57D-978F707BA937}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Funkmap.Domain</RootNamespace>
-    <AssemblyName>Funkmap.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Funkmap.Common, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Funkmap.Common.1.0.1\lib\netstandard2.0\Funkmap.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Funkmap.Cqrs, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Funkmap.Cqrs.1.0.1\lib\netstandard2.0\Funkmap.Cqrs.dll</HintPath>
-    </Reference>
-    <Reference Include="Funkmap.Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Funkmap.Logger.1.0.0\lib\netstandard2.0\Funkmap.Logger.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.5.4\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Funkmap.Logger" Version="1.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Abstract\ICommandParameter.cs" />
-    <Compile Include="Abstract\ICommandResponse.cs" />
-    <Compile Include="Abstract\Repositories\IBaseCommandRepository.cs" />
-    <Compile Include="Abstract\IFilterParameter.cs" />
-    <Compile Include="Abstract\ILocationParameter.cs" />
-    <Compile Include="Abstract\Repositories\IBandRepository.cs" />
-    <Compile Include="Abstract\Repositories\IBaseQueryRepository.cs" />
-    <Compile Include="Abstract\Repositories\IMusicianRepository.cs" />
-    <Compile Include="Abstract\Repositories\IProAccountRepository.cs" />
-    <Compile Include="EntityType.cs" />
-    <Compile Include="Enums\Expiriences.cs" />
-    <Compile Include="Enums\Instruments.cs" />
-    <Compile Include="Enums\Sex.cs" />
-    <Compile Include="Enums\Styles.cs" />
-    <Compile Include="Enums\VideoTypes.cs" />
-    <Compile Include="Events\ProfileDeletedEvent.cs" />
-    <Compile Include="Events\ProfileUpdatedEvent.cs" />
-    <Compile Include="FunkmapConstants.cs" />
-    <Compile Include="Models\AudioInfo.cs" />
-    <Compile Include="Models\Band.cs" />
-    <Compile Include="Models\CanCreateProfileResult.cs" />
-    <Compile Include="Models\IHasAvatar.cs" />
-    <Compile Include="Models\InviteBandResponse.cs" />
-    <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\Marker.cs" />
-    <Compile Include="Models\ProAccount.cs" />
-    <Compile Include="Models\Profile.cs" />
-    <Compile Include="Models\Musician.cs" />
-    <Compile Include="Models\RehearsalPoint.cs" />
-    <Compile Include="Models\SearchItem.cs" />
-    <Compile Include="Models\Shop.cs" />
-    <Compile Include="Models\Studio.cs" />
-    <Compile Include="Models\UserEntitiesCountInfo.cs" />
-    <Compile Include="Models\VideoInfo.cs" />
-    <Compile Include="Notifications\BandInvite\BandInviteConfirmationNotification.cs" />
-    <Compile Include="Notifications\BandInvite\BandInviteNotification.cs" />
-    <Compile Include="Notifications\PriorityMarkerNotification.cs" />
-    <Compile Include="Notifications\ProAccountNotification.cs" />
-    <Compile Include="Parameters\CommandParameter.cs" />
-    <Compile Include="Parameters\AvatarUpdateParameter.cs" />
-    <Compile Include="Parameters\CommonFilterParameter.cs" />
-    <Compile Include="Parameters\LocationParameter.cs" />
-    <Compile Include="Parameters\MusicianFilterParameter.cs" />
-    <Compile Include="Parameters\UpdateBandMemberParameter.cs" />
-    <Compile Include="Parameters\UpdateFavoriteParameter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Abstract\IAccessService.cs" />
-    <Compile Include="Services\Abstract\IBandUpdateService.cs" />
-    <Compile Include="Services\AccessService.cs" />
-    <Compile Include="Services\BandUpdateService.cs" />
-    <Compile Include="Services\FunkmapNotificationHandler.cs" />
-    <Compile Include="Services\PriorityMarkerHandler.cs" />
-    <Compile Include="Services\ProAccountHandler.cs" />
+    <ProjectReference Include="..\..\..\funkmap-payments\Funkmap.Payments.Contracts\Funkmap.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\..\Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\funkmap-payments\Funkmap.Payments.Contracts\Funkmap.Payments.Contracts.csproj">
-      <Project>{76F9D971-8D52-42C5-9D72-358E4B415EB9}</Project>
-      <Name>Funkmap.Payments.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Funkmap.Common\Funkmap.Common.Owin.csproj">
-      <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
-      <Name>Funkmap.Common.Owin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
-      <Project>{71C444C6-9282-4C6D-9997-93C01E1CBEB4}</Project>
-      <Name>Funkmap.Notifications.Contracts</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
