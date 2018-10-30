@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Funkmap.Feedback</RootNamespace>
     <AssemblyName>Funkmap.Feedback</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -124,10 +124,6 @@
     <ProjectReference Include="..\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj">
       <Project>{2D0C55A3-225B-4269-997F-E205FB2E0B5A}</Project>
       <Name>Funkmap.Feedback.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Feedback.Events\Funkmap.Feedback.Events.csproj">
-      <Project>{2F3381DC-A672-4E91-B310-94B8DC59C398}</Project>
-      <Name>Funkmap.Feedback.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

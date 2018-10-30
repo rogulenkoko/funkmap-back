@@ -8,7 +8,6 @@ using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
 using Funkmap.Feedback.Entities;
 using Funkmap.Feedback.EventHandlers;
-using Funkmap.Feedback.Events;
 using MongoDB.Driver;
 
 namespace Funkmap.Feedback

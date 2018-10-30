@@ -1,6 +1,6 @@
 ﻿using Funkmap.Feedback.Entities;
 
-namespace Funkmap.Feedback.Events
+namespace Funkmap.Feedback.Command
 {
     public class FeedbackSavedEvent
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Funkmap.Common.Notifications.Notification;
 using Funkmap.Common.Notifications.Notification.Abstract;
 using Funkmap.Cqrs.Abstract;
-using Funkmap.Feedback.Events;
+using Funkmap.Feedback.Command;
 using Funkmap.Feedback.Notifications;
 
 namespace Funkmap.Feedback.EventHandlers

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Funkmap.Feedback.Command</RootNamespace>
     <AssemblyName>Funkmap.Feedback.Command</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -129,6 +129,7 @@
     <Compile Include="Commands\FeedbackCommand.cs" />
     <Compile Include="FeedbackCollectionNameProvider.cs" />
     <Compile Include="FeedbackCommandModule.cs" />
+    <Compile Include="FeedbackSavedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,10 +140,6 @@
     <ProjectReference Include="..\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj">
       <Project>{2d0c55a3-225b-4269-997f-e205fb2e0b5a}</Project>
       <Name>Funkmap.Feedback.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Feedback.Events\Funkmap.Feedback.Events.csproj">
-      <Project>{2F3381DC-A672-4E91-B310-94B8DC59C398}</Project>
-      <Name>Funkmap.Feedback.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

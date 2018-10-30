@@ -200,10 +200,6 @@
       <Project>{348B4CEA-36C7-4593-94B7-2E064B65F9B1}</Project>
       <Name>Funkmap.Data.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Domain.Events\Funkmap.Domain.Events.csproj">
-      <Project>{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}</Project>
-      <Name>Funkmap.Domain.Events</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Domain\Funkmap.Domain.csproj">
       <Project>{97a182f7-abe9-4562-a57d-978f707ba937}</Project>
       <Name>Funkmap.Domain</Name>

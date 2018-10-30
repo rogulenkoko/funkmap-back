@@ -37,8 +37,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback", "Feedbac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Command", "Feedback\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj", "{4141CF1F-5901-40D2-8B7E-C1567BF2E343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Events", "Feedback\Funkmap.Feedback.Events\Funkmap.Feedback.Events.csproj", "{2F3381DC-A672-4E91-B310-94B8DC59C398}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Entities", "Feedback\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj", "{2D0C55A3-225B-4269-997F-E205FB2E0B5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger", "Messenger\Funkmap.Messenger\Funkmap.Messenger.csproj", "{A7957BFB-CF3B-4820-A929-F53FCAFFA00D}"
@@ -63,8 +61,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Data.Entities", "Fu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Domain", "Funkmap\Funkmap.Domain\Funkmap.Domain.csproj", "{97A182F7-ABE9-4562-A57D-978F707BA937}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Domain.Events", "Funkmap\Funkmap.Domain.Events\Funkmap.Domain.Events.csproj", "{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Contracts", "Messenger\Funkmap.Messenger.Contracts\Funkmap.Messenger.Contracts.csproj", "{210A14C5-7305-489D-B066-3509CD03B2DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Auth.Client", "Auth\Funkmap.Auth.Client\Funkmap.Auth.Client.csproj", "{B39D97CC-DF11-4288-A3DF-6A2DBBB41958}"
@@ -75,9 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Payments.Contracts"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Auth.Domain", "Auth\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj", "{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications.Domain", "Notifications\Funkmap.Notifications.Domain\Funkmap.Notifications.Domain.csproj", "{7619A684-E14A-4027-8146-F7D7FDD9F70E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Domain", "Notifications\Funkmap.Notifications.Domain\Funkmap.Notifications.Domain.csproj", "{7619A684-E14A-4027-8146-F7D7FDD9F70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications.Contracts", "Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj", "{71C444C6-9282-4C6D-9997-93C01E1CBEB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Contracts", "Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj", "{71C444C6-9282-4C6D-9997-93C01E1CBEB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,10 +125,6 @@ Global
 		{4141CF1F-5901-40D2-8B7E-C1567BF2E343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4141CF1F-5901-40D2-8B7E-C1567BF2E343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4141CF1F-5901-40D2-8B7E-C1567BF2E343}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F3381DC-A672-4E91-B310-94B8DC59C398}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D0C55A3-225B-4269-997F-E205FB2E0B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D0C55A3-225B-4269-997F-E205FB2E0B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D0C55A3-225B-4269-997F-E205FB2E0B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -181,10 +173,6 @@ Global
 		{97A182F7-ABE9-4562-A57D-978F707BA937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97A182F7-ABE9-4562-A57D-978F707BA937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97A182F7-ABE9-4562-A57D-978F707BA937}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400}.Release|Any CPU.Build.0 = Release|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210A14C5-7305-489D-B066-3509CD03B2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -226,7 +214,6 @@ Global
 		{CC5B36A9-D49F-4583-B74C-D2F3A17087A4} = {83C3F360-228C-440D-8F95-E106470E5217}
 		{45C1141B-D1EA-455A-B3AE-978CCD8095A7} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{4141CF1F-5901-40D2-8B7E-C1567BF2E343} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
-		{2F3381DC-A672-4E91-B310-94B8DC59C398} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{2D0C55A3-225B-4269-997F-E205FB2E0B5A} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{A7957BFB-CF3B-4820-A929-F53FCAFFA00D} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{15E79617-9CDA-496E-84EF-0198FEA0B4B8} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
@@ -239,7 +226,6 @@ Global
 		{F0A4E106-3CDE-4CDD-B4A5-D441EFA9D07F} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
 		{348B4CEA-36C7-4593-94B7-2E064B65F9B1} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
 		{97A182F7-ABE9-4562-A57D-978F707BA937} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
-		{E0D367F2-0A7E-4F6D-9DD9-D4F8C866C400} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
 		{210A14C5-7305-489D-B066-3509CD03B2DC} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{B39D97CC-DF11-4288-A3DF-6A2DBBB41958} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 		{2A2EB249-15EF-4925-BFD0-CCC3FB6EBDE6} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}

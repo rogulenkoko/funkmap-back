@@ -83,6 +83,8 @@
     <Compile Include="Enums\Sex.cs" />
     <Compile Include="Enums\Styles.cs" />
     <Compile Include="Enums\VideoTypes.cs" />
+    <Compile Include="Events\ProfileDeletedEvent.cs" />
+    <Compile Include="Events\ProfileUpdatedEvent.cs" />
     <Compile Include="FunkmapConstants.cs" />
     <Compile Include="Models\AudioInfo.cs" />
     <Compile Include="Models\Band.cs" />
