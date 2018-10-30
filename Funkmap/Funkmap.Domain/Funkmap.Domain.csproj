@@ -130,7 +130,7 @@
       <Name>Funkmap.Common.Owin</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
-      <Project>{7086848C-BD30-4677-B267-67163F296244}</Project>
+      <Project>{71C444C6-9282-4C6D-9997-93C01E1CBEB4}</Project>
       <Name>Funkmap.Notifications.Contracts</Name>
     </ProjectReference>
   </ItemGroup>

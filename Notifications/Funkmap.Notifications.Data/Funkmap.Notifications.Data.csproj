@@ -108,12 +108,8 @@
       <Project>{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}</Project>
       <Name>Funkmap.Common.Owin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj">
-      <Project>{7086848c-bd30-4677-b267-67163f296244}</Project>
-      <Name>Funkmap.Notifications.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Funkmap.Notifications.Domain\Funkmap.Notifications.Domain.csproj">
-      <Project>{992BCCBC-EC4F-4F57-A9FF-DAA0ACE34DC5}</Project>
+      <Project>{7619A684-E14A-4027-8146-F7D7FDD9F70E}</Project>
       <Name>Funkmap.Notifications.Domain</Name>
     </ProjectReference>
   </ItemGroup>

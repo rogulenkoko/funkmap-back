@@ -5,6 +5,7 @@ using Funkmap.Domain.Services.Abstract;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
+
 namespace Funkmap.Module
 {
     public partial class FunkmapModule 
