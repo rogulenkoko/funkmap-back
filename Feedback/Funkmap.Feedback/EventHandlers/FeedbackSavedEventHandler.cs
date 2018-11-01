@@ -1,23 +1,18 @@
 ﻿using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
-using Funkmap.Common.Notifications.Notification;
-using Funkmap.Common.Notifications.Notification.Abstract;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
-using Funkmap.Feedback.Notifications;
 
 namespace Funkmap.Feedback.EventHandlers
 {
     public class FeedbackSavedEventHandler : IEventHandler<FeedbackSavedEvent>
     {
         private readonly IEventBus _eventBus;
-        private readonly IExternalNotificationService _notificationService;
 
-        public FeedbackSavedEventHandler(IEventBus eventBus, IExternalNotificationService notificationService)
+        public FeedbackSavedEventHandler(IEventBus eventBus)
         {
             _eventBus = eventBus;
-            _notificationService = notificationService;
         }
 
         public void InitHandlers()
@@ -43,9 +38,9 @@ namespace Funkmap.Feedback.EventHandlers
                 
             }
 
-            var message = new FeedbackNotification(reciever, @event.Feedback.FeedbackType, sb.ToString());
+            //var message = new FeedbackNotification(reciever, @event.Feedback.FeedbackType, sb.ToString());
 
-            await _notificationService.TrySendNotificationAsync(message, new NotificationOptions() {UseTemplate = false});
+            //todo send all this to our email
         }
         
     }

@@ -2,6 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Funkmap.Common" Version="1.0.1" />
+    <PackageReference Include="Funkmap.Cqrs" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="NLog" Version="4.5.10" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Funkmap.Logger.Autofac, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\.nuget\packages\funkmap.logger.autofac\1.0.0\lib\netstandard2.0\Funkmap.Logger.Autofac.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

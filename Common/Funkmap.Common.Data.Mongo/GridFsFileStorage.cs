@@ -29,7 +29,5 @@ namespace Funkmap.Common.Data.Mongo
         {
             await _bucket.DeleteAsync(new ObjectId(fullFilePath));
         }
-
-
     }
 }

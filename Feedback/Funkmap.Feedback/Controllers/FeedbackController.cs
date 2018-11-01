@@ -1,49 +1,51 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Filters;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.Commands;
 using Funkmap.Feedback.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Funkmap.Feedback.Controllers
 {
-    [RoutePrefix("api/feedback")]
-    [ValidateRequestModel]
-    public class FeedbackController : ApiController
+    /// <summary>
+    /// Controller for Funkmap service feedback 
+    /// </summary>
+    [Route("api/feedback")]
+    public class FeedbackController : Controller
     {
         private readonly ICommandBus _commandBus;
 
+        /// <summary>
+        /// FeedbackController constructor
+        /// </summary>
+        /// <param name="commandBus"><inheritdoc cref="ICommandBus"/></param>
         public FeedbackController(ICommandBus commandBus)
         {
             _commandBus = commandBus;
         }
-        
+
         /// <summary>
         /// Send feedback.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item"><see cref="FeedbackItem"/></param>
         [HttpPost]
-        [ResponseType(typeof(BaseResponse))]
         [Route("")]
-        public async Task<IHttpActionResult> SaveFeedback(FeedbackItem item)
+        public async Task<IActionResult> SaveFeedback([FromBody]FeedbackItem item)
         {
             try
             {
                 await _commandBus.ExecuteAsync(new FeedbackCommand(item.FeedbackType, item.Message)
                 {
-                    Content = item.Content?.Select(x => new FeedbackContent() { Name = x.Name, Data = x.Data }).ToList()
+                    Content = item.Content?.Select(x => new FeedbackContent {Name = x.Name, Data = x.Data}).ToList()
                 });
 
-                return Ok(new BaseResponse() { Success = true });
+                return Ok(new BaseResponse() {Success = true});
             }
             catch (Exception e)
             {
-                return Ok(new BaseResponse() { Success = false });
+                return Ok(new BaseResponse() {Success = false, Error = e.Message});
             }
         }
     }

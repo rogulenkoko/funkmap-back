@@ -62,7 +62,6 @@ namespace Funkmap.Feedback.Command.CommandHandler
 
                 await _collection.InsertOneAsync(entity);
                 await _eventBus.PublishAsync(new FeedbackSavedEvent(entity));
-
             }
             catch (InvalidDataException e)
             {

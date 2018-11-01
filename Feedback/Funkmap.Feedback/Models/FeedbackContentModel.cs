@@ -1,10 +1,9 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Funkmap.Feedback.Models
 {
     public class FeedbackContentModel
     {
-
         [Required]
         public string Name { get; set; }
 
