@@ -1,15 +1,15 @@
-﻿using Funkmap.Feedback.Entities;
+﻿using Funkmap.Feedback.Domain;
 
 namespace Funkmap.Feedback.Command
 {
     public class FeedbackSavedEvent
     {
-        public FeedbackSavedEvent(FeedbackEntity feedback)
+        public FeedbackSavedEvent(FeedbackItem feedback)
         {
             Feedback = feedback;
         }
 
-        public FeedbackEntity Feedback { get; }
+        public FeedbackItem Feedback { get; }
         
     }
 }

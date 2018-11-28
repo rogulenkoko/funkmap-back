@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
+using Funkmap.Notifications.Contracts.Abstract;
+using Funkmap.Notifications.Contracts.Models;
 using Newtonsoft.Json;
 
 namespace Funkmap.Notifications.Contracts
@@ -38,6 +40,24 @@ namespace Funkmap.Notifications.Contracts
                 NotificationType = notificationName
             };
 
+            await _eventBus.PublishAsync(@event, options);
+        }
+
+        public async Task EmailNotifyAsync<TNotification>(TNotification notification, string receiver, string sender = null) where TNotification : IFunkmapEmailNotification
+        {
+            var options = new MessageQueueOptions
+            {
+                SpecificKey = "funkmap_email"
+            };
+            
+            var @event = new EmailNotification()
+            {
+                Subject = notification.Subject,
+                Body = notification.Body,
+                Receiver = receiver,
+                Sender = sender
+            };
+            
             await _eventBus.PublishAsync(@event, options);
         }
 

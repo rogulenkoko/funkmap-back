@@ -9,6 +9,8 @@ using Funkmap.Domain.Notifications.BandInvite;
 using Funkmap.Domain.Parameters;
 using Funkmap.Logger;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
+using Funkmap.Notifications.Contracts.Models;
 using Newtonsoft.Json;
 
 namespace Funkmap.Domain.Services

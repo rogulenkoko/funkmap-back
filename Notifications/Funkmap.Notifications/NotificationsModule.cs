@@ -6,6 +6,7 @@ using Autofac.Integration.WebApi;
 using Funkmap.Common.Abstract;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Services;

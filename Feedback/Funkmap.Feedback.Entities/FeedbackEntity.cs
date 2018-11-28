@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Funkmap.Feedback.Domain;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -26,12 +27,5 @@ namespace Funkmap.Feedback.Entities
 
         [BsonElement("url")]
         public string DataUrl { get; set; }
-    }
-    
-    public enum FeedbackType
-    {
-        Another = 0,
-        Bug = 1,
-        Feature = 2
     }
 }

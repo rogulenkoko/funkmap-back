@@ -3,6 +3,7 @@ using Funkmap.Cqrs.Abstract;
 using Funkmap.Domain.Services;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
 

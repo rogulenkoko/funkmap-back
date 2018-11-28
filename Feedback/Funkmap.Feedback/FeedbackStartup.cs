@@ -2,12 +2,15 @@
 using System.IO;
 using System.Reflection;
 using Autofac;
+using Funkmap.Common.Core.Filters;
 using Funkmap.Common.Settings;
 using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
 using Funkmap.Logger;
 using Funkmap.Logger.Autofac;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,7 +46,10 @@ namespace Funkmap.Feedback
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<ValidateRequestModelFilter>();
+            });
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info { Title = "Funkmap feedback API", Version = "v1" });
@@ -88,6 +94,7 @@ namespace Funkmap.Feedback
             builder.RegisterType<InMemoryEventBus>().As<IEventBus>();
             builder.RegisterType<InMemoryCommandBus>().As<ICommandBus>();
             builder.RegisterType<CommandHandlerResolver>().As<ICommandHandlerResolver>();
+            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
             
             //builder.RegisterModule<LoggerModule>();
             

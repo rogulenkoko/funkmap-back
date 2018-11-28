@@ -4,6 +4,7 @@ using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Notifications;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Payments.Contracts.Events;
 
 namespace Funkmap.Domain.Services

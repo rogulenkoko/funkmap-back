@@ -14,7 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Funkmap.Common.Core\Funkmap.Common..Core.csproj" />
+    <ProjectReference Include="..\..\Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj" />
     <ProjectReference Include="..\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj" />
+    <ProjectReference Include="..\Funkmap.Feedback.Domain\Funkmap.Feedback.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

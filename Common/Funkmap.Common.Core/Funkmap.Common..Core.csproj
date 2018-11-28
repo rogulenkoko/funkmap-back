@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Funkmap.Common.Core</AssemblyName>
+        <RootNamespace>Funkmap.Common.Core</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Users\rogul_000\.nuget\packages\microsoft.aspnetcore.http.abstractions\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=2.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Users\rogul_000\.nuget\packages\microsoft.aspnetcore.mvc.abstractions\2.1.3\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=2.1.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Users\rogul_000\.nuget\packages\microsoft.aspnetcore.mvc.core\2.1.3\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Users\rogul_000\.nuget\packages\microsoft.extensions.configuration.abstractions\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.1.1" />
+      <PackageReference Include="Ngonzalez.ImageProcessorCore" Version="0.0.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    </ItemGroup>
+
+</Project>

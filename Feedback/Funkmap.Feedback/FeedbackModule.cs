@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Text;
 using Autofac;
+using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
 using Funkmap.Feedback.EventHandlers;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 
 namespace Funkmap.Feedback
 {
@@ -23,7 +27,7 @@ namespace Funkmap.Feedback
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate()
                 .SingleInstance();
-
+            
             Console.WriteLine("Feedback module has been loaded.");
         }
     }

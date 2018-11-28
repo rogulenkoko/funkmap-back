@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj" />
+      <ProjectReference Include="..\Funkmap.Feedback.Domain\Funkmap.Feedback.Domain.csproj" />
       <ProjectReference Include="..\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj" />
     </ItemGroup>
 

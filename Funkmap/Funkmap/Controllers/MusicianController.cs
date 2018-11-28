@@ -13,6 +13,7 @@ using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models.Requests;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 
 namespace Funkmap.Controllers
 {

@@ -1,47 +1,44 @@
 ﻿using System.Configuration;
-using System.Text;
 using System.Threading.Tasks;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
+using Funkmap.Feedback.Models;
+using Funkmap.Notifications.Contracts.Abstract;
 
 namespace Funkmap.Feedback.EventHandlers
 {
+    /// <summary>
+    /// FeedbackSavedEvent handler
+    /// </summary>
     public class FeedbackSavedEventHandler : IEventHandler<FeedbackSavedEvent>
     {
         private readonly IEventBus _eventBus;
+        private readonly IFunkmapNotificationService _notificationService;
 
-        public FeedbackSavedEventHandler(IEventBus eventBus)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="eventBus"><see cref="IEventBus"/></param>
+        /// <param name="notificationService"><see cref="IFunkmapNotificationService"/></param>
+        public FeedbackSavedEventHandler(IEventBus eventBus, IFunkmapNotificationService notificationService)
         {
             _eventBus = eventBus;
+            _notificationService = notificationService;
         }
 
+        ///<inheritdoc cref="IEventHandler.InitHandlers"/>
         public void InitHandlers()
         {
             _eventBus.Subscribe<FeedbackSavedEvent>(Handle);
         }
 
+        ///<inheritdoc cref="IEventHandler.Handle"/>
         public async Task Handle(FeedbackSavedEvent @event)
         {
-            var reciever = ConfigurationManager.AppSettings["email"];
+            var receiver = ConfigurationManager.AppSettings["email"];
 
-
-            var sb = new StringBuilder(@event.Feedback.Message);
-
-            if (@event.Feedback.Content != null && @event.Feedback.Content.Count > 0)
-            {
-                sb.AppendLine();
-                sb.AppendLine("Приложенные файлы:");
-                foreach (var contentItem in @event.Feedback.Content)
-                {
-                    sb.AppendLine(contentItem.DataUrl);
-                }
-                
-            }
-
-            //var message = new FeedbackNotification(reciever, @event.Feedback.FeedbackType, sb.ToString());
-
-            //todo send all this to our email
+            var notification = new FeedbackEmailNotification(@event.Feedback);
+            await _notificationService.EmailNotifyAsync(notification, receiver);
         }
-        
     }
 }

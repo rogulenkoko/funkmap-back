@@ -7,10 +7,11 @@ using Funkmap.Common.Models;
 using Funkmap.Common.Owin.Auth;
 using Funkmap.Common.Owin.Filters;
 using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Models;
 using Notification = Funkmap.Notifications.Domain.Models.Notification;
-using NotificationAnswer = Funkmap.Notifications.Contracts.NotificationAnswer;
+using NotificationAnswer = Funkmap.Notifications.Contracts.Models.NotificationAnswer;
 
 namespace Funkmap.Notifications.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace Funkmap.Notifications.Contracts
+﻿namespace Funkmap.Notifications.Contracts.Models
 {
     public class Notification
     {

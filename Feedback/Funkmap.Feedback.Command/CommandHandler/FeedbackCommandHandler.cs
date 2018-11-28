@@ -6,6 +6,7 @@ using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.Commands;
+using Funkmap.Feedback.Domain;
 using Funkmap.Feedback.Entities;
 using Funkmap.Logger;
 using MongoDB.Driver;
@@ -35,33 +36,33 @@ namespace Funkmap.Feedback.Command.CommandHandler
         {
             try
             {
-                if (String.IsNullOrEmpty(command.Message))
+                if (string.IsNullOrEmpty(command?.Item?.Message))
                 {
                     throw new InvalidDataException("Empty message");
                 }
 
                 var content = new List<FeedbackContentEntity>();
 
-                if (command.Content != null)
+                if (command.Item.Content != null)
                 {
-                    foreach (var contentItem in command.Content)
+                    foreach (var contentItem in command.Item.Content)
                     {
                         var name = $"{DateTime.UtcNow:yyyyMMddhhmmss}_{contentItem.Name}";
                         var url = await _fileStorage.UploadFromBytesAsync(name, contentItem.Data);
-                        content.Add(new FeedbackContentEntity() {Name = name, DataUrl = url});
+                        contentItem.DataUrl = url;
+                        content.Add(new FeedbackContentEntity {Name = name, DataUrl = url});
                     }
-                    
                 }
 
-                var entity = new FeedbackEntity()
+                var entity = new FeedbackEntity
                 {
-                    FeedbackType = command.FeedbackType,
-                    Message = command.Message,
+                    FeedbackType = command.Item.FeedbackType,
+                    Message = command?.Item.Message,
                     Content = content
                 };
-
+                
                 await _collection.InsertOneAsync(entity);
-                await _eventBus.PublishAsync(new FeedbackSavedEvent(entity));
+                await _eventBus.PublishAsync(new FeedbackSavedEvent(command.Item));
             }
             catch (InvalidDataException e)
             {
@@ -71,7 +72,6 @@ namespace Funkmap.Feedback.Command.CommandHandler
             {
                 _logger.Error(e);
             }
-            
         }
     }
 }

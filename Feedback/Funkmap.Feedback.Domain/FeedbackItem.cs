@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Funkmap.Feedback.Entities;
 
-namespace Funkmap.Feedback.Models
+namespace Funkmap.Feedback.Domain
 {
     /// <summary>
     /// Feedback request model

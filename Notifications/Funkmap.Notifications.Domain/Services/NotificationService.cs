@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Notifications.Domain.Abstract;
 using Funkmap.Notifications.Domain.Events;
-using Notification = Funkmap.Notifications.Contracts.Notification;
+using Notification = Funkmap.Notifications.Contracts.Models.Notification;
 
 namespace Funkmap.Notifications.Domain.Services
 {

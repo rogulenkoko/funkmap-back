@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Funkmap.Common.Models;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command.Commands;
+using Funkmap.Feedback.Domain;
 using Funkmap.Feedback.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,16 +37,14 @@ namespace Funkmap.Feedback.Controllers
         {
             try
             {
-                await _commandBus.ExecuteAsync(new FeedbackCommand(item.FeedbackType, item.Message)
-                {
-                    Content = item.Content?.Select(x => new FeedbackContent {Name = x.Name, Data = x.Data}).ToList()
-                });
+                var feedbackCommand = new FeedbackCommand(item);
+                await _commandBus.ExecuteAsync(feedbackCommand);
 
-                return Ok(new BaseResponse() {Success = true});
+                return Ok(new BaseResponse {Success = true});
             }
             catch (Exception e)
             {
-                return Ok(new BaseResponse() {Success = false, Error = e.Message});
+                return Ok(new BaseResponse {Success = false, Error = e.Message});
             }
         }
     }
