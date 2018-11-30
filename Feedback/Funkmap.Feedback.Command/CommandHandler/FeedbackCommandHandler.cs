@@ -58,7 +58,8 @@ namespace Funkmap.Feedback.Command.CommandHandler
                 {
                     FeedbackType = command.Item.FeedbackType,
                     Message = command?.Item.Message,
-                    Content = content
+                    Content = content,
+                    Created = DateTime.UtcNow
                 };
                 
                 await _collection.InsertOneAsync(entity);

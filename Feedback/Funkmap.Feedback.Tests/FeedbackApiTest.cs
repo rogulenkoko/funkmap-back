@@ -3,23 +3,27 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Funkmap.Common.Models;
+using Funkmap.Feedback.Command;
 using Funkmap.Feedback.Domain;
+using Funkmap.Feedback.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using Xunit;
 
 namespace Funkmap.Feedback.Tests
 {
-    public class FeedbackTest
+    public class FeedbackApiTest
     {
         private readonly HttpClient _client;
         private readonly IConfiguration _configuration;
         
-        public FeedbackTest()
+        public FeedbackApiTest()
         {
             _configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json").Build();
@@ -29,6 +33,7 @@ namespace Funkmap.Feedback.Tests
                 .ConfigureServices(x => x.AddAutofac())
                 .UseConfiguration(_configuration)
             );
+            
             _client = server.CreateClient();
         }
         
@@ -38,15 +43,15 @@ namespace Funkmap.Feedback.Tests
             var apiUrl = "api/feedback";
             var feedbackItem = new FeedbackItem();
             var httpResponse = await _client.PostAsJsonAsync(apiUrl, feedbackItem);
-            Assert.Equal(httpResponse.StatusCode, HttpStatusCode.BadRequest);
+            Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
 
             feedbackItem.FeedbackType = FeedbackType.Bug;
             httpResponse = await _client.PostAsJsonAsync(apiUrl, feedbackItem);
-            Assert.Equal(httpResponse.StatusCode, HttpStatusCode.BadRequest);
+            Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
 
             feedbackItem.Message = "Some message";
             httpResponse = await _client.PostAsJsonAsync(apiUrl, feedbackItem);
-            Assert.Equal(httpResponse.StatusCode, HttpStatusCode.OK);
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
             
             var responseJson = await httpResponse.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<BaseResponse>(responseJson);
@@ -56,23 +61,30 @@ namespace Funkmap.Feedback.Tests
         }
         
         [Fact]
-        public async Task CreateFeedbackNotificationTest()
+        public async Task CreateFeedbackCreatedTest()
         {
             var apiUrl = "api/feedback";
+            var uniqueMessage = Guid.NewGuid().ToString();
             var feedbackItem = new FeedbackItem
             {
-                Message = "Some message",
+                Message = uniqueMessage,
                 FeedbackType = FeedbackType.Another
             };
             
             var httpResponse = await _client.PostAsJsonAsync(apiUrl, feedbackItem);
-            Assert.Equal(httpResponse.StatusCode, HttpStatusCode.OK);
+            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+
+            var builder = new ContainerBuilder();
+            builder.RegisterFeedbackCommandModule(_configuration);
+            var container = builder.Build();
+            var collection = container.Resolve<IMongoCollection<FeedbackEntity>>();
+            var savedFeedbackItem = await collection.Find(x => true)
+                .Sort(Builders<FeedbackEntity>.Sort.Descending(x => x.Created))
+                .Limit(1)
+                .SingleOrDefaultAsync();
             
-            var responseJson = await httpResponse.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<BaseResponse>(responseJson);
-            Assert.NotNull(response);
-            Assert.True(response.Success);
-            Assert.True(string.IsNullOrEmpty(response.Error));
+            Assert.NotNull(savedFeedbackItem);
+            Assert.Equal(uniqueMessage, savedFeedbackItem.Message);
         }
     }
 }
