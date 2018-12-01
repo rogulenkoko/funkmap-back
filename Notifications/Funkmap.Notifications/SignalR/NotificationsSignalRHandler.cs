@@ -3,7 +3,7 @@ using Funkmap.Cqrs.Abstract;
 using Funkmap.Notifications.Domain.Events;
 using Funkmap.Notifications.Domain.Services.Abstract;
 using Funkmap.Notifications.Hubs;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Funkmap.Notifications.SignalR
 {
@@ -11,11 +11,15 @@ namespace Funkmap.Notifications.SignalR
     {
         private readonly IEventBus _messageBus;
         private readonly INotificationsConnectionService _connectionService;
+        private readonly IHubContext<NotificationsHub> _hubContext;
 
-        public NotificationsSignalRHandler(IEventBus messageBus, INotificationsConnectionService connectionService)
+        public NotificationsSignalRHandler(IEventBus messageBus, 
+            INotificationsConnectionService connectionService,
+            IHubContext<NotificationsHub> hubContext)
         {
             _messageBus = messageBus;
             _connectionService = connectionService;
+            _hubContext = hubContext;
         }
 
         public void InitHandlers()
@@ -26,11 +30,10 @@ namespace Funkmap.Notifications.SignalR
         public async Task Handle(NotificationSavedEvent @event)
         {
             //уведомление по SignalR
-            var recievers = _connectionService.GetConnectionIdsByLogin(@event.Notification.ReceiverLogin);
+            var receivers = _connectionService.GetConnectionIdsByLogin(@event.Notification.ReceiverLogin);
 
-            await GlobalHost.ConnectionManager.GetHubContext<NotificationsHub, INotificationsHub>()
-                .Clients.Clients(recievers)
-                .OnNotificationRecieved(@event.Notification);
+            await _hubContext.Clients.Clients(receivers)
+                .SendAsync("OnNotificationRecieved", @event.Notification);
         }
 
         

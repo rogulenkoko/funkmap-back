@@ -2,28 +2,29 @@
 using System.IO;
 using System.Reflection;
 using Autofac;
+using Funkmap.Common.Core.Auth;
 using Funkmap.Common.Core.Filters;
 using Funkmap.Common.Settings;
 using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
-using Funkmap.Feedback.Command;
 using Funkmap.Logger;
 using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
+using Funkmap.Notifications.Data;
+using Funkmap.Notifications.Hubs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Config;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace Funkmap.Feedback
+namespace Funkmap.Notifications.Web
 {
-    /// <summary>
-    /// Run Feedback service
-    /// </summary>
-    public class FeedbackStartup
+    public class Startup
     {
         private IConfiguration Configuration { get; }
         
@@ -31,18 +32,34 @@ namespace Funkmap.Feedback
         /// Constructor
         /// </summary>
         /// <param name="configuration"><see cref="IConfiguration"/></param>
-        public FeedbackStartup(IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
         
-        /// <summary>
-        /// This method gets called by the runtime. Use this method to add services to the container.
-        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        /// </summary>
-        /// <param name="services"><see cref="IServiceCollection"/></param>
+        
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var authOptions = new FunkmapJwtOptions(Configuration);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = authOptions.Issuer,
+                        ValidAudience = authOptions.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(authOptions.Key))
+                    };
+                });
+            
             services.AddCors();
             services.AddMvc(options =>
             {
@@ -52,19 +69,35 @@ namespace Funkmap.Feedback
             {
                 options.SwaggerDoc("v1", new Info { Title = "Funkmap feedback API", Version = "v1" });
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name.Replace(".Web","")}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
+                
+                options.AddSecurityDefinition("Bearer", new OAuth2Scheme
+                {
+                    Flow = "password",
+                    TokenUrl = authOptions.TokenUrl,
+                });
+
+                options.DocumentFilter<OAuthDocumentFilter>();
             });
+            
+            services.AddSignalR();
         }
 
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotificationsHub>("/notifications");
+            });
             
             app.UseCors(builder =>
             {
@@ -84,18 +117,13 @@ namespace Funkmap.Feedback
             app.UseMvc();
         }
 
-        /// <summary>
-        /// Configure Autofac container
-        /// </summary>
-        /// <param name="builder"><see cref="ContainerBuilder"/></param>
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterFeedbackModule();
-            builder.RegisterFeedbackCommandModule(Configuration);
-
+            builder.RegisterNotificationModule();
+            builder.RegisterNotificationDataModule(Configuration);
+            
             builder.RegisterType<InMemoryEventBus>().As<IEventBus>();
             builder.RegisterType<InMemoryCommandBus>().As<ICommandBus>();
-            builder.RegisterType<CommandHandlerResolver>().As<ICommandHandlerResolver>();
             builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
             
             //builder.RegisterModule<LoggerModule>();

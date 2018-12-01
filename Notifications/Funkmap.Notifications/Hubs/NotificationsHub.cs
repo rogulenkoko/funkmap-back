@@ -1,14 +1,12 @@
-﻿using System.Threading.Tasks;
-using Funkmap.Common.Owin.Filters;
+﻿using System;
+using System.Threading.Tasks;
 using Funkmap.Notifications.Domain.Services.Abstract;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Funkmap.Notifications.Hubs
 {
-    [HubName("notifications")]
-    [ValidateRequestModel]
-    public class NotificationsHub : Hub<INotificationsHub>
+    /// <inheritdoc cref="INotificationsHub"/>
+    public class NotificationsHub : Hub
     {
         private readonly INotificationsConnectionService _connectionService;
 
@@ -17,26 +15,19 @@ namespace Funkmap.Notifications.Hubs
             _connectionService = connectionService;
         }
         
-        public override Task OnConnected()
+        public override Task OnConnectedAsync()
         {
             var connectionId = Context.ConnectionId;
-            var login = Context.QueryString["login"];
-
+            var login = (string)Context.Items["login"];
             _connectionService.AddOnlineUser(connectionId, login);
-
-            return base.OnConnected();
+            return base.OnConnectedAsync();
         }
 
-
-        public override Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-
             var connectionId = Context.ConnectionId;
-
-            string login;
-            _connectionService.RemoveOnlineUser(connectionId, out login);
-
-            return base.OnDisconnected(stopCalled);
+            _connectionService.RemoveOnlineUser(connectionId, out var login);
+            return base.OnDisconnectedAsync(exception);
         }
     }
 }

@@ -1,25 +1,24 @@
-﻿using System.Configuration;
-using Autofac;
-using Funkmap.Common.Abstract;
+﻿using Autofac;
 using Funkmap.Notifications.Data.Entities;
+using Funkmap.Notifications.Domain.Abstract;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
 namespace Funkmap.Notifications.Data
 {
-    public class NotificationsMongoModule : IFunkmapModule
+    public static class NotificationsMongoModule
     {
-        public void Register(ContainerBuilder builder)
+        public static void RegisterNotificationDataModule(this ContainerBuilder builder, IConfiguration config)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["FunkmapNotificationsMongoConnection"].ConnectionString;
-            var databaseName = ConfigurationManager.AppSettings["FunkmapNotificationsDbName"];
-            var mongoClient = new MongoClient(connectionString);
+            var mongoClient = new MongoClient(config["Mongo:Connection"]);
+            var databaseName = "notifications";
 
-            var databaseIocName = "notifications";
+            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseName).SingleInstance();
 
-            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
-
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<NotificationEntity>(NotificationsCollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<NotificationEntity>(NotificationsCollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<NotificationEntity>>();
+            
+            builder.RegisterType<NotificationRepository>().As<INotificationRepository>();
         }
     }
 }

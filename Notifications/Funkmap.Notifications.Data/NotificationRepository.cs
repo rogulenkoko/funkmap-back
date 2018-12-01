@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Notifications.Data.Entities;
 using Funkmap.Notifications.Data.Mappers;
 using Funkmap.Notifications.Domain.Abstract;
@@ -10,10 +9,13 @@ using MongoDB.Driver;
 
 namespace Funkmap.Notifications.Data
 {
-    public class NotificationRepository : RepositoryBase<NotificationEntity>, INotificationRepository
+    public class NotificationRepository : INotificationRepository
     {
-        public NotificationRepository(IMongoCollection<NotificationEntity> collection) : base(collection)
+        private readonly IMongoCollection<NotificationEntity> _collection;
+        
+        public NotificationRepository(IMongoCollection<NotificationEntity> collection)
         {
+            _collection = collection;
         }
 
         public async Task<Notification> GetAsync(string id)

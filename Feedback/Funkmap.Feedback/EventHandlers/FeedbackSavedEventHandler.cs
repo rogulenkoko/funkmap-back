@@ -32,7 +32,7 @@ namespace Funkmap.Feedback.EventHandlers
             _eventBus.Subscribe<FeedbackSavedEvent>(Handle);
         }
 
-        ///<inheritdoc cref="IEventHandler.Handle"/>
+        ///<inheritdoc cref="IEventHandler{T}.Handle"/>
         public async Task Handle(FeedbackSavedEvent @event)
         {
             var receiver = ConfigurationManager.AppSettings["email"];
