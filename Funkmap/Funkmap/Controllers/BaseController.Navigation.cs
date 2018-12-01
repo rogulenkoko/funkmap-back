@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using Funkmap.Common.Owin.Filters;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
@@ -13,12 +9,12 @@ using Funkmap.Models.Requests;
 using Funkmap.Models.Responses;
 using Funkmap.Tools;
 using Funkmap.Tools.Abstract;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Funkmap.Controllers
 {
-    [RoutePrefix("api/base")]
-    [ValidateRequestModel]
-    public partial class BaseController : ApiController
+    [Route("api/base")]
+    public partial class BaseController : Controller
     {
         private readonly IBaseQueryRepository _queryRepository;
         private readonly IBaseCommandRepository _commandRepository;
@@ -43,9 +39,8 @@ namespace Funkmap.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(List<SearchItem>))]
         [Route("nearest")]
-        public async Task<IHttpActionResult> GetFullNearest(FullLocationRequest request)
+        public async Task<IActionResult> GetFullNearest(FullLocationRequest request)
         {
             var parameters = new LocationParameter
             {
@@ -57,7 +52,7 @@ namespace Funkmap.Controllers
             };
             List<SearchItem> searchModels = await _queryRepository.GetNearestAsync(parameters);
             Request.SetProfilesCorrectAvatarUrls(searchModels);
-            return Content(HttpStatusCode.OK, searchModels);
+            return Ok(searchModels);
         }
 
 
@@ -67,9 +62,8 @@ namespace Funkmap.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(List<Marker>))]
         [Route("nearest/markers")]
-        public async Task<IHttpActionResult> GetNearest(LocationRequest request)
+        public async Task<ActionResult> GetNearest(LocationRequest request)
         {
             var parameters = new LocationParameter()
             {
@@ -80,7 +74,7 @@ namespace Funkmap.Controllers
             };
             List<Marker> markers = await _queryRepository.GetNearestMarkersAsync(parameters);
 
-            return Content(HttpStatusCode.OK, markers);
+            return Ok(markers);
         }
         
 
@@ -91,7 +85,7 @@ namespace Funkmap.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("filtered")]
-        public async Task<IHttpActionResult> GetFiltered(FilteredRequest request)
+        public async Task<IActionResult> GetFiltered(FilteredRequest request)
         {
             var commonParameter = new CommonFilterParameter()
             {
@@ -126,9 +120,8 @@ namespace Funkmap.Controllers
         /// <param name="request">Filtration parameters</param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(List<Marker>))]
         [Route("filtered/markers")]
-        public async Task<IHttpActionResult> GetFilteredMarkers(FilteredRequest request)
+        public async Task<IActionResult> GetFilteredMarkers(FilteredRequest request)
         {
             var commonParameter = new CommonFilterParameter
             {
@@ -152,11 +145,9 @@ namespace Funkmap.Controllers
         /// Get base information about specific profiles.
         /// </summary>
         /// <param name="logins">Profile's logins</param>
-        /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(List<SearchItem>))]
         [Route("specific")]
-        public async Task<IHttpActionResult> GetSpecific(string[] logins)
+        public async Task<IActionResult> GetSpecific(string[] logins)
         {
             List<SearchItem> items = await _queryRepository.GetSpecificAsync(logins);
             Request.SetProfilesCorrectAvatarUrls(items);
@@ -169,9 +160,8 @@ namespace Funkmap.Controllers
         /// <param name="logins">Specefic profiles logins</param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(List<Marker>))]
         [Route("specific/markers")]
-        public async Task<IHttpActionResult> GetSpecificMarkers(string[] logins)
+        public async Task<IActionResult> GetSpecificMarkers(string[] logins)
         {
             List<Marker> items = await _queryRepository.GetSpecificMarkersAsync(logins);
             return Ok(items);

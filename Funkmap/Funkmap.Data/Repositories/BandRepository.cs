@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Domain;
 using Funkmap.Domain.Abstract.Repositories;
@@ -10,10 +9,13 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BandRepository : RepositoryBase<BandEntity>, IBandRepository
+    public class BandRepository : IBandRepository
     {
-        public BandRepository(IMongoCollection<BandEntity> collection) : base(collection)
+        private readonly IMongoCollection<BandEntity> _collection;
+        
+        public BandRepository(IMongoCollection<BandEntity> collection)
         {
+            _collection = collection;
         }
 
         public async Task ProcessMusicianDependenciesAsync(Musician musician, Musician updatedMusician = null)

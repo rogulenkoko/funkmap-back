@@ -1,25 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Funkmap.Common.Core.Auth;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Auth;
-using Funkmap.Common.Owin.Filters;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Notifications.BandInvite;
 using Funkmap.Domain.Parameters;
 using Funkmap.Domain.Services.Abstract;
 using Funkmap.Models.Requests;
-using Funkmap.Notifications.Contracts;
 using Funkmap.Notifications.Contracts.Abstract;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Funkmap.Controllers
 {
-    [RoutePrefix("api/musician")]
-    [ValidateRequestModel]
-    public class MusicianController : ApiController
+    [Route("api/musician")]
+    public class MusicianController : Controller
     {
         private readonly IBaseQueryRepository _baseQueryRepository;
         private readonly IFunkmapNotificationService _notificationService;
@@ -40,15 +37,13 @@ namespace Funkmap.Controllers
         /// <summary>
         /// Invite musicians to the band.
         /// </summary>
-        /// <param name="membersRequest"></param>
-        /// <returns></returns>
+        /// <param name="membersRequest"><see cref="UpdateBandMembersRequest"/></param>
         [Authorize]
         [HttpPost]
-        [ResponseType(typeof(List<InviteBandResponse>))]
         [Route("invite")]
-        public async Task<IHttpActionResult> InviteManyMusician(UpdateBandMembersRequest membersRequest)
+        public async Task<IActionResult> InviteManyMusician(UpdateBandMembersRequest membersRequest)
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
 
             var response = new List<InviteBandResponse>();
 
@@ -82,15 +77,13 @@ namespace Funkmap.Controllers
         /// <summary>
         /// Leave band (if musician is a participant of the band).
         /// </summary>
-        /// <param name="membersRequest"></param>
-        /// <returns></returns>
+        /// <param name="membersRequest"><see cref="UpdateBandMemberRequest"/></param>
         [Authorize]
         [HttpPost]
-        [ResponseType(typeof(BaseResponse))]
         [Route("remove-band")]
-        public async Task<IHttpActionResult> LeaveBand(UpdateBandMemberRequest membersRequest)
+        public async Task<IActionResult> LeaveBand(UpdateBandMemberRequest membersRequest)
         {
-            var userLogin = Request.GetLogin();
+            var userLogin = User.GetLogin();
             var musician = await _baseQueryRepository.GetAsync<Musician>(membersRequest.MusicianLogin);
 
             var musicianUpdate = new Musician

@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Funkmap.Models.Requests
 {
@@ -8,16 +7,18 @@ namespace Funkmap.Models.Requests
         [Required]
         public double? RadiusKm { get; set; }
 
-        [Required]
+        
         /// <summary>
         /// Широта объекта относительно которого надо искать
         /// </summary>
+        [Required]
         public double? Latitude { get; set; }
 
-        [Required]
+        
         /// <summary>
         /// Долгота объекта относительно которого надо искать
         /// </summary>
+        [Required]
         public double? Longitude { get; set; }
 
         [Required]

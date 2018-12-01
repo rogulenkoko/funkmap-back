@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Funkmap.Common.Core.Auth;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Auth;
-using Funkmap.Domain;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Mappers;
 using Funkmap.Models;
 using Funkmap.Models.Requests;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using EntityType = Funkmap.Domain.EntityType;
 
 namespace Funkmap.Controllers
 {
-    [RoutePrefix("api/band")]
-    public class BandController : ApiController
+    [Route("api/band")]
+    public class BandController : Controller
     {
         private readonly IBaseQueryRepository _baseQueryRepository;
         private readonly IBaseCommandRepository _commandRepository;
@@ -33,14 +33,12 @@ namespace Funkmap.Controllers
         /// Get information about bands in which you can invite musicians.
         /// (Musician is not a participant of the band and haven't invited yet.)
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [Authorize]
-        [ResponseType(typeof(BandInviteInfo))]
         [Route("invite/{login}")]
-        public async Task<IHttpActionResult> GetInviteMusicianInfo(string login)
+        public async Task<IActionResult> GetInviteMusicianInfo(string login)
         {
-            var userLogin = Request.GetLogin();
+            var userLogin = User.GetLogin();
 
             var parameter = new CommonFilterParameter
             {
@@ -71,11 +69,10 @@ namespace Funkmap.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        [ResponseType(typeof(BaseResponse))]
         [Route("remove-musician")]
-        public async Task<IHttpActionResult> RemoveMusicianFromBand(UpdateBandMemberRequest membersRequest)
+        public async Task<IActionResult> RemoveMusicianFromBand(UpdateBandMemberRequest membersRequest)
         {
-            var userLogin = Request.GetLogin();
+            var userLogin = User.GetLogin();
             var band = await _baseQueryRepository.GetAsync<Band>(membersRequest.BandLogin);
 
             var bandUpdate = new Band

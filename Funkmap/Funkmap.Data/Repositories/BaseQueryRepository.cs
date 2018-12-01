@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Mappers;
 using Funkmap.Data.Services.Abstract;
@@ -17,17 +16,20 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BaseQueryRepository : RepositoryBase<BaseEntity>, IBaseQueryRepository
+    public class BaseQueryRepository : IBaseQueryRepository
     {
         private readonly IFilterFactory _filterFactory;
         private readonly IFileStorage _fileStorage;
-
+        private readonly IMongoCollection<BaseEntity> _collection;
+        
+        
         public BaseQueryRepository(IMongoCollection<BaseEntity> collection,
                               [KeyFilter(CollectionNameProvider.StorageName)]IFileStorage fileStorage,
-                              IFilterFactory filterFactory) : base(collection)
+                              IFilterFactory filterFactory)
         {
             _filterFactory = filterFactory;
             _fileStorage = fileStorage;
+            _collection = collection;
         }
 
         public async Task<Profile> GetAsync(string login)

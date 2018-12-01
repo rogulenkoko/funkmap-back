@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Data.Mongo;
+using Funkmap.Common.Core.Tools;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Tools;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Data.Entities.Entities.Abstract;
 using Funkmap.Data.Mappers;
@@ -22,20 +21,22 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class BaseCommandRepository : RepositoryBase<BaseEntity>, IBaseCommandRepository
+    public class BaseCommandRepository : IBaseCommandRepository
     {
         private readonly IFileStorage _fileStorage;
         private readonly ICollection<IUpdateDefinitionBuilder> _specificUpdateDefenitionBuilders;
         private readonly IEventBus _eventBus;
+        private readonly IMongoCollection<BaseEntity> _collection;
 
         public BaseCommandRepository(IMongoCollection<BaseEntity> collection,
             [KeyFilter(CollectionNameProvider.StorageName)]IFileStorage fileStorage,
             ICollection<IUpdateDefinitionBuilder> specificUpdateDefenitionBuilders,
-            IEventBus eventBus) : base(collection)
+            IEventBus eventBus)
         {
             _fileStorage = fileStorage;
             _specificUpdateDefenitionBuilders = specificUpdateDefenitionBuilders;
             _eventBus = eventBus;
+            _collection = collection;
         }
 
         public async Task<ICommandResponse> CreateAsync(ICommandParameter<Profile> parameter)

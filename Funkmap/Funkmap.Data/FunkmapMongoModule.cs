@@ -18,7 +18,7 @@ using Funkmap.Data.Services.Abstract;
 using Funkmap.Data.Services.Update;
 using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Events;
-using Microsoft.Azure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MongoDB.Driver;
@@ -26,39 +26,37 @@ using MongoDB.Driver.GridFS;
 
 namespace Funkmap.Data
 {
-    public class FunkmapMongoModule : IFunkmapModule
+    public static class FunkmapMongoModule
     {
-        public void Register(ContainerBuilder builder)
+        public static void RegisterFunkmapDataModule(this ContainerBuilder builder, IConfiguration config)
         {
             //MongoDB
-            var connectionString = ConfigurationManager.ConnectionStrings["FunkmapMongoConnection"].ConnectionString;
-            var databaseName = ConfigurationManager.AppSettings["FunkmapDbName"];
-            var mongoClient = new MongoClient(connectionString);
+            var mongoClient = new MongoClient(config["Mongo:Connection"]);
 
-            var databaseIocName = "funkmap";
+            var databaseName = "funkmap";
 
-            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseIocName).SingleInstance();
+            builder.Register(x => mongoClient.GetDatabase(databaseName)).As<IMongoDatabase>().Named<IMongoDatabase>(databaseName).SingleInstance();
 
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<BaseEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BaseEntity>>();
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<MusicianEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<MusicianEntity>>();
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<BandEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<BandEntity>>();
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<ShopEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<ShopEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<ShopEntity>>();
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<RehearsalPointEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<RehearsalPointEntity>>();
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<StudioEntity>(CollectionNameProvider.BaseCollectionName))
                 .As<IMongoCollection<StudioEntity>>();
 
-            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseIocName).GetCollection<ProAccountEntity>(CollectionNameProvider.ProAccountCollectionName))
+            builder.Register(container => container.ResolveNamed<IMongoDatabase>(databaseName).GetCollection<ProAccountEntity>(CollectionNameProvider.ProAccountCollectionName))
                 .As<IMongoCollection<ProAccountEntity>>();
 
 
@@ -140,7 +138,7 @@ namespace Funkmap.Data
                 case StorageType.Azure:
                     builder.Register(container =>
                     {
-                        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("azure-storage"));
+                        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(config["FileStorage:Azure"]);
                         CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                         return new AzureFileStorage(blobClient, CollectionNameProvider.StorageName);
                     }).Keyed<IFileStorage>(CollectionNameProvider.StorageName).SingleInstance();
@@ -150,7 +148,7 @@ namespace Funkmap.Data
 
                     builder.Register(container =>
                     {
-                        var database = container.ResolveNamed<IMongoDatabase>(databaseIocName);
+                        var database = container.ResolveNamed<IMongoDatabase>(databaseName);
                         var gridFs = new GridFSBucket(database);
                         return new GridFsFileStorage(gridFs);
                     }).Keyed<GridFsFileStorage>(CollectionNameProvider.StorageName);

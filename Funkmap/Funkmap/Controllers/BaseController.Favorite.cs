@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Funkmap.Common.Core.Auth;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Auth;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Models.Requests;
 using Funkmap.Tools;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Funkmap.Controllers
 {
@@ -16,14 +16,12 @@ namespace Funkmap.Controllers
         /// <summary>
         /// Get marked as favourite profile's base inforamation.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(List<SearchItem>))]
         [Authorize]
         [Route("favorites")]
-        public async Task<IHttpActionResult> GetFavorites()
+        public async Task<IActionResult> GetFavorites()
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
             List<string> favoritesLogins = await _queryRepository.GetFavoritesLoginsAsync(login);
             List<SearchItem> favorites = await _queryRepository.GetSpecificAsync(favoritesLogins);
             Request.SetProfilesCorrectAvatarUrls(favorites);
@@ -33,13 +31,12 @@ namespace Funkmap.Controllers
         /// <summary>
         /// Get marked as favourite profile's logins.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("favorites/logins")]
-        public async Task<IHttpActionResult> GetFavoritesLogins()
+        public async Task<IActionResult> GetFavoritesLogins()
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
             var favoritesLogins = await _queryRepository.GetFavoritesLoginsAsync(login);
             return Ok(favoritesLogins);
         }
@@ -47,14 +44,12 @@ namespace Funkmap.Controllers
         /// <summary>
         /// Add or delete favourite profile.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request"><see cref="UpdateFavoriteRequest"/></param>
         [Authorize]
         [Route("favorites")]
-        [ResponseType(typeof(BaseResponse))]
-        public async Task<IHttpActionResult> UpdateFavorite(UpdateFavoriteRequest request)
+        public async Task<IActionResult> UpdateFavorite(UpdateFavoriteRequest request)
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
             var parameter = new UpdateFavoriteParameter
             {
                 ProfileLogin = request.EntityLogin,

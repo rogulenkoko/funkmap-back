@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Funkmap.Common.Data.Mongo;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Data.Mappers;
 using Funkmap.Domain.Abstract.Repositories;
@@ -9,10 +8,13 @@ using MongoDB.Driver;
 
 namespace Funkmap.Data.Repositories
 {
-    public class ProAccountRepository : RepositoryBase<ProAccountEntity>, IProAccountRepository
+    public class ProAccountRepository : IProAccountRepository
     {
-        public ProAccountRepository(IMongoCollection<ProAccountEntity> collection) : base(collection)
+        private readonly IMongoCollection<ProAccountEntity> _collection;
+        
+        public ProAccountRepository(IMongoCollection<ProAccountEntity> collection)
         {
+            _collection = collection;
         }
 
         public async Task CreateAsync(ProAccount proAccount)

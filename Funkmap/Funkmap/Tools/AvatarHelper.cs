@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using Funkmap.Common.Owin.Extensions;
+using Funkmap.Common.Core.Extensions;
 using Funkmap.Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Funkmap.Tools
 {
@@ -16,7 +16,7 @@ namespace Funkmap.Tools
         /// </summary>
         /// <param name="request">Current http-request</param>
         /// <param name="model">Model</param>
-        public static void SetProfileCorrectAvatarUrls(this HttpRequestMessage request, IHasAvatar model)
+        public static void SetProfileCorrectAvatarUrls(this HttpRequest request, IHasAvatar model)
         {
             if (model == null) return;
             model.AvatarUrl = request.ToAbsoluteMediaUrl(model.AvatarUrl, $"api/base/avatar/{model.Login}?date={DateTime.UtcNow}");
@@ -28,7 +28,7 @@ namespace Funkmap.Tools
         /// </summary>
         /// <param name="request">Current http-request</param>
         /// <param name="models">Collection of models</param>
-        public static void SetProfilesCorrectAvatarUrls(this HttpRequestMessage request, IEnumerable<IHasAvatar> models)
+        public static void SetProfilesCorrectAvatarUrls(this HttpRequest request, IEnumerable<IHasAvatar> models)
         {
             foreach (var model in models)
             {

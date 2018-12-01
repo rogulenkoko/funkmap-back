@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Build.Framework;
+using System.ComponentModel.DataAnnotations;
 
 namespace Funkmap.Models.Requests
 {
