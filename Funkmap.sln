@@ -57,33 +57,35 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Payments.Contracts"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Auth.Domain", "Auth\Funkmap.Auth.Domain\Funkmap.Auth.Domain.csproj", "{2F87AAF2-1D51-4FF1-9278-11C3A035FD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Domain", "Funkmap\Funkmap.Domain\Funkmap.Domain.csproj", "{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Domain", "Funkmap\Funkmap.Domain\Funkmap.Domain.csproj", "{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Web", "Feedback\Funkmap.Feedback.Web\Funkmap.Feedback.Web.csproj", "{CF40BABF-19E7-4DB2-840B-6844B8872E9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Web", "Feedback\Funkmap.Feedback.Web\Funkmap.Feedback.Web.csproj", "{CF40BABF-19E7-4DB2-840B-6844B8872E9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback", "Feedback\Funkmap.Feedback\Funkmap.Feedback.csproj", "{A6561F70-F877-4AB3-95E3-530BBF5771BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback", "Feedback\Funkmap.Feedback\Funkmap.Feedback.csproj", "{A6561F70-F877-4AB3-95E3-530BBF5771BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Entities", "Feedback\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj", "{C03CEF9C-CD16-450B-951C-52EE03F04C3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Entities", "Feedback\Funkmap.Feedback.Entities\Funkmap.Feedback.Entities.csproj", "{C03CEF9C-CD16-450B-951C-52EE03F04C3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Command", "Feedback\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj", "{91CFE26B-C313-444A-9F84-D1AAFCF3CBD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Command", "Feedback\Funkmap.Feedback.Command\Funkmap.Feedback.Command.csproj", "{91CFE26B-C313-444A-9F84-D1AAFCF3CBD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common.Data.Mongo", "Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj", "{8C70AD41-ACC9-4D95-9E5C-CDEACBD0AB05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Common.Data.Mongo", "Common\Funkmap.Common.Data.Mongo\Funkmap.Common.Data.Mongo.csproj", "{8C70AD41-ACC9-4D95-9E5C-CDEACBD0AB05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Domain", "Feedback\Funkmap.Feedback.Domain\Funkmap.Feedback.Domain.csproj", "{D279AC9A-7C90-47D6-B0D2-B32E1BD86D3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Domain", "Feedback\Funkmap.Feedback.Domain\Funkmap.Feedback.Domain.csproj", "{D279AC9A-7C90-47D6-B0D2-B32E1BD86D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Feedback.Tests", "Feedback\Funkmap.Feedback.Tests\Funkmap.Feedback.Tests.csproj", "{E482BC13-E736-403F-A4D8-BB944A329423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Tests", "Feedback\Funkmap.Feedback.Tests\Funkmap.Feedback.Tests.csproj", "{E482BC13-E736-403F-A4D8-BB944A329423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common..Core", "Common\Funkmap.Common.Core\Funkmap.Common..Core.csproj", "{D8F83170-5FFC-4896-B751-3D83E5EFE0FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Common..Core", "Common\Funkmap.Common.Core\Funkmap.Common..Core.csproj", "{D8F83170-5FFC-4896-B751-3D83E5EFE0FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications.Domain", "Notifications\Funkmap.Notifications.Domain\Funkmap.Notifications.Domain.csproj", "{E2EEA3F1-BFFC-490C-A5C4-74834D33EC9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Domain", "Notifications\Funkmap.Notifications.Domain\Funkmap.Notifications.Domain.csproj", "{E2EEA3F1-BFFC-490C-A5C4-74834D33EC9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications.Contracts", "Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj", "{A05D27B6-FD7C-4380-B8B6-62B9014C6675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Contracts", "Notifications\Funkmap.Notifications.Contracts\Funkmap.Notifications.Contracts.csproj", "{A05D27B6-FD7C-4380-B8B6-62B9014C6675}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications.Data", "Notifications\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj", "{642AE4CF-4B8A-418E-86F9-307F88D099C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Data", "Notifications\Funkmap.Notifications.Data\Funkmap.Notifications.Data.csproj", "{642AE4CF-4B8A-418E-86F9-307F88D099C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications.Web", "Notifications\Funkmap.Notifications.Web\Funkmap.Notifications.Web.csproj", "{F4FE1838-0987-4490-A275-11F0432DB04D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Web", "Notifications\Funkmap.Notifications.Web\Funkmap.Notifications.Web.csproj", "{F4FE1838-0987-4490-A275-11F0432DB04D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Notifications", "Notifications\Funkmap.Notifications\Funkmap.Notifications.csproj", "{343FD197-509C-4A6B-9524-786367FD9FCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications", "Notifications\Funkmap.Notifications\Funkmap.Notifications.csproj", "{343FD197-509C-4A6B-9524-786367FD9FCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Auth.Web", "Auth\Funkmap.Auth.Web\Funkmap.Auth.Web.csproj", "{0070C70C-F599-42C7-9F7F-977BAAD2CDF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -231,6 +233,10 @@ Global
 		{343FD197-509C-4A6B-9524-786367FD9FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{343FD197-509C-4A6B-9524-786367FD9FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{343FD197-509C-4A6B-9524-786367FD9FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0070C70C-F599-42C7-9F7F-977BAAD2CDF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0070C70C-F599-42C7-9F7F-977BAAD2CDF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0070C70C-F599-42C7-9F7F-977BAAD2CDF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0070C70C-F599-42C7-9F7F-977BAAD2CDF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +274,7 @@ Global
 		{642AE4CF-4B8A-418E-86F9-307F88D099C4} = {08290CCE-C71D-4BCA-A324-2E41CEEDB6AF}
 		{F4FE1838-0987-4490-A275-11F0432DB04D} = {08290CCE-C71D-4BCA-A324-2E41CEEDB6AF}
 		{343FD197-509C-4A6B-9524-786367FD9FCE} = {08290CCE-C71D-4BCA-A324-2E41CEEDB6AF}
+		{0070C70C-F599-42C7-9F7F-977BAAD2CDF1} = {09F81BB0-7C14-4D2F-8A3F-E621FC5089A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33CAECAF-0197-4DA7-824F-1E608A52B263}

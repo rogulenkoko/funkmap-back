@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Funkmap.Auth.Data.Entities;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Data.Mongo;
 using MongoDB.Driver;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Auth.Contracts;
@@ -15,14 +14,17 @@ using Funkmap.Common.Owin.Tools;
 
 namespace Funkmap.Auth.Data
 {
-    public class AuthRepository : RepositoryBase<UserEntity>, IAuthRepository
+    public class AuthRepository : IAuthRepository
     {
+        private readonly IMongoCollection<UserEntity> _collection;
+
         private readonly IFileStorage _fileStorage;
 
         public AuthRepository(IMongoCollection<UserEntity> collection,
-                              [KeyFilter(AuthCollectionNameProvider.AuthStorageName)] IFileStorage fileStorage) : base(collection)
+                              [KeyFilter(AuthCollectionNameProvider.AuthStorageName)] IFileStorage fileStorage)
         {
             _fileStorage = fileStorage;
+            _collection = collection;
         }
 
         public async Task<User> GetAsync(string login)
@@ -92,6 +94,10 @@ namespace Funkmap.Auth.Data
 
         public async Task<User> LoginAsync(string login, string hashedPassword)
         {
+            return new User()
+            {
+                Login = login,
+            };
             var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == hashedPassword)
                 .SingleOrDefaultAsync();
             return user.ToUser();
