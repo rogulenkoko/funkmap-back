@@ -131,7 +131,7 @@ namespace Funkmap.Data
                 .SingleInstance();
 
             //FileStorage
-            StorageType storageType = (StorageType)Enum.Parse(typeof(StorageType), ConfigurationManager.AppSettings["file-storage"]);
+            StorageType storageType = (StorageType)Enum.Parse(typeof(StorageType), config["FileStorage:Type"]);
 
             switch (storageType)
             {

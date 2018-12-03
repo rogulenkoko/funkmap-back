@@ -79,7 +79,7 @@ namespace Funkmap.Controllers
         [Route("rehearsal")]
         public Task<IActionResult> Create(RehearsalPoint model) => CreateAsync(model);
 
-        public async Task<IActionResult> CreateAsync(Profile model)
+        private async Task<IActionResult> CreateAsync(Profile model)
         {
             var userLogin = User.GetLogin();
             var canCreateResult = await _accessService.CanCreateProfileAsync(userLogin);
@@ -147,7 +147,7 @@ namespace Funkmap.Controllers
         /// You can't modify band participants and musician's band. You should use specific API methods.
         /// </summary>
         /// <param name="model">Profile model which has only updated properties.</param>
-        public async Task<IActionResult> UpdateAsync(Profile model)
+        private async Task<IActionResult> UpdateAsync(Profile model)
         {
             var login = User.GetLogin();
 

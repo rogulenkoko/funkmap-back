@@ -9,10 +9,22 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Autofac">
+          <Version>4.8.1</Version>
+        </PackageReference>
         <PackageReference Include="Autofac.Extensions.DependencyInjection">
           <Version>4.3.1</Version>
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="NLog.Config">
+          <Version>4.5.11</Version>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Funkmap.Common.Core\Funkmap.Common..Core.csproj" />
+      <ProjectReference Include="..\Funkmap.Data\Funkmap.Data.csproj" />
+      <ProjectReference Include="..\Funkmap\Funkmap.csproj" />
     </ItemGroup>
 
 </Project>

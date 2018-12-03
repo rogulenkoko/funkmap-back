@@ -46,6 +46,7 @@ namespace Funkmap.Controllers
         /// </summary>
         /// <param name="request"><see cref="UpdateFavoriteRequest"/></param>
         [Authorize]
+        [HttpPost]//todo correct method
         [Route("favorites")]
         public async Task<IActionResult> UpdateFavorite(UpdateFavoriteRequest request)
         {
