@@ -1,18 +1,34 @@
 ﻿using System;
-using System.Reflection;
 using Autofac;
-using Autofac.Integration.WebApi;
-using Funkmap.Common.Abstract;
+using Funkmap.Cqrs.Abstract;
+using Funkmap.Domain.Services;
+using Funkmap.Domain.Services.Abstract;
+using Funkmap.Tools;
+using Funkmap.Tools.Abstract;
 
 namespace Funkmap.Module
 {
-    public partial class FunkmapModule : IFunkmapModule
+    public static class FunkmapModule
     {
-        public void Register(ContainerBuilder builder)
+        public static void RegisterFunkmapDomainModule(this ContainerBuilder builder)
         {
-            RegisterDomainDependencies(builder);
+            builder.RegisterType<ParameterFactory>().As<IParameterFactory>();
+
+            builder.RegisterType<FunkmapNotificationHandler>()
+                .As<IEventHandler>()
+                .SingleInstance()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
+
+            builder.RegisterType<BandUpdateService>().As<IBandUpdateService>();
+            builder.RegisterType<AccessService>().As<IAccessService>();
+
+            builder.RegisterType<ProAccountHandler>()
+                .As<IEventHandler>()
+                .SingleInstance()
+                .OnActivated(x => x.Instance.InitHandlers())
+                .AutoActivate();
             
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Funkmap module has been loaded.");
         }
     }

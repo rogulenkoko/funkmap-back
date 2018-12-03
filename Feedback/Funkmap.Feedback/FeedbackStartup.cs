@@ -3,19 +3,14 @@ using System.IO;
 using System.Reflection;
 using Autofac;
 using Funkmap.Common.Core.Filters;
-using Funkmap.Common.Settings;
+using Funkmap.Common.Core.Tools;
 using Funkmap.Cqrs;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Feedback.Command;
-using Funkmap.Logger;
-using Funkmap.Notifications.Contracts;
-using Funkmap.Notifications.Contracts.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NLog;
-using NLog.Config;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Funkmap.Feedback
@@ -92,48 +87,8 @@ namespace Funkmap.Feedback
         {
             builder.RegisterFeedbackModule();
             builder.RegisterFeedbackCommandModule(Configuration);
-
-            builder.RegisterType<InMemoryEventBus>().As<IEventBus>();
-            builder.RegisterType<InMemoryCommandBus>().As<ICommandBus>();
-            builder.RegisterType<CommandHandlerResolver>().As<ICommandHandlerResolver>();
-            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
-            
+            builder.RegisterCommonModule(Configuration);
             //builder.RegisterModule<LoggerModule>();
-            
-            builder.Register(container =>
-            {
-                var localPath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
-                var email = Path.Combine(localPath, "NLogEmail.config");
-                var file = Path.Combine(localPath, "NLog.config");
-
-                var loggingType = (LoggingType)Enum.Parse(typeof(LoggingType), Configuration["Logging:Type"]);
-                
-                string fileName;
-                switch (loggingType)
-                {
-                    case LoggingType.Empty:
-                        fileName = "";
-                        break;
-                    case LoggingType.File:
-                        fileName = file;
-                        break;
-                    case LoggingType.Email:
-                        fileName = email;
-                        break;
-                    default:
-                        fileName = file;
-                        break;
-                }
-                
-                if (!string.IsNullOrEmpty(fileName))
-                    LogManager.Configuration = (LoggingConfiguration) new XmlLoggingConfiguration(fileName);
-                return LogManager.GetCurrentClassLogger();
-            }).SingleInstance().As<ILogger>();
-            
-            builder.RegisterGeneric(typeof (FunkmapLogger<>)).As(new Type[1]
-            {
-                typeof (IFunkmapLogger<>)
-            });
         }
     }
 }

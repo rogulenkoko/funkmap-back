@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
+      <PackageReference Include="WindowsAzure.Storage" Version="9.1.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,9 +19,6 @@
     <ItemGroup>
       <Reference Include="Funkmap.Azure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\packages\Funkmap.Azure.1.0.0\lib\netstandard2.0\Funkmap.Azure.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-        <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\windowsazure.storage\8.1.4\lib\netstandard1.3\Microsoft.WindowsAzure.Storage.dll</HintPath>
       </Reference>
       <Reference Include="MongoDB.Driver.GridFS, Version=2.7.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\..\..\.nuget\packages\mongodb.driver.gridfs\2.7.0\lib\netstandard1.5\MongoDB.Driver.GridFS.dll</HintPath>

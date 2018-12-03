@@ -20,8 +20,6 @@ namespace Funkmap.Notifications
                 .SingleInstance()
                 .OnActivated(x => x.Instance.InitHandlers())
                 .AutoActivate();
-
-            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
             
             builder.RegisterType<NotificationsSignalRHandler>()
                 .As<IEventHandler>()

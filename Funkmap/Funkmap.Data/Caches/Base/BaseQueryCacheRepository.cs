@@ -41,12 +41,8 @@ namespace Funkmap.Data.Caches.Base
 
         public async Task UpdateFavoriteAsync(UpdateFavoriteParameter parameter)
         {
-            
-            //todo
-            //await _baseQueryRepository.UpdateFavoriteAsync(parameter);
-
             var favorites = await _baseQueryRepository.GetFavoritesLoginsAsync(parameter.UserLogin);
-            _favoriteService.SetFavorites(parameter.UserLogin, favorites);
+            await _favoriteService.SetFavorites(parameter.UserLogin, favorites);
 
         }
 
@@ -56,7 +52,7 @@ namespace Funkmap.Data.Caches.Base
             if (favorites == null)
             {
                 favorites = await _baseQueryRepository.GetFavoritesLoginsAsync(userLogin);
-                _favoriteService.SetFavorites(userLogin, favorites);
+                await _favoriteService.SetFavorites(userLogin, favorites);
             }
             return favorites;
 

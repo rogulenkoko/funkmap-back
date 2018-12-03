@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="Funkmap.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\..\.nuget\packages\funkmap.common\1.0.0\lib\netstandard2.0\Funkmap.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.AspNetCore.Authentication.JwtBearer, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authentication.jwtbearer\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll</HintPath>
+      </Reference>
       <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
         <HintPath>C:\Users\rogul_000\.nuget\packages\microsoft.aspnetcore.http.abstractions\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
       </Reference>
@@ -22,8 +28,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Autofac" Version="4.8.1" />
+      <PackageReference Include="Funkmap.Cqrs" Version="1.0.1" />
+      <PackageReference Include="Funkmap.Logger" Version="1.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.2" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.1.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.3.0" />
       <PackageReference Include="Ngonzalez.ImageProcessorCore" Version="0.0.1" />
+      <PackageReference Include="NLog" Version="4.5.10" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     </ItemGroup>
 

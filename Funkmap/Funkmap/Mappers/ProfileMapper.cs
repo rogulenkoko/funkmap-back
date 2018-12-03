@@ -51,7 +51,7 @@ namespace Funkmap.Mappers
                 IsPriority = source.IsPriority,
 
                 Instrument = musician?.Instrument ?? Instruments.None,
-                Expirience = musician?.Expirience ?? Expiriences.None,
+                Expirience = musician?.Experience ?? Expiriences.None,
 
                 Address = address,
                 Website = shop?.Website,

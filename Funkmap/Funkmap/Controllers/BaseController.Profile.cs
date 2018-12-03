@@ -41,7 +41,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("musician")]
-        public Task<IActionResult> Create(Musician model) => Create(model);
+        public Task<IActionResult> Create(Musician model) => CreateAsync(model);
         
         /// <summary>
         /// Create a band.
@@ -50,7 +50,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("band")]
-        public Task<IActionResult> Create(Band model) => Create(model);
+        public Task<IActionResult> Create(Band model) => CreateAsync(model);
         
         /// <summary>
         /// Create a shop.
@@ -59,7 +59,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("shop")]
-        public Task<IActionResult> Create(Shop model) => Create(model);
+        public Task<IActionResult> Create(Shop model) => CreateAsync(model);
         
         /// <summary>
         /// Create a studio.
@@ -68,7 +68,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("studio")]
-        public Task<IActionResult> Create(Studio model) => Create(model);
+        public Task<IActionResult> Create(Studio model) => CreateAsync(model);
         
         /// <summary>
         /// Create a rehearsal point.
@@ -77,16 +77,16 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("rehearsal")]
-        public Task<IActionResult> Create(RehearsalPoint model) => Create(model);
+        public Task<IActionResult> Create(RehearsalPoint model) => CreateAsync(model);
 
-        public async Task<IActionResult> Create(Profile model)
+        public async Task<IActionResult> CreateAsync(Profile model)
         {
             var userLogin = User.GetLogin();
             var canCreateResult = await _accessService.CanCreateProfileAsync(userLogin);
 
             if (!canCreateResult.CanCreate)
             {
-                return BadRequest(new BaseResponse()
+                return BadRequest(new BaseResponse
                 {
                     Success = false, 
                     Error = canCreateResult.Reason,
@@ -111,6 +111,35 @@ namespace Funkmap.Controllers
             return Ok(canCreateResult);
         }
 
+        ///<inheritdoc cref="UpdateAsync"/>
+        [HttpPut]
+        [Route("musician")]
+        [Authorize]
+        public Task<IActionResult> Update(Musician profile) => UpdateAsync(profile);
+        
+        ///<inheritdoc cref="UpdateAsync"/>
+        [HttpPut]
+        [Route("band")]
+        [Authorize]
+        public Task<IActionResult> Update(Band profile) => UpdateAsync(profile);
+        
+        ///<inheritdoc cref="UpdateAsync"/>
+        [HttpPut]
+        [Route("shop")]
+        [Authorize]
+        public Task<IActionResult> Update(Shop profile) => UpdateAsync(profile);
+        
+        ///<inheritdoc cref="UpdateAsync"/>
+        [HttpPut]
+        [Route("studio")]
+        [Authorize]
+        public Task<IActionResult> Update(Studio profile) => UpdateAsync(profile);
+        
+        ///<inheritdoc cref="UpdateAsync"/>
+        [HttpPut]
+        [Route("rehearsal")]
+        [Authorize]
+        public Task<IActionResult> Update(RehearsalPoint profile) => UpdateAsync(profile);
 
         /// <summary>
         /// Update a profile.
@@ -118,11 +147,7 @@ namespace Funkmap.Controllers
         /// You can't modify band participants and musician's band. You should use specific API methods.
         /// </summary>
         /// <param name="model">Profile model which has only updated properties.</param>
-        [HttpPut]
-        [Route("profile")]
-        [Authorize]
-        public async Task<IActionResult> Update([ModelBinder(typeof(FunkmapModelBinderProvider))]
-            Profile model)
+        public async Task<IActionResult> UpdateAsync(Profile model)
         {
             var login = User.GetLogin();
 

@@ -51,9 +51,9 @@ namespace Funkmap.Data.Services.Update
                 updateDefinitions.Add(update.Set(x=> (x as MusicianEntity).BirthDate, musician.BirthDate.Value));
             }
 
-            if (musician.Expirience != Expiriences.None)
+            if (musician.Experience != Expiriences.None)
             {
-                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).ExpirienceType, musician.Expirience));
+                updateDefinitions.Add(update.Set(x => (x as MusicianEntity).ExpirienceType, musician.Experience));
             }
 
             if (musician.Sex.HasValue)
