@@ -1,5 +1,5 @@
-﻿using Funkmap.Messenger.Entities;
-using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
+using Funkmap.Messenger.Entities;
 
 namespace Funkmap.Messenger.Models
 {

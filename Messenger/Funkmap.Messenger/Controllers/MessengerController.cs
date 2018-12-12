@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Funkmap.Common.Core.Auth;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Auth;
-using Funkmap.Common.Owin.Filters;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Contracts;
@@ -18,12 +14,13 @@ using Funkmap.Messenger.Models.Responses;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Funkmap.Messenger.Controllers
 {
-    [RoutePrefix("api/messenger")]
-    [ValidateRequestModel]
-    public class MessengerController : ApiController
+    [Route("api/messenger")]
+    public class MessengerController : Controller
     {
         private readonly ICommandBus _commandBus;
         private readonly IQueryContext _queryContext;
@@ -42,17 +39,15 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Send message (you can get saved message from SignalR hub as a push-notification).
         /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
+        /// <param name="message"><see cref="MessageModel"/></param>
         [HttpPost]
         [Authorize]
-        [ResponseType(typeof(BaseResponse))]
         [Route("message")]
-        public IHttpActionResult SendMessage(MessageModel message)
+        public IActionResult SendMessage(MessageModel message)
         {
             var response = new BaseResponse();
 
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
 
             if (message.Sender != login) return BadRequest();
 
@@ -65,7 +60,7 @@ namespace Funkmap.Messenger.Controllers
                 Content = message.Content?.Select(x => x.ToEntity()).ToList(),
                 UsersWithOpenedCurrentDialog = usersWithOpenedCurrentDialog
             };
-            _commandBus.ExecuteAsync<SaveMessageCommand>(command);
+            _commandBus.ExecuteAsync(command);
 
             response.Success = true;
             return Ok(response);
@@ -74,15 +69,13 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Start uploading dialog content (you can get uploading status from SignalR hub as a push-notification)
         /// </summary>
-        /// <param name="contentItemModel"></param>
-        /// <returns></returns>
+        /// <param name="contentItemModel"><see cref="ContentItemModel"/></param>
         [HttpPost]
         [Authorize]
-        [ResponseType(typeof(BaseResponse))]
         [Route("content")]
-        public IHttpActionResult StartUploadContent(ContentItemModel contentItemModel)
+        public IActionResult StartUploadContent(ContentItemModel contentItemModel)
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
             var command = new StartUploadContentCommand(contentItemModel.ContentType, contentItemModel.Name, contentItemModel.Data, login);
 
             _commandBus.ExecuteAsync(command);
@@ -93,13 +86,12 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Get all users's (not empty) dialogs.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("dialogs")]
-        public async Task<IHttpActionResult> GetDialogs()
+        public async Task<IActionResult> GetDialogs()
         {
-            var userLogin = Request.GetLogin();
+            var userLogin = User.GetLogin();
 
             var query = new UserDialogsQuery(userLogin);
 
@@ -110,20 +102,19 @@ namespace Funkmap.Messenger.Controllers
                 return Ok(new List<DialogModel>());
             }
 
-            return Content(HttpStatusCode.OK, response.Dialogs.Select(x => x.ToModel(userLogin)));
+            return Ok(response.Dialogs.Select(x => x.ToModel(userLogin)));
         }
 
         /// <summary>
         /// Get some dialog messages.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request"><see cref="DialogMessagesRequest"/></param>
         [HttpPost]
         [Authorize]
         [Route("dialog/messages")]
-        public async Task<IHttpActionResult> GetDialogMessages(DialogMessagesRequest request)
+        public async Task<IActionResult> GetDialogMessages(DialogMessagesRequest request)
         {
-            var userLogin = Request.GetLogin();
+            var userLogin = User.GetLogin();
             if (String.IsNullOrEmpty(request.DialogId)) return BadRequest("Dialog Id is empty.");
 
             var query = new DialogMessagesQuery()
@@ -142,20 +133,18 @@ namespace Funkmap.Messenger.Controllers
             }
 
             var messages = response.Messages.Select(x => x.ToModel());
-            return Content(HttpStatusCode.OK, messages);
+            return Ok(messages);
         }
 
 
         /// <summary>
         /// Get dialog's avatar (bytes or base64).
         /// </summary>
-        /// <param name="dialogId"></param>
-        /// <returns></returns>
+        /// <param name="dialogId">Dialog id</param>
         [HttpGet]
         [Authorize]
-        [ResponseType(typeof(DialogAvatarInfoModel))]
         [Route("dialog/{dialogId}/avatar")]
-        public async Task<IHttpActionResult> GetDialogAvatar(string dialogId)
+        public async Task<IActionResult> GetDialogAvatar(string dialogId)
         {
             var query = new DialogAvatarInfoQuery()
             {
@@ -177,27 +166,24 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Get online users with who you have not empty dialog.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("dialogs/online")]
-        public IHttpActionResult GetDialogMessages()
+        public IActionResult GetDialogMessages()
         {
             var logins = _messengerConnection.GetOnlineUsersLogins();
-            return Content(HttpStatusCode.OK, logins);
+            return Ok(logins);
         }
 
         /// <summary>
         /// Get dialogs with fresh messages.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [Authorize]
-        [ResponseType(typeof(List<DialogsNewMessagesCountModel>))]
         [Route("dialogs/new")]
-        public async Task<IHttpActionResult> GetDialogsNewMessagesCount()
+        public async Task<IActionResult> GetDialogsNewMessagesCount()
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
 
             var query = new DialogsNewMessagesCountQuery(login);
 
@@ -214,15 +200,14 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Create dialog (you can get created dialog Id from SignalR hub as a push-notification).
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request"><see cref="CreateDialogRequest"/></param>
         [HttpPost]
         [Authorize]
         [Route("dialog")]
-        public IHttpActionResult CreateDialog(CreateDialogRequest request)
+        public IActionResult CreateDialog(CreateDialogRequest request)
         {
-            var login = Request.GetLogin();
-            var command = new CreateDialogCommand()
+            var login = User.GetLogin();
+            var command = new CreateDialogCommand
             {
                 Participants = request.Participants,
                 CreatorLogin = login,
@@ -237,14 +222,13 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Add participants to dialog.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request"><see cref="InviteParticipantsRequest"/></param>
         [HttpPost]
         [Authorize]
         [Route("dialog/participants")]
-        public IHttpActionResult InviteParticipants(InviteParticipantsRequest request)
+        public IActionResult InviteParticipants(InviteParticipantsRequest request)
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
             _commandBus.ExecuteAsync(new InviteParticipantsCommand(login, request.InvitedUserLogins, request.DialogId));
             return Ok(new BaseResponse() { Success = true });
         }
@@ -252,14 +236,13 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Update dialog (avatar or name).
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request"><see cref="DialogUpdateRequest"/></param>
         [HttpPut]
         [Authorize]
         [Route("dialog")]
-        public IHttpActionResult UpdateDialogInfo(DialogUpdateRequest request)
+        public IActionResult UpdateDialogInfo(DialogUpdateRequest request)
         {
-            var login = Request.GetLogin();
+            var login = User.GetLogin();
 
             _commandBus.ExecuteAsync(new UpdateDialogInfoCommand()
             {
@@ -275,19 +258,17 @@ namespace Funkmap.Messenger.Controllers
         /// <summary>
         /// Leave dialog.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request"><see cref="LeaveDialogRequest"/></param>
         [HttpPost]
         [Authorize]
         [Route("dialog/leave")]
-        public IHttpActionResult LeaveDialog(LeaveDialogRequest request)
+        public IActionResult LeaveDialog(LeaveDialogRequest request)
         {
-            var userLogin = Request.GetLogin();
+            var userLogin = User.GetLogin();
 
             _commandBus.ExecuteAsync(new LeaveDialogCommand(request.DialogId, request.Login, userLogin));
 
-            return Ok(new DialogResponse() { Success = true });
+            return Ok(new DialogResponse { Success = true });
         }
-
     }
 }

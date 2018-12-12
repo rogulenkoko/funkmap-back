@@ -14,25 +14,20 @@ using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Tests.Data;
 using Funkmap.Messenger.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using Moq;
 using NLog;
+using Xunit;
 
 namespace Funkmap.Messenger.Tests.Commands
 {
-    [TestClass]
     public class SaveMessageCommandTest
     {
+        private readonly IQueryContext _queryContext;
+        private readonly ICommandBus _commandBus;
+        private readonly TestToolRepository _testToolRepository;
 
-        private IQueryContext _queryContext;
-
-        private ICommandBus _commandBus;
-
-        private TestToolRepository _testToolRepository;
-
-        [TestInitialize]
-        public void Initialize()
+        public SaveMessageCommandTest()
         {
             var builder = new ContainerBuilder();
 
@@ -66,7 +61,7 @@ namespace Funkmap.Messenger.Tests.Commands
             _testToolRepository = new TestToolRepository(dialogsCollection);
         }
 
-        [TestMethod]
+        [Fact]
         public void SaveMessagePositiveTest()
         {
             var dialog = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult();
@@ -90,9 +85,9 @@ namespace Funkmap.Messenger.Tests.Commands
 
             var queryResult = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query).GetAwaiter()
                 .GetResult();
-            Assert.IsTrue(queryResult.Success);
-            Assert.AreEqual(queryResult.Messages.Count, query.Take);
-            Assert.AreEqual(command.Text, queryResult.Messages.Single().Text);
+            Assert.True(queryResult.Success);
+            Assert.Equal(queryResult.Messages.Count, query.Take);
+            Assert.Equal(command.Text, queryResult.Messages.Single().Text);
         }
     }
 }

@@ -11,7 +11,7 @@ using Funkmap.Messenger.Models;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Services.Abstract;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Funkmap.Messenger.Handlers
 {
@@ -25,12 +25,17 @@ namespace Funkmap.Messenger.Handlers
         private readonly IEventBus _eventBus;
         private readonly IMessengerConnectionService _connectionService;
         private readonly IQueryContext _queryContext;
+        private readonly IHubContext<MessengerHub, IMessengerHub> _hubContext;
 
-        public SignalrEventHandler(IEventBus eventBus, IMessengerConnectionService connectionService, IQueryContext queryContext)
+        public SignalrEventHandler(IEventBus eventBus, 
+                                   IMessengerConnectionService connectionService, 
+                                   IQueryContext queryContext,
+                                   IHubContext<MessengerHub, IMessengerHub> hubContext)
         {
             _eventBus = eventBus;
             _connectionService = connectionService;
             _queryContext = queryContext;
+            _hubContext = hubContext;
         }
         
 
@@ -53,7 +58,7 @@ namespace Funkmap.Messenger.Handlers
             @event.DialogParticipants.ForEach(login =>
             {
                 var connectionId = _connectionService.GetConnectionIdsByLogin(login);
-                GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+                _hubContext
                     .Clients.Clients(connectionId)
                     .OnMessageSent(message);
             });
@@ -65,12 +70,12 @@ namespace Funkmap.Messenger.Handlers
 
             var clientIds = _connectionService.GetConnectionIdsByLogin(login);
 
-            var query = new UserDialogQuery(@event.Dialog.Id.ToString(), login);
+            var query = new UserDialogQuery(@event.Dialog.Id, login);
             var response = await _queryContext.ExecuteAsync<UserDialogQuery, UserDialogResponse>(query);
 
             if (!response.Success) return;
 
-            await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+            await _hubContext
                 .Clients.Clients(clientIds)
                 .OnDialogCreated(response.Dialog.ToModel(login));
         }
@@ -81,7 +86,7 @@ namespace Funkmap.Messenger.Handlers
 
             var readModel = new DialogReadModel() {DialogId = @event.DialogId, UserWhoRead = @event.UserLogin};
 
-            await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>().Clients.Clients(connectionIds).OnDialogRead(readModel);
+            await _hubContext.Clients.Clients(connectionIds).OnDialogRead(readModel);
         }
 
         public async Task Handle(DialogUpdatedEvent @event)
@@ -100,7 +105,7 @@ namespace Funkmap.Messenger.Handlers
 
                 if(!response.Success) return;
 
-                await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+                await _hubContext
                     .Clients.Client(clientId)
                     .OnDialogUpdated(response.Dialog.ToModel(login));
             });
@@ -110,7 +115,7 @@ namespace Funkmap.Messenger.Handlers
         {
             var connectionIds = _connectionService.GetConnectionIdsByLogin(@event.Sender);
 
-            await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+            await _hubContext
                 .Clients.Clients(connectionIds)
                 .OnContentLoaded(new ContentItemModel() {Name = @event.Name, DataUrl = @event.DataUrl, ContentType = @event.ContentType});
 
@@ -122,7 +127,7 @@ namespace Funkmap.Messenger.Handlers
 
             var connectionIds = _connectionService.GetConnectionIdsByLogin(@event.Sender);
 
-            await GlobalHost.ConnectionManager.GetHubContext<MessengerHub, IMessengerHub>()
+            await _hubContext
                 .Clients.Clients(connectionIds)
                 .OnError(new CommandErrorModel() {Error = @event.Error, ExceptionMessage = @event.ExceptionMessage});
         }

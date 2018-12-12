@@ -5,20 +5,17 @@ using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
+using Xunit;
 
 namespace Funkmap.Messenger.Tests.Queries
 {
-    [TestClass]
     public class DialogMessagesTest
     {
-        private IQueryContext _queryContext;
+        private readonly IQueryContext _queryContext;
+        private readonly TestToolRepository _testToolRepository;
 
-        private TestToolRepository _testToolRepository;
-
-        [TestInitialize]
-        public void Initialize()
+        public DialogMessagesTest()
         {
             var container = new TestInitializer().Initialize().Build();
 
@@ -27,7 +24,7 @@ namespace Funkmap.Messenger.Tests.Queries
             _testToolRepository = new TestToolRepository(container.Resolve<IMongoCollection<DialogEntity>>());
         }
 
-        [TestMethod]
+        [Fact]
         public void GetDialogMessagesTest()
         {
             var dialog = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult();
@@ -40,10 +37,10 @@ namespace Funkmap.Messenger.Tests.Queries
                 Take = 100
             };
             var queryResult = _queryContext.ExecuteAsync<DialogMessagesQuery, DialogMessagesResponse>(query).GetAwaiter().GetResult();
-            Assert.IsTrue(queryResult.Success);
-            Assert.AreNotEqual(queryResult.Messages.Count, 0);
-            Assert.IsTrue(queryResult.Messages.Count <= query.Take);
-            Assert.IsTrue(queryResult.Messages.All(x => x.DialogId == query.DialogId));
+            Assert.True(queryResult.Success);
+            Assert.NotEqual(queryResult.Messages.Count, 0);
+            Assert.True(queryResult.Messages.Count <= query.Take);
+            Assert.True(queryResult.Messages.All(x => x.DialogId == query.DialogId));
         }
     }
 }

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Filters;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Hubs.Abstract;
 using Funkmap.Messenger.Services.Abstract;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Funkmap.Messenger.Hubs
 {
-    [HubName("messenger")]
-    [ValidateRequestModel]
+//    [HubName("messenger")]
     public class MessengerHub : Hub<IMessengerHub>
     {
         private readonly IMessengerConnectionService _connectionService;
@@ -31,12 +28,12 @@ namespace Funkmap.Messenger.Hubs
             var connectionId = Context.ConnectionId;
             var isSucces = _connectionService.SetOpenedDialog(connectionId, dialogId);
             
-            var login = Context.QueryString["login"];
+            var login = (string)Context.Items["login"];
 
             //у пользователя нет открытых диалогов
             if (String.IsNullOrEmpty(dialogId))
             {
-                return new BaseResponse() {Success = true};
+                return new BaseResponse {Success = true};
             }
 
             _commandBus.ExecuteAsync(new ReadMessagesCommand
@@ -46,30 +43,28 @@ namespace Funkmap.Messenger.Hubs
                 ReadTime = DateTime.UtcNow
             });
 
-            return new BaseResponse() {Success = isSucces};
+            return new BaseResponse {Success = isSucces};
         }
 
-        public override Task OnConnected()
+        public override Task OnConnectedAsync()
         {
             var connectionId = Context.ConnectionId;
-            var login = Context.QueryString["login"];
+            var login = (string)Context.Items["login"];
 
             _connectionService.AddOnlineUser(connectionId, login);
             Clients.All.OnUserConnected(login);
 
-            return base.OnConnected();
+            return base.OnConnectedAsync();
         }
 
 
-        public override Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnectedAsync(Exception ex)
         {
-            
             var connectionId = Context.ConnectionId;
-            string login;
-            _connectionService.RemoveOnlineUser(connectionId, out login);
+            _connectionService.RemoveOnlineUser(connectionId, out var login);
             Clients.All.OnUserDisconnected(login);
 
-            return base.OnDisconnected(stopCalled);
+            return base.OnDisconnectedAsync(ex);
         }
     }
 }

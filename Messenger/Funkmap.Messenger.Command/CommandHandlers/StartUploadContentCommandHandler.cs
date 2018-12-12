@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using Funkmap.Common.Abstract;
-using Funkmap.Common.Owin.Tools;
+using Funkmap.Common.Core.Tools;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Messenger.Command.Commands;
 using Funkmap.Messenger.Contracts.Events;

@@ -10,22 +10,19 @@ using Funkmap.Messenger.Entities;
 using Funkmap.Messenger.Query.Queries;
 using Funkmap.Messenger.Query.Responses;
 using Funkmap.Messenger.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Xunit;
 
 namespace Funkmap.Messenger.Tests.Queries
 {
-    [TestClass]
     public class UserDialogsTest
     {
-        private IQueryContext _queryContext;
-        private ICommandBus _commandBus;
+        private readonly IQueryContext _queryContext;
+        private readonly ICommandBus _commandBus;
+        private readonly TestToolRepository _testToolRepository;
 
-        private TestToolRepository _testToolRepository;
-
-        [TestInitialize]
-        public void Initialize()
+        public UserDialogsTest()
         {
             var builder = new TestInitializer().Initialize();
             builder.RegisterType<DialogLastMessageEventHandler>()
@@ -42,7 +39,7 @@ namespace Funkmap.Messenger.Tests.Queries
             _testToolRepository = new TestToolRepository(container.Resolve<IMongoCollection<DialogEntity>>());
         }
 
-        [TestMethod]
+        [Fact]
         public void GetUserDialogsTest()
         {
             var user = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult().Participants.First();
@@ -50,12 +47,12 @@ namespace Funkmap.Messenger.Tests.Queries
             var query = new UserDialogsQuery(user);
             var queryResult = _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult();
 
-            Assert.IsTrue(queryResult.Success);
-            Assert.AreNotEqual(queryResult.Dialogs.Count, 0);
-            Assert.IsTrue(queryResult.Dialogs.All(x => x.Participants.Contains(user)));
+            Assert.True(queryResult.Success);
+            Assert.NotEqual(queryResult.Dialogs.Count, 0);
+            Assert.True(queryResult.Dialogs.All(x => x.Participants.Contains(user)));
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateLastMessageTest()
         {
             var dialog = _testToolRepository.GetAnyDialogAsync().GetAwaiter().GetResult();
@@ -64,9 +61,9 @@ namespace Funkmap.Messenger.Tests.Queries
             var query = new UserDialogsQuery(user);
             var queryResult = _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult();
 
-            Assert.IsTrue(queryResult.Success);
-            Assert.AreNotEqual(queryResult.Dialogs.Count, 0);
-            Assert.IsTrue(queryResult.Dialogs.All(x => x.Participants.Contains(user)));
+            Assert.True(queryResult.Success);
+            Assert.NotEqual(queryResult.Dialogs.Count, 0);
+            Assert.True(queryResult.Dialogs.All(x => x.Participants.Contains(user)));
 
             var command = new SaveMessageCommand()
             {
@@ -81,28 +78,28 @@ namespace Funkmap.Messenger.Tests.Queries
 
             queryResult = _queryContext.ExecuteAsync<UserDialogsQuery, UserDialogsResponse>(query).GetAwaiter().GetResult();
 
-            Assert.IsTrue(queryResult.Success);
-            Assert.AreNotEqual(queryResult.Dialogs.Count, 0);
-            Assert.IsTrue(queryResult.Dialogs.All(x => x.Participants.Contains(user)));
+            Assert.True(queryResult.Success);
+            Assert.NotEqual(queryResult.Dialogs.Count, 0);
+            Assert.True(queryResult.Dialogs.All(x => x.Participants.Contains(user)));
 
             var lastUpdatedDialog = queryResult.Dialogs.First();
-            Assert.AreEqual(lastUpdatedDialog.DialogId, dialog.Id.ToString());
-            Assert.IsNotNull(lastUpdatedDialog.LastMessage);
-            Assert.AreEqual(lastUpdatedDialog.LastMessage.Text, command.Text);
-            Assert.AreNotEqual(lastUpdatedDialog.LastMessage.Id, ObjectId.Empty);
+            Assert.Equal(lastUpdatedDialog.DialogId, dialog.Id.ToString());
+            Assert.NotNull(lastUpdatedDialog.LastMessage);
+            Assert.Equal(lastUpdatedDialog.LastMessage.Text, command.Text);
+            Assert.NotEqual(lastUpdatedDialog.LastMessage.Id, ObjectId.Empty.ToString());
 
             var dialogQuery = new UserDialogQuery(dialog.Id.ToString(), user);
             var dialogQueryResult = _queryContext.ExecuteAsync<UserDialogQuery, UserDialogResponse>(dialogQuery).GetAwaiter().GetResult();
 
-            Assert.IsTrue(dialogQueryResult.Success);
-            Assert.IsNotNull(dialogQueryResult.Dialog);
-            Assert.IsTrue(dialogQueryResult.Dialog.Participants.Contains(user));
+            Assert.True(dialogQueryResult.Success);
+            Assert.NotNull(dialogQueryResult.Dialog);
+            Assert.True(dialogQueryResult.Dialog.Participants.Contains(user));
 
             var lastUpdatedDialog2 = dialogQueryResult.Dialog;
-            Assert.AreEqual(lastUpdatedDialog2.DialogId, dialog.Id.ToString());
-            Assert.IsNotNull(lastUpdatedDialog2.LastMessage);
-            Assert.AreEqual(lastUpdatedDialog2.LastMessage.Text, command.Text);
-            Assert.AreNotEqual(lastUpdatedDialog2.LastMessage.Id, ObjectId.Empty);
+            Assert.Equal(lastUpdatedDialog2.DialogId, dialog.Id.ToString());
+            Assert.NotNull(lastUpdatedDialog2.LastMessage);
+            Assert.Equal(lastUpdatedDialog2.LastMessage.Text, command.Text);
+            Assert.NotEqual(lastUpdatedDialog2.LastMessage.Id, ObjectId.Empty.ToString());
         }
     }
 }
