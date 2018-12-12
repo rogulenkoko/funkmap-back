@@ -151,19 +151,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BandDependencyTest.cs" />
-    <Compile Include="MusicianDependencyTest.cs" />
-    <Compile Include="ProfileAvatarUpdateTest.cs" />
-    <Compile Include="FavoriteProfilesTest.cs" />
-    <Compile Include="ProfileDeleteTest.cs" />
-    <Compile Include="ProfileUpdateTest.cs" />
-    <Compile Include="Data\FunkmapTestDbProvider.cs" />
-    <Compile Include="Data\FunkmapDataSeeder.cs" />
-    <Compile Include="Data\FunkmapStressRandomSeeder.cs" />
-    <Compile Include="Tools\DistanceResult.cs" />
-    <Compile Include="Tools\TestToolRepository.cs" />
-    <Compile Include="Images\ImageProvider.cs" />
-    <Compile Include="ProfileQueryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -195,12 +182,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\avatar.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\beatles-avatar.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

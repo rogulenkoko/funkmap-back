@@ -15,21 +15,17 @@ using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Tests.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace Funkmap.Tests
 {
-    [TestClass]
     public class ProfileDeleteTest
     {
+        private readonly IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseCommandRepository _commandRepository;
 
-        private IBaseQueryRepository _baseQueryRepository;
-
-        private IBaseCommandRepository _commandRepository;
-
-        [TestInitialize]
-        public void Initialize()
+        public ProfileDeleteTest()
         {
             var db = FunkmapTestDbProvider.DropAndCreateDatabase();
 
@@ -57,7 +53,7 @@ namespace Funkmap.Tests
             _commandRepository = new BaseCommandRepository(collection, storage, updateBuilders, eventBus);
         }
 
-        [TestMethod]
+        [Fact]
         public void DeleteBandTest()
         {
             //Select any musicians
@@ -70,8 +66,8 @@ namespace Funkmap.Tests
             };
 
             var musicians = _baseQueryRepository.GetFilteredAsync(musicianFilter).GetAwaiter().GetResult();
-            Assert.IsNotNull(musicians);
-            Assert.AreEqual(musicians.Count, musicianFilter.Take);
+            Assert.NotNull(musicians);
+            Assert.Equal(musicians.Count, musicianFilter.Take);
 
 
             //Create new band
@@ -82,7 +78,7 @@ namespace Funkmap.Tests
                 Location = new Location(12,12)
             };
             var createResult = _commandRepository.CreateAsync(new CommandParameter<Profile>() {UserLogin = Guid.NewGuid().ToString() , Parameter = band}).GetAwaiter().GetResult();
-            Assert.IsTrue(createResult.Success);
+            Assert.True(createResult.Success);
 
             //Add musicians to band
             var bandUpdate = new Band()
@@ -92,17 +88,17 @@ namespace Funkmap.Tests
             };
 
             var bandUpdateResult = _commandRepository.UpdateAsync(new CommandParameter<Profile>() { UserLogin = band.UserLogin, Parameter = bandUpdate }).GetAwaiter().GetResult();
-            Assert.IsTrue(bandUpdateResult.Success);
+            Assert.True(bandUpdateResult.Success);
 
             var updatedMusicians = _baseQueryRepository.GetFilteredAsync(musicianFilter).GetAwaiter().GetResult().Select(x=>x as Musician).ToList();
-            Assert.IsNotNull(updatedMusicians);
-            Assert.AreNotEqual(updatedMusicians.Count, 0);
-            Assert.IsTrue(updatedMusicians.All(x=>x.BandLogins.Contains(band.Login)));
+            Assert.NotNull(updatedMusicians);
+            Assert.NotEqual(updatedMusicians.Count, 0);
+            Assert.True(updatedMusicians.All(x=>x.BandLogins.Contains(band.Login)));
 
 
             var savedBand = _baseQueryRepository.GetAsync<Band>(band.Login).GetAwaiter().GetResult();
-            Assert.IsNotNull(savedBand);
-            CollectionAssert.AreEqual(savedBand.Musicians, musicians.Select(x=>x.Login).ToList());
+            Assert.NotNull(savedBand);
+            Assert.Equal(savedBand.Musicians, musicians.Select(x=>x.Login).ToList());
             
             var deleteParameter = new CommandParameter<string>()
             {
@@ -113,23 +109,23 @@ namespace Funkmap.Tests
             //Delete band
 
             var deleteResult = _commandRepository.DeleteAsync(deleteParameter).GetAwaiter().GetResult();
-            Assert.IsTrue(deleteResult.Success);
-            Assert.IsNotNull(deleteResult.Body);
-            Assert.AreEqual(deleteResult.Body.Login, savedBand.Login);
+            Assert.True(deleteResult.Success);
+            Assert.NotNull(deleteResult.Body);
+            Assert.Equal(deleteResult.Body.Login, savedBand.Login);
 
             var nullBand = _baseQueryRepository.GetAsync(deleteResult.Body.Login).GetAwaiter().GetResult();
-            Assert.IsNull(nullBand);
+            Assert.Null(nullBand);
 
 
             //Check dependencies clean
             foreach (var musician in musicians)
             {
                 Musician savedMusician = _baseQueryRepository.GetAsync<Musician>(musician.Login).GetAwaiter().GetResult();
-                Assert.IsTrue(!savedMusician.BandLogins.Contains(deleteResult.Body.Login));
+                Assert.True(!savedMusician.BandLogins.Contains(deleteResult.Body.Login));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void DeleteMusicianTest()
         {
             //Select any bands
@@ -142,8 +138,8 @@ namespace Funkmap.Tests
             };
 
             var bands = _baseQueryRepository.GetFilteredAsync(bandFilter).GetAwaiter().GetResult();
-            Assert.IsNotNull(bands);
-            Assert.AreEqual(bands.Count, bandFilter.Take);
+            Assert.NotNull(bands);
+            Assert.Equal(bands.Count, bandFilter.Take);
 
 
             //CreateAsync new musician
@@ -154,7 +150,7 @@ namespace Funkmap.Tests
                 Location = new Location(12, 12)
             };
             var createResult = _commandRepository.CreateAsync(new CommandParameter<Profile>() { UserLogin = Guid.NewGuid().ToString(), Parameter = musician }).GetAwaiter().GetResult();
-            Assert.IsTrue(createResult.Success);
+            Assert.True(createResult.Success);
 
 
             //Add bands to musician
@@ -165,17 +161,17 @@ namespace Funkmap.Tests
             };
 
             var bandUpdateResult = _commandRepository.UpdateAsync(new CommandParameter<Profile>() { UserLogin = musician.UserLogin, Parameter = musicianUpdate }).GetAwaiter().GetResult();
-            Assert.IsTrue(bandUpdateResult.Success);
+            Assert.True(bandUpdateResult.Success);
             
             var updatedBands = _baseQueryRepository.GetFilteredAsync(bandFilter).GetAwaiter().GetResult().Select(x => x as Band).ToList();
-            Assert.IsNotNull(updatedBands);
-            Assert.AreNotEqual(updatedBands.Count, 0);
-            Assert.IsTrue(updatedBands.All(x => x.Musicians.Contains(musician.Login)));
+            Assert.NotNull(updatedBands);
+            Assert.NotEqual(updatedBands.Count, 0);
+            Assert.True(updatedBands.All(x => x.Musicians.Contains(musician.Login)));
 
 
             var savedMusician = _baseQueryRepository.GetAsync<Musician>(musician.Login).GetAwaiter().GetResult();
-            Assert.IsNotNull(savedMusician);
-            CollectionAssert.AreEqual(savedMusician.BandLogins, bands.Select(x => x.Login).ToList());
+            Assert.NotNull(savedMusician);
+            Assert.Equal(savedMusician.BandLogins, bands.Select(x => x.Login).ToList());
 
             var deleteParameter = new CommandParameter<string>()
             {
@@ -186,19 +182,19 @@ namespace Funkmap.Tests
             //Delete musician
 
             var deleteResult = _commandRepository.DeleteAsync(deleteParameter).GetAwaiter().GetResult();
-            Assert.IsTrue(deleteResult.Success);
-            Assert.IsNotNull(deleteResult.Body);
-            Assert.AreEqual(deleteResult.Body.Login, savedMusician.Login);
+            Assert.True(deleteResult.Success);
+            Assert.NotNull(deleteResult.Body);
+            Assert.Equal(deleteResult.Body.Login, savedMusician.Login);
 
             var nullBand = _baseQueryRepository.GetAsync(deleteResult.Body.Login).GetAwaiter().GetResult();
-            Assert.IsNull(nullBand);
+            Assert.Null(nullBand);
 
 
             //Check dependencies clean
             foreach (var band in bands)
             {
                 Band savedBand = _baseQueryRepository.GetAsync<Band>(band.Login).GetAwaiter().GetResult();
-                Assert.IsTrue(!savedBand.Musicians.Contains(deleteResult.Body.Login));
+                Assert.True(!savedBand.Musicians.Contains(deleteResult.Body.Login));
             }
         }
     }

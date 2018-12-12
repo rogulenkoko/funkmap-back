@@ -14,20 +14,17 @@ using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Tests.Data;
 using Funkmap.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace Funkmap.Tests
 {
-    [TestClass]
     public class ProfileQueryTest
     {
-        private IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseQueryRepository _baseQueryRepository;
+        private readonly TestToolRepository _toolRepository;
 
-        private TestToolRepository _toolRepository;
-
-        [TestInitialize]
-        public void Initialize()
+        public ProfileQueryTest()
         {
             var db = FunkmapTestDbProvider.DropAndCreateDatabase();
 
@@ -43,7 +40,7 @@ namespace Funkmap.Tests
             _toolRepository = new TestToolRepository(collection);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetProfileTest()
         {
             var logins = _toolRepository.GetAnyLoginsAsync().GetAwaiter().GetResult();
@@ -52,14 +49,14 @@ namespace Funkmap.Tests
             {
                 Profile profile = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
 
-                Assert.AreEqual(login, profile.Login);
-                Assert.IsFalse(String.IsNullOrEmpty(profile.Name));
-                Assert.IsFalse(String.IsNullOrEmpty(profile.UserLogin));
-                Assert.IsFalse(profile.EntityType == 0);
+                Assert.Equal(login, profile.Login);
+                Assert.False(String.IsNullOrEmpty(profile.Name));
+                Assert.False(String.IsNullOrEmpty(profile.UserLogin));
+                Assert.False(profile.EntityType == 0);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void GetNearestTest()
         {
             var parameter = new LocationParameter
@@ -73,63 +70,52 @@ namespace Funkmap.Tests
 
             List<Marker> nearest = _baseQueryRepository.GetNearestMarkersAsync(parameter).GetAwaiter().GetResult();
 
-            Assert.IsTrue(nearest.Count < parameter.Take);
+            Assert.True(nearest.Count < parameter.Take);
 
             var allDistances = _toolRepository.GetDistances(parameter).Results.ToDictionary(x => x.Profile.Login, y => y.Distance * FunkmapConstants.EarthRadius);
 
             var isValid = nearest.All(x => allDistances[x.Login] <= parameter.RadiusKm);
 
-            Assert.IsTrue(isValid);
+            Assert.True(isValid);
 
             parameter.RadiusKm = null;
 
             List<Marker> allNearest = _baseQueryRepository.GetNearestMarkersAsync(parameter).GetAwaiter().GetResult();
 
-            Assert.IsTrue(allNearest.Count > 0 && allNearest.Count >= nearest.Count && allNearest.Count < parameter.Take);
+            Assert.True(allNearest.Count > 0 && allNearest.Count >= nearest.Count && allNearest.Count < parameter.Take);
 
-            Assert.AreEqual(allNearest.Select(x => x.Login).Intersect(nearest.Select(x => x.Login)).Count(), nearest.Count);
+            Assert.Equal(allNearest.Select(x => x.Login).Intersect(nearest.Select(x => x.Login)).Count(), nearest.Count);
 
-            Assert.IsTrue(allNearest.All(x => x.ModelType != 0 && !String.IsNullOrEmpty(x.Login)));
+            Assert.True(allNearest.All(x => x.ModelType != 0 && !String.IsNullOrEmpty(x.Login)));
 
-            try
-            {
-                _baseQueryRepository.GetNearestMarkersAsync(null).GetAwaiter().GetResult();
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+            Assert.Throws<ArgumentException>(() => _baseQueryRepository.GetNearestMarkersAsync(null).GetAwaiter().GetResult());
         }
 
-        [TestMethod]
+        [Fact]
         public void GetSpecificNavigationTest()
         {
             var result = _baseQueryRepository.GetSpecificMarkersAsync(null).GetAwaiter().GetResult();
-            Assert.AreEqual(result.Count, 0);
+            Assert.Equal(result.Count, 0);
 
             var logins = new List<string>();
             result = _baseQueryRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
-            Assert.AreEqual(result.Count, 0);
+            Assert.Equal(result.Count, 0);
 
             var anyLogins = _toolRepository.GetAnyLoginsAsync(2).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(anyLogins.Count, 0);
+            Assert.NotEqual(anyLogins.Count, 0);
 
             logins.Add(anyLogins.First());
 
             result = _baseQueryRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
-            Assert.AreEqual(result.Count, 1);
+            Assert.Equal(result.Count, 1);
 
             logins.Add(anyLogins.Last());
             result = _baseQueryRepository.GetSpecificMarkersAsync(logins).GetAwaiter().GetResult();
-            Assert.AreEqual(result.Count, anyLogins.Count);
+            Assert.Equal(result.Count, anyLogins.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetFilteredTest()
         {
             var commonParameter = new CommonFilterParameter
@@ -140,9 +126,9 @@ namespace Funkmap.Tests
             List<Profile> result = _baseQueryRepository.GetFilteredAsync(commonParameter).GetAwaiter().GetResult();
             var count = _baseQueryRepository.GetAllFilteredCountAsync(commonParameter).GetAwaiter().GetResult();
 
-            Assert.AreEqual(result.Count, count);
+            Assert.Equal(result.Count, count);
 
-            Assert.IsTrue(result.All(x => x.EntityType == EntityType.Musician));
+            Assert.True(result.All(x => x.EntityType == EntityType.Musician));
 
             var musicianParameter = new MusicianFilterParameter
             {
@@ -153,12 +139,12 @@ namespace Funkmap.Tests
             result = _baseQueryRepository.GetFilteredAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
             count = _baseQueryRepository.GetAllFilteredCountAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
 
-            Assert.AreEqual(result.Count, count);
+            Assert.Equal(result.Count, count);
 
-            Assert.IsTrue(result.All(x => x.EntityType == EntityType.Musician));
+            Assert.True(result.All(x => x.EntityType == EntityType.Musician));
 
-            Assert.IsTrue(result.Select(x => x as Domain.Models.Musician).All(x => x.Styles.Intersect(musicianParameter.Styles).Any()));
-            Assert.IsTrue(result.Select(x => x as Domain.Models.Musician).All(x => musicianParameter.Expiriences.Contains(x.Expirience)));
+            Assert.True(result.Select(x => x as Domain.Models.Musician).All(x => x.Styles.Intersect(musicianParameter.Styles).Any()));
+            Assert.True(result.Select(x => x as Domain.Models.Musician).All(x => musicianParameter.Expiriences.Contains(x.Experience)));
 
             commonParameter = new CommonFilterParameter()
             {
@@ -170,44 +156,44 @@ namespace Funkmap.Tests
             result = _baseQueryRepository.GetFilteredAsync(commonParameter).GetAwaiter().GetResult();
             count = _baseQueryRepository.GetAllFilteredCountAsync(commonParameter).GetAwaiter().GetResult();
 
-            Assert.AreEqual(result.Count, count);
+            Assert.Equal(result.Count, count);
 
-            Assert.AreNotEqual(result.Count, 0);
+            Assert.NotEqual(result.Count, 0);
 
-            Assert.IsTrue(result.All(x => x.EntityType != 0));
-            Assert.IsTrue(result.All(x => !String.IsNullOrEmpty(x.Login)));
-            Assert.IsTrue(result.All(x => !String.IsNullOrEmpty(x.Name)));
-            Assert.IsTrue(result.All(x => !String.IsNullOrEmpty(x.UserLogin)));
+            Assert.True(result.All(x => x.EntityType != 0));
+            Assert.True(result.All(x => !String.IsNullOrEmpty(x.Login)));
+            Assert.True(result.All(x => !String.IsNullOrEmpty(x.Name)));
+            Assert.True(result.All(x => !String.IsNullOrEmpty(x.UserLogin)));
 
-            Assert.IsTrue(result.Where(x => x.EntityType == EntityType.Musician).All(x => (x as Domain.Models.Musician).Instrument != Instruments.None));
+            Assert.True(result.Where(x => x.EntityType == EntityType.Musician).All(x => (x as Domain.Models.Musician).Instrument != Instruments.None));
 
             var allDistances = _toolRepository.GetDistances(commonParameter).Results.ToDictionary(x => x.Profile.Login, y => y.Distance * FunkmapConstants.EarthRadius);
 
             var distancesPairs = allDistances.Zip(allDistances.Skip(1), Tuple.Create);
 
             var areOrdered = distancesPairs.All(x => x.Item1.Value <= x.Item2.Value);
-            Assert.IsTrue(areOrdered);
+            Assert.True(areOrdered);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetUsersEntitiesCountTest()
         {
             var profileUsers = _toolRepository.GetProfileUsersAsync().GetAwaiter().GetResult();
-            Assert.AreNotEqual(profileUsers.Count, 0);
+            Assert.NotEqual(profileUsers.Count, 0);
 
             foreach (var profileUser in profileUsers)
             {
                 List<UserEntitiesCountInfo> result = _baseQueryRepository.GetUserEntitiesCountInfoAsync(profileUser).GetAwaiter().GetResult();
-                Assert.AreNotEqual(result.Count, 0);
+                Assert.NotEqual(result.Count, 0);
 
-                Assert.IsTrue(result.SelectMany(x => x.Logins).Any());
-                Assert.IsTrue(result.Select(x => x.Count).Aggregate((x, y) => x + y) > 0);
-                Assert.IsTrue(result.All(x => x.Count == x.Logins.Count));
-                Assert.IsTrue(result.All(x => x.EntityType != 0));
+                Assert.True(result.SelectMany(x => x.Logins).Any());
+                Assert.True(result.Select(x => x.Count).Aggregate((x, y) => x + y) > 0);
+                Assert.True(result.All(x => x.Count == x.Logins.Count));
+                Assert.True(result.All(x => x.EntityType != 0));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void GetUserEntitiesLoginsTest()
         {
             var profileUsers = _toolRepository.GetProfileUsersAsync().GetAwaiter().GetResult();
@@ -215,12 +201,12 @@ namespace Funkmap.Tests
             foreach (var profileUser in profileUsers)
             {
                 List<string> profilesLogins = _baseQueryRepository.GetUserEntitiesLoginsAsync(profileUser).GetAwaiter().GetResult();
-                Assert.AreNotEqual(profilesLogins.Count, 0);
-                Assert.IsTrue(profilesLogins.All(x => !String.IsNullOrEmpty(x)));
+                Assert.NotEqual(profilesLogins.Count, 0);
+                Assert.True(profilesLogins.All(x => !String.IsNullOrEmpty(x)));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void LoginExistsTest()
         {
             var logins = _toolRepository.GetAnyLoginsAsync().GetAwaiter().GetResult();
@@ -228,14 +214,14 @@ namespace Funkmap.Tests
             foreach (var login in logins)
             {
                 var isExist = _baseQueryRepository.LoginExistsAsync(login).GetAwaiter().GetResult();
-                Assert.IsTrue(isExist);
+                Assert.True(isExist);
             }
 
             var exist = _baseQueryRepository.LoginExistsAsync(String.Empty).GetAwaiter().GetResult();
-            Assert.IsFalse(exist);
+            Assert.False(exist);
 
             exist = _baseQueryRepository.LoginExistsAsync(Guid.NewGuid().ToString()).GetAwaiter().GetResult();
-            Assert.IsFalse(exist);
+            Assert.False(exist);
         }
     }
 }

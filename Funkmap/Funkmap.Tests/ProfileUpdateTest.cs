@@ -18,22 +18,18 @@ using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Tests.Data;
 using Funkmap.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace Funkmap.Tests
 {
-    [TestClass]
     public class ProfileUpdateTest
     {
-        private IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseCommandRepository _commandRepository;
+        private readonly TestToolRepository _toolRepository;
 
-        private IBaseCommandRepository _commandRepository;
-
-        private TestToolRepository _toolRepository;
-
-        [TestInitialize]
-        public void Initialize()
+        public ProfileUpdateTest()
         {
             var db = FunkmapTestDbProvider.DropAndCreateDatabase();
 
@@ -64,13 +60,13 @@ namespace Funkmap.Tests
             _toolRepository = new TestToolRepository(collection);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateProfileTest()
         {
             var musician = GetMusician();
 
             var nullMusician = _baseQueryRepository.GetAsync(musician.Login).GetAwaiter().GetResult();
-            Assert.IsNull(nullMusician);
+            Assert.Null(nullMusician);
 
             var parameter = new CommandParameter<Profile>()
             {
@@ -80,33 +76,33 @@ namespace Funkmap.Tests
 
             _commandRepository.CreateAsync(parameter).GetAwaiter().GetResult();
 
-            Domain.Models.Musician savedMusician = _baseQueryRepository.GetAsync(musician.Login).GetAwaiter().GetResult() as Domain.Models.Musician;
-            Assert.IsNotNull(savedMusician);
+            var savedMusician = _baseQueryRepository.GetAsync(musician.Login).GetAwaiter().GetResult() as Musician;
+            Assert.NotNull(savedMusician);
 
-            Assert.AreEqual(musician.Expirience, savedMusician.Expirience);
-            Assert.AreEqual(musician.Instrument, savedMusician.Instrument);
-            Assert.AreEqual(musician.Name, savedMusician.Name);
-            Assert.AreEqual(musician.Address, savedMusician.Address);
+            Assert.Equal(musician.Experience, savedMusician.Experience);
+            Assert.Equal(musician.Instrument, savedMusician.Instrument);
+            Assert.Equal(musician.Name, savedMusician.Name);
+            Assert.Equal(musician.Address, savedMusician.Address);
 
-            Assert.AreEqual(musician.BirthDate.ToString(), savedMusician.BirthDate.ToString());
-            Assert.AreEqual(musician.Description, savedMusician.Description);
-            Assert.AreEqual(musician.Login, savedMusician.Login);
-            Assert.AreEqual(musician.Sex, savedMusician.Sex);
-            Assert.AreEqual(musician.FacebookLink, savedMusician.FacebookLink);
-            Assert.AreEqual(musician.VkLink, savedMusician.VkLink);
-            Assert.AreEqual(musician.YoutubeLink, savedMusician.YoutubeLink);
-            Assert.AreEqual(musician.SoundCloudLink, savedMusician.SoundCloudLink);
+            Assert.Equal(musician.BirthDate.ToString(), savedMusician.BirthDate.ToString());
+            Assert.Equal(musician.Description, savedMusician.Description);
+            Assert.Equal(musician.Login, savedMusician.Login);
+            Assert.Equal(musician.Sex, savedMusician.Sex);
+            Assert.Equal(musician.FacebookLink, savedMusician.FacebookLink);
+            Assert.Equal(musician.VkLink, savedMusician.VkLink);
+            Assert.Equal(musician.YoutubeLink, savedMusician.YoutubeLink);
+            Assert.Equal(musician.SoundCloudLink, savedMusician.SoundCloudLink);
 
-            CollectionAssert.AreEqual(musician.Styles, savedMusician.Styles);
+            Assert.Equal(musician.Styles, savedMusician.Styles);
         }
 
-        [TestMethod]
+        [Fact]
         public void DeleteProfileTest()
         {
             var login = _toolRepository.GetAnyLoginsAsync(1).GetAwaiter().GetResult().First();
             var savedMusician = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
-            Assert.IsNotNull(savedMusician);
-            Assert.AreEqual(savedMusician.Login, login);
+            Assert.NotNull(savedMusician);
+            Assert.Equal(savedMusician.Login, login);
 
             var parameter = new CommandParameter<string>()
             {
@@ -115,26 +111,26 @@ namespace Funkmap.Tests
             };
 
             var deletedResult = _commandRepository.DeleteAsync(parameter).GetAwaiter().GetResult();
-            Assert.IsTrue(deletedResult.Success);
-            Assert.AreEqual(deletedResult.Body.Login, savedMusician.Login);
+            Assert.True(deletedResult.Success);
+            Assert.Equal(deletedResult.Body.Login, savedMusician.Login);
 
             var deleted = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
-            Assert.IsNull(deleted);
+            Assert.Null(deleted);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateBaseTest()
         {
             var login = _toolRepository.GetAnyLoginsAsync(1).GetAwaiter().GetResult().SingleOrDefault();
-            Assert.IsNotNull(login);
+            Assert.NotNull(login);
 
             var existingProfile = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
-            Assert.IsNotNull(existingProfile);
+            Assert.NotNull(existingProfile);
 
             //positive
 
             var profileUpdate = Activator.CreateInstance(existingProfile.GetType()) as Profile;
-            Assert.IsNotNull(profileUpdate);
+            Assert.NotNull(profileUpdate);
 
             profileUpdate.Login = existingProfile.Login;
 
@@ -167,41 +163,41 @@ namespace Funkmap.Tests
             };
 
             var result = _commandRepository.UpdateAsync(parameter).GetAwaiter().GetResult().Success;
-            Assert.IsTrue(result);
+            Assert.True(result);
 
             var updatedProfile = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
-            Assert.AreEqual(updatedProfile.Name, profileUpdate.Name);
-            Assert.AreNotEqual(existingProfile.Name, updatedProfile.Name);
+            Assert.Equal(updatedProfile.Name, profileUpdate.Name);
+            Assert.NotEqual(existingProfile.Name, updatedProfile.Name);
 
-            Assert.AreEqual(updatedProfile.Address, profileUpdate.Address);
-            Assert.AreNotEqual(existingProfile.Address, updatedProfile.Address);
+            Assert.Equal(updatedProfile.Address, profileUpdate.Address);
+            Assert.NotEqual(existingProfile.Address, updatedProfile.Address);
 
-            Assert.AreEqual(updatedProfile.Description, profileUpdate.Description);
-            Assert.AreNotEqual(existingProfile.Description, updatedProfile.Description);
+            Assert.Equal(updatedProfile.Description, profileUpdate.Description);
+            Assert.NotEqual(existingProfile.Description, updatedProfile.Description);
 
-            Assert.AreEqual(updatedProfile.FacebookLink, profileUpdate.FacebookLink);
-            Assert.AreNotEqual(existingProfile.FacebookLink, updatedProfile.FacebookLink);
+            Assert.Equal(updatedProfile.FacebookLink, profileUpdate.FacebookLink);
+            Assert.NotEqual(existingProfile.FacebookLink, updatedProfile.FacebookLink);
 
-            Assert.AreEqual(updatedProfile.VkLink, profileUpdate.VkLink);
-            Assert.AreNotEqual(existingProfile.VkLink, updatedProfile.VkLink);
+            Assert.Equal(updatedProfile.VkLink, profileUpdate.VkLink);
+            Assert.NotEqual(existingProfile.VkLink, updatedProfile.VkLink);
 
-            Assert.AreEqual(updatedProfile.SoundCloudLink, profileUpdate.SoundCloudLink);
-            Assert.AreNotEqual(existingProfile.SoundCloudLink, updatedProfile.SoundCloudLink);
+            Assert.Equal(updatedProfile.SoundCloudLink, profileUpdate.SoundCloudLink);
+            Assert.NotEqual(existingProfile.SoundCloudLink, updatedProfile.SoundCloudLink);
 
-            Assert.AreEqual(updatedProfile.YoutubeLink, profileUpdate.YoutubeLink);
-            Assert.AreNotEqual(existingProfile.YoutubeLink, updatedProfile.YoutubeLink);
+            Assert.Equal(updatedProfile.YoutubeLink, profileUpdate.YoutubeLink);
+            Assert.NotEqual(existingProfile.YoutubeLink, updatedProfile.YoutubeLink);
 
-            Assert.IsTrue(updatedProfile.Location.Equals(profileUpdate.Location));
-            Assert.IsFalse(existingProfile.Location.Equals(updatedProfile.Location));
+            Assert.True(updatedProfile.Location.Equals(profileUpdate.Location));
+            Assert.False(existingProfile.Location.Equals(updatedProfile.Location));
 
-            Assert.AreEqual(updatedProfile.IsActive, profileUpdate.IsActive);
-            Assert.AreNotEqual(existingProfile.IsActive, updatedProfile.IsActive);
+            Assert.Equal(updatedProfile.IsActive, profileUpdate.IsActive);
+            Assert.NotEqual(existingProfile.IsActive, updatedProfile.IsActive);
 
-            CollectionAssert.AreEqual(updatedProfile.SoundCloudTracks, profileUpdate.SoundCloudTracks);
-            CollectionAssert.AreNotEqual(existingProfile.SoundCloudTracks, updatedProfile.SoundCloudTracks);
+            Assert.Equal(updatedProfile.SoundCloudTracks, profileUpdate.SoundCloudTracks);
+            Assert.NotEqual(existingProfile.SoundCloudTracks, updatedProfile.SoundCloudTracks);
 
-            CollectionAssert.AreEqual(updatedProfile.VideoInfos, profileUpdate.VideoInfos);
-            CollectionAssert.AreNotEqual(existingProfile.VideoInfos, updatedProfile.VideoInfos);
+            Assert.Equal(updatedProfile.VideoInfos, profileUpdate.VideoInfos);
+            Assert.NotEqual(existingProfile.VideoInfos, updatedProfile.VideoInfos);
 
 
             //negative
@@ -218,18 +214,18 @@ namespace Funkmap.Tests
             };
 
             result = _commandRepository.UpdateAsync(parameter).GetAwaiter().GetResult().Success;
-            Assert.IsTrue(result);
+            Assert.True(result);
 
             updatedProfile = _baseQueryRepository.GetAsync(login).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(profileUpdate.UserLogin, updatedProfile.UserLogin);
-            Assert.AreEqual(existingProfile.UserLogin, updatedProfile.UserLogin);
+            Assert.NotEqual(profileUpdate.UserLogin, updatedProfile.UserLogin);
+            Assert.Equal(existingProfile.UserLogin, updatedProfile.UserLogin);
 
-            Assert.AreNotEqual(profileUpdate.AvatarUrl, updatedProfile.AvatarUrl);
-            Assert.AreEqual(existingProfile.AvatarUrl, updatedProfile.AvatarUrl);
+            Assert.NotEqual(profileUpdate.AvatarUrl, updatedProfile.AvatarUrl);
+            Assert.Equal(existingProfile.AvatarUrl, updatedProfile.AvatarUrl);
 
-            Assert.AreNotEqual(profileUpdate.AvatarMiniUrl, updatedProfile.AvatarMiniUrl);
-            Assert.AreEqual(existingProfile.AvatarMiniUrl, updatedProfile.AvatarMiniUrl);
+            Assert.NotEqual(profileUpdate.AvatarMiniUrl, updatedProfile.AvatarMiniUrl);
+            Assert.Equal(existingProfile.AvatarMiniUrl, updatedProfile.AvatarMiniUrl);
 
             profileUpdate.Login = Guid.NewGuid().ToString();
             profileUpdate.Name = Guid.NewGuid().ToString();
@@ -241,11 +237,11 @@ namespace Funkmap.Tests
             };
 
             result = _commandRepository.UpdateAsync(parameter).GetAwaiter().GetResult().Success;
-            Assert.IsFalse(result);
+            Assert.False(result);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateMusicianTest()
         {
             var filtered = _baseQueryRepository.GetFilteredAsync(new CommonFilterParameter
@@ -255,24 +251,25 @@ namespace Funkmap.Tests
                 Skip = 0
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(filtered.Count, 0);
+            Assert.NotEmpty(filtered);
 
 
-            var profile = filtered.Single() as Domain.Models.Musician;
-            Assert.IsNotNull(profile);
+            var profile = filtered.Single() as Musician;
+            Assert.NotNull(profile);
 
-            Domain.Models.Musician existingEntity = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Domain.Models.Musician;
-            Assert.IsNotNull(existingEntity);
+            var existingEntity = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Musician;
+            Assert.NotNull(existingEntity);
 
 
-            var profileUpdates = new Domain.Models.Musician()
+            var profileUpdates = new Musician
             {
-                Login = existingEntity.Login
+                Login = existingEntity.Login,
+                Instrument = Enum.GetValues(typeof(Instruments)).Cast<Instruments>()
+                    .First(x => x != existingEntity.Instrument && x != Instruments.None)
             };
 
-            profileUpdates.Instrument = Enum.GetValues(typeof(Instruments)).Cast<Instruments>().First(x => x != existingEntity.Instrument && x != Instruments.None);
             profileUpdates.BirthDate = profileUpdates.BirthDate?.AddYears(-1) ?? DateTime.Now.AddYears(-20);
-            profileUpdates.Expirience = Enum.GetValues(typeof(Expiriences)).Cast<Expiriences>().First(x => x != existingEntity.Expirience && x != Expiriences.None);
+            profileUpdates.Experience = Enum.GetValues(typeof(Expiriences)).Cast<Expiriences>().First(x => x != existingEntity.Experience && x != Expiriences.None);
             profileUpdates.Sex = Enum.GetValues(typeof(Sex)).Cast<Sex>().First(x => x != existingEntity.Sex && x != Sex.None);
             profileUpdates.Styles = Enum.GetValues(typeof(Styles)).Cast<Styles>().Except(existingEntity.Styles).ToList();
 
@@ -283,28 +280,28 @@ namespace Funkmap.Tests
             };
 
             var result = _commandRepository.UpdateAsync(parameter).GetAwaiter().GetResult().Success;
-            Assert.IsTrue(result);
+            Assert.True(result);
 
-            var updatedProfile = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Domain.Models.Musician;
-            Assert.IsNotNull(updatedProfile);
+            var updatedProfile = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Musician;
+            Assert.NotNull(updatedProfile);
 
-            Assert.AreEqual(profileUpdates.Instrument, updatedProfile.Instrument);
-            Assert.AreNotEqual(existingEntity.Instrument, updatedProfile.Instrument);
+            Assert.Equal(profileUpdates.Instrument, updatedProfile.Instrument);
+            Assert.NotEqual(existingEntity.Instrument, updatedProfile.Instrument);
 
-            Assert.AreEqual(profileUpdates.BirthDate.ToString(), updatedProfile.BirthDate.ToString());
-            Assert.AreNotEqual(existingEntity.BirthDate.ToString(), updatedProfile.BirthDate.ToString());
+            Assert.Equal(profileUpdates.BirthDate.ToString(), updatedProfile.BirthDate.ToString());
+            Assert.NotEqual(existingEntity.BirthDate.ToString(), updatedProfile.BirthDate.ToString());
 
-            Assert.AreEqual(profileUpdates.Expirience, updatedProfile.Expirience);
-            Assert.AreNotEqual(existingEntity.Expirience, updatedProfile.Expirience);
+            Assert.Equal(profileUpdates.Experience, updatedProfile.Experience);
+            Assert.NotEqual(existingEntity.Experience, updatedProfile.Experience);
 
-            Assert.AreEqual(profileUpdates.Sex, updatedProfile.Sex);
-            Assert.AreNotEqual(existingEntity.Sex, updatedProfile.Sex);
+            Assert.Equal(profileUpdates.Sex, updatedProfile.Sex);
+            Assert.NotEqual(existingEntity.Sex, updatedProfile.Sex);
 
-            CollectionAssert.AreEqual(profileUpdates.Styles, updatedProfile.Styles);
-            CollectionAssert.AreNotEqual(existingEntity.Styles, updatedProfile.Styles);
+            Assert.Equal(profileUpdates.Styles, updatedProfile.Styles);
+            Assert.NotEqual(existingEntity.Styles, updatedProfile.Styles);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateBandTest()
         {
             var filtered = _baseQueryRepository.GetFilteredAsync(new CommonFilterParameter
@@ -314,14 +311,14 @@ namespace Funkmap.Tests
                 Skip = 0
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(filtered.Count, 0);
+            Assert.NotEmpty(filtered);
 
 
             var profile = filtered.Single() as Band;
-            Assert.IsNotNull(profile);
+            Assert.NotNull(profile);
 
             Band existingEntity = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Band;
-            Assert.IsNotNull(existingEntity);
+            Assert.NotNull(existingEntity);
 
 
             var profileUpdates = new Band
@@ -341,25 +338,25 @@ namespace Funkmap.Tests
             };
 
             var result = _commandRepository.UpdateAsync(parameter).GetAwaiter().GetResult().Success;
-            Assert.IsTrue(result);
+            Assert.True(result);
 
             var updatedProfile = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Band;
-            Assert.IsNotNull(updatedProfile);
+            Assert.NotNull(updatedProfile);
 
-            CollectionAssert.AreEqual(profileUpdates.Styles, updatedProfile.Styles);
-            CollectionAssert.AreNotEqual(existingEntity.Styles, updatedProfile.Styles);
+            Assert.Equal(profileUpdates.Styles, updatedProfile.Styles);
+            Assert.NotEqual(existingEntity.Styles, updatedProfile.Styles);
 
-            CollectionAssert.AreEqual(profileUpdates.DesiredInstruments, updatedProfile.DesiredInstruments);
-            CollectionAssert.AreNotEqual(existingEntity.DesiredInstruments, updatedProfile.DesiredInstruments);
+            Assert.Equal(profileUpdates.DesiredInstruments, updatedProfile.DesiredInstruments);
+            Assert.NotEqual(existingEntity.DesiredInstruments, updatedProfile.DesiredInstruments);
 
-            CollectionAssert.AreEqual(profileUpdates.InvitedMusicians, updatedProfile.InvitedMusicians);
-            CollectionAssert.AreNotEqual(existingEntity.InvitedMusicians, updatedProfile.InvitedMusicians);
+            Assert.Equal(profileUpdates.InvitedMusicians, updatedProfile.InvitedMusicians);
+            Assert.NotEqual(existingEntity.InvitedMusicians, updatedProfile.InvitedMusicians);
 
-            CollectionAssert.AreEqual(profileUpdates.Musicians, updatedProfile.Musicians);
-            CollectionAssert.AreNotEqual(existingEntity.Musicians, updatedProfile.Musicians);
+            Assert.Equal(profileUpdates.Musicians, updatedProfile.Musicians);
+            Assert.NotEqual(existingEntity.Musicians, updatedProfile.Musicians);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateShopTest()
         {
             var filtered = _baseQueryRepository.GetFilteredAsync(new CommonFilterParameter
@@ -369,14 +366,14 @@ namespace Funkmap.Tests
                 Skip = 0
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(filtered.Count, 0);
+            Assert.NotEmpty(filtered);
 
 
             var profile = filtered.Single() as Shop;
-            Assert.IsNotNull(profile);
+            Assert.NotNull(profile);
 
             Shop existingEntity = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Shop;
-            Assert.IsNotNull(existingEntity);
+            Assert.NotNull(existingEntity);
 
 
             var profileUpdates = new Shop
@@ -393,16 +390,16 @@ namespace Funkmap.Tests
             };
 
             var result = _commandRepository.UpdateAsync(parameter).GetAwaiter().GetResult().Success;
-            Assert.IsTrue(result);
+            Assert.True(result);
 
             var updatedProfile = _baseQueryRepository.GetAsync(profile.Login).GetAwaiter().GetResult() as Shop;
-            Assert.IsNotNull(updatedProfile);
+            Assert.NotNull(updatedProfile);
 
-            Assert.AreEqual(profileUpdates.Website, updatedProfile.Website);
-            Assert.AreNotEqual(existingEntity.Website, updatedProfile.Website);
+            Assert.Equal(profileUpdates.Website, updatedProfile.Website);
+            Assert.NotEqual(existingEntity.Website, updatedProfile.Website);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateMusicianWithDependencies()
         {
             var band = new Band
@@ -413,7 +410,7 @@ namespace Funkmap.Tests
             };
 
             var createResult = _commandRepository.CreateAsync(new CommandParameter<Profile>() { UserLogin = "rogulenkoko", Parameter = band }).GetAwaiter().GetResult();
-            Assert.IsTrue(createResult.Success);
+            Assert.True(createResult.Success);
 
             band.Musicians = new List<string>();
 
@@ -425,8 +422,8 @@ namespace Funkmap.Tests
             };
 
             var musicians = _baseQueryRepository.GetFilteredAsync(musicianFilter).GetAwaiter().GetResult();
-            Assert.IsNotNull(musicians);
-            Assert.AreEqual(musicians.Count, musicianFilter.Take);
+            Assert.NotNull(musicians);
+            Assert.Equal(musicians.Count, musicianFilter.Take);
 
             var bandUpdate = new Band
             {
@@ -435,14 +432,14 @@ namespace Funkmap.Tests
                 Musicians = musicians.Select(x => x.Login).ToList()
             };
 
-            var paramter = new CommandParameter<Profile>()
+            var parameter = new CommandParameter<Profile>
             {
                 UserLogin = band.UserLogin,
                 Parameter = bandUpdate
             };
 
-            var updateResult = _commandRepository.UpdateAsync(paramter).GetAwaiter().GetResult();
-            Assert.IsTrue(updateResult.Success);
+            var updateResult = _commandRepository.UpdateAsync(parameter ).GetAwaiter().GetResult();
+            Assert.True(updateResult.Success);
 
             //waiting for event bus execution
             Thread.Sleep(3000);
@@ -450,20 +447,20 @@ namespace Funkmap.Tests
             musicians.ForEach(musician =>
             {
                 var updatedMusician = _baseQueryRepository.GetAsync<Musician>(musician.Login).GetAwaiter().GetResult();
-                Assert.IsTrue(updatedMusician.BandLogins.Contains(band.Login));
+                Assert.Contains(band.Login, updatedMusician.BandLogins);
             });
         }
 
-        private Domain.Models.Musician GetMusician()
+        private Musician GetMusician()
         {
-            return new Domain.Models.Musician
+            return new Musician
             {
                 Name = "qwerty",
                 Address = "Spb",
                 BirthDate = DateTime.Now.AddYears(-20),
                 Description = "qweqweqwe",
                 Login = Guid.NewGuid().ToString(),
-                Expirience = Expiriences.Begginer,
+                Experience = Expiriences.Beginer,
                 Instrument = Instruments.Bass,
                 Sex = Sex.Female,
                 FacebookLink = "facebook",

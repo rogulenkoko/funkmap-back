@@ -16,21 +16,19 @@ using Funkmap.Domain.Models;
 using Funkmap.Domain.Parameters;
 using Funkmap.Tests.Data;
 using Funkmap.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace Funkmap.Tests
 {
-    [TestClass]
     public class MusicianDependencyTest
     {
-        private IBaseQueryRepository _baseQueryRepository;
-        private IMusicianRepository _musicianRepository;
-        private TestToolRepository _toolRepository;
-        private IBaseCommandRepository _commandRepository;
+        private readonly IBaseQueryRepository _baseQueryRepository;
+        private readonly IMusicianRepository _musicianRepository;
+        private readonly TestToolRepository _toolRepository;
+        private readonly IBaseCommandRepository _commandRepository;
 
-        [TestInitialize]
-        public void Initialize()
+        public MusicianDependencyTest()
         {
             var db = FunkmapTestDbProvider.DropAndCreateDatabase();
 
@@ -57,7 +55,7 @@ namespace Funkmap.Tests
             _commandRepository = new BaseCommandRepository(collection, storage, updateBuilders, eventBus);
         }
 
-        [TestMethod]
+        [Fact]
         public void AddDependencyTest()
         {
             var band = new Band
@@ -68,18 +66,18 @@ namespace Funkmap.Tests
             };
 
             var creationResult = _commandRepository.CreateAsync(new CommandParameter<Profile>() {UserLogin = "rogulenkoko", Parameter = band }).GetAwaiter().GetResult();
-            Assert.IsTrue(creationResult.Success);
+            Assert.True(creationResult.Success);
 
             var musiciansCount = 2;
             var musicians = _toolRepository.GetBandRelatedMusiciansAsync(band.Login, musiciansCount, false).GetAwaiter().GetResult();
 
-            Assert.IsNotNull(musicians);
-            Assert.AreNotEqual(musicians.Count, 0);
-            Assert.IsTrue(musicians.Count <= musiciansCount);
+            Assert.NotNull(musicians);
+            Assert.NotEqual(musicians.Count, 0);
+            Assert.True(musicians.Count <= musiciansCount);
 
             foreach (var musician in musicians)
             {
-                Assert.IsFalse(musician.BandLogins.Contains(band.Login));
+                Assert.False(musician.BandLogins.Contains(band.Login));
             }
 
             var fakeUpdatedBand = new Band
@@ -94,11 +92,11 @@ namespace Funkmap.Tests
             foreach (var musician in musicians)
             {
                 var updatedMusician = _baseQueryRepository.GetAsync<Musician>(musician.Login).GetAwaiter().GetResult();
-                Assert.IsTrue(updatedMusician.BandLogins.Contains(band.Login));
+                Assert.True(updatedMusician.BandLogins.Contains(band.Login));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void DeleteDependencyTest()
         {
             var filter = new CommonFilterParameter()
@@ -108,18 +106,16 @@ namespace Funkmap.Tests
             };
 
             var band = _baseQueryRepository.GetFilteredAsync(filter).GetAwaiter().GetResult().SingleOrDefault() as Band;
-            Assert.IsNotNull(band);
+            Assert.NotNull(band);
 
             var musiciansCount = 2;
             var musicians = _toolRepository.GetBandRelatedMusiciansAsync(band.Login, musiciansCount, true).GetAwaiter().GetResult();
 
             //if test data is inconsistent
             band.Musicians = musicians.Select(x => x.Login).ToList();
-
-
-            Assert.IsNotNull(musicians);
-            Assert.AreNotEqual(musicians.Count, 0);
-            Assert.IsTrue(musicians.Count <= musiciansCount);
+            Assert.NotNull(musicians);
+            Assert.NotEqual(musicians.Count, 0);
+            Assert.True(musicians.Count <= musiciansCount);
 
             var musiciansForDelete = band.Musicians.Take(1).ToList();
 
@@ -135,7 +131,7 @@ namespace Funkmap.Tests
             foreach (var musicianLogin in musiciansForDelete)
             {
                 var updatedMusician = _baseQueryRepository.GetAsync<Musician>(musicianLogin).GetAwaiter().GetResult();
-                Assert.IsFalse(updatedMusician.BandLogins.Contains(band.Login));
+                Assert.False(updatedMusician.BandLogins.Contains(band.Login));
             }
         }
     }

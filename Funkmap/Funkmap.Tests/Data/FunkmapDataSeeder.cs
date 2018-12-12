@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using Funkmap.Data;
 using Funkmap.Data.Entities.Entities;
 using Funkmap.Domain.Enums;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using MongoDB.Driver.GeoJsonObjectModel;
 
 namespace Funkmap.Tests.Data
 {
-    [TestClass]
     public class FunkmapDataSeeder
     {
         private readonly IMongoDatabase _database;
@@ -67,7 +65,7 @@ namespace Funkmap.Tests.Data
                     Instrument = Instruments.Drums,
                     FacebookLink = "https://ru-ru.facebook.com/",
                     BandLogins = new List<string>() { "beatles" },
-                    ExpirienceType = Expiriences.Begginer,
+                    ExpirienceType = Expiriences.Beginer,
                     IsActive = true,
                     CreationDate = DateTime.UtcNow.AddMonths(-11),
                     FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }

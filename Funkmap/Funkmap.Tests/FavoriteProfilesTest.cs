@@ -13,21 +13,19 @@ using Funkmap.Domain.Abstract.Repositories;
 using Funkmap.Domain.Parameters;
 using Funkmap.Tests.Data;
 using Funkmap.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace Funkmap.Tests
 {
-    [TestClass]
     public class FavoriteProfilesTest
     {
-        private IBaseCommandRepository _commandRepository;
-        private IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseCommandRepository _commandRepository;
+        private readonly IBaseQueryRepository _baseQueryRepository;
 
-        private TestToolRepository _toolRepository;
+        private readonly TestToolRepository _toolRepository;
 
-        [TestInitialize]
-        public void Initialize()
+        public FavoriteProfilesTest()
         {
             var db = FunkmapTestDbProvider.DropAndCreateDatabase();
 
@@ -50,13 +48,13 @@ namespace Funkmap.Tests
             
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateFavouriteTest()
         {
             var someUser = Guid.NewGuid().ToString();
 
             var profileLogin = _toolRepository.GetAnyLoginsAsync(1).GetAwaiter().GetResult().SingleOrDefault();
-            Assert.IsNotNull(profileLogin);
+            Assert.NotNull(profileLogin);
             
             var parameter = new UpdateFavoriteParameter
             {
@@ -66,33 +64,33 @@ namespace Funkmap.Tests
             };
 
             var response = _commandRepository.UpdateFavoriteAsync(parameter).GetAwaiter().GetResult();
-            Assert.IsTrue(response.Success);
+            Assert.True(response.Success);
 
             var favoriteLogins = _baseQueryRepository.GetFavoritesLoginsAsync(someUser).GetAwaiter().GetResult();
-            Assert.IsTrue(favoriteLogins.Contains(profileLogin));
+            Assert.True(favoriteLogins.Contains(profileLogin));
 
             response = _commandRepository.UpdateFavoriteAsync(parameter).GetAwaiter().GetResult();
-            Assert.IsFalse(response.Success);
+            Assert.False(response.Success);
 
             var someUser1 = Guid.NewGuid().ToString();
             parameter.UserLogin = someUser1;
 
             response = _commandRepository.UpdateFavoriteAsync(parameter).GetAwaiter().GetResult();
-            Assert.IsTrue(response.Success);
+            Assert.True(response.Success);
 
             favoriteLogins = _baseQueryRepository.GetFavoritesLoginsAsync(someUser).GetAwaiter().GetResult();
-            Assert.IsTrue(favoriteLogins.Contains(profileLogin));
+            Assert.True(favoriteLogins.Contains(profileLogin));
 
             favoriteLogins = _baseQueryRepository.GetFavoritesLoginsAsync(someUser1).GetAwaiter().GetResult();
-            Assert.IsTrue(favoriteLogins.Contains(profileLogin));
+            Assert.True(favoriteLogins.Contains(profileLogin));
 
             parameter.IsFavorite = false;
 
             response = _commandRepository.UpdateFavoriteAsync(parameter).GetAwaiter().GetResult();
-            Assert.IsTrue(response.Success);
+            Assert.True(response.Success);
 
             favoriteLogins = _baseQueryRepository.GetFavoritesLoginsAsync(someUser1).GetAwaiter().GetResult();
-            Assert.IsFalse(favoriteLogins.Contains(profileLogin));
+            Assert.False(favoriteLogins.Contains(profileLogin));
 
 
         }

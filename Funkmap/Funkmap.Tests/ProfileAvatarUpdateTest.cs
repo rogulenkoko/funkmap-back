@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extras.Moq;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Core.Tools;
 using Funkmap.Common.Models;
-using Funkmap.Common.Owin.Tools;
 using Funkmap.Cqrs.Abstract;
 using Funkmap.Data;
 using Funkmap.Data.Entities.Entities.Abstract;
@@ -18,25 +18,19 @@ using Funkmap.Domain.Parameters;
 using Funkmap.Tests.Data;
 using Funkmap.Tests.Images;
 using Funkmap.Tests.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using Moq;
+using Xunit;
 
 namespace Funkmap.Tests
 {
-    [TestClass]
     public class ProfileAvatarUpdateTest
     {
-        private IBaseQueryRepository _baseQueryRepository;
+        private readonly IBaseQueryRepository _baseQueryRepository;
+        private readonly TestToolRepository _toolRepository;
+        private readonly IMongoCollection<BaseEntity> _collection;
 
-        private TestToolRepository _toolRepository;
-
-        private IMongoCollection<BaseEntity> _collection;
-
-
-
-        [TestInitialize]
-        public void Initialize()
+        public ProfileAvatarUpdateTest()
         {
             var db = FunkmapTestDbProvider.DropAndCreateDatabase();
 
@@ -52,11 +46,11 @@ namespace Funkmap.Tests
             _toolRepository = new TestToolRepository(_collection);
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateAvatarTest()
         {
             var profileLogin = _toolRepository.GetAnyLoginsAsync(1).GetAwaiter().GetResult().SingleOrDefault();
-            Assert.IsNotNull(profileLogin);
+            Assert.NotNull(profileLogin);
 
             var profile = _baseQueryRepository.GetAsync(profileLogin).GetAwaiter().GetResult();
 
@@ -93,21 +87,21 @@ namespace Funkmap.Tests
                 var eventBus = new Mock<IEventBus>().Object;
                 var commandRepository = new BaseCommandRepository(_collection, storage, new List<IUpdateDefinitionBuilder>(), eventBus);
                 var result = commandRepository.UpdateAvatarAsync(parameter).GetAwaiter().GetResult();
-                Assert.IsTrue(result.Success);
+                Assert.True(result.Success);
 
                 var updatedProfile = _baseQueryRepository.GetAsync(profileLogin).GetAwaiter().GetResult();
-                Assert.IsNotNull(updatedProfile);
-                Assert.AreEqual(updatedProfile.AvatarUrl, expectedName);
-                Assert.AreEqual(updatedProfile.AvatarMiniUrl, expectedMiniName);
+                Assert.NotNull(updatedProfile);
+                Assert.Equal(updatedProfile.AvatarUrl, expectedName);
+                Assert.Equal(updatedProfile.AvatarMiniUrl, expectedMiniName);
 
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void UpdateEmptyAvatarTest()
         {
             var profileLogin = _toolRepository.GetAnyLoginsAsync(1).GetAwaiter().GetResult().SingleOrDefault();
-            Assert.IsNotNull(profileLogin);
+            Assert.NotNull(profileLogin);
 
             var profile = _baseQueryRepository.GetAsync(profileLogin).GetAwaiter().GetResult();
             
@@ -125,12 +119,12 @@ namespace Funkmap.Tests
             var eventBus = new Mock<IEventBus>().Object;
             var commandRepository = new BaseCommandRepository(_collection, storage, new List<IUpdateDefinitionBuilder>(), eventBus);
             var result = commandRepository.UpdateAvatarAsync(parameter).GetAwaiter().GetResult();
-            Assert.IsTrue(result.Success);
+            Assert.True(result.Success);
 
             var updatedProfile = _baseQueryRepository.GetAsync(profileLogin).GetAwaiter().GetResult();
-            Assert.IsNotNull(updatedProfile);
-            Assert.AreEqual(updatedProfile.AvatarUrl, String.Empty);
-            Assert.AreEqual(updatedProfile.AvatarMiniUrl, String.Empty);
+            Assert.NotNull(updatedProfile);
+            Assert.Equal(updatedProfile.AvatarUrl, String.Empty);
+            Assert.Equal(updatedProfile.AvatarMiniUrl, String.Empty);
         }
     }
 }
