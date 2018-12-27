@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Funkmap.Auth.Data.Entities
 {
-    public class UserEntity
+    internal class UserEntity
     {
         [BsonId]
         public string Login { get; set; }

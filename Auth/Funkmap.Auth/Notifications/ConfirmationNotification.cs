@@ -2,9 +2,18 @@
 
 namespace Funkmap.Auth.Notifications
 {
+    /// <summary>
+    /// Confirmation notification
+    /// </summary>
     public class ConfirmationNotification : Notification
     {
-        public ConfirmationNotification(string reciever, string name, string code) : base(reciever)
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="receiver">Receiver</param>
+        /// <param name="name">User's name</param>
+        /// <param name="code">Confirmation code</param>
+        public ConfirmationNotification(string receiver, string name, string code) : base(receiver)
         {
             Subject = GetSubject();
             Title = GetConfirmationTitle(name);

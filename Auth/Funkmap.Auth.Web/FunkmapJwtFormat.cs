@@ -14,9 +14,9 @@ namespace Funkmap.Auth.Web
                 throw new ArgumentNullException("data");
             }
 
-            string audienceId = FunkmapJwtOptions.Audience;
+            var audienceId = FunkmapJwtOptions.Audience;
 
-            HmacSigningCredentials signingKey = new HmacSigningCredentials(FunkmapJwtOptions.Key);
+            var signingKey = new HmacSigningCredentials(FunkmapJwtOptions.Key);
 
             var issued = data.Properties.IssuedUtc;
 

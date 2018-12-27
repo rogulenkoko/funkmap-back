@@ -2,9 +2,18 @@
 
 namespace Funkmap.Auth.Notifications
 {
+    /// <summary>
+    /// Password recovery notification
+    /// </summary>
     public class PasswordRecoverNotification : Notification
     {
-        public PasswordRecoverNotification(string reciever, string name, string code) : base(reciever)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="receiver">Receiver</param>
+        /// <param name="name">User's name</param>
+        /// <param name="code">Confirmation code</param>
+        public PasswordRecoverNotification(string receiver, string name, string code) : base(receiver)
         {
             Subject = GetSubject();
             Title = GetConfirmationTitle(name);

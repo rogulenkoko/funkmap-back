@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace Funkmap.Auth.Client
 {
+    /// <inheritdoc cref="IUserService"/>
     public class UserService : IUserService
     {
         private readonly string _url;
@@ -16,6 +17,7 @@ namespace Funkmap.Auth.Client
             _url = $"{url}/api/user";
         }
 
+        /// <inheritdoc cref="IUserService.GetUserAsync"/>
         public async Task<UserResponse> GetUserAsync(string login)
         {
             using (var client = new HttpClient())

@@ -9,6 +9,9 @@ using Funkmap.Common.Owin.Filters;
 
 namespace Funkmap.Auth.Controllers
 {
+    /// <summary>
+    /// Authorization controller
+    /// </summary>
     [RoutePrefix("api/auth")]
     [ValidateRequestModel]
     public class AuthController : ApiController
@@ -16,6 +19,11 @@ namespace Funkmap.Auth.Controllers
         private readonly IRegistrationContextManager _contextManager;
         private readonly IRestoreContextManager _restoreContextManager;
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="contextManager"><see cref="IRegistrationContextManager"/></param>
+        /// <param name="restoreContextManager"><see cref="IRestoreContextManager"/></param>
         public AuthController(IRegistrationContextManager contextManager, 
                               IRestoreContextManager restoreContextManager)
         {
@@ -27,7 +35,6 @@ namespace Funkmap.Auth.Controllers
         /// Signup user and send confirmation code to email.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
         [HttpPost]
         [Route("signup")]
         public async Task<IHttpActionResult> SendEmail(RegistrationRequest request)
@@ -52,7 +59,6 @@ namespace Funkmap.Auth.Controllers
         /// Registration confirmation with the email code.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
         [HttpPost]
         [Route("signup/confirm")]
         public async Task<IHttpActionResult> Confirm(ConfirmationRequest request)
@@ -64,7 +70,7 @@ namespace Funkmap.Auth.Controllers
 
             var confirmationResult = await _contextManager.TryConfirmAsync(request.Login, request.Email, request.Code);
 
-            var response = new RegistrationResponse
+            var response = new BaseResponse
             {
                 Success = confirmationResult.Success,
                 Error = confirmationResult.Error
@@ -77,7 +83,6 @@ namespace Funkmap.Auth.Controllers
         /// Ask for password restore.
         /// </summary>
         /// <param name="email">Users's email (also can be login).</param>
-        /// <returns></returns>
         [HttpPost]
         [Route("restore/{email}")]
         public async Task<IHttpActionResult> AskRestore(string email)
@@ -96,7 +101,6 @@ namespace Funkmap.Auth.Controllers
         /// Password restore confirmation with the email code.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
         [HttpPost]
         [Route("restore/cofirm")]
         public async Task<IHttpActionResult> ConfirmRestore(ConfirmRestoreRequest request)

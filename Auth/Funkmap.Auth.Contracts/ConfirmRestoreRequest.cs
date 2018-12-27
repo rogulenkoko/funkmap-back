@@ -2,8 +2,14 @@
 
 namespace Funkmap.Auth.Contracts
 {
+    /// <summary>
+    /// Confirmation restore password model
+    /// </summary>
     public class ConfirmRestoreRequest
     {
+        /// <summary>
+        /// Login or email
+        /// </summary>
         [Required]
         public string LoginOrEmail { get; set; }
 

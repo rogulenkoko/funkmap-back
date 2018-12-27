@@ -2,6 +2,9 @@
 
 namespace Funkmap.Auth.Contracts
 {
+    /// <summary>
+    /// Registration request model
+    /// </summary>
     public class RegistrationRequest
     {
         /// <summary>
@@ -22,9 +25,15 @@ namespace Funkmap.Auth.Contracts
         [Required]
         public string Email { get; set; }
 
+        /// <summary>
+        /// Name
+        /// </summary>
         [Required]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Locale
+        /// </summary>
         [Required]
         public string Locale { get; set; }
     }

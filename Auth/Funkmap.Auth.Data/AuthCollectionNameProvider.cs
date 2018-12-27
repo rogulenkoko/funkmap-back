@@ -1,9 +1,9 @@
 ﻿namespace Funkmap.Auth.Data
 {
-    public static class AuthCollectionNameProvider
+    internal static class AuthCollectionNameProvider
     {
-        public const string UsersCollectionName = "users";
+        internal const string UsersCollectionName = "users";
 
-        public const string AuthStorageName = "funkmapauthstorage";
+        internal const string AuthStorageName = "funkmapauthstorage";
     }
 }

@@ -14,7 +14,7 @@ using Funkmap.Common.Owin.Tools;
 
 namespace Funkmap.Auth.Data
 {
-    public class AuthRepository : IAuthRepository
+    internal class AuthRepository : IAuthRepository
     {
         private readonly IMongoCollection<UserEntity> _collection;
 
@@ -41,27 +41,27 @@ namespace Funkmap.Auth.Data
 
             if (String.IsNullOrWhiteSpace(user.Email))
             {
-                return new BaseResponse() { Success = false, Error = "Invalid user's email."};
+                return new BaseResponse { Success = false, Error = "Invalid user's email."};
             }
 
             if (String.IsNullOrWhiteSpace(user.Login))
             {
-                return new BaseResponse() { Success = false, Error = "Invalid user's login." };
+                return new BaseResponse { Success = false, Error = "Invalid user's login." };
             }
 
             if (String.IsNullOrWhiteSpace(hashedPassword))
             {
-                return new BaseResponse() {Success = false, Error = "Invalid user's password."};
+                return new BaseResponse {Success = false, Error = "Invalid user's password."};
             }
 
             try
             {
                 await _collection.InsertOneAsync(entity);
-                return new BaseResponse(){Success = true };
+                return new BaseResponse{Success = true };
             }
             catch (Exception e)
             {
-                return new BaseResponse() {Success = false, Error = e.Message};
+                return new BaseResponse {Success = false, Error = e.Message};
             }
            
         }
@@ -72,32 +72,28 @@ namespace Funkmap.Auth.Data
 
             if (String.IsNullOrWhiteSpace(user.Email))
             {
-                return new BaseResponse() { Success = false, Error = "Invalid user's email." };
+                return new BaseResponse { Success = false, Error = "Invalid user's email." };
             }
 
             if (String.IsNullOrWhiteSpace(user.Login))
             {
-                return new BaseResponse() { Success = false, Error = "Invalid user's login." };
+                return new BaseResponse { Success = false, Error = "Invalid user's login." };
             }
 
             try
             {
                 await _collection.InsertOneAsync(entity);
-                return new BaseResponse() { Success = true };
+                return new BaseResponse { Success = true };
             }
             catch (Exception e)
             {
-                return new BaseResponse() { Success = false, Error = e.Message };
+                return new BaseResponse { Success = false, Error = e.Message };
             }
 
         }
 
         public async Task<User> LoginAsync(string login, string hashedPassword)
         {
-            return new User()
-            {
-                Login = login,
-            };
             var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == hashedPassword)
                 .SingleOrDefaultAsync();
             return user.ToUser();
@@ -109,7 +105,7 @@ namespace Funkmap.Auth.Data
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
             var user = await _collection.Find(filter).Project<UserEntity>(projection).SingleOrDefaultAsync();
 
-            if (String.IsNullOrEmpty(user?.AvatarUrl)) return null;
+            if (string.IsNullOrEmpty(user?.AvatarUrl)) return null;
             
             try
             {
@@ -124,10 +120,10 @@ namespace Funkmap.Auth.Data
 
         public async Task<string> SaveAvatarAsync(string login, byte[] image)
         {
-            String fullPath;
+            string fullPath;
             if (image == null || image.Length == 0)
             {
-                fullPath = String.Empty;
+                fullPath = string.Empty;
             }
             else
             {
@@ -146,12 +142,6 @@ namespace Funkmap.Auth.Data
             return fullPath;
         }
 
-        public async Task UpdateLastVisitDateAsync(string login, DateTime date)
-        {
-            var update = Builders<UserEntity>.Update.Set(x => x.LastVisitDateUtc, date);
-            await _collection.UpdateOneAsync(x => x.Login == login, update);
-        }
-
         public async Task UpdateLocaleAsync(string login, string locale)
         {
             var update = Builders<UserEntity>.Update.Set(x => x.Locale, locale);
@@ -168,7 +158,7 @@ namespace Funkmap.Auth.Data
         {
             var projection = Builders<UserEntity>.Projection.Include(x => x.Email);
             var usersEmails = await _collection.Find(x => true).Project<UserEntity>(projection).ToListAsync();
-            return usersEmails.Where(x => !String.IsNullOrEmpty(x.Email)).Select(x => x.Email).ToList();
+            return usersEmails.Where(x => !string.IsNullOrEmpty(x.Email)).Select(x => x.Email).ToList();
         }
     }
 }

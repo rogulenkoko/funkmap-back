@@ -3,12 +3,12 @@ using Funkmap.Auth.Data.Entities;
 
 namespace Funkmap.Auth.Data.Mappers
 {
-    public static class UserMapper
+    internal static class UserMapper
     {
-        public static User ToUser(this UserEntity source)
+        internal static User ToUser(this UserEntity source)
         {
             if (source == null) return null;
-            return new User()
+            return new User
             {
                 Login = source.Login,
                 Name = source.Name,
@@ -20,10 +20,10 @@ namespace Funkmap.Auth.Data.Mappers
             };
         }
 
-        public static UserEntity ToEntity(this User source, string password)
+        internal static UserEntity ToEntity(this User source, string password)
         {
             if (source == null) return null;
-            return new UserEntity()
+            return new UserEntity
             {
                 Login = source.Login,
                 Name = source.Name,
@@ -36,10 +36,10 @@ namespace Funkmap.Auth.Data.Mappers
             };
         }
 
-        public static UserEntity ToSocialEntity(this User source)
+        internal static UserEntity ToSocialEntity(this User source)
         {
             if (source == null) return null;
-            return new UserEntity()
+            return new UserEntity
             {
                 AvatarUrl = source.AvatarUrl,
                 Login = source.Login,

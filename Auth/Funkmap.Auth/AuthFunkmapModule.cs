@@ -9,11 +9,15 @@ using Funkmap.Common.Abstract;
 
 namespace Funkmap.Auth
 {
+    /// <summary>
+    /// IoC module for authorization domain module
+    /// </summary>
     public class AuthFunkmapModule : IFunkmapModule
     {
+        /// <inheritdoc cref="IFunkmapModule.Register"/>
         public void Register(ContainerBuilder builder)
         {
-            builder.RegisterType<ConfirmationCodeGenerator>().As<IConfirmationCodeGenerator>();
+            builder.RegisterType<ConfirmationCodeGenerator>().As<IConfirmationCodeGenerator>().SingleInstance();
             builder.RegisterType<RegistrationContextManager>().As<IRegistrationContextManager>().As<IRestoreContextManager>().SingleInstance();
             
             builder.RegisterType<HttpClient>().SingleInstance().OnRelease(x => x.Dispose());

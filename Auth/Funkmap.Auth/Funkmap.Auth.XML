@@ -4,61 +4,385 @@
         <name>Funkmap.Auth</name>
     </assembly>
     <members>
+        <member name="T:Funkmap.Auth.Abstract.IClientSecretProvider">
+            <summary>
+            Provider for client credentials
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Abstract.IClientSecretProvider.ValidateClient(System.String,System.String)">
+            <summary>
+            Validate client
+            </summary>
+            <param name="clientId">Clinet Id</param>
+            <param name="clientSecret">Client secret</param>
+        </member>
+        <member name="T:Funkmap.Auth.Abstract.IConfirmationCodeGenerator">
+            <summary>
+            Confirmation code generator
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Abstract.IConfirmationCodeGenerator.Generate">
+            <summary>
+            Generate confirmation code
+            </summary>
+        </member>
+        <member name="T:Funkmap.Auth.Abstract.IRegistrationContextManager">
+            <summary>
+            Context manager for user registration
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Abstract.IRegistrationContextManager.TryCreateContextAsync(Funkmap.Auth.Contracts.RegistrationRequest)">
+            <summary>
+            Cteacte registration context
+            </summary>
+            <param name="creds"><see cref="T:Funkmap.Auth.Contracts.RegistrationRequest"/></param>
+        </member>
+        <member name="M:Funkmap.Auth.Abstract.IRegistrationContextManager.TryConfirmAsync(System.String,System.String,System.String)">
+            <summary>
+            Confirm registration
+            </summary>
+            <param name="login">Login</param>
+            <param name="email">Email</param>
+            <param name="code">Confirmation code</param>
+        </member>
+        <member name="T:Funkmap.Auth.Abstract.IRestoreContextManager">
+            <summary>
+            Context manager for password restore
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Abstract.IRestoreContextManager.TryCreateRestoreContextAsync(System.String)">
+            <summary>
+            Create restore context
+            </summary>
+            <param name="loginOrEmail">Login or email</param>
+            <returns></returns>
+        </member>
+        <member name="M:Funkmap.Auth.Abstract.IRestoreContextManager.TryConfirmRestoreAsync(System.String,System.String,System.String)">
+            <summary>
+            Restore password
+            </summary>
+            <param name="loginOrEmail">Login or email</param>
+            <param name="code">Confirmation code</param>
+            <param name="newPassword">New password</param>
+        </member>
+        <member name="T:Funkmap.Auth.AuthFunkmapModule">
+            <summary>
+            IoC module for authorization domain module
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.AuthFunkmapModule.Register(Autofac.ContainerBuilder)">
+            <inheritdoc cref="M:Funkmap.Common.Abstract.IFunkmapModule.Register(Autofac.ContainerBuilder)"/>
+        </member>
+        <member name="T:Funkmap.Auth.Notifications.ConfirmationNotification">
+            <summary>
+            Confirmation notification
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Notifications.ConfirmationNotification.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="receiver">Receiver</param>
+            <param name="name">User's name</param>
+            <param name="code">Confirmation code</param>
+        </member>
+        <member name="T:Funkmap.Auth.Notifications.PasswordRecoverNotification">
+            <summary>
+            Password recovery notification
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Notifications.PasswordRecoverNotification.#ctor(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="receiver">Receiver</param>
+            <param name="name">User's name</param>
+            <param name="code">Confirmation code</param>
+        </member>
+        <member name="T:Funkmap.Auth.Controllers.AuthController">
+            <summary>
+            Authorization controller
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.AuthController.#ctor(Funkmap.Auth.Abstract.IRegistrationContextManager,Funkmap.Auth.Abstract.IRestoreContextManager)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="contextManager"><see cref="T:Funkmap.Auth.Abstract.IRegistrationContextManager"/></param>
+            <param name="restoreContextManager"><see cref="T:Funkmap.Auth.Abstract.IRestoreContextManager"/></param>
+        </member>
         <member name="M:Funkmap.Auth.Controllers.AuthController.SendEmail(Funkmap.Auth.Contracts.RegistrationRequest)">
             <summary>
             Signup user and send confirmation code to email.
             </summary>
             <param name="request"></param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Auth.Controllers.AuthController.Confirm(Funkmap.Auth.Contracts.ConfirmationRequest)">
             <summary>
             Registration confirmation with the email code.
             </summary>
             <param name="request"></param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Auth.Controllers.AuthController.AskRestore(System.String)">
             <summary>
             Ask for password restore.
             </summary>
             <param name="email">Users's email (also can be login).</param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Auth.Controllers.AuthController.ConfirmRestore(Funkmap.Auth.Contracts.ConfirmRestoreRequest)">
             <summary>
             Password restore confirmation with the email code.
             </summary>
             <param name="request"></param>
-            <returns></returns>
+        </member>
+        <member name="T:Funkmap.Auth.Controllers.UserController">
+            <summary>
+            Controller for user data
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Controllers.UserController.#ctor(Funkmap.Auth.Domain.Abstract.IAuthRepository)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="authRepository"><see cref="T:Funkmap.Auth.Domain.Abstract.IAuthRepository"/></param>
         </member>
         <member name="M:Funkmap.Auth.Controllers.UserController.GetUser(System.String)">
             <summary>
             Get user's full information (if exists).
             </summary>
             <param name="login">Users's login</param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Auth.Controllers.UserController.UpdateLocale(Funkmap.Auth.Contracts.UpdateLocaleRequest)">
             <summary>
             Update user locale (available: 'ru', 'en').
             </summary>
             <param name="request"></param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Auth.Controllers.UserController.GetAvatar(System.String)">
             <summary>
             Get user's avatar (bytes or base64 string).
             </summary>
             <param name="login">Users's login</param>
-            <returns></returns>
         </member>
         <member name="M:Funkmap.Auth.Controllers.UserController.SaveAvatar(Funkmap.Auth.Contracts.SaveImageRequest)">
             <summary>
             Update users's avatar.
             </summary>
             <param name="request"></param>
-            <returns></returns>
+        </member>
+        <member name="T:Funkmap.Auth.Services.ClientSecretProvider">
+            <inheritdoc cref="T:Funkmap.Auth.Abstract.IClientSecretProvider"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.ClientSecretProvider.#ctor">
+            <summary>
+            Ctor
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Services.ClientSecretProvider.ValidateClient(System.String,System.String)">
+            <inheritdoc cref="M:Funkmap.Auth.Abstract.IClientSecretProvider.ValidateClient(System.String,System.String)"/>
+        </member>
+        <member name="T:Funkmap.Auth.Services.ConfirmationCodeGenerator">
+            <inheritdoc cref="T:Funkmap.Auth.Abstract.IConfirmationCodeGenerator"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.ConfirmationCodeGenerator.Generate">
+            <inheritdoc cref="M:Funkmap.Auth.Abstract.IConfirmationCodeGenerator.Generate"/>
+        </member>
+        <member name="P:Funkmap.Auth.Services.FacebookUserService.Provider">
+            <inheritdoc cref="P:Funkmap.Auth.Services.ISocialUserService.Provider"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.FacebookUserService.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="http"><see cref="T:System.Net.Http.HttpClient"/></param>
+        </member>
+        <member name="M:Funkmap.Auth.Services.FacebookUserService.TryGetUser(System.String,Funkmap.Auth.Contracts.User@)">
+            <inheritdoc cref="M:Funkmap.Auth.Services.ISocialUserService.TryGetUser(System.String,Funkmap.Auth.Contracts.User@)"/>
+        </member>
+        <member name="T:Funkmap.Auth.Services.FacebookUserService.FacebookUser">
+            <summary>
+            Facebook user model
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.FacebookUserService.FacebookUser.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.FacebookUserService.FacebookUser.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.FacebookUserService.FacebookUser.FacebookPicture">
+            <see cref="P:Funkmap.Auth.Services.FacebookUserService.FacebookUser.FacebookPicture"/>
+        </member>
+        <member name="T:Funkmap.Auth.Services.FacebookUserService.FacebookPicture">
+            <summary>
+            Facebook picture model
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.FacebookUserService.FacebookPicture.Data">
+            <see cref="T:Funkmap.Auth.Services.FacebookUserService.FacebookPictureData"/>
+        </member>
+        <member name="T:Funkmap.Auth.Services.FacebookUserService.FacebookPictureData">
+            <summary>
+            Facebook picture data model
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.FacebookUserService.FacebookPictureData.AvatarUrl">
+            <summary>
+            Facebook avatar url
+            </summary>
+        </member>
+        <member name="T:Funkmap.Auth.Services.GoogleUserService">
+            <summary>
+            Google authorization service
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.GoogleUserService.Provider">
+            <inheritdoc cref="P:Funkmap.Auth.Services.ISocialUserService.Provider"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.GoogleUserService.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="http"><see cref="T:System.Net.Http.HttpClient"/></param>
+        </member>
+        <member name="M:Funkmap.Auth.Services.GoogleUserService.TryGetUser(System.String,Funkmap.Auth.Contracts.User@)">
+            <inheritdoc cref="M:Funkmap.Auth.Services.ISocialUserService.TryGetUser(System.String,Funkmap.Auth.Contracts.User@)"/>
+        </member>
+        <member name="T:Funkmap.Auth.Services.GoogleUserService.GoogleUser">
+            <summary>
+            Google user model
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.GoogleUserService.GoogleUser.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.GoogleUserService.GoogleUser.Name">
+            <summary>
+            Name
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.GoogleUserService.GoogleUser.AvatarUrl">
+            <summary>
+            Avatar url
+            </summary>
+        </member>
+        <member name="T:Funkmap.Auth.Services.ISocialUserService">
+            <summary>
+            External authorization service
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.ISocialUserService.Provider">
+            <summary>
+            External authorization provider name
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Services.ISocialUserService.TryGetUser(System.String,Funkmap.Auth.Contracts.User@)">
+            <summary>
+            Try get user from external service
+            </summary>
+            <param name="token">External service authorization token</param>
+            <param name="user">External service user</param>
+        </member>
+        <member name="T:Funkmap.Auth.Services.RegistrationContext">
+            <summary>
+            Context for user's registration
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.RegistrationContext.Code">
+            <summary>
+            Confirmation code
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.RegistrationContext.User">
+            <see cref="P:Funkmap.Auth.Services.RegistrationContext.User"/>
+        </member>
+        <member name="P:Funkmap.Auth.Services.RegistrationContext.Password">
+            <summary>
+            User's password
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Services.RegistrationContext.#ctor(Funkmap.Auth.Contracts.User,System.String)">
+            <summary>
+            Ctor
+            </summary>
+            <param name="user"><see cref="P:Funkmap.Auth.Services.RegistrationContext.User"/></param>
+            <param name="password">User's password</param>
+        </member>
+        <member name="T:Funkmap.Auth.Services.RegistrationContextManager">
+            <see cref="T:Funkmap.Auth.Abstract.IRegistrationContextManager"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.RegistrationContextManager.#ctor(Funkmap.Auth.Domain.Abstract.IAuthRepository,Funkmap.Common.Notifications.Notification.Abstract.IExternalNotificationService,Funkmap.Common.Abstract.IStorage,Funkmap.Auth.Abstract.IConfirmationCodeGenerator,Funkmap.Logger.IFunkmapLogger{Funkmap.Auth.Services.RegistrationContextManager})">
+            <summary>
+            Ctor
+            </summary>
+            <param name="authRepository"><see cref="T:Funkmap.Auth.Domain.Abstract.IAuthRepository"/></param>
+            <param name="externalNotificationService"><see cref="T:Funkmap.Common.Notifications.Notification.Abstract.IExternalNotificationService"/></param>
+            <param name="storage"><see cref="T:Funkmap.Common.Abstract.IStorage"/></param>
+            <param name="codeGenerator"><see cref="T:Funkmap.Auth.Abstract.IConfirmationCodeGenerator"/></param>
+            <param name="logger"><see cref="T:Funkmap.Logger.IFunkmapLogger`1"/></param>
+        </member>
+        <member name="M:Funkmap.Auth.Services.RegistrationContextManager.TryCreateContextAsync(Funkmap.Auth.Contracts.RegistrationRequest)">
+            <inheritdoc cref="M:Funkmap.Auth.Abstract.IRegistrationContextManager.TryCreateContextAsync(Funkmap.Auth.Contracts.RegistrationRequest)"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.RegistrationContextManager.TryConfirmAsync(System.String,System.String,System.String)">
+            <inheritdoc cref="M:Funkmap.Auth.Abstract.IRegistrationContextManager.TryConfirmAsync(System.String,System.String,System.String)"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.RegistrationContextManager.TryCreateRestoreContextAsync(System.String)">
+            <inheritdoc cref="M:Funkmap.Auth.Abstract.IRestoreContextManager.TryCreateRestoreContextAsync(System.String)"/>
+        </member>
+        <member name="M:Funkmap.Auth.Services.RegistrationContextManager.TryConfirmRestoreAsync(System.String,System.String,System.String)">
+            <inheritdoc cref="M:Funkmap.Auth.Abstract.IRestoreContextManager.TryConfirmRestoreAsync(System.String,System.String,System.String)"/>
+        </member>
+        <member name="T:Funkmap.Auth.Services.CryptoProvider">
+            <summary>
+            Hash-provider
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Services.CryptoProvider.ComputeHash(System.String)">
+            <summary>
+            Compute password hash
+            </summary>
+            <param name="input">String to hash</param>
+        </member>
+        <member name="T:Funkmap.Auth.Services.RestoreContext">
+            <summary>
+            Context for password restore
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.RestoreContext.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:Funkmap.Auth.Services.RestoreContext.Code">
+            <summary>
+            Restore password confirmation code
+            </summary>
+        </member>
+        <member name="T:Funkmap.Auth.Services.SocialUserFacade">
+            <summary>
+            Facade for external authorization services
+            </summary>
+        </member>
+        <member name="M:Funkmap.Auth.Services.SocialUserFacade.#ctor(System.Collections.Generic.IEnumerable{Funkmap.Auth.Services.ISocialUserService})">
+            <summary>
+            Ctor
+            </summary>
+            <param name="services"><see cref="T:Funkmap.Auth.Services.ISocialUserService"/></param>
+        </member>
+        <member name="M:Funkmap.Auth.Services.SocialUserFacade.TryGetSocialUser(System.String,System.String,Funkmap.Auth.Contracts.User@)">
+            <summary>
+            Get external authorization service user
+            </summary>
+            <param name="token">External service authorization token</param>
+            <param name="provider">External authorization provider name</param>
+            <param name="user"><see cref="T:Funkmap.Auth.Contracts.User"/></param>
         </member>
         <member name="T:Funkmap.Auth.Tools.AvatarHelper">
             <summary>

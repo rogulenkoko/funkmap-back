@@ -1,13 +1,12 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Funkmap.Auth.Contracts
 {
+    /// <summary>
+    /// Save avatar request model
+    /// </summary>
     public class SaveImageRequest
     {
-        [Required]
-        public string Login { get; set; }
-
         /// <summary>
         /// Image bytes or base64 string
         /// </summary>

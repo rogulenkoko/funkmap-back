@@ -12,12 +12,19 @@ using Funkmap.Common.Owin.Filters;
 
 namespace Funkmap.Auth.Controllers
 {
+    /// <summary>
+    /// Controller for user data
+    /// </summary>
     [RoutePrefix("api/user")]
     [ValidateRequestModel]
     public class UserController : ApiController
     {
         private readonly IAuthRepository _authRepository;
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="authRepository"><see cref="IAuthRepository"/></param>
         public UserController(IAuthRepository authRepository)
         {
             _authRepository = authRepository;
@@ -27,7 +34,6 @@ namespace Funkmap.Auth.Controllers
         /// Get user's full information (if exists).
         /// </summary>
         /// <param name="login">Users's login</param>
-        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(UserResponse))]
         [Route("{login}")]
@@ -54,7 +60,6 @@ namespace Funkmap.Auth.Controllers
         /// Update user locale (available: 'ru', 'en').
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [Route("locale")]
@@ -71,7 +76,6 @@ namespace Funkmap.Auth.Controllers
         /// Get user's avatar (bytes or base64 string).
         /// </summary>
         /// <param name="login">Users's login</param>
-        /// <returns></returns>
         [HttpGet]
         [Route("avatar/{login}")]
         public async Task<HttpResponseMessage> GetAvatar(string login)
@@ -84,17 +88,18 @@ namespace Funkmap.Auth.Controllers
         /// Update users's avatar.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [Route("avatar")]
         public async Task<IHttpActionResult> SaveAvatar(SaveImageRequest request)
         {
-            var response = new AvatarUpdateResponse();
-
-            var path = await _authRepository.SaveAvatarAsync(request.Login, request.Avatar);
-            response.Success = true;
-            response.AvatarPath = path;
+            var login = Request.GetLogin();
+            var path = await _authRepository.SaveAvatarAsync(login, request.Avatar);
+            var response = new AvatarUpdateResponse
+            {
+                Success = true,
+                AvatarPath = path
+            };
             return Ok(response);
         }
     }

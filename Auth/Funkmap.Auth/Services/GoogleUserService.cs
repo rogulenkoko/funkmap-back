@@ -1,29 +1,37 @@
 ﻿using System;
 using System.Net.Http;
 using Funkmap.Auth.Contracts;
-using Funkmap.Auth.Domain.Models;
 using Newtonsoft.Json;
 
 namespace Funkmap.Auth.Services
 {
+    /// <summary>
+    /// Google authorization service
+    /// </summary>
     public class GoogleUserService : ISocialUserService
     {
+        /// <inheritdoc cref="ISocialUserService.Provider"/>
         public string Provider => "google";
 
         private readonly HttpClient _http;
 
-        private const string _googleUrl = "https://www.googleapis.com";
+        private const string GoogleUrl = "https://www.googleapis.com";
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="http"><see cref="HttpClient"/></param>
         public GoogleUserService(HttpClient http)
         {
             _http = http;
         }
 
+        /// <inheritdoc cref="ISocialUserService.TryGetUser"/>
         public bool TryGetUser(string token, out User user)
         {
             try
             {
-                var userInfoJson = _http.GetStringAsync($"{_googleUrl}/oauth2/v3/tokeninfo?id_token={token}").GetAwaiter().GetResult();
+                var userInfoJson = _http.GetStringAsync($"{GoogleUrl}/oauth2/v3/tokeninfo?id_token={token}").GetAwaiter().GetResult();
 
                 if (String.IsNullOrEmpty(userInfoJson))
                 {
@@ -31,9 +39,9 @@ namespace Funkmap.Auth.Services
                     return false;
                 }
 
-                GoogleUser googleUser = JsonConvert.DeserializeObject<GoogleUser>(userInfoJson);
+                var googleUser = JsonConvert.DeserializeObject<GoogleUser>(userInfoJson);
 
-                user = new User()
+                user = new User
                 {
                     Email = googleUser.Email,
                     Name = googleUser.Name,
@@ -52,14 +60,26 @@ namespace Funkmap.Auth.Services
             }
         }
 
+        /// <summary>
+        /// Google user model
+        /// </summary>
         public class GoogleUser
         {
+            /// <summary>
+            /// Email
+            /// </summary>
             [JsonProperty("email")]
             public string Email { get; set; }
 
+            /// <summary>
+            /// Name
+            /// </summary>
             [JsonProperty("name")]
             public string Name { get; set; }
 
+            /// <summary>
+            /// Avatar url
+            /// </summary>
             [JsonProperty("picture")]
             public string AvatarUrl { get; set; }
         }

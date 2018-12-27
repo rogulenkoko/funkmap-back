@@ -11,7 +11,7 @@ using Funkmap.Logger;
 
 namespace Funkmap.Auth.Services
 {
-
+    /// <see cref="IRegistrationContextManager"/>
     public class RegistrationContextManager : IRegistrationContextManager, IRestoreContextManager
     {
         private readonly IAuthRepository _authRepository;
@@ -29,7 +29,17 @@ namespace Funkmap.Auth.Services
         private const string RegistrationContextsKey = "registration_contexts";
         private const string RestoreContextsKey = "restore_contexts";
 
-        public RegistrationContextManager(IAuthRepository authRepository, IExternalNotificationService externalNotificationService,
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="authRepository"><see cref="IAuthRepository"/></param>
+        /// <param name="externalNotificationService"><see cref="IExternalNotificationService"/></param>
+        /// <param name="storage"><see cref="IStorage"/></param>
+        /// <param name="codeGenerator"><see cref="IConfirmationCodeGenerator"/></param>
+        /// <param name="logger"><see cref="IFunkmapLogger{T}"/></param>
+        public RegistrationContextManager(
+            IAuthRepository authRepository, 
+            IExternalNotificationService externalNotificationService,
             IStorage storage,
             IConfirmationCodeGenerator codeGenerator,
             IFunkmapLogger<RegistrationContextManager> logger)
@@ -43,6 +53,7 @@ namespace Funkmap.Auth.Services
 
         #region IRegistrationContextManager
 
+        /// <inheritdoc cref="IRegistrationContextManager.TryCreateContextAsync"/>
         public async Task<BaseResponse> TryCreateContextAsync(RegistrationRequest creds)
         {
             var hash = CryptoProvider.ComputeHash($"{creds.Email}_{creds.Login}");
@@ -88,6 +99,7 @@ namespace Funkmap.Auth.Services
             }
         }
 
+        /// <inheritdoc cref="IRegistrationContextManager.TryConfirmAsync"/>
         public async Task<BaseResponse> TryConfirmAsync(string login, string email, string code)
         {
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(code))
@@ -130,6 +142,7 @@ namespace Funkmap.Auth.Services
 
         #region IRestoreContextManager
 
+        /// <inheritdoc cref="IRestoreContextManager.TryCreateRestoreContextAsync"/>
         public async Task<bool> TryCreateRestoreContextAsync(string loginOrEmail)
         {
             User user = await _authRepository.GetAsync(loginOrEmail);
@@ -156,6 +169,7 @@ namespace Funkmap.Auth.Services
             return true;
         }
 
+        /// <inheritdoc cref="IRestoreContextManager.TryConfirmRestoreAsync"/>
         public async Task<bool> TryConfirmRestoreAsync(string loginOrEmail, string code, string newPassword)
         {
             User user = await _authRepository.GetAsync(loginOrEmail);
