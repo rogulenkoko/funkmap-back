@@ -6,6 +6,7 @@ using Autofac.Integration.WebApi;
 using Funkmap.Auth.Abstract;
 using Funkmap.Auth.Services;
 using Funkmap.Common.Abstract;
+using Funkmap.Common.Tools;
 
 namespace Funkmap.Auth
 {
@@ -26,6 +27,8 @@ namespace Funkmap.Auth
             builder.RegisterType<SocialUserFacade>(); 
             builder.RegisterType<FacebookUserService>().As<ISocialUserService>();
             builder.RegisterType<GoogleUserService>().As<ISocialUserService>();
+
+            builder.RegisterType<InMemoryStorage>().As<IStorage>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             Console.WriteLine("Authorization module has been loaded.");

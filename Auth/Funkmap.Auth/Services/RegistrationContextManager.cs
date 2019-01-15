@@ -15,15 +15,10 @@ namespace Funkmap.Auth.Services
     public class RegistrationContextManager : IRegistrationContextManager, IRestoreContextManager
     {
         private readonly IAuthRepository _authRepository;
-
         private readonly IExternalNotificationService _externalNotificationService;
-
         private readonly IStorage _storage;
-
         private readonly IConfirmationCodeGenerator _codeGenerator;
-
         private readonly IFunkmapLogger<RegistrationContextManager> _logger;
-
         private readonly TimeSpan _sessionTimeSpan = TimeSpan.FromMinutes(15);
 
         private const string RegistrationContextsKey = "registration_contexts";

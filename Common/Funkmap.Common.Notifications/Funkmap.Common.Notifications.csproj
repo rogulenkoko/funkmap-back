@@ -74,6 +74,7 @@
     <Compile Include="Notification\Notification.cs" />
     <Compile Include="Notification\NotificationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\NotificationSettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funkmap.Common\Funkmap.Common.Owin.csproj">

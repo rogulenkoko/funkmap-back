@@ -30,7 +30,7 @@ namespace Funkmap.Auth.Data
         public async Task<User> GetAsync(string login)
         {
             await Task.Yield();
-            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
+            var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login) | Builders<UserEntity>.Filter.Eq(x => x.Email, login);
             var entity = await _collection.Find(filter).SingleOrDefaultAsync();
             return entity.ToUser();
         }
@@ -41,7 +41,7 @@ namespace Funkmap.Auth.Data
 
             if (String.IsNullOrWhiteSpace(user.Email))
             {
-                return new BaseResponse { Success = false, Error = "Invalid user's email."};
+                return new BaseResponse { Success = false, Error = "Invalid user's email." };
             }
 
             if (String.IsNullOrWhiteSpace(user.Login))
@@ -51,19 +51,19 @@ namespace Funkmap.Auth.Data
 
             if (String.IsNullOrWhiteSpace(hashedPassword))
             {
-                return new BaseResponse {Success = false, Error = "Invalid user's password."};
+                return new BaseResponse { Success = false, Error = "Invalid user's password." };
             }
 
             try
             {
                 await _collection.InsertOneAsync(entity);
-                return new BaseResponse{Success = true };
+                return new BaseResponse { Success = true };
             }
             catch (Exception e)
             {
-                return new BaseResponse {Success = false, Error = e.Message};
+                return new BaseResponse { Success = false, Error = e.Message };
             }
-           
+
         }
 
         public async Task<BaseResponse> TryCreateSocialAsync(User user)
@@ -94,19 +94,19 @@ namespace Funkmap.Auth.Data
 
         public async Task<User> LoginAsync(string login, string hashedPassword)
         {
-            var user = await _collection.Find(x=>(x.Login == login || x.Email == login) && x.Password == hashedPassword)
+            var user = await _collection.Find(x => (x.Login == login || x.Email == login) && x.Password == hashedPassword)
                 .SingleOrDefaultAsync();
             return user.ToUser();
         }
 
         public async Task<byte[]> GetAvatarAsync(string login)
         {
-            var projection = Builders<UserEntity>.Projection.Include(x => x.AvatarUrl).Include(x=>x.Login);
+            var projection = Builders<UserEntity>.Projection.Include(x => x.AvatarUrl).Include(x => x.Login);
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
             var user = await _collection.Find(filter).Project<UserEntity>(projection).SingleOrDefaultAsync();
 
             if (string.IsNullOrEmpty(user?.AvatarUrl)) return null;
-            
+
             try
             {
                 var bytes = await _fileStorage.DownloadAsBytesAsync(user.AvatarUrl);
@@ -134,7 +134,7 @@ namespace Funkmap.Auth.Data
                 fullPath = await _fileStorage.UploadFromBytesAsync(filename, minified);
             }
 
-           
+
 
             var filter = Builders<UserEntity>.Filter.Eq(x => x.Login, login);
             var update = Builders<UserEntity>.Update.Set(x => x.AvatarUrl, fullPath);
