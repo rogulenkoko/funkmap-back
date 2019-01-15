@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Funkmap.Common.Core.Filters;
 using Funkmap.Common.Core.Tools;
+using Funkmap.Notifications.Contracts;
+using Funkmap.Notifications.Contracts.Abstract;
 using Funkmap.Notifications.Data;
 using Funkmap.Notifications.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -69,8 +71,9 @@ namespace Funkmap.Notifications.Web
         {
             builder.RegisterNotificationModule();
             builder.RegisterNotificationDataModule(Configuration);
-
             builder.RegisterCommonModule(Configuration);
+
+            builder.RegisterType<FunkmapNotificationService>().As<IFunkmapNotificationService>();
         }
     }
 }
