@@ -5,15 +5,11 @@ VisualStudioVersion = 15.0.27703.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{83C3F360-228C-440D-8F95-E106470E5217}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Middleware", "Funkmap.Middleware\Funkmap.Middleware.csproj", "{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Funkmap", "Funkmap", "{F8D44C0B-033B-437D-9F31-B98D1C13904C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messenger", "Messenger", "{171E6662-739B-430C-8F59-BD0F72FD9E45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{08290CCE-C71D-4BCA-A324-2E41CEEDB6AF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap.Web\Funkmap.Web.csproj", "{033D35C6-65E8-41CB-B697-37F0CBC5972B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FeedBack", "FeedBack", "{7A2FC844-1BE0-410F-96AE-4879CB3B3620}"
 EndProject
@@ -21,13 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common.Owin", "Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Common.Notifications", "Common\Funkmap.Common.Notifications\Funkmap.Common.Notifications.csproj", "{CC5B36A9-D49F-4583-B74C-D2F3A17087A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Contracts", "Messenger\Funkmap.Messenger.Contracts\Funkmap.Messenger.Contracts.csproj", "{210A14C5-7305-489D-B066-3509CD03B2DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Messenger.Contracts", "Messenger\Funkmap.Messenger.Contracts\Funkmap.Messenger.Contracts.csproj", "{210A14C5-7305-489D-B066-3509CD03B2DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Payments.Contracts", "..\funkmap-payments\Funkmap.Payments.Contracts\Funkmap.Payments.Contracts.csproj", "{76F9D971-8D52-42C5-9D72-358E4B415EB9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Domain", "Funkmap\Funkmap.Domain\Funkmap.Domain.csproj", "{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Web", "Feedback\Funkmap.Feedback.Web\Funkmap.Feedback.Web.csproj", "{CF40BABF-19E7-4DB2-840B-6844B8872E9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback", "Feedback\Funkmap.Feedback\Funkmap.Feedback.csproj", "{A6561F70-F877-4AB3-95E3-530BBF5771BA}"
 EndProject
@@ -53,25 +47,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications.Web",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Notifications", "Notifications\Funkmap.Notifications\Funkmap.Notifications.csproj", "{343FD197-509C-4A6B-9524-786367FD9FCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Data.Entities", "Funkmap\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj", "{DC93391E-6376-4085-9219-C453E319B5FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Data.Entities", "Funkmap\Funkmap.Data.Entities\Funkmap.Data.Entities.csproj", "{DC93391E-6376-4085-9219-C453E319B5FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Data", "Funkmap\Funkmap.Data\Funkmap.Data.csproj", "{67CEE124-CC58-4917-B7EE-E406E3F78132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Data", "Funkmap\Funkmap.Data\Funkmap.Data.csproj", "{67CEE124-CC58-4917-B7EE-E406E3F78132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap", "Funkmap\Funkmap\Funkmap.csproj", "{1606D6B2-10EB-40BF-9E47-71AFFAF1CC90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap", "Funkmap\Funkmap\Funkmap.csproj", "{1606D6B2-10EB-40BF-9E47-71AFFAF1CC90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap\Funkmap.Web\Funkmap.Web.csproj", "{4DFD6634-E09F-4CFE-9CF0-10D5DDAF87B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Web", "Funkmap\Funkmap.Web\Funkmap.Web.csproj", "{4DFD6634-E09F-4CFE-9CF0-10D5DDAF87B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Tests", "Funkmap\Funkmap.Tests\Funkmap.Tests.csproj", "{9D1A22AB-D95C-412D-837A-1BAF0A65F58E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Tests", "Funkmap\Funkmap.Tests\Funkmap.Tests.csproj", "{9D1A22AB-D95C-412D-837A-1BAF0A65F58E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Entities", "Messenger\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj", "{24FC6EED-FF06-4FB4-9C98-1918A4140761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Messenger.Entities", "Messenger\Funkmap.Messenger.Entities\Funkmap.Messenger.Entities.csproj", "{24FC6EED-FF06-4FB4-9C98-1918A4140761}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Command", "Messenger\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj", "{04E23507-723E-4DBB-89CF-F3F3B7884D66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Messenger.Command", "Messenger\Funkmap.Messenger.Command\Funkmap.Messenger.Command.csproj", "{04E23507-723E-4DBB-89CF-F3F3B7884D66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Query", "Messenger\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj", "{A269146B-A54F-49A0-8A74-D2F1A54A1432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Messenger.Query", "Messenger\Funkmap.Messenger.Query\Funkmap.Messenger.Query.csproj", "{A269146B-A54F-49A0-8A74-D2F1A54A1432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger", "Messenger\Funkmap.Messenger\Funkmap.Messenger.csproj", "{7D9688D2-942F-48D0-AE25-4F061295CC8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Messenger", "Messenger\Funkmap.Messenger\Funkmap.Messenger.csproj", "{7D9688D2-942F-48D0-AE25-4F061295CC8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Messenger.Tests", "Messenger\Funkmap.Messenger.Tests\Funkmap.Messenger.Tests.csproj", "{6BE52E76-B71B-46AF-B1F9-BF40FE38CB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Messenger.Tests", "Messenger\Funkmap.Messenger.Tests\Funkmap.Messenger.Tests.csproj", "{6BE52E76-B71B-46AF-B1F9-BF40FE38CB04}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Funkmap.Feedback.Web", "Feedback\Funkmap.Feedback.Web\Funkmap.Feedback.Web.csproj", "{61FB14BE-DFEF-4163-9896-C93DB1E99F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funkmap.Web", "Funkmap.Web\Funkmap.Web.csproj", "{79B5B81A-1C66-46A5-9BF8-043E8EF0168D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,14 +77,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D178C9D-E17A-4735-B29C-0AE9DEA0B195}.Release|Any CPU.Build.0 = Release|Any CPU
-		{033D35C6-65E8-41CB-B697-37F0CBC5972B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{033D35C6-65E8-41CB-B697-37F0CBC5972B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{033D35C6-65E8-41CB-B697-37F0CBC5972B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{033D35C6-65E8-41CB-B697-37F0CBC5972B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C85C2D4-B28D-41A6-BC52-7B4BAE1E528C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,10 +97,6 @@ Global
 		{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C54EB1B7-A4E5-490F-9680-184A3A42EF6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF40BABF-19E7-4DB2-840B-6844B8872E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF40BABF-19E7-4DB2-840B-6844B8872E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF40BABF-19E7-4DB2-840B-6844B8872E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF40BABF-19E7-4DB2-840B-6844B8872E9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6561F70-F877-4AB3-95E3-530BBF5771BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6561F70-F877-4AB3-95E3-530BBF5771BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6561F70-F877-4AB3-95E3-530BBF5771BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -199,6 +185,14 @@ Global
 		{6BE52E76-B71B-46AF-B1F9-BF40FE38CB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BE52E76-B71B-46AF-B1F9-BF40FE38CB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BE52E76-B71B-46AF-B1F9-BF40FE38CB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61FB14BE-DFEF-4163-9896-C93DB1E99F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61FB14BE-DFEF-4163-9896-C93DB1E99F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61FB14BE-DFEF-4163-9896-C93DB1E99F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61FB14BE-DFEF-4163-9896-C93DB1E99F79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79B5B81A-1C66-46A5-9BF8-043E8EF0168D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B5B81A-1C66-46A5-9BF8-043E8EF0168D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B5B81A-1C66-46A5-9BF8-043E8EF0168D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B5B81A-1C66-46A5-9BF8-043E8EF0168D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,7 +203,6 @@ Global
 		{210A14C5-7305-489D-B066-3509CD03B2DC} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{76F9D971-8D52-42C5-9D72-358E4B415EB9} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
 		{C54EB1B7-A4E5-490F-9680-184A3A42EF6D} = {F8D44C0B-033B-437D-9F31-B98D1C13904C}
-		{CF40BABF-19E7-4DB2-840B-6844B8872E9D} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{A6561F70-F877-4AB3-95E3-530BBF5771BA} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{C03CEF9C-CD16-450B-951C-52EE03F04C3E} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 		{91CFE26B-C313-444A-9F84-D1AAFCF3CBD2} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
@@ -232,6 +225,7 @@ Global
 		{A269146B-A54F-49A0-8A74-D2F1A54A1432} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{7D9688D2-942F-48D0-AE25-4F061295CC8E} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
 		{6BE52E76-B71B-46AF-B1F9-BF40FE38CB04} = {171E6662-739B-430C-8F59-BD0F72FD9E45}
+		{61FB14BE-DFEF-4163-9896-C93DB1E99F79} = {7A2FC844-1BE0-410F-96AE-4879CB3B3620}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33CAECAF-0197-4DA7-824F-1E608A52B263}

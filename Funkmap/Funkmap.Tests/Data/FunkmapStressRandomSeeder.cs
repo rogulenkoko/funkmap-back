@@ -72,7 +72,7 @@ namespace Funkmap.Tests.Data
                 FacebookLink = RandomString(10),
                 YouTubeLink = RandomString(10),
                 VkLink = RandomString(10),
-                ExpirienceType = (Expiriences)Enum.GetValues(typeof(Expiriences)).GetValue(_random.Next(Enum.GetValues(typeof(Expiriences)).Length)),
+                ExperienceType = (Experiences)Enum.GetValues(typeof(Experiences)).GetValue(_random.Next(Enum.GetValues(typeof(Experiences)).Length)),
                 Instrument = (Instruments)Enum.GetValues(typeof(Instruments)).GetValue(_random.Next(Enum.GetValues(typeof(Instruments)).Length)),
                 Location = new GeoJsonPoint<GeoJson2DGeographicCoordinates>(new GeoJson2DGeographicCoordinates(_random.Next(0, 90), _random.Next(0, 90))),
                 Login = RandomString(10),

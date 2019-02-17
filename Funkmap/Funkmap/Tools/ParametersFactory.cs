@@ -16,7 +16,7 @@ namespace Funkmap.Tools
                     return new MusicianFilterParameter()
                     {
                         Styles = request.Styles,
-                        Expiriences = request.Expirience,
+                        Experiences = request.Experience,
                         Instruments = request.Instruments
                     };
 

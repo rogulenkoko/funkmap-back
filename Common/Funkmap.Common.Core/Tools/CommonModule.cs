@@ -19,6 +19,7 @@ namespace Funkmap.Common.Core.Tools
             builder.RegisterType<InMemoryEventBus>().As<IEventBus>();
             builder.RegisterType<InMemoryCommandBus>().As<ICommandBus>();
             builder.RegisterType<CommandHandlerResolver>().As<ICommandHandlerResolver>();
+            builder.RegisterType<QueryContext>().As<IQueryContext>();
             
             builder.Register(container =>
             {

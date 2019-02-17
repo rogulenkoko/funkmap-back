@@ -43,9 +43,9 @@ namespace Funkmap.Models.Requests
         public List<Instruments> Instruments { get; set; }
 
         /// <summary>
-        /// Interested musician expiriences
+        /// Interested musician experiences
         /// </summary>
-        public List<Expiriences> Expirience { get; set; }
+        public List<Experiences> Experience { get; set; }
 
         /// <summary>
         /// Interested musician styles (genres)

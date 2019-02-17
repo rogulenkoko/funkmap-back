@@ -4,9 +4,10 @@ namespace Funkmap.Models.Requests
 {
     public class LocationRequest
     {
-        [Required]
+        /// <summary>
+        /// Радиус в километрах
+        /// </summary>
         public double? RadiusKm { get; set; }
-
         
         /// <summary>
         /// Широта объекта относительно которого надо искать

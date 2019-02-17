@@ -8,13 +8,12 @@ using Funkmap.Messenger.Contracts.Events.Messages;
 using Funkmap.Messenger.Handlers;
 using Funkmap.Messenger.Services;
 using Funkmap.Messenger.Services.Abstract;
-using Microsoft.Extensions.Configuration;
 
 namespace Funkmap.Messenger
 {
     public static class MessengerModule
     {
-        public static void RegisterMessengerDomainModule(ContainerBuilder builder)
+        public static void RegisterMessengerDomainModule(this ContainerBuilder builder)
         {
             builder.RegisterType<MessengerConnectionService>().As<IMessengerConnectionService>().SingleInstance();
 

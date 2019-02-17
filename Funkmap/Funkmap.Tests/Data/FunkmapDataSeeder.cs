@@ -46,7 +46,7 @@ namespace Funkmap.Tests.Data
                     VkLink = "https://vk.com/id30724049",
                     YouTubeLink = "https://www.youtube.com/user/Urgantshow",
                     BandLogins = new List<string>() { "funkmap", "Kirill'sMother" },
-                    ExpirienceType = Expiriences.Advanced,
+                    ExperienceType = Experiences.Advanced,
                     VideoInfos = new List<VideoInfoEntity>() { new VideoInfoEntity() { Id = "mpR5zbEXdW8" }, new VideoInfoEntity() { Id = "GlreDCpb5t0" } },
                     IsActive = true,
                     CreationDate = DateTime.UtcNow.AddMonths(-12),
@@ -65,7 +65,7 @@ namespace Funkmap.Tests.Data
                     Instrument = Instruments.Drums,
                     FacebookLink = "https://ru-ru.facebook.com/",
                     BandLogins = new List<string>() { "beatles" },
-                    ExpirienceType = Expiriences.Beginer,
+                    ExperienceType = Experiences.Beginer,
                     IsActive = true,
                     CreationDate = DateTime.UtcNow.AddMonths(-11),
                     FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
@@ -82,7 +82,7 @@ namespace Funkmap.Tests.Data
                     Styles = new List<Styles>() { Styles.HipHop },
                     Instrument = Instruments.Keyboard,
                     BandLogins = new List<string>() { "metallica" },
-                    ExpirienceType = Expiriences.SuperStar,
+                    ExperienceType = Experiences.SuperStar,
                     IsActive = true,
                     CreationDate = DateTime.UtcNow.AddMonths(-10),
                     FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf" }
@@ -99,7 +99,7 @@ namespace Funkmap.Tests.Data
                     Styles = new List<Styles>() { Styles.HipHop },
                     Instrument = Instruments.Keyboard,
                     BandLogins = new List<string>(),
-                    ExpirienceType = Expiriences.SuperStar,
+                    ExperienceType = Experiences.SuperStar,
                     IsActive = true,
                     CreationDate = DateTime.UtcNow.AddMonths(-10),
                     FavoriteFor = new List<string>() { "qwe", "wewe", "dfsdf", "rtyu" }

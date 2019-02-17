@@ -41,7 +41,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("musician")]
-        public Task<IActionResult> Create(Musician model) => CreateAsync(model);
+        public Task<IActionResult> Create([FromBody]Musician model) => CreateAsync(model);
         
         /// <summary>
         /// Create a band.
@@ -50,7 +50,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("band")]
-        public Task<IActionResult> Create(Band model) => CreateAsync(model);
+        public Task<IActionResult> Create([FromBody]Band model) => CreateAsync(model);
         
         /// <summary>
         /// Create a shop.
@@ -59,7 +59,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("shop")]
-        public Task<IActionResult> Create(Shop model) => CreateAsync(model);
+        public Task<IActionResult> Create([FromBody]Shop model) => CreateAsync(model);
         
         /// <summary>
         /// Create a studio.
@@ -68,7 +68,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("studio")]
-        public Task<IActionResult> Create(Studio model) => CreateAsync(model);
+        public Task<IActionResult> Create([FromBody]Studio model) => CreateAsync(model);
         
         /// <summary>
         /// Create a rehearsal point.
@@ -77,7 +77,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("rehearsal")]
-        public Task<IActionResult> Create(RehearsalPoint model) => CreateAsync(model);
+        public Task<IActionResult> Create([FromBody]RehearsalPoint model) => CreateAsync(model);
 
         private async Task<IActionResult> CreateAsync(Profile model)
         {
@@ -115,31 +115,31 @@ namespace Funkmap.Controllers
         [HttpPut]
         [Route("musician")]
         [Authorize]
-        public Task<IActionResult> Update(Musician profile) => UpdateAsync(profile);
+        public Task<IActionResult> Update([FromBody]Musician profile) => UpdateAsync(profile);
         
         ///<inheritdoc cref="UpdateAsync"/>
         [HttpPut]
         [Route("band")]
         [Authorize]
-        public Task<IActionResult> Update(Band profile) => UpdateAsync(profile);
+        public Task<IActionResult> Update([FromBody]Band profile) => UpdateAsync(profile);
         
         ///<inheritdoc cref="UpdateAsync"/>
         [HttpPut]
         [Route("shop")]
         [Authorize]
-        public Task<IActionResult> Update(Shop profile) => UpdateAsync(profile);
+        public Task<IActionResult> Update([FromBody]Shop profile) => UpdateAsync(profile);
         
         ///<inheritdoc cref="UpdateAsync"/>
         [HttpPut]
         [Route("studio")]
         [Authorize]
-        public Task<IActionResult> Update(Studio profile) => UpdateAsync(profile);
+        public Task<IActionResult> Update([FromBody]Studio profile) => UpdateAsync(profile);
         
         ///<inheritdoc cref="UpdateAsync"/>
         [HttpPut]
         [Route("rehearsal")]
         [Authorize]
-        public Task<IActionResult> Update(RehearsalPoint profile) => UpdateAsync(profile);
+        public Task<IActionResult> Update([FromBody]RehearsalPoint profile) => UpdateAsync(profile);
 
         /// <summary>
         /// Update a profile.
@@ -219,7 +219,7 @@ namespace Funkmap.Controllers
         [HttpPost]
         [Route("avatar")]
         [Authorize]
-        public async Task<IActionResult> UpdateAvatar(UpdateAvatarRequest request)
+        public async Task<IActionResult> UpdateAvatar([FromBody]UpdateAvatarRequest request)
         {
             var login = User.GetLogin();
 

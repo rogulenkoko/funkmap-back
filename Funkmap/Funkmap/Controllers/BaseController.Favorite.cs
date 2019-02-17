@@ -48,7 +48,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]//todo correct method
         [Route("favorites")]
-        public async Task<IActionResult> UpdateFavorite(UpdateFavoriteRequest request)
+        public async Task<IActionResult> UpdateFavorite([FromBody]UpdateFavoriteRequest request)
         {
             var login = User.GetLogin();
             var parameter = new UpdateFavoriteParameter

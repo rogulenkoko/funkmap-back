@@ -51,7 +51,7 @@ namespace Funkmap.Mappers
                 Name = source.Name,
                 AvatarMiniId = source.AvatarMiniUrl,
                 AvatarId = source.AvatarUrl,
-                Expirience = source.Experience,
+                Experience = source.Experience,
                 VkLink = source.VkLink,
                 YouTubeLink = source.YoutubeLink,
                 FacebookLink = source.FacebookLink,

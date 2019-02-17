@@ -34,7 +34,7 @@ namespace Funkmap.Data.Entities.Entities
         public List<Styles> Styles { get; set; }
 
         [BsonElement("exp")]
-        public Expiriences ExpirienceType { get; set; }
+        public Experiences ExperienceType { get; set; }
 
         [BsonElement("band")]
         [BsonIgnoreIfDefault]

@@ -24,10 +24,9 @@ namespace Funkmap.Domain.Models
         public Instruments Instrument { get; set; }
 
         /// <summary>
-        /// Musician expirience (musician specific)
+        /// Musician experience (musician specific)
         /// </summary>
-        public Expiriences Expirience { get; set; }
-
+        public Experiences Experience { get; set; }
 
         /// <summary>
         /// Address (shop specific)

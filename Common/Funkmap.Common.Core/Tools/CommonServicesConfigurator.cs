@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Funkmap.Common.Core.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +13,7 @@ namespace Funkmap.Common.Core.Tools
 {
     public static class CommonServicesConfigurator
     {
-        public static void AddFunkmap(this IServiceCollection services, IConfiguration config)
+        public static void AddFunkmap(this IServiceCollection services, IConfiguration config, params string[] assemblies)
         {
             var authOptions = new FunkmapJwtOptions(config);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -36,9 +37,20 @@ namespace Funkmap.Common.Core.Tools
             {
                 options.SwaggerDoc("v1", new Info { Title = "Funkmap API", Version = "v1" });
 
-                var xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name.Replace(".Web","")}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
+                if (assemblies.Any())
+                {
+                    foreach (var assembly in assemblies)
+                    {
+                        var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{assembly}.xml");
+                        options.IncludeXmlComments(xmlPath);
+                    }
+                }
+                else
+                {
+                    var xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name.Replace(".Web", "")}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    options.IncludeXmlComments(xmlPath);
+                }
                 
                 options.AddSecurityDefinition("Bearer", new OAuth2Scheme
                 {

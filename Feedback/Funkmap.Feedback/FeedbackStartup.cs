@@ -43,14 +43,8 @@ namespace Funkmap.Feedback
             {
                 options.Filters.Add<ValidateRequestModelFilter>();
             });
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Info { Title = "Funkmap feedback API", Version = "v1" });
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
-            });
+            services.AddFunkmap(Configuration);
         }
 
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +82,6 @@ namespace Funkmap.Feedback
             builder.RegisterFeedbackModule();
             builder.RegisterFeedbackCommandModule(Configuration);
             builder.RegisterCommonModule(Configuration);
-            //builder.RegisterModule<LoggerModule>();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Funkmap.Domain.Models
         
         public Instruments Instrument { get; set; }
 
-        public Expiriences Experience { get; set; }
+        public Experiences Experience { get; set; }
 
         public List<string> BandLogins { get; set; }
 

@@ -269,7 +269,7 @@ namespace Funkmap.Tests
             };
 
             profileUpdates.BirthDate = profileUpdates.BirthDate?.AddYears(-1) ?? DateTime.Now.AddYears(-20);
-            profileUpdates.Experience = Enum.GetValues(typeof(Expiriences)).Cast<Expiriences>().First(x => x != existingEntity.Experience && x != Expiriences.None);
+            profileUpdates.Experience = Enum.GetValues(typeof(Experiences)).Cast<Experiences>().First(x => x != existingEntity.Experience && x != Experiences.None);
             profileUpdates.Sex = Enum.GetValues(typeof(Sex)).Cast<Sex>().First(x => x != existingEntity.Sex && x != Sex.None);
             profileUpdates.Styles = Enum.GetValues(typeof(Styles)).Cast<Styles>().Except(existingEntity.Styles).ToList();
 
@@ -460,7 +460,7 @@ namespace Funkmap.Tests
                 BirthDate = DateTime.Now.AddYears(-20),
                 Description = "qweqweqwe",
                 Login = Guid.NewGuid().ToString(),
-                Experience = Expiriences.Beginer,
+                Experience = Experiences.Beginer,
                 Instrument = Instruments.Bass,
                 Sex = Sex.Female,
                 FacebookLink = "facebook",

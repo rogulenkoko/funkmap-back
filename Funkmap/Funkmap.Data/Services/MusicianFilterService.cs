@@ -31,9 +31,9 @@ namespace Funkmap.Data.Services
                 filter = filter & Builders<BaseEntity>.Filter.All(x => (x as MusicianEntity).Styles, musicianParameter.Styles);
             }
 
-            if (musicianParameter.Expiriences != null && musicianParameter.Expiriences.Count != 0)
+            if (musicianParameter.Experiences != null && musicianParameter.Experiences.Count != 0)
             {
-                filter = filter & Builders<BaseEntity>.Filter.In(x => (x as MusicianEntity).ExpirienceType, musicianParameter.Expiriences);
+                filter = filter & Builders<BaseEntity>.Filter.In(x => (x as MusicianEntity).ExperienceType, musicianParameter.Experiences);
             }
 
             if (musicianParameter.Instruments != null && musicianParameter.Instruments.Count != 0)

@@ -133,7 +133,7 @@ namespace Funkmap.Tests
             var musicianParameter = new MusicianFilterParameter
             {
                 Styles = new List<Styles>() { Styles.HipHop },
-                Expiriences = new List<Expiriences>() { Expiriences.Advanced }
+                Experiences = new List<Experiences>() { Experiences.Advanced }
             };
 
             result = _baseQueryRepository.GetFilteredAsync(commonParameter, musicianParameter).GetAwaiter().GetResult();
@@ -144,7 +144,7 @@ namespace Funkmap.Tests
             Assert.True(result.All(x => x.EntityType == EntityType.Musician));
 
             Assert.True(result.Select(x => x as Domain.Models.Musician).All(x => x.Styles.Intersect(musicianParameter.Styles).Any()));
-            Assert.True(result.Select(x => x as Domain.Models.Musician).All(x => musicianParameter.Expiriences.Contains(x.Experience)));
+            Assert.True(result.Select(x => x as Domain.Models.Musician).All(x => musicianParameter.Experiences.Contains(x.Experience)));
 
             commonParameter = new CommonFilterParameter()
             {

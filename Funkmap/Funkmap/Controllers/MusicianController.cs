@@ -41,7 +41,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("invite")]
-        public async Task<IActionResult> InviteManyMusician(UpdateBandMembersRequest membersRequest)
+        public async Task<IActionResult> InviteManyMusician([FromBody]UpdateBandMembersRequest membersRequest)
         {
             var login = User.GetLogin();
 
@@ -81,7 +81,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("remove-band")]
-        public async Task<IActionResult> LeaveBand(UpdateBandMemberRequest membersRequest)
+        public async Task<IActionResult> LeaveBand([FromBody]UpdateBandMemberRequest membersRequest)
         {
             var userLogin = User.GetLogin();
             var musician = await _baseQueryRepository.GetAsync<Musician>(membersRequest.MusicianLogin);

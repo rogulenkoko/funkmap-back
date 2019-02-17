@@ -14,6 +14,34 @@ namespace Funkmap.Domain.Models
 
         public Location Location { get; set; }
 
+        public double Latitude
+        {
+            get => Location.Latitude;
+            set
+            {
+                if (Location == null)
+                {
+                    Location = new Location();
+                }
+
+                Location.Latitude = value;
+            }
+        }
+
+        public double Longitude
+        {
+            get => Location.Longitude;
+            set
+            {
+                if (Location == null)
+                {
+                    Location = new Location();
+                }
+
+                Location.Longitude = value;
+            }
+        }
+
         public string Address { get; set; }
 
         public string Name { get; set; }

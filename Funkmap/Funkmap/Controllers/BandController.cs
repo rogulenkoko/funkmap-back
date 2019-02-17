@@ -70,7 +70,7 @@ namespace Funkmap.Controllers
         [Authorize]
         [HttpPost]
         [Route("remove-musician")]
-        public async Task<IActionResult> RemoveMusicianFromBand(UpdateBandMemberRequest membersRequest)
+        public async Task<IActionResult> RemoveMusicianFromBand([FromBody]UpdateBandMemberRequest membersRequest)
         {
             var userLogin = User.GetLogin();
             var band = await _baseQueryRepository.GetAsync<Band>(membersRequest.BandLogin);

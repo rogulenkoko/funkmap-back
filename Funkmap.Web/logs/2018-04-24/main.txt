@@ -1,5 +1,0 @@
-02:36:22 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /swagger/ui/index
-02:36:24 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /swagger/ui/swagger-ui-css
-02:36:24 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /swagger/ui/swagger-ui-bundle-js
-02:36:24 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /swagger/ui/swagger-ui-standalone-preset-js
-02:36:25 Info Funkmap.Middleware.FunkmapMiddleware: Запрос GET: /swagger/docs/V1

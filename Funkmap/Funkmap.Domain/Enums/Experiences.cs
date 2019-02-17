@@ -1,6 +1,6 @@
 ﻿namespace Funkmap.Domain.Enums
 {
-    public enum Expiriences
+    public enum Experiences
     {
         None = 0,
         Beginer = 1,

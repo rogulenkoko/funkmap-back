@@ -29,13 +29,13 @@ namespace Funkmap.Messenger.Handlers
 
         public SignalrEventHandler(IEventBus eventBus, 
                                    IMessengerConnectionService connectionService, 
-                                   IQueryContext queryContext,
-                                   IHubContext<MessengerHub, IMessengerHub> hubContext)
+                                   IQueryContext queryContext
+                                   )//IHubContext<MessengerHub, IMessengerHub> hubContext
         {
             _eventBus = eventBus;
             _connectionService = connectionService;
             _queryContext = queryContext;
-            _hubContext = hubContext;
+            //_hubContext = hubContext;
         }
         
 

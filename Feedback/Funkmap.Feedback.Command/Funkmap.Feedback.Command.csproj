@@ -15,15 +15,7 @@
       <PackageReference Include="Funkmap.Common" Version="1.0.1" />
       <PackageReference Include="Funkmap.Cqrs" Version="1.0.1" />
       <PackageReference Include="Funkmap.Logger" Version="1.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
-        <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
-      </Reference>
-      <Reference Include="MongoDB.Driver.GridFS, Version=2.5.1.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\..\packages\MongoDB.Driver.GridFS.2.5.1\lib\net45\MongoDB.Driver.GridFS.dll</HintPath>
-      </Reference>
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     </ItemGroup>
 
 </Project>

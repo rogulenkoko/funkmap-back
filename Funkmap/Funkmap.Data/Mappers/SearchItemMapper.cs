@@ -47,7 +47,7 @@ namespace Funkmap.Data.Mappers
                 Latitude = source.Location.Coordinates.Latitude,
                 Type = source.EntityType,
                 Instrument = (source as MusicianEntity)?.Instrument ?? Instruments.None,
-                Expirience = (source as MusicianEntity)?.ExpirienceType ?? Expiriences.None,
+                Experience = (source as MusicianEntity)?.ExperienceType ?? Experiences.None,
 
                 Address = address,
                 Website = (source as ShopEntity)?.Website,

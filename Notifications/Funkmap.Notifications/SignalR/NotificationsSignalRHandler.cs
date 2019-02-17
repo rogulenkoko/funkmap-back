@@ -13,18 +13,18 @@ namespace Funkmap.Notifications.SignalR
         private readonly INotificationsConnectionService _connectionService;
         private readonly IHubContext<NotificationsHub> _hubContext;
 
-        public NotificationsSignalRHandler(IEventBus messageBus, 
-            INotificationsConnectionService connectionService,
-            IHubContext<NotificationsHub> hubContext)
-        {
-            _messageBus = messageBus;
-            _connectionService = connectionService;
-            _hubContext = hubContext;
-        }
+//        public NotificationsSignalRHandler(IEventBus messageBus, 
+//            INotificationsConnectionService connectionService,
+//            IHubContext<NotificationsHub> hubContext)
+//        {
+//            _messageBus = messageBus;
+//            _connectionService = connectionService;
+//            _hubContext = hubContext;
+//        }
 
         public void InitHandlers()
         {
-            _messageBus.Subscribe<NotificationSavedEvent>(Handle);
+            //_messageBus.Subscribe<NotificationSavedEvent>(Handle);
         }
 
         public async Task Handle(NotificationSavedEvent @event)
